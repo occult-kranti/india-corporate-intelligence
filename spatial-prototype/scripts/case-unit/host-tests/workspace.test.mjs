@@ -62,16 +62,19 @@ test('every accepted case renders all core claim qualifications and reader-only 
 async function harness(graphics,viewport={width:1280,height:900}){
   const hooks=[];let cursor=0,dirty=false,tree,effects=[],closed=0,recreated=0,attached=0,disposed=0,sessionOptions,lastQuality=1;
   const listeners=new Map();const oldDocument=globalThis.document,oldElement=globalThis.HTMLElement,oldWindow=globalThis.window;
-  class Element{isConnected=true;open=false;dataset={};style={};focus(){document.activeElement=this;}contains(target){return allNodes().some(node=>node.element===target);}getClientRects(){return [{}];}getBoundingClientRect(){return {left:0,top:150,right:600,bottom:450,width:600,height:300};}closest(){return null;}querySelector(){return allNodes().find(node=>node.type==='button')?.element;}querySelectorAll(){return allNodes().filter(node=>['button','summary'].includes(node.type)||node.props.tabIndex===0).map(node=>node.element);}showModal(){this.open=true;}close(){this.open=false;}}
+  class Element{get ownerDocument(){return document;}isConnected=true;open=false;dataset={};style={};focus(){document.activeElement=this;}contains(target){return allNodes().some(node=>node.element===target);}getClientRects(){return [{}];}getBoundingClientRect(){return {left:0,top:150,right:600,bottom:450,width:600,height:300};}closest(){return null;}querySelector(){return allNodes().find(node=>node.type==='button')?.element;}querySelectorAll(selector){if(selector==='[data-case-label-leader]')return allNodes().filter(node=>'data-case-label-leader' in node.props).map(node=>node.element);if(selector==='.cw-node-label'||selector==='.cw-role-label')return allNodes().filter(node=>node.props.className?.split(' ').includes(selector.slice(1))).map(node=>node.element);return allNodes().filter(node=>['button','summary'].includes(node.type)||node.props.tabIndex===0).map(node=>node.element);}showModal(){this.open=true;}close(){this.open=false;}}
   const externalOpener=new Element();
   globalThis.HTMLElement=Element;
   globalThis.window={innerWidth:viewport.width,innerHeight:viewport.height,addEventListener(type,fn){listeners.set(`window:${type}`,fn);},removeEventListener(type){listeners.delete(`window:${type}`);}};
   if(graphics&&!graphics.map)graphics.map={getCanvas:()=>({getBoundingClientRect:()=>({left:0,top:0,right:window.innerWidth,bottom:window.innerHeight,width:window.innerWidth,height:window.innerHeight})})};
-  globalThis.document={activeElement:externalOpener,body:{style:{overflow:''}},addEventListener(type,fn){listeners.set(type,fn);},removeEventListener(type){listeners.delete(type);}};
+  globalThis.document={activeElement:externalOpener,body:{style:{overflow:''}},querySelectorAll(selector){assert.equal(selector,'.evidence-app .city-attribution > a,.evidence-app .maplibregl-ctrl-attrib-inner');return [];},addEventListener(type,fn){listeners.set(type,fn);},removeEventListener(type){listeners.delete(type);}};
   const elementByRef=new Map();const react={
     useId(){const i=cursor++;return hooks[i]??(hooks[i]=`id-${i}`);},
     useRef(initial){const i=cursor++;return hooks[i]??(hooks[i]={current:initial});},
     useState(initial){const i=cursor++;if(!(i in hooks))hooks[i]=typeof initial==='function'?initial():initial;return [hooks[i],value=>{const next=typeof value==='function'?value(hooks[i]):value;if(!Object.is(next,hooks[i])){hooks[i]=next;dirty=true;}}];},
+    // The hook harness runs both effect kinds after committing refs; real paint/
+    // font measurements stay in the independent label tests and browser suite.
+    useLayoutEffect(fn,deps){return react.useEffect(fn,deps);},
     useEffect(fn,deps){const i=cursor++;const old=hooks[i];if(!old||deps.some((dep,n)=>!Object.is(dep,old.deps[n]))){effects.push(()=>{old?.cleanup?.();hooks[i]={deps,cleanup:fn()};});}},
   };
   const jsx=(type,props,key)=>({type,props:props??{},key});
@@ -91,7 +94,7 @@ async function harness(graphics,viewport={width:1280,height:900}){
   async function click(label){const node=find(node=>node.type==='button'&&text(node).startsWith(label));assert.ok(!node.props.disabled,`${label} is enabled`);node.element.focus();node.props.onClick();await flush();return node;}
   function evidence(){return find(node=>typeof node.type==='function'&&node.type.name==='CaseSceneEvidence').props;}
   await flush();
-  return {find,text,click,flush,evidence,get props(){return props;},get tree(){return tree;},get closed(){return closed;},get recreated(){return recreated;},get attached(){return attached;},get disposed(){return disposed;},get quality(){return lastQuality;},get sessionOptions(){return sessionOptions;},async patch(value){props={...props,...value};dirty=true;await flush();},async act(action){evidence().onAction(action);await flush();},async resize(width,height){window.innerWidth=width;window.innerHeight=height;listeners.get('window:resize')?.();await flush();},async key(event){const result={...event,preventDefault(){this.defaultPrevented=true;},stopPropagation(){this.stopped=true;}};listeners.get('keydown')(result);await flush();return result;},async escape(){listeners.get('keydown')({key:'Escape',preventDefault(){},stopPropagation(){}});await flush();},destroy(){for(const hook of hooks)hook?.cleanup?.();globalThis.document=oldDocument;globalThis.HTMLElement=oldElement;globalThis.window=oldWindow;}};
+  return {find,text,click,flush,evidence,get props(){return props;},get tree(){return tree;},get closed(){return closed;},get recreated(){return recreated;},get attached(){return attached;},get disposed(){return disposed;},get quality(){return lastQuality;},get sessionOptions(){return sessionOptions;},async patch(value){props={...props,...value};dirty=true;await flush();},async act(action){evidence().onAction(action);await flush();},async resize(width,height){window.innerWidth=width;window.innerHeight=height;listeners.get('window:resize')?.();await flush();},async focusIn(target){listeners.get('focusin')({target});await flush();},async key(event){const result={...event,preventDefault(){this.defaultPrevented=true;},stopPropagation(){this.stopped=true;}};listeners.get('keydown')(result);await flush();return result;},async escape(){listeners.get('keydown')({key:'Escape',preventDefault(){},stopPropagation(){}});await flush();},destroy(){for(const hook of hooks)hook?.cleanup?.();globalThis.document=oldDocument;globalThis.HTMLElement=oldElement;globalThis.window=oldWindow;}};
 }
 
 test('explicit choice is list-first; missing graphics preserves selection and exposes recreation',async()=>{
@@ -188,4 +191,41 @@ test('geographic host decoration paints inside its box without consuming canvas 
   const workspace=fs.readFileSync(source,'utf8');
   assert.match(workspace,/box\.left >= canvas\.left - \.5 && box\.top >= canvas\.top - \.5/);
   assert.match(workspace,/box\.right <= canvas\.right \+ \.5 && box\.bottom <= canvas\.bottom \+ \.5/);
+});
+
+// These are application-handler unit checks, not a native focus-order simulation.
+// Real sequential traversal, wrapping and keyboard dismissal stay in CI case 38.
+test('source dialog owns Tab boundaries while interior native navigation is left untouched',async()=>{
+  const h=await harness(null);
+  try{
+    await h.click(index[0].label);
+    await h.act({type:'select-edge',id:h.evidence().caseFile.edges[0].id});
+    const opener=(await h.click('Inspect selected claim')).element;
+    const dialog=h.find(node=>'data-case-source-dialog' in node.props).props.ref.current;
+    const close=h.find(node=>node.type==='button'&&h.text(node)==='Close sources').element;
+    const body=h.find(node=>node.props['data-reader-scroll']==='case-evidence').element;
+    const source=new HTMLElement();
+    const items=[close,body,source];
+    // The hook harness does not render the evidence component's links or a DOM.
+    // Supply the current dialog's elements explicitly to test only its handler.
+    dialog.querySelectorAll=()=>items;
+    dialog.contains=target=>items.includes(target);
+    dialog.querySelector=()=>close;
+    close.focus();
+    const reverseBoundary=await h.key({key:'Tab',shiftKey:true});
+    assert.equal(reverseBoundary.defaultPrevented,true);assert.equal(document.activeElement,source);
+    const forwardBoundary=await h.key({key:'Tab'});
+    assert.equal(forwardBoundary.defaultPrevented,true);assert.equal(document.activeElement,close);
+    for(const [element,shiftKey] of [[close,false],[body,false],[body,true],[source,true]]){
+      element.focus();const event=await h.key({key:'Tab',shiftKey});
+      assert.equal(event.defaultPrevented,undefined,'interior navigation must remain native');
+      assert.equal(document.activeElement,element,'handler must not programmatically move interior focus');
+    }
+    const workspaceHeading=h.find(node=>node.type==='h1').element;
+    workspaceHeading.focus();await h.focusIn(workspaceHeading);
+    assert.equal(document.activeElement,close,'open source dialog owns focus containment even within the workspace');
+    close.focus();await h.escape();
+    assert.equal(dialog.open,false);assert.equal(h.closed,0);assert.equal(document.activeElement,opener,'source Escape restores the original opener');
+    await h.escape();assert.equal(h.closed,1,'a later Escape can close the workspace');
+  }finally{h.destroy();}
 });

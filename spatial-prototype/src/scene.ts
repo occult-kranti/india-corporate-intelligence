@@ -940,6 +940,13 @@ export class EvidenceWorld {
     }
     this.cb.onLabels(labels);
   }
+  private publishGeographicPose(phase: "workspace-acquisition" | "geographic-render") {
+    const center = this.map.getCenter();
+    this.container.dataset.geographicPose = JSON.stringify({ phase, pose: {
+      center: [center.lng, center.lat], zoom: this.map.getZoom(),
+      pitch: this.map.getPitch(), bearing: this.map.getBearing(),
+    } });
+  }
   private render(args: CustomRenderMethodInput) {
     if (!this.renderer || this.disposed || this.graphicsFatal || this.workspaceActive) return;
     this.camera.projectionMatrix.fromArray(
@@ -1005,6 +1012,7 @@ export class EvidenceWorld {
     );
     this.container.dataset.centerLng = this.map.getCenter().lng.toFixed(6);
     this.container.dataset.centerLat = this.map.getCenter().lat.toFixed(6);
+    this.publishGeographicPose("geographic-render");
     const now = performance.now();
     if (now - this.lastMetric > 2000) {
       const seconds = this.lastMetric ? (now - this.lastMetric) / 1000 : 2;
@@ -1102,6 +1110,9 @@ export class EvidenceWorld {
     try {
       if (active) {
         this.workspaceSnapshot ??= captureGeography(this.map);
+        // A travel tick may have advanced the map since the last geographic draw.
+        // Observe live acquisition state independently of the restoration target.
+        this.publishGeographicPose("workspace-acquisition");
         this.releaseGeography = suspendGeography(this.map, () => this.workspaceSnapshot!);
       } else { const release = this.releaseGeography; this.releaseGeography = null; release?.(); this.workspaceSnapshot = null; }
     } catch (error) { this.failSharedRenderer(String(error)); }

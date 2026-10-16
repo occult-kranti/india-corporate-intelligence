@@ -1,9 +1,10 @@
-import { useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import type { CaseController } from '../case-scene/controller';
 import type { CameraPose, CaseSceneState, SceneAction } from '../case-scene/state';
 import type { CaseFrame } from '../case-scene/CaseSceneLayer';
 import type { CaseGraphicsHost, CaseSession } from './graphics-contract';
 import cases from './case-index.json';
+import { observeRoleLabels } from './role-label-layout';
 import './workspace.css';
 
 type Reader = typeof import('./reader-runtime');
@@ -28,6 +29,7 @@ function boardFits(graphics: CaseGraphicsHost, board: HTMLElement) {
 export default function CaseWorkspace({ graphics, reducedMotion, onClose, onRecreateGraphics }: CaseWorkspaceProps) {
   const title = useId(), sourceTitle = useId(), help = useId();
   const root = useRef<HTMLElement>(null), heading = useRef<HTMLHeadingElement>(null);
+  const labels = useRef<HTMLDivElement>(null);
   const surface = useRef<HTMLDivElement>(null), dialog = useRef<HTMLDialogElement>(null);
   const opener = useRef<HTMLElement | null>(null), sourceOpener = useRef<HTMLElement | null>(null);
   const session = useRef<CaseSession | null>(null), owner = useRef<ActiveCase | null>(null);
@@ -43,6 +45,10 @@ export default function CaseWorkspace({ graphics, reducedMotion, onClose, onRecr
   const [quality, setQuality] = useState<1 | 0.65>(1);
   const closeRef = useRef<() => void>(() => {}), sourceCloseRef = useRef<() => boolean>(() => false);
   const scene = !chooser && state?.view === 'scene';
+
+  useLayoutEffect(() => {
+    if (labels.current && frame) return observeRoleLabels(labels.current);
+  }, [frame, state?.navigation.nodeId, state?.navigation.edgeId]);
 
   function closeSources(): boolean {
     if (!dialog.current?.open && !claimId) return false;
@@ -78,20 +84,25 @@ export default function CaseWorkspace({ graphics, reducedMotion, onClose, onRecr
       if (event.key === 'Escape') {
         event.preventDefault(); event.stopPropagation();
         if (!sourceCloseRef.current()) closeRef.current();
-      } else if (event.key === 'Tab' && !dialog.current?.open) {
-        const items = [...(root.current?.querySelectorAll<HTMLElement>(focusable) ?? [])]
+      } else if (event.key === 'Tab') {
+        // Keep sequential focus inside the active modal scope. Native dialog
+        // modality stays intact; wrap only endpoints and leave every interior
+        // Tab/Shift+Tab move to the browser.
+        const scope = dialog.current?.open ? dialog.current : root.current;
+        const items = [...(scope?.querySelectorAll<HTMLElement>(focusable) ?? [])]
           .filter(el => !el.closest('[hidden],[inert],dialog:not([open])') && el.getClientRects().length);
         const first = items[0], last = items[items.length - 1];
-        if (!first) { event.preventDefault(); root.current?.focus(); }
+        if (!first) { event.preventDefault(); scope?.focus(); }
         else if (event.shiftKey && (document.activeElement === first || !items.includes(document.activeElement as HTMLElement))) {
           event.preventDefault(); last.focus();
-        } else if (!event.shiftKey && (document.activeElement === last || !root.current?.contains(document.activeElement))) {
+        } else if (!event.shiftKey && (document.activeElement === last || !scope?.contains(document.activeElement))) {
           event.preventDefault(); first.focus();
         }
       }
     };
     const contain = (event: FocusEvent) => {
-      if (!closing.current && !root.current?.contains(event.target as Node)) {
+      const scope = dialog.current?.open ? dialog.current : root.current;
+      if (!closing.current && !scope?.contains(event.target as Node)) {
         (dialog.current?.open ? dialog.current.querySelector<HTMLElement>('button') : heading.current)?.focus({ preventScroll: true });
       }
     };
@@ -292,9 +303,10 @@ export default function CaseWorkspace({ graphics, reducedMotion, onClose, onRecr
         </div>
         <div ref={surface} data-case-surface="" data-case-frame-nodes={frame?.nodes.length ?? 0} data-case-frame-roles={frame?.roles.length ?? 0} className="cw-surface" tabIndex={0} role="group" aria-label={`${file.label}: nongeographic case board`} aria-describedby={help}>
           {!frame && <p className="cw-scene-loading" role="status">Loading the case scene. Complete source evidence is available in the reader.</p>}
-          <div className="cw-labels" aria-hidden="true">
-            {frame?.nodes.filter(node => node.visible).map(node => <span key={node.id} className="cw-node-label" data-case-node-id={node.id} data-selected={state.navigation.nodeId === node.id} style={{ left: node.x, top: node.y }}>{node.label}</span>)}
-            {frame?.roles.filter(role => role.visible).map(role => <span key={role.id} className="cw-role-label" data-case-edge-id={role.id} data-selected={state.navigation.edgeId === role.id} style={{ left: role.x, top: role.y }}>{role.label}</span>)}
+          <div ref={labels} className="cw-labels" aria-hidden="true" data-case-visible-node-ids={JSON.stringify(frame?.nodes.filter(node => node.visible).map(node => node.id) ?? [])} data-case-visible-role-ids={JSON.stringify(frame?.roles.filter(role => role.visible).map(role => role.id) ?? [])}>
+            <svg className="cw-label-leaders" aria-hidden="true">{frame?.roles.filter(role => role.visible).map(role => <line key={role.id} data-case-label-leader={role.id} x1={role.x} y1={role.y} x2={role.x} y2={role.y}/>)}</svg>
+            {frame?.nodes.filter(node => node.visible).map(node => <span key={node.id} className="cw-node-label" data-case-node-id={node.id} data-case-label-x={node.x} data-case-label-y={node.y} data-selected={state.navigation.nodeId === node.id} style={{ left: node.x, top: node.y }}>{node.label}</span>)}
+            {frame?.roles.filter(role => role.visible).map(role => <span key={role.id} className="cw-role-label" data-case-edge-id={role.id} data-case-label-x={role.x} data-case-label-y={role.y} data-selected={state.navigation.edgeId === role.id} style={{ left: role.x, top: role.y }}>{role.label}</span>)}
           </div>
         </div>
       </section>}

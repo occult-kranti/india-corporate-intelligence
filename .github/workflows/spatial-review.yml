@@ -21,7 +21,9 @@ concurrency:
 jobs:
   browser-review:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    # The complete retained-reader + nineteen-case/native suite exceeded 25m
+    # while still progressing. Keep every per-scenario and smoke deadline.
+    timeout-minutes: 40
     defaults:
       run:
         shell: bash

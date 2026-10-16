@@ -8,7 +8,7 @@ import { tmpdir } from 'node:os';
 import { loadCaseExpectation } from './case-workspace-browser.mjs';
 import { fileURLToPath } from 'node:url';
 import { resolve, dirname, join } from 'node:path';
-import { THREE_RENDERER_OBSERVER_SOURCE_SHA256, selectCaseGraphicsFixtures, arrowEvidence, GRAPHICS_SCENARIOS, RESOURCE_KINDS, expectedPhysicalRect, expectedTarget, timingSummary, assertHandlePlateau, installCaseGraphicsProbe, runCaseGraphicsBrowserCases, assertHostBoundaries, assertActiveLeaseDrawSuppression, assertRecoveryCounters, isGeographicRecoveryDraw, assertRetiredLeaseSuppression, assertTerminalNativeState } from './case-graphics-browser.mjs';
+import { THREE_RENDERER_OBSERVER_SOURCE_SHA256, selectCaseGraphicsFixtures, arrowEvidence, GRAPHICS_SCENARIOS, RESOURCE_KINDS, expectedPhysicalRect, expectedTarget, timingSummary, assertHandlePlateau, installCaseGraphicsProbe, runCaseGraphicsBrowserCases, assertHostBoundaries, assertActiveLeaseDrawSuppression, assertRecoveryCounters, isGeographicRecoveryDraw, assertRetiredLeaseSuppression, assertTerminalNativeState, assertGeographicPoseObservation, assertCapturedGeographicPose } from './case-graphics-browser.mjs';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 
 function fixture() {
@@ -257,4 +257,32 @@ test('the exact pre-Close snapshot is validated synchronously before action, inc
   const source = await readFile(resolve(root, 'spatial-prototype/scripts/case-graphics-browser.mjs'), 'utf8');
   assert.ok(source.includes('const before = await leaseSnapshot(page);\n  assertActiveLeaseDrawSuppression(before, activeLeaseBaselines.get(page)); checkRetiredLeases(page, before.data);\n  await caseWorkspace(page).getByRole'));
   assert.ok(source.includes('const interruptedClose = await leaseSnapshot(page);\n    assertActiveLeaseDrawSuppression(interruptedClose, activeLeaseBaselines.get(page)); checkRetiredLeases(page, interruptedClose.data);\n    result.interruptedCaseTravel'));
+});
+
+test('opening-pose oracle requires exact fresh render observations and rejects every changed coordinate', () => {
+  const pose = { center: [12.345678901, -7.654321098], zoom: 4.12345678, pitch: 32.125, bearing: -44.375 };
+  const opening = { phase: 'workspace-acquisition', pose }, restored = { phase: 'geographic-render', pose: structuredClone(pose) };
+  assert.doesNotThrow(() => assertCapturedGeographicPose(restored, opening, 'exact pose restore'));
+  assert.throws(() => assertCapturedGeographicPose(opening, opening), /required boundary/, 'An unchanged acquisition metric cannot pretend to be a later render');
+  for (const mutate of [p => { p.center[0] += 1e-9; }, p => { p.center[1] += 1e-9; }, p => { p.zoom += 1e-9; }, p => { p.pitch += 1e-9; }, p => { p.bearing += 1e-9; }]) {
+    const changed = structuredClone(restored); mutate(changed.pose);
+    assert.throws(() => assertCapturedGeographicPose(changed, opening, 'exact pose restore'), /exact pose restore/);
+  }
+  for (const mutate of [s => { delete s.pose.bearing; }, s => { s.pose.zoom = NaN; }, s => { s.pose.center[1] = null; }, s => { s.pose.center.push(0); }, s => { s.phase = 'geographic-render'; }]) {
+    const changed = structuredClone(opening); mutate(changed);
+    assert.throws(() => assertGeographicPoseObservation(changed, 'workspace-acquisition'));
+  }
+});
+
+test('interrupted-flight harness preserves pre-flight, stale-render, acquisition and later-render evidence', async () => {
+  const source = await readFile(resolve(root, 'spatial-prototype/scripts/case-graphics-browser.mjs'), 'utf8');
+  const interrupted = source.slice(source.indexOf('await run(GRAPHICS_SCENARIOS[3]'), source.indexOf('await run(GRAPHICS_SCENARIOS[4]'));
+  assert.match(interrupted, /beforeFlight = await geographicPoseObservation\(page\)/);
+  assert.match(interrupted, /staleRenderAtAcquisition: await geography\(page\)/);
+  assert.match(interrupted, /assert\.notDeepEqual\(opening\.pose, beforeFlight\.pose/);
+  assert.match(interrupted, /assertCapturedGeographicPose\(result\.interruptedGeographicPose\.afterClose, opening/);
+  assert.match(interrupted, /assertCapturedGeographicPose\(result\.interruptedGeographicPose\.afterRecreationClose, opening/);
+  assert.ok(interrupted.indexOf('const opening = await geographicPoseObservation(page)') < interrupted.indexOf('result.interruptedCaseTravel'));
+  assert.equal((interrupted.match(/await frames\(page, 24\)/g) ?? []).length, 2);
+  assert.equal((interrupted.match(/assert\.equal\(await journey\.count\(\), 0/g) ?? []).length, 3);
 });

@@ -226,3 +226,34 @@ test('combined CI captures actual inspect actions and follows keyboard focus thr
   assert.match(source, /getAttribute\('open'\), ''/);
   assert.ok(source.indexOf("process.env.GITHUB_ACTIONS !== 'true'") < source.indexOf("await import('playwright')"));
 });
+
+test('opened evidence must initially show its full title and meaningful paragraph with separate control lanes', async () => {
+  const readable = await browserHelper('textFrameIsReadable');
+  const validate = await browserHelper('assertAtlasReadingFrame', { assert, textFrameIsReadable: readable });
+  const text = (value, y) => ({ text: value, visible: true, viewport: { width: 720, height: 500 }, lines: [rect(290, y, 620, y + 18, { unobscured: true })] });
+  const good = () => ({
+    scrollTop: 0, summaryFontSize: 12, panel: rect(274, 70, 646, 370), body: rect(275, 118, 645, 322),
+    title: text('Prahlad Joshi', 142), summary: text('This complete source-qualified paragraph retains its existing factual scope and all meaningful reading context.', 225),
+    controls: { masthead: rect(18, 18, 193, 190), search: rect(468, 18, 702, 58), camera: rect(659, 84, 708, 380), dock: rect(172, 396, 548, 462), header: rect(275, 71, 645, 118), footer: rect(275, 322, 645, 369) },
+  });
+  validate(good());
+  for (const [name, alter, message] of [
+    ['observed 60px slot', f => { f.body.height = 60; }, /meaningful reading body/],
+    ['title hidden under footer', f => { f.title.lines[0].unobscured = false; }, /title must be fully visible/],
+    ['paragraph clipped by scrollport', f => { f.summary.lines[0].bottom = 340; }, /complete paragraph must fit/],
+    ['paragraph covered', f => { f.summary.lines[0].unobscured = false; }, /complete paragraph must be fully visible/],
+    ['title scrolled away', f => { f.scrollTop = 30; }, /must not scroll away/],
+    ['tiny text workaround', f => { f.summaryFontSize = 9; }, /shrinking below 12px/],
+    ['source button instead of paragraph', f => { f.summary.text = 'Open source'; }, /meaningful complete paragraph/],
+    ['covers wrapped navigation', f => { f.controls.masthead.right = 300; }, /must not cover the masthead/],
+    ['covers search lane', f => { f.controls.search.bottom = 90; }, /must not cover the search/],
+    ['footer covers content', f => { f.controls.footer.top = 300; }, /separate from its footer/],
+    ['close lane obscured', f => { f.controls.header.hit = false; }, /preserve the header/],
+  ]) {
+    const frame = good(); alter(frame); assert.throws(() => validate(frame), message, name);
+  }
+  const source = await readFile('../scripts/spatial-release.browser.mjs', 'utf8');
+  assert.match(source, /result\.atlasOpenedReadingFrames \?\?= \[\]/);
+  assert.ok(source.indexOf('result.atlasOpenedReadingFrames ??=') < source.indexOf('assertAtlasReadingFrame(frame);'));
+  assert.ok(source.indexOf("assertAtlasOpenedReading(page, result, '200-percent-effective-viewport')") < source.indexOf("capture(page, result, 'atlas-200-percent-effective-viewport-opened-evidence')"));
+});

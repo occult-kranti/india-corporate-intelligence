@@ -84,7 +84,9 @@ test('workflow adds one bounded hard-failing smoke before the unchanged full com
   assert.equal(workflow.indexOf(full), position + smokeStep.length);
   assert.ok(position > workflow.indexOf('run: npx --no-install playwright install --with-deps chromium'));
   assert.doesNotMatch(smokeStep + full, /continue-on-error|if:|\|\| true/);
-  assert.match(workflow, /timeout-minutes: 25/);
+  assert.match(workflow, /timeout-minutes: 40/);
+  assert.match(graphics, /budgetMs: 120000/);
+  assert.match(graphics, /GRAPHICS_SCENARIOS\[7\], \{ reducedMotion: true, budgetMs: 240000 \}/);
   assert.match(workflow, /name: Partition complete browser evidence into bounded artifacts\n        if: always\(\)/);
   assert.equal(MAX_PART_BYTES, 170 * 1024 * 1024); assert.equal(MAX_PARTS, 8);
 });

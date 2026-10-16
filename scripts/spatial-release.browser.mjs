@@ -415,6 +415,7 @@ async function exerciseAtlasReaderAction(page, result) {
   await page.keyboard.press('Enter');
   await page.getByRole('complementary', { name: 'Evidence reading panel', exact: true }).waitFor();
   assert.equal(await page.locator('.evidence-inspector .inspector-content h2').textContent(), await card.locator('h3').textContent(), 'Enter on the keyboard-reached record must open the matching evidence');
+  await assertAtlasOpenedReading(page, result, '200-percent-effective-viewport');
   await capture(page, result, 'atlas-200-percent-effective-viewport-opened-evidence');
   const source = page.locator('.evidence-inspector .source-card a[href]').first();
   await source.scrollIntoViewIfNeeded();
@@ -426,6 +427,48 @@ async function exerciseAtlasReaderAction(page, result) {
   await capture(page, result, 'atlas-200-percent-effective-viewport-opened-source');
   await page.getByRole('button', { name: 'Close reading panel', exact: true }).click();
   await reader.evaluate(node => { node.scrollTop = 0; });
+}
+
+function assertAtlasReadingFrame(frame) {
+  const intersects = (a, b) => a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
+  assert.equal(frame.scrollTop, 0, 'The initial reading assertion must not scroll away a clipped title');
+  assert.ok(frame.body.height >= 180, 'The opened reader must reserve a meaningful reading body, not a source-button-only slot');
+  assert.ok(frame.summary.text.trim().length >= 60 && frame.summary.text.trim().split(/\s+/).length >= 10, 'The reading fixture must contain a meaningful complete paragraph');
+  assert.ok(frame.summaryFontSize >= 12, 'The complete paragraph must not be made to fit by shrinking below 12px');
+  for (const [name, text] of [['title', frame.title], ['complete paragraph', frame.summary]]) {
+    assert.ok(textFrameIsReadable(text), `The opened reader ${name} must be fully visible and unobscured initially`);
+    assert.ok(text.lines.every(line => line.left >= frame.body.left && line.right <= frame.body.right && line.top >= frame.body.top && line.bottom <= frame.body.bottom), `The opened reader ${name} must fit in the actual content scrollport`);
+  }
+  for (const [name, control] of Object.entries(frame.controls)) {
+    if (!control?.visible) continue;
+    assert.ok(control.hit && control.width > 0 && control.height > 0, `The opened reader must preserve the ${name} control lane`);
+    if (['masthead', 'search', 'camera', 'dock'].includes(name)) assert.ok(!intersects(frame.panel, control), `The opened reader must not cover the ${name} control lane`);
+    else assert.ok(!intersects(frame.body, control), `The opened reader content must stay separate from its ${name} controls`);
+  }
+}
+
+async function assertAtlasOpenedReading(page, result, phase) {
+  // No scroll-to-title workaround: measure the initial reading state after layout.
+  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+  const panel = page.locator('.evidence-inspector');
+  const [title, summary, layout] = await Promise.all([
+    panel.locator('.inspector-content h2').evaluate(readTextFrame),
+    panel.locator('.lead-summary').evaluate(readTextFrame),
+    panel.evaluate(node => {
+      const sample = element => {
+        if (!element) return null;
+        const box = element.getBoundingClientRect(), style = getComputedStyle(element);
+        return { ...box.toJSON(), visible: style.display !== 'none' && style.visibility === 'visible' && Number(style.opacity) > 0,
+          hit: [0.15, 0.5, 0.85].every(x => element.contains(document.elementFromPoint(box.left + box.width * x, box.top + box.height / 2))) };
+      };
+      const body = node.querySelector('.inspector-content');
+      return { panel: sample(node), body: sample(body), scrollTop: body.scrollTop, summaryFontSize: parseFloat(getComputedStyle(node.querySelector('.lead-summary')).fontSize),
+        controls: { masthead: sample(document.querySelector('.masthead')), search: sample(document.querySelector('.top-tools')), camera: sample(document.querySelector('.camera-tools')), dock: sample(document.querySelector('.bottom-dock')), header: sample(node.querySelector('.inspector-top')), footer: sample(node.querySelector('.inspector-footer')) } };
+    }),
+  ]);
+  const frame = { phase, title, summary, ...layout };
+  (result.atlasOpenedReadingFrames ??= []).push(frame);
+  assertAtlasReadingFrame(frame);
 }
 
 async function exerciseActivityKeyboard(page, result) {

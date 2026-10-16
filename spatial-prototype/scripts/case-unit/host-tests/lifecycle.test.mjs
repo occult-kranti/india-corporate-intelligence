@@ -137,3 +137,71 @@ test('snapshot adoption before suspension is copied and later capture cannot mut
 test('default/low case quality changes only render target size and replaces/disposes owned targets',async()=>{
   const f=await worldFixture({caseGL:true});try{const a=attach(f),layer=f.map.getLayer('selected-case-workspace');a.session.dispatch({type:'select-node',id:a.controller.file.nodes[0].id});const semanticState=JSON.stringify(a.controller.state),file=a.controller.file,model=a.controller.model;layer.prerender(f.gl,frameArgs);const normal=layer.metrics(),first=layer.target;let firstDisposals=0;first.addEventListener('dispose',()=>firstDisposals++);a.session.setQuality(0.65);layer.prerender(f.gl,frameArgs);const low=layer.metrics();assert.ok(low.targetWidth*low.targetHeight<normal.targetWidth*normal.targetHeight);assert.equal(firstDisposals,1);assert.equal(JSON.stringify(a.controller.state),semanticState);assert.equal(a.controller.file,file);assert.equal(a.controller.model,model);a.session.setQuality(1);layer.prerender(f.gl,frameArgs);assert.equal(layer.metrics().targetWidth,normal.targetWidth);assert.equal(layer.metrics().targetHeight,normal.targetHeight);assert.equal(JSON.stringify(a.controller.state),semanticState);a.session.dispose();const repaints=f.map.repaints;a.session.setQuality(0.65);assert.equal(f.map.repaints,repaints);}finally{f.cleanup();}
 });
+
+test('opening pose observation samples the live map after an unrendered travel tick and survives Close/reopen',async()=>{
+  const f=await worldFixture();
+  try{
+    const originalFlags=flags(f.map),beforeFlight=capturePose(f.map);
+    f.render();
+    const staleRendered={centerLng:f.surface.dataset.centerLng,centerLat:f.surface.dataset.centerLat,zoom:f.surface.dataset.zoom,pitch:f.surface.dataset.pitch};
+    f.world.command({type:'city',id:'london',stamp:1});f.step(16);f.step(100);
+    const openingPose=capturePose(f.map);
+    assert.notDeepEqual(openingPose,beforeFlight,'Fixture must interrupt a genuinely advanced geographic journey');
+    assert.equal(f.surface.dataset.centerLng,staleRendered.centerLng,'Fixture must keep an older render observation');
+    assert.notEqual(openingPose.center[0].toFixed(6),staleRendered.centerLng);
+    const openerSnapshot=f.binding.captureGeography();f.binding.stopGeographicJourney();f.world.setWorkspaceActive(true);
+    assert.deepEqual(openerSnapshot.pose,openingPose);
+    assert.deepEqual(JSON.parse(f.surface.dataset.geographicPose),{phase:'workspace-acquisition',pose:openingPose});
+    assert.deepEqual(f.binding.captureGeography().pose,openingPose);
+    assert.deepEqual(flags(f.map),names.map(()=>false));
+    const drawCount=f.draws.length;f.render();assert.equal(f.draws.length,drawCount);
+    assert.equal(f.surface.dataset.centerLng,staleRendered.centerLng,'Retain stale-render evidence separately from live acquisition');
+    f.world.command({type:'resume',stamp:2});f.world.setWorkspaceActive(false);
+    const jumps=f.map.jumps.length;for(let i=0;i<10;i++)f.step(100);f.render();
+    assert.deepEqual(JSON.parse(f.surface.dataset.geographicPose),{phase:'geographic-render',pose:openingPose});
+    assert.deepEqual(f.map.pose,openingPose);assert.deepEqual(flags(f.map),originalFlags);
+    assert.equal(f.map.jumps.length,jumps);assert.equal(f.world.journey,null);assert.equal(f.world.pendingCommand,null);
+    f.world.setWorkspaceActive(true);f.world.setWorkspaceActive(false);f.step(100);f.render();
+    assert.deepEqual(JSON.parse(f.surface.dataset.geographicPose),{phase:'geographic-render',pose:openingPose});
+    assert.deepEqual(flags(f.map),originalFlags);assert.equal(f.world.journey,null);
+  }finally{f.cleanup();}
+});
+
+test('acquisition observation reads actual getters independently of an adopted restoration target',async()=>{
+  const f=await worldFixture();
+  try{
+    const actualPose=capturePose(f.map),adopted={pose:{center:[151.2093,-33.8688],zoom:9.25,pitch:44,bearing:171},handlers:Object.fromEntries(names.map((name,i)=>[name,i%2===1]))};
+    f.binding.adoptGeography(adopted);f.world.setWorkspaceActive(true);
+    assert.notDeepEqual(actualPose,adopted.pose);
+    assert.deepEqual(JSON.parse(f.surface.dataset.geographicPose),{phase:'workspace-acquisition',pose:actualPose});
+    assert.deepEqual(f.binding.captureGeography(),adopted);
+    f.world.setWorkspaceActive(false);f.render();
+    assert.deepEqual(JSON.parse(f.surface.dataset.geographicPose),{phase:'geographic-render',pose:adopted.pose});
+  }finally{f.cleanup();}
+});
+
+test('interrupted opening pose and mixed handlers survive full disposal, fresh host adoption and Close',async()=>{
+  const original=await worldFixture();let snapshot,openingPose,originalFlags;
+  try{
+    originalFlags=flags(original.map);const preflight=capturePose(original.map);original.render();
+    original.world.command({type:'city',id:'london',stamp:1});original.step(16);original.step(100);
+    openingPose=capturePose(original.map);assert.notDeepEqual(openingPose,preflight);
+    snapshot=original.binding.captureGeography();original.binding.stopGeographicJourney();original.world.setWorkspaceActive(true);
+    assert.deepEqual(snapshot.pose,openingPose);
+    const jumps=original.map.jumps.length,draws=original.draws.length,retiredLayer=original.map.layers.get('physical-evidence');
+    original.world.dispose();original.step(100);retiredLayer.render(original.gl,frameArgs);
+    assert.equal(original.map.jumps.length,jumps);assert.equal(original.draws.length,draws);
+    assert.deepEqual(flags(original.map),names.map(()=>false));assert.equal(original.world.journey,null);
+  }finally{original.cleanup();}
+  const fresh=await worldFixture();
+  try{
+    const freshPose=capturePose(fresh.map);assert.notDeepEqual(freshPose,openingPose);
+    fresh.binding.adoptGeography(snapshot);fresh.world.setWorkspaceActive(true);
+    assert.deepEqual(JSON.parse(fresh.surface.dataset.geographicPose).pose,freshPose,'Fresh acquisition must not report the adopted target as current reality');
+    fresh.world.setWorkspaceActive(false);const jumps=fresh.map.jumps.length;
+    for(let i=0;i<24;i++)fresh.step(16);fresh.render();
+    assert.deepEqual(JSON.parse(fresh.surface.dataset.geographicPose),{phase:'geographic-render',pose:openingPose});
+    assert.deepEqual(flags(fresh.map),originalFlags);assert.equal(fresh.map.jumps.length,jumps);
+    assert.equal(fresh.world.journey,null);assert.equal(fresh.world.pendingCommand,null);
+  }finally{fresh.cleanup();}
+});

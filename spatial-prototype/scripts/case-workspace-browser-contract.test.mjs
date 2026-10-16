@@ -124,3 +124,20 @@ test('chooser-chunk failure records the exact abort and verifies dismissal, focu
   assert.match(script, /registrySnapshot\(\), registry/);
   assert.match(script, /The intentional chooser abort was not observed/);
 });
+
+
+test('native source keyboard acceptance checks exact retained controls in both directions and both dismissal paths', () => {
+  for (const marker of ['exerciseSourceDialogKeyboard(page, dialog, result, phase)',
+    "await record('reverse-boundary', controls.length - 1)", "await record('forward-boundary', 0)",
+    "await record('forward-traversal', index % controls.length)", "await record('reverse-traversal', index)",
+    'controls.indexOf(document.activeElement)', 'caseSourceKeyboardControls', 'caseSourceKeyboardSamples',
+    'keyboard Close did not restore its exact opener', 'Source Close incorrectly closed the workspace',
+    'Source Escape did not restore its exact opener', 'Source Escape incorrectly closed the workspace'])
+    assert.ok(script.includes(marker), `Native keyboard acceptance contract missing: ${marker}`);
+  assert.match(script, /await page\.keyboard\.press\('Shift\+Tab'\)/);
+  assert.match(script, /await page\.keyboard\.press\('Tab'\)/);
+  assert.match(script, /await page\.keyboard\.press\('Enter'\)/);
+  assert.match(script, /await page\.keyboard\.press\('Escape'\)/);
+  assert.match(workspace, /const scope = dialog\.current\?\.open \? dialog\.current : root\.current/);
+  assert.doesNotMatch(workspace, /event\.key === 'Tab' && !dialog\.current\?\.open/);
+});

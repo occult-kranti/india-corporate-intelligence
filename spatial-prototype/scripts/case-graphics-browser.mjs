@@ -338,6 +338,19 @@ const probe = page => page.evaluate(() => window.__caseGraphicsProbe.read());
 const configure = (page, options) => page.evaluate(options => window.__caseGraphicsProbe.configure(options), options);
 const frames = (page, count = 8) => page.evaluate(count => window.__caseGraphicsProbe.frames(count), count);
 const geography = page => page.locator('.webgl-host').evaluate(element => Object.fromEntries(['centerLng','centerLat','zoom','pitch','bearing','selectedEdge'].map(key => [key, element.dataset[key] ?? null])));
+const geographicPoseObservation = page => page.locator('.webgl-host').evaluate(element => JSON.parse(element.dataset.geographicPose));
+export function assertGeographicPoseObservation(observation, phase) {
+  assert.equal(observation?.phase, phase, 'Geographic pose must be measured at the required boundary');
+  const pose = observation.pose;
+  assert.deepEqual(Object.keys(pose).sort(), ['bearing', 'center', 'pitch', 'zoom']);
+  assert.ok(Array.isArray(pose.center) && pose.center.length === 2 && [...pose.center, pose.zoom, pose.pitch, pose.bearing].every(Number.isFinite), 'Geographic pose must contain actual finite map coordinates');
+  return pose;
+}
+export function assertCapturedGeographicPose(observation, opening, message) {
+  const expected = assertGeographicPoseObservation(opening, 'workspace-acquisition');
+  const actual = assertGeographicPoseObservation(observation, 'geographic-render');
+  assert.deepEqual(actual, expected, message);
+}
 const activeLeaseBaselines = new WeakMap();
 const retiredLeaseBaselines = new WeakMap();
 const leaseSnapshot = page => page.evaluate(() => ({ active: document.querySelector('.webgl-host')?.dataset.geographicWorkspaceActive,
@@ -696,10 +709,19 @@ export async function runCaseGraphicsBrowserCases({ root, output, scenario, capt
   });
 
   await run(GRAPHICS_SCENARIOS[3], {}, async (page, result) => {
+    const beforeFlight = await geographicPoseObservation(page);
+    assertGeographicPoseObservation(beforeFlight, 'geographic-render');
+    result.interruptedGeographicPose = { beforeFlight };
     await page.getByRole('button', { name: 'Start a source trail', exact: true }).click();
     const journey = page.getByRole('region', { name: 'Camera journey' });
     await until(async () => await journey.count() === 1 && Number(await journey.locator('progress').getAttribute('value')) > 0, 'Geographic travel did not begin');
-    await openGraphicsWorkspace(page, until, result); await frames(page, 3); const stopped = await geography(page);
+    await openGraphicsWorkspace(page, until, result); await frames(page, 3);
+    // The legacy draw-only dataset may predate the last travel tick. Preserve it,
+    // but use the live map sample taken at lease acquisition as the expected pose.
+    const opening = await geographicPoseObservation(page);
+    Object.assign(result.interruptedGeographicPose, { opening, staleRenderAtAcquisition: await geography(page) });
+    assertGeographicPoseObservation(opening, 'workspace-acquisition');
+    assert.notDeepEqual(opening.pose, beforeFlight.pose, 'Workspace must interrupt an advanced journey rather than capture the pre-flight pose');
     assert.equal(await journey.count(), 0, 'Workspace entry did not cancel geographic travel');
     await chooseCase(page, dense, until); await showCaseScene(page, until); await assertCaseFrame(page, dense, until);
     await assertActiveSuppression(page, result, 'before-interrupted-flight-close');
@@ -714,7 +736,9 @@ export async function runCaseGraphicsBrowserCases({ root, output, scenario, capt
     }), dense.edges[0].id);
     await until(async () => await caseWorkspace(page).count() === 0, 'Close during active case travel failed');
     await requireGeographicRecovery(page, until, result, interruptedClose, 'interrupted-flight-close');
-    await frames(page, 24); assert.deepEqual(await geography(page), stopped, 'Close failed to restore the captured geographic pose or resumed an interrupted journey');
+    await frames(page, 24);
+    result.interruptedGeographicPose.afterClose = await geographicPoseObservation(page);
+    assertCapturedGeographicPose(result.interruptedGeographicPose.afterClose, opening, 'Close failed to restore the captured geographic pose or resumed an interrupted journey');
     assert.equal(await journey.count(), 0); assert.equal(await page.getByRole('button', { name: 'Selected case files', exact: true }).evaluate(element => document.activeElement === element), true);
     await openGraphicsWorkspace(page, until, result); await chooseCase(page, dense, until); await showCaseScene(page, until); await assertCaseFrame(page, dense, until);
     assert.equal(await caseWorkspace(page).getAttribute('data-case-motion'), 'false');
@@ -722,7 +746,9 @@ export async function runCaseGraphicsBrowserCases({ root, output, scenario, capt
     const selection = await caseWorkspace(page).getAttribute('data-case-selection');
     await page.evaluate(() => window.__caseGraphicsProbe.loseContext()); await assertRetainedFailure(page, dense, selection, until);
     result.explicitRecreation = await recreateAndVerify(page, dense, selection, until, result);
-    await closeWorkspace(page, until, result); await frames(page, 24); assert.deepEqual(await geography(page), stopped, 'Full graphics recreation lost the original non-HOME geography snapshot');
+    await closeWorkspace(page, until, result); await frames(page, 24);
+    result.interruptedGeographicPose.afterRecreationClose = await geographicPoseObservation(page);
+    assertCapturedGeographicPose(result.interruptedGeographicPose.afterRecreationClose, opening, 'Full graphics recreation lost the original non-HOME geography snapshot');
     assert.equal(await journey.count(), 0); await capture(page, result, 'interrupted-travel-restored-after-full-recreation');
   });
 

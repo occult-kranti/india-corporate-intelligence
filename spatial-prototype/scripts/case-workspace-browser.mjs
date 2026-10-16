@@ -8,6 +8,7 @@ import { join, basename } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { build } from 'esbuild';
 import { measureReaderLayout, exerciseReaderScroll } from './reader-layout-review.mjs';
+import { assertCaseLabelReadability } from './case-label-readability.mjs';
 
 export const ACCEPTED_CASE_TRANSPORT_SHA256 = '2ca8ae35ef4a02c252e8a1109bb98afd86d7c104b010e90e981a95891a32476c';
 export const ACCEPTED_CASE_ADAPTER_SHA256 = 'bcd69ea3201b236d60eb39cfc4f28dba330359c6131e948e9a2e90decff152ea';
@@ -361,6 +362,7 @@ export async function assertCaseFrame(page, file, until, result, phase = 'frame'
     assert.equal(await evidence(page).locator(`[data-node-id=${quoted(selection)}] button`).getAttribute('aria-pressed'), 'true');
   }
   if (result) (result.caseFrameSamples ??= []).push({ caseId: file.id, phase, selection, ...sample });
+  await assertCaseLabelReadability(page, file, result ?? {}, { phase, fit: phase === 'initial' });
   return sample;
 }
 
@@ -516,6 +518,56 @@ async function openClaimSourcesByKeyboard(page, claim, result, phase) {
   assert.equal(await caseSourceDialog(page).evaluate(element => element.open && element.matches(':modal')), true, 'Keyboard sources must open a native modal dialog');
   return opener;
 }
+/** Keep actual DOM references, so a no-op key or a jump to another control cannot
+ * satisfy containment. Only the initial Close focus is set programmatically;
+ * every subsequent move and dismissal uses the real browser keyboard. */
+async function exerciseSourceDialogKeyboard(page, dialog, result, phase) {
+  const retained = await dialog.evaluateHandle(element => ({
+    dialog: element,
+    controls: [...element.querySelectorAll('button:not(:disabled),a[href],input:not(:disabled),select:not(:disabled),textarea:not(:disabled),summary,[tabindex]')]
+      .filter(control => control.tabIndex >= 0 && !control.closest('[hidden],[inert]') && control.getClientRects().length),
+  }));
+  try {
+    const controls = await retained.evaluate(({ controls }) => controls.map(element => ({
+      tag: element.tagName, name: (element.getAttribute('aria-label') || element.textContent).trim().slice(0, 180),
+      href: element.getAttribute('href'), tabIndex: element.tabIndex,
+    })));
+    (result.caseSourceKeyboardControls ??= []).push({ phase, controls });
+    assert.ok(controls.length >= 3, 'Native source dialog must expose Close, its scroll region and original source links');
+    assert.equal(controls[0].name, 'Close sources');
+    assert.ok(controls.some(control => control.tag === 'A' && control.href), 'Native source traversal must include real source links');
+    assert.ok(controls.every(control => control.tabIndex === 0), 'Source dialog must use native DOM-order tab stops');
+    async function record(label, expectedIndex) {
+      const sample = await retained.evaluate(({ dialog, controls }) => ({
+        open: dialog.open, modal: dialog.matches(':modal'), inDialog: dialog.contains(document.activeElement),
+        hasDocumentFocus: document.hasFocus(), focusedIndex: controls.indexOf(document.activeElement),
+        activeTag: document.activeElement?.tagName ?? null,
+        activeName: (document.activeElement?.getAttribute('aria-label') || document.activeElement?.textContent || '').trim().slice(0, 180),
+        connected: controls.every(element => element.isConnected && dialog.contains(element)),
+      }));
+      (result.caseSourceKeyboardSamples ??= []).push({ phase, label, expectedIndex, ...sample });
+      const context = `${phase}: ${label}: ${JSON.stringify(sample)}`;
+      assert.ok(sample.open && sample.modal && sample.connected, `Native source dialog changed during keyboard traversal: ${context}`);
+      assert.equal(sample.inDialog, true, `Native dialog focus escaped: ${context}`);
+      assert.equal(sample.focusedIndex, expectedIndex, `Native source keyboard order or boundary wrap failed: ${context}`);
+    }
+    await dialog.getByRole('button', { name: 'Close sources', exact: true }).focus();
+    await record('initial-close', 0);
+    await page.keyboard.press('Shift+Tab');
+    await record('reverse-boundary', controls.length - 1);
+    await page.keyboard.press('Tab');
+    await record('forward-boundary', 0);
+    for (let index = 1; index <= controls.length; index++) {
+      await page.keyboard.press('Tab');
+      await record('forward-traversal', index % controls.length);
+    }
+    for (let index = controls.length - 1; index >= 0; index--) {
+      await page.keyboard.press('Shift+Tab');
+      await record('reverse-traversal', index);
+    }
+  } finally { await retained.dispose(); }
+}
+
 async function closeClaimSources(page, opener, until) {
   await page.keyboard.press('Escape');
   await until(async () => !await caseSourceDialog(page).isVisible() && await opener.evaluate(element => document.activeElement === element), 'Source Escape did not restore its exact opener');
@@ -717,6 +769,27 @@ export async function runCaseWorkspaceBrowserCases({ root, dist, output, scenari
         await capture(page, result, `${safeName(file.id)}-exact-selected-edge`);
         coverage.captures.push({ caseId: file.id, band: 'exact-selected-edge', file: result.screenshots.at(-1) });
       }
+      if (['case:usa-musk', 'case:public-office%2Findia-modi'].includes(file.id)) {
+        // Repaired dense labels must retain exact selected-source access too.
+        const claim = file.claims.find(item => item.claimId === edge.claimId);
+        const opener = caseWorkspace(page).getByRole('button', { name: `Inspect selected claim ${claim.number}: ${claim.proposedLabel}`, exact: true });
+        await opener.click(); const dialog = caseSourceDialog(page); await dialog.waitFor({ state: 'visible' });
+        assertClaimEvidence(await readEvidenceDOM(dialog.locator('[data-reader-scroll] > .ocd-evidence-content')), claim, file);
+        await dialog.getByRole('button', { name: 'Close sources', exact: true }).click();
+        await until(async () => !await dialog.isVisible() && await caseWorkspace(page).getAttribute('data-case-selection') === edge.id && await opener.evaluate(element => document.activeElement === element), `${file.id}: dense label source inspection lost exact selection or opener`);
+        await assertCaseFrame(page, file, until, result, 'selected-edge-after-source-dialog');
+      }
+      if (file.id === 'case:usa-musk') {
+        await page.emulateMedia({ forcedColors: 'active' });
+        assert.equal(await page.evaluate(() => matchMedia('(forced-colors: active)').matches), true);
+        await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+        await assertCaseFrame(page, file, until, result, 'selected-edge-forced-colors');
+        await capture(page, result, `${safeName(file.id)}-selected-labels-forced-colors`);
+        coverage.captures.push({ caseId: file.id, band: 'selected-labels-forced-colors', file: result.screenshots.at(-1) });
+        await page.emulateMedia({ forcedColors: 'none' });
+        await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+        await assertCaseFrame(page, file, until, result, 'selected-edge-restored-colors');
+      }
       await assertNoAdmission(page, baseline);
       coverage.sceneCases.push({ id: file.id, selectedNodeId: node.id, selectedEdgeId: edge.id, readerOnlyFactIds: [...file.readerFactIds] });
     }
@@ -780,11 +853,15 @@ export async function runCaseWorkspaceBrowserCases({ root, dist, output, scenari
       await dialog.locator('[data-reader-scroll]').evaluate(element => { element.scrollTop = 0; });
       await capture(page, result, `${phase}-native-source-controls-and-first-claim`);
       coverage.captures.push({ caseId: file.id, band: `${phase}-native-source-dialog`, file: result.screenshots.at(-1) });
-      const close = dialog.getByRole('button', { name: 'Close sources', exact: true });
-      await close.focus(); await page.keyboard.press('Shift+Tab');
-      assert.equal(await dialog.evaluate(element => element.contains(document.activeElement)), true, 'Native dialog focus escaped on Shift+Tab');
-      await page.keyboard.press('Tab');
-      assert.equal(await dialog.evaluate(element => element.contains(document.activeElement)), true, 'Native dialog focus escaped on Tab');
+      await exerciseSourceDialogKeyboard(page, dialog, result, phase);
+      // Close remains reachable after both traversal directions and works by
+      // keyboard activation. Reopen from the exact restored opener for Escape.
+      await page.keyboard.press('Enter');
+      await until(async () => !await dialog.isVisible() && await opener.evaluate(element => document.activeElement === element), `${phase}: keyboard Close did not restore its exact opener`);
+      assert.equal(await caseWorkspace(page).count(), 1, 'Source Close incorrectly closed the workspace');
+      await page.keyboard.press('Enter');
+      await dialog.waitFor({ state: 'visible' });
+      assert.equal(await dialog.evaluate(element => element.open && element.matches(':modal')), true, 'Keyboard source reopen must remain native');
       await closeClaimSources(page, opener, until);
       const dimensions = await caseWorkspace(page).evaluate(element => ({ width: innerWidth, documentWidth: document.documentElement.scrollWidth, workspaceWidth: element.scrollWidth, clientWidth: element.clientWidth }));
       assert.ok(dimensions.documentWidth <= dimensions.width + 1 && dimensions.workspaceWidth <= dimensions.clientWidth + 1, `${phase}: horizontal overflow`);

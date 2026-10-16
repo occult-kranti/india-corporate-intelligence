@@ -1903,6 +1903,47 @@ svg {
   }
 }
 
+/* A short landscape reader has its own right-hand control lane. Keep the
+   wrapped masthead in a disjoint left lane instead of spending its full height
+   twice. Narrow phones retain the measured shared-header layout above. */
+@media (min-width: 660px) and (max-width: 800px) and (max-height: 600px) {
+  .reader-open {
+    --atlas-reader-width: min(400px, calc(100% - 290px));
+    --atlas-reader-tools-top: 18px;
+    --atlas-reader-tools-height: 40px;
+  }
+  .reader-open .masthead {
+    max-width: calc(100% - var(--atlas-reader-width) - 106px);
+    overflow-wrap: anywhere;
+  }
+  .reader-open .masthead > div { min-width: 0; }
+  .reader-open .top-tools {
+    top: var(--atlas-reader-tools-top);
+    height: var(--atlas-reader-tools-height);
+  }
+  .reader-open .evidence-inspector {
+    top: calc(var(--atlas-reader-tools-top) + var(--atlas-reader-tools-height) + 12px);
+    width: var(--atlas-reader-width);
+    max-width: none;
+  }
+  .reader-open .inspector-top,
+  .reader-open .inspector-footer {
+    flex-shrink: 0;
+    padding: 4px 12px;
+  }
+  .reader-open .inspector-top button:focus-visible,
+  .reader-open .inspector-footer button:focus-visible { outline-offset: 2px; }
+  .reader-open .inspector-content {
+    flex: 1;
+    min-height: 0;
+    padding: 10px 14px;
+    scroll-padding-block: 10px;
+  }
+  .reader-open .inspector-content > .eyebrow { display: block; }
+  .reader-open .inspector-content h2 { margin: 6px 0 8px; }
+  .reader-open .evidence-tags { margin-bottom: 8px; }
+}
+
 /* The two left-hand panels share the space below the measured introduction.
    Each scrolls independently; expanding the legend cannot cover the registry.
    Keep the existing 130px dock/attribution reservation at the bottom. */
