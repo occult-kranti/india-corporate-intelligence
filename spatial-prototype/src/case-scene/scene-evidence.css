@@ -1,0 +1,8 @@
+.ocv2-evidence { min-width: 0; overflow-wrap: anywhere; }
+.ocv2-evidence button, .ocv2-evidence a { min-height: 44px; }
+.ocv2-evidence button { min-width: 44px; white-space: normal; }
+.ocv2-evidence a { display: inline-flex; align-items: center; }
+.ocv2-evidence :focus-visible { outline: 3px solid currentColor; outline-offset: 3px; }
+.ocv2-evidence article { margin-block: 1.5rem; border-block-start: 1px solid currentColor; padding-block-start: 1rem; }
+.ocv2-evidence [aria-pressed="true"] { font-weight: bold; text-decoration: underline; }
+@media (forced-colors: active) { .ocv2-evidence [aria-pressed="true"] { border: 2px solid Highlight; } }

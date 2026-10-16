@@ -1,0 +1,45 @@
+{
+  "oldFourteenCaseTargetRawBytes": 350000,
+  "oldTargetScope": "14-case public payload; not an approved 19-case or whole-JS budget",
+  "baseline14CaseReviewedInput": {
+    "readableRawBytes": 237040,
+    "readableGzipBytes": 32541,
+    "compactRawBytes": 197844,
+    "compactGzipBytes": 31328
+  },
+  "v2FullExpandedCatalog": {
+    "readableRawBytes": 800733,
+    "readableGzipBytes": 79970,
+    "compactRawBytes": 623909,
+    "compactGzipBytes": 69405
+  },
+  "normalizedPublicTransport": {
+    "readableRawBytes": 334950,
+    "readableGzipBytes": 64973,
+    "compactRawBytes": 334945,
+    "compactGzipBytes": 64970
+  },
+  "normalizedTransportIncreaseBytes": 97910,
+  "normalizedTransportWithin350000Bytes": true,
+  "readablePayloadIncreaseBytes": 563693,
+  "compactPayloadIncreaseBytes": 426065,
+  "comparisonCaveat": "V1 input contains spokes and profiles; v2 catalog includes exact expanded legacy case objects plus new complete reader/original records and recursive source context. These are deliberately labeled formats.",
+  "expandedReviewCatalogWithin350000Bytes": false,
+  "hostPayloadBudgetDecision": "Normalized transport is within 350000 bytes. Expanded review catalog still exceeds the old target; actual host chunk/loading acceptance and budget review remain OPEN",
+  "losslessNormalization": {
+    "generatedDataSourceRawBytes": 334950,
+    "generatedDataSourceGzipBytes": 64973,
+    "dataOnlyMinifiedRawBytes": 309339,
+    "dataOnlyMinifiedGzipBytes": 63897,
+    "method": "Shared tables for 760 repeated strings and 221 arrays/objects; bounded data-only decoding. Full catalog equals readable review JSON. No shortened claim text, source loss or handwritten-code minification."
+  },
+  "fullJavaScriptComparison": {
+    "baseline14CaseRawBytes": 210490,
+    "baseline14CaseGzipBytes": 37185,
+    "v2DeferredRawBytes": 338453,
+    "v2DeferredGzipBytes": 73046,
+    "increaseRawBytes": 127963,
+    "increaseGzipBytes": 35861,
+    "scope": "Isolated equal-format esbuild probes with React external. V2 includes focus helper, explicit schema validation, complete fallback and compatibility gate. Not actual host chunks."
+  }
+}

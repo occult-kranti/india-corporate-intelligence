@@ -1577,7 +1577,8 @@ svg {
   bottom: 108px;
 }
 .webgl-host {
-  border: 1px solid #7f8a5660;
+  outline: 1px solid #7f8a5660;
+  outline-offset: -1px;
   box-shadow: inset 0 0 70px #001c1a66;
 }
 @media (max-width: 800px) {
@@ -1856,15 +1857,114 @@ svg {
 }
 
 /* Small, ordinary navigation for the dated roadmap; no live telemetry controls. */
-.reading-surface { top: 166px; }
-.is-exploring .scene-overview { top: 174px; }
 .atlas-workspace-links { display: flex; flex-wrap: wrap; gap: 3px 14px; margin-top: 3px; }
 .atlas-workspace-links a { display: inline-flex; align-items: center; min-height: 24px; }
 @media (max-width: 800px) {
   .atlas-workspace-links { flex-direction: column; gap: 0; }
   .atlas-workspace-links a { font-size: 9px; min-height: 24px; }
-  .scene-overview, .is-exploring .scene-overview { top: 174px; }
-  .reading-surface { top: 174px; }
+}
+
+/* One measured header boundary for wrapped navigation, fonts and viewport changes.
+   Bottom/right reservations remain owned by the camera strip and dock rules. */
+.evidence-app {
+  --atlas-header-clearance: 200px;
+  --atlas-intro-clearance: 500px;
+  --atlas-overview-top: max(var(--atlas-header-clearance), var(--atlas-intro-clearance));
+}
+.reading-surface,
+.room-caption,
+.evidence-inspector,
+.city-info,
+.map-status,
+.journey-bar,
+.accessible-node-list:focus-within { top: var(--atlas-header-clearance); }
+.scene-overview,
+.is-exploring .scene-overview {
+  top: var(--atlas-overview-top);
+  max-height: max(0px, calc(100% - var(--atlas-overview-top) - 130px));
+  overflow: auto;
+  pointer-events: auto;
+}
+.city-info,
+.map-status,
+.journey-bar,
+.accessible-node-list:focus-within,
+.lens-panel,
+.audio-panel {
+  max-height: max(0px, calc(100% - var(--atlas-header-clearance) - 130px));
+  overflow: auto;
+}
+@media (max-width: 800px), (max-height: 850px) {
+  .evidence-app { --atlas-intro-clearance: 0px; }
+}
+@media (max-width: 800px) {
+  .scene-overview, .is-exploring .scene-overview {
+    max-width: min(320px, calc(100% - 90px));
+  }
+}
+
+/* A short landscape reader has its own right-hand control lane. Keep the
+   wrapped masthead in a disjoint left lane instead of spending its full height
+   twice. Narrow phones retain the measured shared-header layout above. */
+@media (min-width: 660px) and (max-width: 800px) and (max-height: 600px) {
+  .reader-open {
+    --atlas-reader-width: min(400px, calc(100% - 290px));
+    --atlas-reader-tools-top: 18px;
+    --atlas-reader-tools-height: 40px;
+  }
+  .reader-open .masthead {
+    max-width: calc(100% - var(--atlas-reader-width) - 106px);
+    overflow-wrap: anywhere;
+  }
+  .reader-open .masthead > div { min-width: 0; }
+  .reader-open .top-tools {
+    top: var(--atlas-reader-tools-top);
+    height: var(--atlas-reader-tools-height);
+  }
+  .reader-open .evidence-inspector {
+    top: calc(var(--atlas-reader-tools-top) + var(--atlas-reader-tools-height) + 12px);
+    width: var(--atlas-reader-width);
+    max-width: none;
+  }
+  .reader-open .inspector-top,
+  .reader-open .inspector-footer {
+    flex-shrink: 0;
+    padding: 4px 12px;
+  }
+  .reader-open .inspector-top button:focus-visible,
+  .reader-open .inspector-footer button:focus-visible { outline-offset: 2px; }
+  .reader-open .inspector-content {
+    flex: 1;
+    min-height: 0;
+    padding: 10px 14px;
+    scroll-padding-block: 10px;
+  }
+  .reader-open .inspector-content > .eyebrow { display: block; }
+  .reader-open .inspector-content h2 { margin: 6px 0 8px; }
+  .reader-open .evidence-tags { margin-bottom: 8px; }
+}
+
+/* The two left-hand panels share the space below the measured introduction.
+   Each scrolls independently; expanding the legend cannot cover the registry.
+   Keep the existing 130px dock/attribution reservation at the bottom. */
+.scene-overview, .legend { scroll-padding-block: 12px; }
+.scene-overview button, .legend summary { scroll-margin-block: 12px; }
+@media (min-width: 801px) {
+  .scene-overview, .is-exploring .scene-overview {
+    max-height: max(0px, calc((100% - var(--atlas-overview-top) - 130px) / 2 - 12px));
+  }
+  .legend {
+    bottom: 130px;
+    max-height: max(0px, calc((100% - var(--atlas-overview-top) - 130px) / 2));
+    overflow: auto;
+  }
+}
+@media (max-width: 800px) {
+  /* The buildings control occupies 36px above its existing 123px bottom inset. */
+  .city-toggle { height: 36px; }
+  .scene-overview, .is-exploring .scene-overview {
+    max-height: max(0px, calc(100% - var(--atlas-overview-top) - 123px - 36px - 12px));
+  }
 }
 
 .reader-collections {
@@ -1883,3 +1983,57 @@ svg {
 .reader-collections a { color: #f2d99f; text-decoration: underline; text-underline-offset: 3px; }
 .reader-collections a:focus-visible { outline: 3px solid #f2d99f; outline-offset: 5px; }
 .reader-collections a span { font-size: 12px; }
+
+/* Deferred selected-case workspace launcher and chunk-failure boundary. */
+.selected-cases-launcher { font: inherit; border: 0; cursor: pointer; background: transparent; padding: 0; text-align: left; }
+.case-load-note { position: fixed; z-index: 100; inset: 12% max(16px, 12vw); overflow: auto; padding: 24px; background: #eee6d1; color: #183d2c; border: 1px solid #c5b988; border-radius: 8px; }
+.case-load-note button { padding: 10px 14px; color: #fff5dc; background: #214b36; }
+
+.atlas-workspace-links .selected-cases-launcher { font-size: 10px; min-height: 24px; }
+@media(max-width:600px) { .atlas-workspace-links .selected-cases-launcher { font-size: 9px; } }
+
+
+/* The selected-case workspace is a sibling modal above the shared map canvas.
+   Hide only inactive atlas DOM chrome; visibility keeps its mounted layout,
+   header measurements and the shared canvas size unchanged until Close. */
+.evidence-app[inert][aria-hidden="true"] > :not(.spatial-stage):not(.city-attribution),
+.evidence-app[inert][aria-hidden="true"] > .spatial-stage > .world-labels,
+.evidence-app[inert][aria-hidden="true"] > .city-attribution > button {
+  visibility: hidden;
+}
+
+/* Keep original provider/ODbL credits displayed inside the transparent board.
+   These remain inert credits during the modal, not usable map controls. The
+   opaque chooser/reader covers them when no scene is displayed. No text, URL,
+   details-open state or canvas/host bounds are changed; Close restores all. */
+.evidence-app[inert][aria-hidden="true"] > .city-attribution {
+  left: 14px;
+  bottom: 40px;
+  transform: none;
+}
+.evidence-app[inert][aria-hidden="true"] .webgl-host .maplibregl-ctrl-bottom-right {
+  left: 14px;
+  right: auto;
+  bottom: 8px;
+}
+.evidence-app[inert][aria-hidden="true"] .webgl-host .maplibregl-ctrl-attrib {
+  float: none;
+  margin: 0;
+  padding: 2px 6px;
+  min-height: 0;
+  max-width: min(440px, calc(50vw - 28px));
+  font-size: 8px;
+  line-height: 12px;
+  background: #123324df;
+  color: #c6d0b8;
+  border-radius: 3px;
+}
+.evidence-app[inert][aria-hidden="true"] .webgl-host .maplibregl-ctrl-attrib::details-content {
+  content-visibility: visible;
+}
+.evidence-app[inert][aria-hidden="true"] .webgl-host .maplibregl-ctrl-attrib-inner {
+  display: block;
+}
+.evidence-app[inert][aria-hidden="true"] .webgl-host .maplibregl-ctrl-attrib-button {
+  display: none;
+}

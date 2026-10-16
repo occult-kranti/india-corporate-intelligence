@@ -5,11 +5,11 @@ import {STATUSES,GROUPS,GROUP_LABELS,statusGroup,groupCounts,validateSnapshot,sa
 const source=JSON.parse(await readFile(new URL('../../public/research-activity/snapshot.json',import.meta.url),'utf8'));
 const mutate=fn=>{const value=structuredClone(source);fn(value);return value;};
 const rejects=fn=>assert.equal(validateSnapshot(mutate(fn)).valid,false);
-test('dated snapshot distinguishes live base, deployment and reader-review work',()=>{
+test('dated snapshot distinguishes three live releases from pending workspace review',()=>{
  assert.deepEqual(validateSnapshot(source),{valid:true,errors:[]});
  assert.equal(source.tasks.find(t=>t.id==='base-release').status,'completed');
  assert.equal(source.tasks.find(t=>t.id==='historical-tutorial').status,'completed');
- assert.deepEqual(counts(source.tasks),{planned:1,running:0,'review-pending':5,blocked:1,completed:2});
+ assert.deepEqual(counts(source.tasks),{planned:1,running:0,'review-pending':4,blocked:1,completed:3});
 });
 test('all status lanes filter without mutating source',()=>{
  for(const status of STATUSES)assert.equal(selectTasks(source.tasks,{status}).length,counts(source.tasks)[status]);
@@ -66,16 +66,18 @@ test('UI avoids HTML injection sinks, remote dependencies and disabled private s
 test('four simple display groups preserve internal review and hold states',()=>{
  assert.deepEqual(GROUPS,['completed','working','planned','blocked']);
  assert.deepEqual(GROUPS.map(group=>GROUP_LABELS[group]),['Done','Working on','Next','Blocked']);
- assert.deepEqual(groupCounts(source.tasks),{completed:2,working:5,planned:1,blocked:1});
- assert.deepEqual(selectTasks(source.tasks,{status:'working'}).map(task=>task.id),['source-reviews','research-methods','repository-audit','cross-border-finance','public-program-records']);
+ assert.deepEqual(groupCounts(source.tasks),{completed:3,working:4,planned:1,blocked:1});
+ assert.deepEqual(selectTasks(source.tasks,{status:'working'}).map(task=>task.id),['research-methods','repository-audit','cross-border-finance','public-program-records']);
  assert.equal(statusGroup('running'),'working');
  assert.equal(statusGroup('review-pending'),'working');
  assert.equal(statusGroup('blocked'),'blocked');
  assert.equal(groupCounts([{status:'running'},{status:'review-pending'}]).working,2);
 });
-test('review checkpoint remains dated, candidate-only and non-live',()=>{
- assert.equal(source.asOf,'2026-10-16T09:38:40Z');
+test('release checkpoint distinguishes live corrections from pending selected-case browser gates',()=>{
+ assert.equal(source.asOf,'2026-10-16T11:27:00Z');
+ assert.match(source.checkpointTitle,/16 October 2026, 11:27 UTC/);
  assert.equal(source.tasks.length,9);
+ assert.equal(source.milestones.length,4);
  assert.equal(source.tasks.filter(task=>task.status==='running').length,0);
  const release=source.tasks.find(task=>task.id==='base-release');
  assert.match(release.summary,/6e4d6512/);
@@ -87,18 +89,45 @@ test('review checkpoint remains dated, candidate-only and non-live',()=>{
  assert.match(next.summary,/deployment and published reader, guide, activity and navigation were verified/);
  assert.equal(next.completion.verifiedAt,'2026-10-16T07:03:10Z');
  const readers=source.tasks.find(task=>task.id==='source-reviews');
+ assert.equal(readers.status,'completed');
+ assert.equal(readers.lastChecked,source.asOf);
  assert.match(readers.summary,/reader-only publication approval/);
- assert.match(readers.summary,/PR12 is live at the verified 3032fd73 release/);
- assert.match(readers.summary,/All 146 checked published paths, including 96 raw registry chunks, matched the release tree/);
-  assert.match(readers.summary,/PR13 is a draft review candidate/);
-  assert.equal(readers.evidence[1].url,"https://github.com/occult-kranti/india-corporate-intelligence/pull/13");
+ assert.match(readers.summary,/PR13 merged at a4f6a04b and its source-correction release is live/);
+ assert.match(readers.summary,/six routes, fourteen assets, five activity files, twenty-nine lazy bundles and all 96 raw registry chunks/);
+ assert.match(readers.summary,/Live no-WebGL source-hold and navigation checks passed at 11:27 UTC/);
+ assert.doesNotMatch(readers.summary,/PR13 is a draft|under exact-head review/);
+ assert.equal(readers.evidence[readers.completion.evidenceIndex].url,'https://github.com/occult-kranti/india-corporate-intelligence/pull/13');
+ assert.equal(readers.completion.verifiedAt,source.asOf);
+ assert.match(readers.completion.note,/Pages run 38893115494 succeeded/);
  assert.match(readers.summary,/Raw baseline bytes and all research graph\/path holds remain intact/);
  const profiles=source.tasks.find(task=>task.id==='cross-border-finance');
- assert.match(profiles.summary,/20 selected billionaire and public-office case packets/);
- assert.match(profiles.summary,/19-profile, 72-claim reader projection/);
- assert.match(profiles.summary,/Modi is a public-office profile/);
- assert.match(profiles.summary,/not complete worldwide mapping/);
+ assert.equal(profiles.status,'review-pending');
+ assert.equal(profiles.lastChecked,source.asOf);
+ assert.equal(profiles.summary,'21 selected billionaire and public-office case packets have scoped source reviews and verified dedicated case chats. The separate 19-case, 72-core-claim reader and non-geographic scene is under browser review. Huang and Tencent remain outside this UI cohort. Eighteen dated wealth observations remain a follow-on feature. This is selected-case coverage, not complete worldwide mapping.');
+ assert.match(profiles.nextAction,/actual browser and visual gates/);
+ assert.match(profiles.nextAction,/Source, build and portable tests have passed; no pull request exists yet/);
+ assert.equal(profiles.evidence.some(item=>item.url!==undefined),false);
  assert.equal(profiles.completion,undefined);
+});
+test('unchanged task dates retain their earlier verification provenance',()=>{
+ const expected={
+  'base-release':'2026-10-16T03:44:12Z',
+  'historical-tutorial':'2026-10-16T09:12:40Z',
+  'original-guides':'2026-10-16T03:22:00Z',
+  federation:'2026-10-16T03:22:00Z',
+  'research-methods':'2026-10-16T03:44:12Z',
+  'repository-audit':'2026-10-16T03:44:12Z',
+  'public-program-records':'2026-10-16T03:49:31Z',
+ };
+ for(const [id,date] of Object.entries(expected))assert.equal(source.tasks.find(task=>task.id===id).lastChecked,date,id);
+ assert.equal(source.tasks.find(task=>task.id==='base-release').completion.verifiedAt,'2026-10-16T03:22:00Z');
+});
+test('public snapshot contains no private paths, chat links or claimed live monitoring',()=>{
+ assert.match(source.scope,/snapshot, not live worker telemetry/);
+ assert.equal(source.tasks.every(task=>task.privateProjectLink===null),true);
+ assert.doesNotMatch(JSON.stringify(source),/chatgpt\.com|codex:\/\/|\/workspace\/|\/home\/|\/tmp\/|local-integration\//);
+ const profiles=source.tasks.find(task=>task.id==='cross-border-finance');
+ assert.match(profiles.evidence[1].title,/actual browser gates await draft review/);
 });
 test('standalone shell keeps local modules, local fetch policy and relative return navigation',async()=>{
  const html=await readFile(new URL('../../public/research-activity/index.html',import.meta.url),'utf8');

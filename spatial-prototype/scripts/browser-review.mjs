@@ -32,6 +32,8 @@ import { runSectorBrowserCases } from "./sector-browser-review.mjs";
 import { measureReaderLayout, exerciseReaderScroll } from "./reader-layout-review.mjs";
 import { expectedHistoricalReview } from "./browser-review-mode.mjs";
 import { runSourceCorrectionBrowserCases } from "./source-correction-browser.mjs";
+import { runCaseWorkspaceBrowserCases } from "./case-workspace-browser.mjs";
+import { parseCaseGraphicsReviewMode, runCaseGraphicsBrowserCases } from "./case-graphics-browser.mjs";
 
 if (
   process.env.GITHUB_ACTIONS !== "true" ||
@@ -42,17 +44,22 @@ if (
   );
 }
 
+// This explicit CI-only preflight never substitutes for the default full review.
+const reviewMode = parseCaseGraphicsReviewMode(process.argv.slice(2));
+const earlySceneSmoke = reviewMode === "early-scene-smoke";
+
 // The next-release default build has the reader gate; positive coverage cannot be skipped.
 const expectHistoricalReview = expectedHistoricalReview(process.env.SPATIAL_EXPECT_HISTORICAL_REVIEW);
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const dist = await realpath(join(root, "dist"));
-const output = join(root, "browser-review");
+const output = earlySceneSmoke ? join(root, "browser-review", "early-scene-smoke") : join(root, "browser-review");
 const prefix = "/india-corporate-intelligence/spatial/";
 const viewport = { width: 1440, height: 1000 };
 await mkdir(output, { recursive: true });
 const temporary = await mkdtemp(join(tmpdir(), "spatial-browser-review-"));
 const report = {
   startedAt: new Date().toISOString(),
+  reviewMode,
   commit: process.env.GITHUB_SHA ?? null,
   headCommit: process.env.SPATIAL_HEAD_SHA ?? null,
   expectedHistoricalReview: expectHistoricalReview,
@@ -1328,7 +1335,7 @@ async function scenario(name, options, work) {
   try {
     context = await browser.newContext({
       viewport: options.viewport ?? viewport,
-      deviceScaleFactor: 1,
+      deviceScaleFactor: options.deviceScaleFactor ?? 1,
       hasTouch: options.touch === true,
       reducedMotion: options.reducedMotion ? "reduce" : "no-preference",
       acceptDownloads: true,
@@ -1955,6 +1962,10 @@ try {
   });
   report.browserVersion = browser.version();
 
+  if (earlySceneSmoke) {
+    await runCaseGraphicsBrowserCases({ root, output, scenario, capture, assertFullLoad, assertSpatial, assertCountryBase, until, report, temporary }, { mode: reviewMode });
+  } else {
+  // Full review starts here. Keep every existing scenario mandatory in default mode.
   await scenario("01-overview-and-source-trail", {}, async (page, result) => {
     await assertSpatial(page);
     await assertCountryBase(page);
@@ -3953,6 +3964,11 @@ try {
     result.notes.push("Both named keyboard-scroll regions kept Close in a separate non-scrolling row at top/middle/bottom and inside long source text. PageDown, visible focus, Escape/focus return, collection jumps and nested horizontal bounds passed at 320px and a 640×450 effective viewport. The latter covers the layout space of 200% zoom on 1280×900; it is not a browser-chrome zoom automation claim.");
   });
 
+  const caseReviewContext = { root, dist, output, origin, prefix, scenario, capture, assertFullLoad, assertReaderOnly, assertSpatial, assertCountryBase, until, report, temporary };
+  await runCaseWorkspaceBrowserCases(caseReviewContext);
+  await runCaseGraphicsBrowserCases(caseReviewContext);
+  } // End full review; the CI smoke is an additional gate, never full acceptance.
+
 } catch (error) {
   report.setupError = error.stack ?? String(error);
   process.exitCode = 1;
@@ -3972,13 +3988,16 @@ try {
     `${JSON.stringify(report, null, 2)}\n`,
   );
   const summary = [
-    "# Spatial prototype browser review",
+    earlySceneSmoke ? "# Spatial prototype early native scene smoke" : "# Spatial prototype browser review",
     "",
     `Result: **${report.status}**`,
+    `Review mode: ${reviewMode}`,
     `Preview path: ${prefix}`,
     `Review label: ${report.reviewLabel}`,
     `Expected historical mode: default build, exact query plus fresh Open`,
-    "All positive and negative historical reader cases are mandatory for this next-release candidate.",
+    earlySceneSmoke
+      ? "Bounded case 40 preflight only. The complete legacy, nineteen-case workspace and all native graphics reviews remain mandatory in the following full-review step."
+      : "All positive and negative historical reader cases are mandatory for this next-release candidate.",
     `Checked out: ${report.revision?.checkedOutCommit ?? "unverified"}`,
     `Candidate head: ${report.revision?.candidateHead ?? "unverified"}`,
     `Revision coverage: ${report.revision?.mode ?? "unverified"}`,

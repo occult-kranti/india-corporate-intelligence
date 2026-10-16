@@ -79,3 +79,7 @@ The CI-only harness has four additional mandatory cases for collection discovery
 ## Separate follow-on work
 
 The atlas does not yet federate the separate retained global-current, finance or media workbench datasets. Their original pages remain linked and intact. Future federation must preserve original IDs, path-eligibility, uncertainty/currentness and review queues. This candidate adds two explicitly opened source-collection readers alongside the existing 13-step atlas guide; it does not admit research additions into the factual graph. The 59 original app-route and three static-page guides remain separate runtime-pending work, as do wider research imports. See [atlas tutorial](docs/atlas-guidance.md) for the bounded guide scope and interaction checks.
+
+## Selected case workspace: separate review candidate
+
+The optional Selected case files workspace adds 19 dated cases and 72 core claims in a complete reader, with an explicitly opened non-geographic felt scene on supported desktop graphics. Source direction, jurisdiction limits, financial stages and reader-only facts stay explicit. No case joins the atlas's factual map or global paths. See [workspace scope and gates](docs/selected-case-workspace.md) for loading, failure, motion and acceptance boundaries. The 18 dated wealth observations remain a separate follow-on.

@@ -7,7 +7,8 @@
     "dev": "vite --host 0.0.0.0",
     "build": "tsc -b && vite build && node scripts/build-budget.mjs",
     "preview": "vite preview --host 0.0.0.0",
-    "test": "node --test --test-concurrency=2 scripts/*.test.mjs"
+    "test": "node --test --test-concurrency=1 scripts/*.test.mjs && npm run test:cases",
+    "test:cases": "node --test --test-concurrency=1 scripts/case-unit/*.test.mjs scripts/case-unit/data-tests/*.test.mjs scripts/case-unit/scene-tests/*.test.mjs scripts/case-unit/host-tests/*.test.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.469.0",

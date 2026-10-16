@@ -21,7 +21,9 @@ concurrency:
 jobs:
   browser-review:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    # The complete retained-reader + nineteen-case/native suite exceeded 25m
+    # while still progressing. Keep every per-scenario and smoke deadline.
+    timeout-minutes: 40
     defaults:
       run:
         shell: bash
@@ -54,6 +56,12 @@ jobs:
       - name: Install Chromium in CI only
         working-directory: spatial-prototype
         run: npx --no-install playwright install --with-deps chromium
+      - name: Smoke real native case scene before the full browser review
+        working-directory: spatial-prototype
+        timeout-minutes: 4
+        run: |
+          mkdir -p browser-review/early-scene-smoke
+          node scripts/browser-review.mjs --early-scene-smoke 2>&1 | tee browser-review/early-scene-smoke/browser-run.log
       - name: Review atlas and both qualified readers at the repository subpath
         working-directory: spatial-prototype
         run: node scripts/browser-review.mjs 2>&1 | tee browser-review/browser-run.log
@@ -66,13 +74,82 @@ jobs:
           else
             echo 'Browser review did not complete. Inspect earlier steps and the available review logs.' >> "$GITHUB_STEP_SUMMARY"
           fi
-      - name: Preserve screenshots and diagnostics
+      - name: Partition complete browser evidence into bounded artifacts
         if: always()
+        id: partition_browser_artifacts
+        working-directory: spatial-prototype
+        run: node scripts/partition-browser-artifacts.mjs
+      - name: Preserve browser evidence part 01
+        if: always() && steps.partition_browser_artifacts.outcome == 'success' && steps.partition_browser_artifacts.outputs.part_01 == 'true'
         uses: actions/upload-artifact@v4
         with:
-          name: spatial-browser-review-${{ github.run_id }}-${{ github.run_attempt }}
-          path: spatial-prototype/browser-review/
-          if-no-files-found: warn
+          name: spatial-browser-review-${{ github.run_id }}-${{ github.run_attempt }}-part-01
+          path: spatial-prototype/browser-artifact-parts/01/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve browser evidence part 02
+        if: always() && steps.partition_browser_artifacts.outcome == 'success' && steps.partition_browser_artifacts.outputs.part_02 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: spatial-browser-review-${{ github.run_id }}-${{ github.run_attempt }}-part-02
+          path: spatial-prototype/browser-artifact-parts/02/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve browser evidence part 03
+        if: always() && steps.partition_browser_artifacts.outcome == 'success' && steps.partition_browser_artifacts.outputs.part_03 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: spatial-browser-review-${{ github.run_id }}-${{ github.run_attempt }}-part-03
+          path: spatial-prototype/browser-artifact-parts/03/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve browser evidence part 04
+        if: always() && steps.partition_browser_artifacts.outcome == 'success' && steps.partition_browser_artifacts.outputs.part_04 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: spatial-browser-review-${{ github.run_id }}-${{ github.run_attempt }}-part-04
+          path: spatial-prototype/browser-artifact-parts/04/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve browser evidence part 05
+        if: always() && steps.partition_browser_artifacts.outcome == 'success' && steps.partition_browser_artifacts.outputs.part_05 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: spatial-browser-review-${{ github.run_id }}-${{ github.run_attempt }}-part-05
+          path: spatial-prototype/browser-artifact-parts/05/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve browser evidence part 06
+        if: always() && steps.partition_browser_artifacts.outcome == 'success' && steps.partition_browser_artifacts.outputs.part_06 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: spatial-browser-review-${{ github.run_id }}-${{ github.run_attempt }}-part-06
+          path: spatial-prototype/browser-artifact-parts/06/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve browser evidence part 07
+        if: always() && steps.partition_browser_artifacts.outcome == 'success' && steps.partition_browser_artifacts.outputs.part_07 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: spatial-browser-review-${{ github.run_id }}-${{ github.run_attempt }}-part-07
+          path: spatial-prototype/browser-artifact-parts/07/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve browser evidence part 08
+        if: always() && steps.partition_browser_artifacts.outcome == 'success' && steps.partition_browser_artifacts.outputs.part_08 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: spatial-browser-review-${{ github.run_id }}-${{ github.run_attempt }}-part-08
+          path: spatial-prototype/browser-artifact-parts/08/
+          if-no-files-found: error
+          include-hidden-files: true
           retention-days: 14
       - name: Preserve static preview build (no deployment)
         if: always()

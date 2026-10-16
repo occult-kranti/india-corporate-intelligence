@@ -6,6 +6,7 @@ import {
   useCallback,
   useDeferredValue,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -41,6 +42,9 @@ import {
   Building2,
 } from "lucide-react";
 const SpatialWorld = lazy(() => import("./SpatialWorld"));
+const CaseWorkspace = lazy(() => import("./profile-host/CaseWorkspace"));
+import type { CaseGraphicsHost } from "./profile-host/graphics-contract";
+import type { GeographicSnapshot } from "./profile-host/geographicLease";
 import RegistryReader from "./RegistryReader";
 import MapBoundary from "./MapBoundary";
 import { originalRoute, safeSourceUrl } from "./navigation";
@@ -78,6 +82,7 @@ import { useNarration } from "./useNarration";
 import { buildNarrationTranscript } from "./narrationTranscript";
 import cityMetadata from "./assets/city-metadata.json";
 import { GuidedTutorial } from "./guidance/GuidedTutorial";
+import { bindHeaderClearance } from "./headerClearance";
 import atlasGuide from "./guidance/atlas-guide.json";
 const readable = (word: string) => word.replace(/-/g, " ");
 const itemTitle = presentationTitle;
@@ -155,6 +160,29 @@ export default function App({
   const [reading, setReading] = useState(
     () => new URLSearchParams(location.search).get("mode") === "reading",
   );
+  const [caseOpen, setCaseOpen] = useState(false);
+  const [caseLoadError, setCaseLoadError] = useState("");
+  const [graphics, setGraphics] = useState<CaseGraphicsHost | null>(null);
+  const [graphicsGeneration, setGraphicsGeneration] = useState(0);
+  const caseOpener = useRef<HTMLButtonElement>(null);
+  const appRef = useRef<HTMLElement>(null);
+  useLayoutEffect(() => bindHeaderClearance(appRef.current!), []);
+  const caseGeography = useRef<GeographicSnapshot | null>(null);
+  const acceptGraphics = useCallback((binding: CaseGraphicsHost | null) => {
+    if (binding && caseOpen && caseGeography.current) binding.adoptGeography(caseGeography.current);
+    setGraphics(binding);
+  }, [caseOpen]);
+  const closeCases = useCallback(() => { setCaseOpen(false); requestAnimationFrame(() => caseOpener.current?.focus()); }, []);
+  const caseNoteKeys = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (event.ctrlKey || event.metaKey || event.altKey) return;
+    if (event.key === "Escape") { event.preventDefault(); closeCases(); }
+    else if (event.key === "Tab") {
+      const items = [...event.currentTarget.querySelectorAll<HTMLElement>("button,summary")];
+      const index = items.indexOf(document.activeElement as HTMLElement);
+      event.preventDefault(); items[(index + (event.shiftKey ? -1 : 1) + items.length) % items.length]?.focus();
+    }
+  };
+  useEffect(() => { graphics?.setWorkspaceActive(caseOpen); }, [graphics, caseOpen]);
   const [cities, setCities] = useState(true);
   const [cityInfo, setCityInfo] = useState(false);
   const [failure, setFailure] = useState("");
@@ -217,9 +245,10 @@ export default function App({
     setReading(true);
   }, []);
   const send = useCallback((type: CameraCommand["type"], id?: string) => {
+    if (caseOpen) return;
     if (type !== "stop") setExploring(true);
     setCommand({ type, id, stamp: performance.now() });
-  }, []);
+  }, [caseOpen]);
   const open = useCallback(
     (id: string, _kind: "node" | "edge") => {
       lastFocus.current =
@@ -322,7 +351,7 @@ export default function App({
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       // Tutorial keys must never stop/start camera travel or narration.
-      if (helpOpen || event.defaultPrevented) return;
+      if (caseOpen || helpOpen || event.defaultPrevented) return;
       const editable =
         event.target instanceof HTMLElement &&
         Boolean(event.target.closest("input,textarea,select"));
@@ -353,6 +382,7 @@ export default function App({
     return () => window.removeEventListener("keydown", onKey);
   }, [
     send,
+    caseOpen,
     helpOpen,
     inspector,
     inspectorLocked,
@@ -422,7 +452,11 @@ export default function App({
     lastFocus.current?.focus();
   };
   return (
+    <>
     <main
+      ref={appRef}
+      {...(caseOpen ? { inert: "" } : {})}
+      aria-hidden={caseOpen || undefined}
       data-dataset={dataset}
       data-loaded-entities={registry.entities.length}
       data-loaded-records={registry.records.length}
@@ -439,6 +473,7 @@ export default function App({
       </a>
       {!reading && !failure && (
         <MapBoundary
+          key={graphicsGeneration}
           onFailure={(reason) => {
             setFailure(reason);
             enterReading();
@@ -452,6 +487,8 @@ export default function App({
             }
           >
             <SpatialWorld
+              workspaceActive={caseOpen}
+              onGraphics={acceptGraphics}
               data={mapScene}
               selected={selected}
               command={command}
@@ -491,6 +528,11 @@ export default function App({
             <a className="original-app-link" href="../research-activity/">
               Research activity ↗
             </a>
+            <button className="original-app-link selected-cases-launcher" ref={caseOpener} type="button" onClick={() => {
+              caseGeography.current = graphics?.captureGeography() ?? null;
+              narration.stop(); setHelpOpen(false); setCommand(null); graphics?.stopGeographicJourney();
+              setJourney({ phase: "idle", progress: 0, edgeId: null }); setCaseOpen(true);
+            }}>Selected case files</button>
           </nav>
         </div>
         <span className="prototype-badge">
@@ -1622,5 +1664,16 @@ export default function App({
       </div>
       <GuidedTutorial guide={atlasGuide} open={helpOpen} onClose={() => setHelpOpen(false)} />
     </main>
+    {caseOpen && <>
+      {caseLoadError ? <section className="case-load-note" onKeyDown={caseNoteKeys} role="dialog" aria-modal="true" aria-label="Case files unavailable"><p>The selected case files could not load. The atlas remains available.</p><button type="button" autoFocus onClick={closeCases}>Close case files</button><details><summary>Technical detail</summary>{caseLoadError}</details></section> :
+      <MapBoundary onFailure={setCaseLoadError}>
+        <Suspense fallback={<section className="case-load-note" onKeyDown={caseNoteKeys} role="dialog" aria-modal="true" aria-label="Loading selected case files"><p role="status">Preparing selected case files…</p><button type="button" autoFocus onClick={closeCases}>Cancel</button></section>}>
+          <CaseWorkspace graphics={graphics} reducedMotion={reduced} onClose={closeCases} onRecreateGraphics={() => {
+            setGraphics(null); setFailure(""); setReading(false); setCommand(null); setGraphicsGeneration(value => value + 1);
+          }}/>
+        </Suspense>
+      </MapBoundary>}
+    </>}
+    </>
   );
 }

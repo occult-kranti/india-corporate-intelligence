@@ -1,4 +1,7 @@
 import * as THREE from "three";
+import type { CaseGraphicsHost } from "./profile-host/graphics-contract";
+import { suspendGeography, captureGeography, type GeographicSnapshot } from "./profile-host/geographicLease";
+let graphicsIdentity = 0;
 import {
   Map as GeoMap,
   MercatorCoordinate,
@@ -55,6 +58,7 @@ export interface WorldCallbacks {
   onMapStatus?: (status: string) => void;
   onInteraction?: () => void;
   onDisplay?: (summary: DisplaySummary) => void;
+  onGraphics?: (graphics: CaseGraphicsHost | null) => void;
 }
 interface Pose {
   center: [number, number];
@@ -228,6 +232,12 @@ export class EvidenceWorld {
   private reduced = false;
   private cities = true;
   private disposed = false;
+  private graphicsFatal = false;
+  private workspaceActive = false;
+  private releaseGeography: (() => void) | null = null;
+  private workspaceSnapshot: GeographicSnapshot | null = null;
+  private beforeGraphicsDispose = new Set<() => void>();
+  private readonly graphicsIdentity = ++graphicsIdentity;
   private journey: Journey | null = null;
   private history: Pose[] = [];
   private raf = 0;
@@ -370,6 +380,16 @@ export class EvidenceWorld {
     };
     this.map.addLayer(layer);
     this.ready = true;
+    this.cb.onGraphics?.({
+      map: this.map, renderer: this.renderer!, identity: this.graphicsIdentity,
+      isUsable: () => !this.disposed && !this.graphicsFatal && this.ready,
+      captureGeography: () => structuredClone(this.workspaceSnapshot ?? captureGeography(this.map)),
+      adoptGeography: (snapshot) => { this.workspaceSnapshot = structuredClone(snapshot); },
+      setWorkspaceActive: (active) => this.setWorkspaceActive(active),
+      stopGeographicJourney: () => this.stopGeographicJourney(),
+      failSharedRenderer: (reason) => this.failSharedRenderer(reason),
+      beforeDispose: (cleanup) => { this.beforeGraphicsDispose.add(cleanup); return () => this.beforeGraphicsDispose.delete(cleanup); },
+    });
     void loadMapBoundaries()
       .then((boundaries) => {
         if (this.disposed) return;
@@ -398,13 +418,13 @@ export class EvidenceWorld {
     this.container.dataset.tileStatus = "unavailable";
     this.container.dataset.tileError = event.error.message;
     if (/WebGL|context|GPU/i.test(event.error.message))
-      this.cb.onFailure(
+      this.failSharedRenderer(
         "WebGL could not start. Retained records are available in reading mode.",
       );
   };
   private onContextLoss = (event: Event) => {
     event.preventDefault();
-    this.cb.onFailure(
+    this.failSharedRenderer(
       "The graphics context was lost. All records remain available in reading mode.",
     );
   };
@@ -415,6 +435,7 @@ export class EvidenceWorld {
     this.updateLabels();
   };
   private onInteract = (event: { originalEvent?: Event }) => {
+    if (this.workspaceActive || this.graphicsFatal) return;
     if (event.originalEvent) this.cb.onInteraction?.();
     if (event.originalEvent && this.journey) {
       this.journey.paused = true;
@@ -423,7 +444,7 @@ export class EvidenceWorld {
     }
   };
   private onClick = (event: MapMouseEvent) => {
-    if (!this.ready) return;
+    if (!this.ready || this.workspaceActive || this.graphicsFatal) return;
     let nearest: { id: string; distance: number; stack: boolean } | null = null;
     for (const display of this.displayGroups.values()) {
       const { anchor, records } = display;
@@ -713,6 +734,7 @@ export class EvidenceWorld {
     };
   }
   command(command: CameraCommand) {
+    if (this.workspaceActive || this.graphicsFatal || this.disposed) return;
     if (!this.ready) {
       this.pendingCommand = command;
       return;
@@ -860,6 +882,7 @@ export class EvidenceWorld {
     });
   }
   private updateLabels(force = false) {
+    if (this.workspaceActive || this.graphicsFatal || this.disposed) { this.cb.onLabels([]); return; }
     const now = performance.now();
     if (!force && now - this.lastLabels < 100) return;
     this.lastLabels = now;
@@ -917,8 +940,15 @@ export class EvidenceWorld {
     }
     this.cb.onLabels(labels);
   }
+  private publishGeographicPose(phase: "workspace-acquisition" | "geographic-render") {
+    const center = this.map.getCenter();
+    this.container.dataset.geographicPose = JSON.stringify({ phase, pose: {
+      center: [center.lng, center.lat], zoom: this.map.getZoom(),
+      pitch: this.map.getPitch(), bearing: this.map.getBearing(),
+    } });
+  }
   private render(args: CustomRenderMethodInput) {
-    if (!this.renderer || this.disposed) return;
+    if (!this.renderer || this.disposed || this.graphicsFatal || this.workspaceActive) return;
     this.camera.projectionMatrix.fromArray(
       args.defaultProjectionData.mainMatrix,
     );
@@ -959,9 +989,18 @@ export class EvidenceWorld {
         .material as THREE.MeshStandardMaterial;
       material.opacity = opacity;
     }
-    this.renderer.resetState();
-    this.renderer.render(this.scene, this.camera);
-    this.renderer.resetState();
+    // Every geographic boundary resets Three's logical state AND its default-target viewport.
+    // The case offscreen pass may have changed both, including after MapLibre resizes.
+    try {
+      this.renderer.resetState();
+      this.renderer.setRenderTarget(null);
+      const gl = this.renderer.getContext(), ratio = this.renderer.getPixelRatio();
+      this.renderer.setViewport(0, 0, gl.drawingBufferWidth / ratio, gl.drawingBufferHeight / ratio);
+      this.renderer.setScissorTest(false);
+      if (this.graphicsFatal) return;
+      this.renderer.render(this.scene, this.camera);
+      this.renderer.resetState();
+    } catch (error) { this.failSharedRenderer(String(error)); return; }
     this.frames++;
     this.container.dataset.renderer = "maplibre-three-mercator";
     this.container.dataset.drawCalls = String(this.renderer.info.render.calls);
@@ -973,6 +1012,7 @@ export class EvidenceWorld {
     );
     this.container.dataset.centerLng = this.map.getCenter().lng.toFixed(6);
     this.container.dataset.centerLat = this.map.getCenter().lat.toFixed(6);
+    this.publishGeographicPose("geographic-render");
     const now = performance.now();
     if (now - this.lastMetric > 2000) {
       const seconds = this.lastMetric ? (now - this.lastMetric) / 1000 : 2;
@@ -1004,7 +1044,7 @@ export class EvidenceWorld {
     this.raf = requestAnimationFrame(this.tick);
     const delta = this.lastTick ? Math.min(100, now - this.lastTick) : 0;
     this.lastTick = now;
-    if (document.hidden || !this.ready) return;
+    if (document.hidden || !this.ready || this.workspaceActive || this.graphicsFatal) return;
     const j = this.journey;
     if (!j || j.paused) return;
     j.elapsed = Math.min(j.duration, j.elapsed + delta);
@@ -1058,7 +1098,42 @@ export class EvidenceWorld {
       this.cb.onJourney({ phase: "idle", progress: 1, edgeId: j.edgeId });
     }
   };
+  stopGeographicJourney() {
+    this.pendingCommand = null;
+    this.stop();
+  }
+  setWorkspaceActive(active: boolean) {
+    if (this.disposed || this.workspaceActive === active) return;
+    this.workspaceActive = active;
+    this.container.dataset.geographicWorkspaceActive = String(active);
+    this.stopGeographicJourney();
+    try {
+      if (active) {
+        this.workspaceSnapshot ??= captureGeography(this.map);
+        // A travel tick may have advanced the map since the last geographic draw.
+        // Observe live acquisition state independently of the restoration target.
+        this.publishGeographicPose("workspace-acquisition");
+        this.releaseGeography = suspendGeography(this.map, () => this.workspaceSnapshot!);
+      } else { const release = this.releaseGeography; this.releaseGeography = null; release?.(); this.workspaceSnapshot = null; }
+    } catch (error) { this.failSharedRenderer(String(error)); }
+    this.updateLabels(true);
+    this.map.triggerRepaint();
+  }
+  private failSharedRenderer(reason: string) {
+    if (this.disposed || this.graphicsFatal) return;
+    this.graphicsFatal = true; // synchronous: no later geographic Three render in this frame
+    this.container.dataset.graphicsFatal = "true";
+    this.stopGeographicJourney();
+    this.cb.onLabels([]);
+    queueMicrotask(() => { if (!this.disposed) this.cb.onFailure(reason); });
+  }
   dispose() {
+    if (this.disposed) return;
+    // The case adapter/layer must detach while the map and renderer still exist.
+    for (const cleanup of [...this.beforeGraphicsDispose]) try { cleanup(); } catch { this.graphicsFatal = true; }
+    this.beforeGraphicsDispose.clear();
+    this.releaseGeography = null; // a dying renderer/map does not restore input or focus
+    this.cb.onGraphics?.(null);
     this.disposed = true;
     this.journey = null;
     this.cb.onJourney({ phase: "idle", progress: 0, edgeId: null });
