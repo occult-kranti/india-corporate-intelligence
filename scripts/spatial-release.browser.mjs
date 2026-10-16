@@ -51,7 +51,7 @@ assert.deepEqual(activityGroups, ['completed', 'working', 'planned', 'blocked'])
 assert.deepEqual(activityLabels, { completed: 'Done', working: 'Working on', planned: 'Next', blocked: 'Blocked' });
 const requiredActivityStates = {
   'base-release': 'completed', 'historical-tutorial': 'completed',
-  'research-methods': 'review-pending', 'repository-audit': 'review-pending', 'source-reviews': 'review-pending',
+  'research-methods': 'review-pending', 'repository-audit': 'review-pending', 'source-reviews': 'completed',
   'cross-border-finance': 'review-pending', 'public-program-records': 'review-pending',
 };
 for (const [id, status] of Object.entries(requiredActivityStates)) assert.equal(activitySnapshot.tasks.find(task => task.id === id)?.status, status, `Dated release/review state: ${id}`);

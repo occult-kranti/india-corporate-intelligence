@@ -264,6 +264,7 @@ test('EvidenceWorld disposal emits idle and clears its journey without construct
   const instance = Object.create(EvidenceWorld.prototype);
   Object.assign(instance, {
     disposed: false, journey: { edgeId: 'audit:edge', paused: false }, raf: 0,
+    beforeGraphicsDispose: new Set(),
     cb: { onJourney: state => states.push(state) }, observer: { disconnect: () => calls.push('disconnect') },
     map: { getCanvas: () => ({ removeEventListener: () => calls.push('listener') }), remove: () => calls.push('map') },
     group: new THREE.Group(), curveGroup: new THREE.Group(), renderer: { dispose: () => calls.push('renderer') },

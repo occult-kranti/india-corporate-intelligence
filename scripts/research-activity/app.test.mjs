@@ -25,10 +25,10 @@ async function boot({data=source,ok=true,parseError=false}={}){
 }
 test('app renders validated snapshot, counts, evidence and milestones',async()=>{
  const $=await boot();assert.equal($('console-content').hidden,false);assert.equal($('tasks').children.length,9);assert.equal($('milestone-list').children.length,4);
- assert.match($('tasks').textContent,/PR9/);assert.match($('tasks').textContent,/PR12 is live at the verified 3032fd73 release/);assert.equal($('filters').children.length,5);
+ assert.match($('tasks').textContent,/PR9/);assert.match($('tasks').textContent,/PR13 merged at a4f6a04b and its source-correction release is live/);assert.equal($('filters').children.length,5);
 });
 test('filter/search/reset interactions retain truthful counts and keyboard-native controls',async()=>{
- const $=await boot();const working=$('filters').children.find(n=>n.dataset.status==='working');working.fire('click');assert.equal($('tasks').children.length,5);assert.equal(working.attributes['aria-pressed'],'true');
+ const $=await boot();const working=$('filters').children.find(n=>n.dataset.status==='working');working.fire('click');assert.equal($('tasks').children.length,4);assert.equal(working.attributes['aria-pressed'],'true');
  $('search').value='not a real task';$('search').fire('input');assert.equal($('tasks').children.length,0);assert.equal($('empty').hidden,false);
  $('search-form').fire('reset');assert.equal($('tasks').children.length,9);assert.equal($('search').value,'');assert.equal($('search').focused,true);assert.equal(working.attributes['aria-pressed'],'false');
 });
@@ -45,11 +45,11 @@ test('query text cannot create markup',async()=>{
 
 test('simple group labels and review-pending sublabels remain visible',async()=>{
  const $=await boot();
- assert.deepEqual($('filters').children.map(node=>node.textContent),['All work9','Done2','Working on5','Next1','Blocked1']);
+ assert.deepEqual($('filters').children.map(node=>node.textContent),['All work9','Done3','Working on4','Next1','Blocked1']);
  assert.match($('tasks').textContent,/Working on · Review pending/);
  assert.match($('tasks').textContent,/Working on · Source review pending/);
  assert.doesNotMatch($('filters').textContent,/Running|Review pending|Completed|Planned/);
- for(const [status,count] of [['completed',2],['working',5],['planned',1],['blocked',1],['all',9]]){
+ for(const [status,count] of [['completed',3],['working',4],['planned',1],['blocked',1],['all',9]]){
   $('filters').children.find(node=>node.dataset.status===status).fire('click');
   assert.equal($('tasks').children.length,count);
   assert.match($('result-count').textContent,new RegExp('^'+count+' of 9 items shown'));
@@ -58,8 +58,8 @@ test('simple group labels and review-pending sublabels remain visible',async()=>
 test('repeated search resets and status changes preserve totals',async()=>{
  const $=await boot();
  for(let i=0;i<3;i++){
-  $('filters').children.find(node=>node.dataset.status==='working').fire('click');
-  $('search').value='Pr12';$('search').fire('input');assert.equal($('tasks').children.length,1);
+  $('filters').children.find(node=>node.dataset.status==='completed').fire('click');
+  $('search').value='Pr13';$('search').fire('input');assert.equal($('tasks').children.length,1);
   $('search-form').fire('reset');assert.equal($('tasks').children.length,9);
   assert.equal($('filters').children.find(node=>node.dataset.status==='all').attributes['aria-pressed'],'true');
  }

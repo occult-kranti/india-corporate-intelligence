@@ -1883,3 +1883,11 @@ svg {
 .reader-collections a { color: #f2d99f; text-decoration: underline; text-underline-offset: 3px; }
 .reader-collections a:focus-visible { outline: 3px solid #f2d99f; outline-offset: 5px; }
 .reader-collections a span { font-size: 12px; }
+
+/* Deferred selected-case workspace launcher and chunk-failure boundary. */
+.selected-cases-launcher { font: inherit; border: 0; cursor: pointer; background: transparent; padding: 0; text-align: left; }
+.case-load-note { position: fixed; z-index: 100; inset: 12% max(16px, 12vw); overflow: auto; padding: 24px; background: #eee6d1; color: #183d2c; border: 1px solid #c5b988; border-radius: 8px; }
+.case-load-note button { padding: 10px 14px; color: #fff5dc; background: #214b36; }
+
+.atlas-workspace-links .selected-cases-launcher { font-size: 10px; min-height: 24px; }
+@media(max-width:600px) { .atlas-workspace-links .selected-cases-launcher { font-size: 9px; } }

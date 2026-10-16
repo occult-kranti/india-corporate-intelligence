@@ -422,9 +422,10 @@ This platform maps public records and published claims about the conduct of publ
 matter of legitimate public interest. It asserts no guilt. Allegations are identified as allegations,
 attributed, and paired with the response of those they concern. No node adjudicates a quid pro quo.
 
-The **documented void** — the largest beneficiaries in the case-study graph carrying no traceable
-political donations at all — is rendered as loudly as any flow. A graph that can only show what exists
-systematically overstates the case.
+For the cases covered by the [source-scope corrections](spatial-prototype/docs/source-scope-corrections.md),
+the reviewed public sources do not establish a complete political-donation history. Their limits remain
+visible beside the retained records. Missing evidence proves neither that no payment occurred nor that
+a payment was concealed.
 
 ## Licence
 

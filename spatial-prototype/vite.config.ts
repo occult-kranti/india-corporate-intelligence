@@ -5,6 +5,7 @@ export default defineConfig({
   base: "./",
   build: {
     sourcemap: true,
+    manifest: true,
     rollupOptions: { output: { manualChunks: { scene: ["three"] } } },
   },
 });

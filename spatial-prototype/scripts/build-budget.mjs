@@ -1,3 +1,4 @@
+import { caseBuildBudget } from './case-build-budget.mjs';
 import assert from 'node:assert/strict';
 import { readFile, readdir, writeFile } from 'node:fs/promises';
 import { gzipSync } from 'node:zlib';
@@ -64,6 +65,7 @@ const initialBytes = initial.reduce((sum, path) => sum + inputs[path].bytes, 0);
 assert.ok(initialBytes <= 220000, `Initial static closure exceeds 220000 bytes: ${initialBytes}`);
 const loading = { initial, initialBytes, reviewPrompt: prompt, reviewReader: reader, accessibleApp: app,
   historicalPayloadDeferred: true, sectorPayloadDeferred: true, sectorPrompt, sectorReader, publicGraphStatus: 'PUBLIC_GRAPH_BLOCKED' };
-const report = { entry, chunks: reports, geometry, loading, registry: { bytes: registry.sourceSnapshot.bytes, chunks: registry.totalChunks }, caveat: 'Build byte counts only. gzip sizes are estimates, not measured network transfers. CI software WebGL is not a device FPS benchmark.' };
+const caseWorkspace = await caseBuildBudget('dist');
+const report = { caseWorkspace, entry, chunks: reports, geometry, loading, registry: { bytes: registry.sourceSnapshot.bytes, chunks: registry.totalChunks }, caveat: 'Build byte counts only. gzip sizes are estimates, not measured network transfers. CI software WebGL is not a device FPS benchmark.' };
 await writeFile('dist/build-budget.json', JSON.stringify(report, null, 2)+'\n');
 console.log(`Loading budgets passed: entry ${reports[0].bytes} raw bytes; heavy map JavaScript and geometry deferred.`);

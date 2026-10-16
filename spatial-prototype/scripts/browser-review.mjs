@@ -32,6 +32,8 @@ import { runSectorBrowserCases } from "./sector-browser-review.mjs";
 import { measureReaderLayout, exerciseReaderScroll } from "./reader-layout-review.mjs";
 import { expectedHistoricalReview } from "./browser-review-mode.mjs";
 import { runSourceCorrectionBrowserCases } from "./source-correction-browser.mjs";
+import { runCaseWorkspaceBrowserCases } from "./case-workspace-browser.mjs";
+import { runCaseGraphicsBrowserCases } from "./case-graphics-browser.mjs";
 
 if (
   process.env.GITHUB_ACTIONS !== "true" ||
@@ -1328,7 +1330,7 @@ async function scenario(name, options, work) {
   try {
     context = await browser.newContext({
       viewport: options.viewport ?? viewport,
-      deviceScaleFactor: 1,
+      deviceScaleFactor: options.deviceScaleFactor ?? 1,
       hasTouch: options.touch === true,
       reducedMotion: options.reducedMotion ? "reduce" : "no-preference",
       acceptDownloads: true,
@@ -3952,6 +3954,10 @@ try {
     }
     result.notes.push("Both named keyboard-scroll regions kept Close in a separate non-scrolling row at top/middle/bottom and inside long source text. PageDown, visible focus, Escape/focus return, collection jumps and nested horizontal bounds passed at 320px and a 640×450 effective viewport. The latter covers the layout space of 200% zoom on 1280×900; it is not a browser-chrome zoom automation claim.");
   });
+
+  const caseReviewContext = { root, dist, output, origin, prefix, scenario, capture, assertFullLoad, assertReaderOnly, assertSpatial, assertCountryBase, until, report, temporary };
+  await runCaseWorkspaceBrowserCases(caseReviewContext);
+  await runCaseGraphicsBrowserCases(caseReviewContext);
 
 } catch (error) {
   report.setupError = error.stack ?? String(error);
