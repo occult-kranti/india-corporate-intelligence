@@ -483,9 +483,14 @@ export default function App({
               ? "Complete original registry · India app retained snapshot"
               : "Selected preview subset · 48 items"}
           </p>
-          <a className="original-app-link" href="../#/investigate">
-            Original investigation pages ↗
-          </a>
+          <nav className="atlas-workspace-links" aria-label="Connected workspaces">
+            <a className="original-app-link" href="../#/investigate">
+              Original investigation pages ↗
+            </a>
+            <a className="original-app-link" href="../research-activity/">
+              Research activity ↗
+            </a>
+          </nav>
         </div>
         <span className="prototype-badge">
           {dataset === "full" ? "REVIEW" : "PREVIEW"}

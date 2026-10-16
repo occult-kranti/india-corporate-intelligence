@@ -346,3 +346,19 @@ test('missing Web Crypto fails closed before any review dataset is admitted', as
   }
   assert.equal(hash(original), before);
 });
+
+test('retained retrieval timestamp stays exact and day-only fallback never claims an instant', () => {
+  const source = overlay.additions.sources.find(row => row.id.endsWith('OF-S04'));
+  const provenance = overlay.provenance.find(row => row.sourceId === source.id);
+  assert.equal(panel.retainedRetrieval(source, provenance), '2026-10-15T22:28Z (instant precision)');
+  assert.match(html, /Retained retrieval<\/dt><dd>2026-10-15T22:28Z \(instant precision\)/);
+  assert.doesNotMatch(html, /2026-10-15T22:28:00Z|2026-10-15 \(instant precision\)/);
+  assert.equal(panel.retainedRetrieval({...source, retrievedAt:null}, provenance), '2026-10-15 (day precision)');
+  assert.equal(panel.retainedRetrieval({...source, retrievedAt:'2026-10-15'}, provenance), '2026-10-15 (day precision)');
+  for (const row of overlay.additions.sources.filter(row => !row.retrievedAt)) {
+    assert.equal(panel.retainedRetrieval(row, overlay.provenance.find(p => p.sourceId === row.id)), '2026-10-15 (day precision)');
+  }
+  assert.equal(hash(additionsText), adapter.PINNED_ADDITIONS_SHA256);
+  assert.equal(hash(provenanceText), adapter.PINNED_PROVENANCE_SHA256);
+  assert.equal(hash(original), before);
+});

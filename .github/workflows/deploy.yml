@@ -41,7 +41,7 @@ jobs:
         run: node scripts/spatial-release-validate.mjs --preflight
 
       - name: Spatial release integration guards
-        run: node --test scripts/spatial-release-validate.test.mjs scripts/spatial-release.browser.test.mjs
+        run: node --test scripts/spatial-release-validate.test.mjs scripts/spatial-release.browser.test.mjs scripts/research-activity/*.test.mjs
 
       - name: Exact original spatial registry, loader and model checks
         working-directory: spatial-prototype

@@ -809,7 +809,7 @@ async function assertHistoricalReader(page, result) {
           provenance.reportingPeriod,
           provenance.documentDate ?? "Unverified",
           "Unverified; not inferred from URL or retrieval date",
-          `${provenance.retrievalDate} (${provenance.retrievalPrecision} precision)`,
+          source.retrievedAt ? `${source.retrievedAt} (${provenance.retrievalPrecision} precision)` : `${provenance.retrievalDate} (day precision)`,
           normalized(source.locator),
         ],
       );

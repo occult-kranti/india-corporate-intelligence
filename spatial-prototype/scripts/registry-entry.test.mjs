@@ -204,3 +204,11 @@ test('App is a dynamic split point; the loading entry does not statically import
   assert.match(source, /lazy\(\(\) => import\('\.\/App'\)\)/);
   assert.match(source, /if \(dataset === 'preview'\) return;/, 'preview skips the full-registry loading effect');
 });
+
+test('dated activity navigation stays relative and separate from evidence state', async () => {
+  const app = await readFile('src/App.tsx', 'utf8');
+  assert.match(app, /<nav className="atlas-workspace-links" aria-label="Connected workspaces">/);
+  assert.match(app, /href="\.\.\/research-activity\/"/);
+  assert.match(app, /href="\.\.\/#\/investigate"/);
+  assert.doesNotMatch(app, /research-activity\/snapshot|activity-console\/|fetch\([^]*research-activity/);
+});

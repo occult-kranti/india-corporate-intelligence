@@ -36,3 +36,9 @@ Build budgets retain all existing limits and add 12 KB for the prompt, 20 KB for
 ## Required before a release decision
 
 Inspect actual next-head browser artifacts separately: identity/date/qualifier rendering, every primary-source destination, exact original IRB route versus overview-only fallbacks, default/full and preview, flag/query/click gates, repeat/retry/cancel/Escape/focus, Back/Forward, mobile wrapping, timeline independence, no-WebGL reader and unchanged factual marks/paths and base denominators. Static success does not clear PUBLIC_GRAPH_BLOCKED. No local browser review is claimed by this integration.
+
+## Retrieval display correction and scoped decision
+
+The reader preserves OF-S04's retained `2026-10-15T22:28Z` retrieval timestamp verbatim. Day-only provenance displays the day with day precision; no seconds are synthesized. Source payload hashes stay unchanged.
+
+Assistant source/diff/render inspection accepted the nine qualified claims for a future explicit opt-in public reader on 2026-10-16. This release retains the disabled-by-default candidate build contract. A separate reader-admission manifest and deployment/entry-point checks are the bounded next change. Graph/path admission remains false and original holds remain intact. This is not admission of any other frozen-packet claims.

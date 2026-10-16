@@ -6,6 +6,14 @@ import { reviewOriginalDestination, withoutHistoricalReview } from './adapter';
 import type { HistoricalReviewOverlay, SourceProvenance } from './adapter';
 import './review.css';
 
+export function retainedRetrieval(source: InvestigationSource, provenance: SourceProvenance) {
+  // Preserve the retained timestamp verbatim, including its original precision.
+  // Day-only provenance never acquires a time merely from a precision label.
+  return source.retrievedAt
+    ? `${source.retrievedAt} (${source.retrievedAt.includes('T') ? provenance.retrievalPrecision : 'day'} precision)`
+    : `${provenance.retrievalDate} (day precision)`;
+}
+
 function Citation({ source, provenance }: { source: InvestigationSource; provenance: SourceProvenance }) {
   return <article className="historical-source" data-source-id={source.id}>
     <h4><a href={safeSourceUrl(source.url) ?? undefined} target="_blank" rel="noopener noreferrer">{source.title}</a></h4>
@@ -14,7 +22,7 @@ function Citation({ source, provenance }: { source: InvestigationSource; provena
       <dt>Reporting period</dt><dd>{provenance.reportingPeriod}</dd>
       <dt>Document / MD&amp;A date</dt><dd>{provenance.documentDate ?? 'Unverified'}</dd>
       <dt>First publication</dt><dd>Unverified; not inferred from URL or retrieval date</dd>
-      <dt>Retained retrieval</dt><dd>{provenance.retrievalDate} ({provenance.retrievalPrecision} precision)</dd>
+      <dt>Retained retrieval</dt><dd>{retainedRetrieval(source, provenance)}</dd>
       <dt>Page / section locator</dt><dd>{source.locator}</dd>
     </dl>
     <ul>{source.limitations.map(limit => <li key={limit}>{limit}</li>)}</ul>

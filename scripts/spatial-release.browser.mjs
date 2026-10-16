@@ -6,7 +6,7 @@ import { createServer } from 'node:http';
 import { createReadStream } from 'node:fs';
 import { mkdir, readFile, realpath, stat, writeFile } from 'node:fs/promises';
 import { dirname, extname, isAbsolute, join, relative, resolve, sep } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { setTimeout as delay } from 'node:timers/promises';
 
 if (process.env.GITHUB_ACTIONS !== 'true' || process.env.SPATIAL_RELEASE_REVIEW !== 'github-actions') {
@@ -21,6 +21,7 @@ const output = join(root, 'spatial-release-review');
 await mkdir(output, { recursive: true });
 const base = '/india-corporate-intelligence/';
 const spatial = `${base}spatial/`;
+const activity = `${base}research-activity/`;
 const registryDirectory = join(dist, 'spatial/data/registry');
 const manifestBytes = await readFile(join(registryDirectory, 'manifest.json'));
 const manifest = JSON.parse(manifestBytes);
@@ -32,11 +33,37 @@ for (const group of manifest.arrays) for (const chunk of group.chunks) {
   registry[group.key].push(...JSON.parse(await readFile(join(registryDirectory, chunk.file))));
 }
 
+// Vite copies this independent static runtime without transforming it. Check the
+// reviewed public source, the built bytes, and actual browser responses separately.
+const activityFiles = ['index.html', 'styles.css', 'app.mjs', 'model.mjs', 'snapshot.json'];
+const expectedActivityData = new Map();
+for (const file of activityFiles) {
+  const source = await readFile(join(root, 'public/research-activity', file));
+  const built = await readFile(join(dist, 'research-activity', file));
+  assert.deepEqual(built, source, `Research activity build/source mismatch: ${file}`);
+  const contentType = file.endsWith('.html') ? 'text/html' : file.endsWith('.css') ? 'text/css' : file.endsWith('.json') ? 'application/json' : 'text/javascript';
+  expectedActivityData.set(file === 'index.html' ? activity : `${activity}${file}`, { sha256: hash(source), bytes: source.length, contentType });
+}
+const activitySnapshot = JSON.parse(await readFile(join(root, 'public/research-activity/snapshot.json')));
+const { validateSnapshot, GROUPS: activityGroups, GROUP_LABELS: activityLabels } = await import(pathToFileURL(join(root, 'public/research-activity/model.mjs')).href);
+assert.deepEqual(validateSnapshot(activitySnapshot), { valid: true, errors: [] }, 'The published activity snapshot must validate before browser review');
+assert.deepEqual(activityGroups, ['completed', 'working', 'planned', 'blocked']);
+assert.deepEqual(activityLabels, { completed: 'Done', working: 'Working on', planned: 'Next', blocked: 'Blocked' });
+const requiredActivityStates = {
+  'base-release': 'completed', 'historical-tutorial': 'review-pending',
+  'research-methods': 'review-pending', 'repository-audit': 'review-pending', 'source-reviews': 'blocked',
+  'cross-border-finance': 'review-pending', 'public-program-records': 'review-pending',
+};
+for (const [id, status] of Object.entries(requiredActivityStates)) assert.equal(activitySnapshot.tasks.find(task => task.id === id)?.status, status, `Dated release/review state: ${id}`);
+for (const id of ['cross-border-finance', 'public-program-records']) assert.equal(activitySnapshot.tasks.find(task => task.id === id)?.reviewStage, 'source-review', `Source-review qualification: ${id}`);
+assert.equal(activitySnapshot.tasks.filter(task => task.status === 'running').length, 0, 'Reviewed work must not remain indefinitely running in this dated snapshot');
+
 const report = {
   startedAt: new Date().toISOString(), commit: process.env.GITHUB_SHA ?? null,
   headCommit: process.env.SPATIAL_HEAD_SHA ?? null, basePath: base,
   snapshotSha256: manifest.sourceSnapshot.sha256, manifestSha256: hash(manifestBytes),
   counts: manifest.counts, scenarios: [], serverRequests: [],
+  activity: { asOf: activitySnapshot.asOf, taskCount: activitySnapshot.tasks.length, milestoneCount: activitySnapshot.milestones.length, sourceFiles: Object.fromEntries(expectedActivityData) },
   scope: 'Combined output navigation and immutable-source checks. CI screenshots require visual/interaction inspection; this is not deployment approval or a device performance benchmark.',
 };
 let browser;
@@ -122,6 +149,173 @@ async function fullReady(page, result) {
   assert.match(await page.locator('.masthead').innerText(), /Complete original registry.*retained snapshot/s);
 }
 
+async function activityReady(page, result) {
+  await page.locator('#console-content:not([hidden])').waitFor();
+  assert.equal(new URL(page.url()).pathname, activity);
+  assert.equal(await page.title(), 'Research Activity · Olympus');
+  assert.equal(await page.getByRole('main').count(), 1);
+  assert.equal(await page.getByRole('heading', { level: 1 }).count(), 1);
+  assert.match(await page.getByRole('heading', { level: 1 }).innerText(), /Research\s*Activity/);
+  assert.equal(await page.locator('#error').isHidden(), true);
+  assert.equal(await page.locator('#scope').innerText(), activitySnapshot.scope);
+  assert.equal(await page.locator('#as-of').getAttribute('datetime'), activitySnapshot.asOf);
+  assert.match(await page.locator('#as-of').innerText(), /UTC$/);
+  assert.equal(await page.locator('.snapshot-label').innerText(), 'Snapshot, not live');
+  assert.equal(await page.locator('#total-count').innerText(), `${activitySnapshot.tasks.length} tracked items`);
+  assert.equal(await page.locator('#milestone-list > li').count(), activitySnapshot.milestones.length);
+  assert.equal(await page.locator('#result-count').getAttribute('aria-live'), 'polite');
+  const age = await page.evaluate(asOf => Date.now() - Date.parse(asOf), activitySnapshot.asOf);
+  const warning = age < 0 ? 'The snapshot timestamp is ahead of this device’s clock. Confirm the date before relying on status.'
+    : age > activitySnapshot.freshnessHours * 3600000 ? `This snapshot is more than ${activitySnapshot.freshnessHours} hours old. Recheck sources before relying on task or release status.`
+      : 'Dated snapshot only. Updates record reviewed roadmap progress. “Working on” can include review pending; it does not indicate live worker activity. Recheck sources before release decisions.';
+  assert.equal(await page.locator('#freshness').innerText(), warning);
+  assert.equal(await page.locator('#freshness').getAttribute('role'), 'status');
+  await until(async () => [...expectedActivityData.keys()].every(path => result.verifiedActivityPaths.has(path)) && result.activityVerificationPending === 0, 'The browser did not receive every source-identical research activity runtime file');
+}
+
+async function activityRows(page, status = 'all', query = '') {
+  const needle = query.trim().toLocaleLowerCase();
+  const expected = activitySnapshot.tasks.filter(task => (status === 'all' || (task.status === 'review-pending' ? 'working' : task.status) === status) && [task.title, task.question, task.role, task.summary, task.nextAction, ...task.evidence.map(item => item.title)].join(' ').toLocaleLowerCase().includes(needle));
+  assert.deepEqual(await page.locator('#tasks > article').evaluateAll(rows => rows.map(row => row.id)), expected.map(task => `task-${task.id}`));
+  assert.equal(await page.locator('#result-count').innerText(), `${expected.length} of ${activitySnapshot.tasks.length} items shown${status === 'all' ? '' : ` · ${activityLabels[status]}`}`);
+  assert.equal(await page.locator('#empty').isVisible(), expected.length === 0);
+  for (const filter of ['all', ...activityGroups]) {
+    const button = page.locator(`#filters button[data-status="${filter}"]`);
+    assert.equal(await button.getAttribute('aria-pressed'), String(filter === status));
+    assert.equal(Number(await button.locator('.filter-count').innerText()), filter === 'all' ? activitySnapshot.tasks.length : activitySnapshot.tasks.filter(task => (task.status === 'review-pending' ? 'working' : task.status) === filter).length);
+  }
+  for (const task of expected) {
+    const card = page.locator(`#task-${task.id}`);
+    assert.equal(await card.getByRole('heading', { level: 3 }).innerText(), task.title);
+    assert.equal(await card.locator('.badge').innerText(), `${activityLabels[task.status === 'review-pending' ? 'working' : task.status]}${task.status === 'review-pending' ? (task.reviewStage === 'source-review' ? ' · Source review pending' : ' · Review pending') : ''}`);
+    assert.equal(await card.locator('time').getAttribute('datetime'), task.lastChecked);
+    assert.match(await card.locator('time').innerText(), /^Checked .+ UTC$/);
+    assert.equal(await card.locator('.question').innerText(), task.question);
+    assert.equal(await card.locator('.summary').innerText(), task.summary);
+    assert.equal(await card.locator('.next-action').innerText(), `NEXT ACTION\n${task.nextAction}`);
+    if (task.completion) assert.equal(await card.locator('.verification').innerText(), `Verification: ${task.completion.note}`);
+    const references = card.locator('.evidence > li');
+    assert.equal(await references.count(), task.evidence.length);
+    for (const [index, evidence] of task.evidence.entries()) {
+      const reference = references.nth(index);
+      if (evidence.url) {
+        const link = reference.getByRole('link');
+        assert.equal(await link.getAttribute('href'), evidence.url);
+        assert.match(evidence.url, /^https:\/\/github\.com\/occult-kranti\/india-corporate-intelligence\/pull\/[1-9]\d*$/);
+        assert.equal(await link.getAttribute('target'), null, 'Public references should use same-tab navigation');
+        assert.equal(await link.getAttribute('rel'), 'noopener noreferrer');
+      } else {
+        assert.equal(await reference.getByRole('link').count(), 0);
+        assert.equal(await reference.innerText(), `${evidence.title} · title only`);
+      }
+    }
+  }
+}
+
+async function activityLayout(page, result, label) {
+  const frame = await page.evaluate(() => ({
+    viewport: { width: innerWidth, height: innerHeight }, scrollWidth: document.documentElement.scrollWidth,
+    controls: [...document.querySelectorAll('#filters button, #search, .reset')].map(node => ({ width: node.getBoundingClientRect().width, height: node.getBoundingClientRect().height })),
+    text: [...document.querySelectorAll('#freshness, #as-of, #tasks .badge, #tasks time, #tasks .question, #tasks .next-action')].map(node => {
+      const box = node.getBoundingClientRect(); const style = getComputedStyle(node);
+      return { text: node.textContent, width: box.width, left: box.left, right: box.right, fontSize: parseFloat(style.fontSize), visible: style.display !== 'none' && style.visibility === 'visible' && Number(style.opacity) > 0 };
+    }),
+    reducedMotion: matchMedia('(prefers-reduced-motion: reduce)').matches,
+    scrollBehavior: getComputedStyle(document.documentElement).scrollBehavior,
+    animatedElements: [...document.querySelectorAll('*')].filter(node => getComputedStyle(node).animationName !== 'none').length,
+  }));
+  assert.ok(frame.scrollWidth <= frame.viewport.width + 1, 'Research activity must not overflow horizontally');
+  assert.ok(frame.controls.every(control => control.width > 0 && control.height >= 44), 'Activity controls must remain operable on small screens');
+  assert.ok(frame.text.length > 0 && frame.text.every(text => text.visible && text.width > 0 && text.fontSize >= 10 && text.left >= -1 && text.right <= frame.viewport.width + 1), 'Snapshot warnings, dates and task metadata must remain readable and unclipped');
+  assert.equal(frame.reducedMotion, true);
+  assert.equal(frame.scrollBehavior, 'auto');
+  assert.equal(frame.animatedElements, 0, 'Activity status must not pulse or imply live worker activity');
+  (result.activityLayouts ??= []).push({ label, ...frame });
+}
+
+async function focused(page, selector) {
+  assert.equal(await page.locator(selector).evaluate(node => node === document.activeElement), true, `Keyboard focus must reach ${selector}`);
+  const outline = await page.locator(selector).evaluate(node => { const style = getComputedStyle(node); return { width: parseFloat(style.outlineWidth), style: style.outlineStyle }; });
+  assert.ok(outline.width >= 2 && outline.style !== 'none', `Visible keyboard focus required on ${selector}`);
+}
+
+async function atlasActivityNavigation(page, result, mode) {
+  const frame = await page.evaluate(() => {
+    const sample = node => {
+      if (!node) return null;
+      const box = node.getBoundingClientRect(); const style = getComputedStyle(node);
+      return { ...box.toJSON(), visible: style.display !== 'none' && style.visibility === 'visible' && Number(style.opacity) > 0 };
+    };
+    const link = document.querySelector('.atlas-workspace-links a[href="../research-activity/"]');
+    const box = link?.getBoundingClientRect();
+    const hit = box ? document.elementFromPoint(box.x + box.width / 2, box.y + box.height / 2) : null;
+    return { viewport: { width: innerWidth, height: innerHeight }, header: sample(document.querySelector('.masthead')), link: sample(link), linkHit: Boolean(link && (link === hit || link.contains(hit))), status: sample(document.querySelector('.scene-overview')), reading: sample(document.querySelector('.reading-surface')) };
+  });
+  assert.ok(frame.header?.visible && frame.link?.visible && frame.linkHit, 'The atlas Research activity link must be visible and hit-testable');
+  assert.ok(frame.link.width > 0 && frame.link.height >= 24 && frame.link.left >= 0 && frame.link.top >= 0 && frame.link.right <= frame.viewport.width && frame.link.bottom <= frame.viewport.height, 'Atlas activity navigation must fit within the viewport with a 24px minimum target height');
+  const surface = mode === 'reading' ? frame.reading : frame.status;
+  assert.ok(surface?.visible, `The ${mode} surface must be present for header overlap review`);
+  if (surface.left < frame.header.right && surface.right > frame.header.left) {
+    assert.ok(surface.top >= frame.header.bottom || surface.bottom <= frame.header.top, `The atlas header must not overlap the visible ${mode} surface at ${frame.viewport.width}px`);
+  }
+  (result.atlasNavigationLayouts ??= []).push({ mode, ...frame });
+}
+
+async function exerciseActivityKeyboard(page, result) {
+  await page.keyboard.press('Tab');
+  await focused(page, '.skip');
+  await page.keyboard.press('Enter');
+  assert.equal(new URL(page.url()).hash, '#work');
+  assert.equal(await page.locator('#work').evaluate(node => node === document.activeElement), true);
+  for (const [index, status] of ['all', ...activityGroups].entries()) {
+    await page.keyboard.press('Tab');
+    await focused(page, `#filters button[data-status="${status}"]`);
+    await page.keyboard.press(index % 2 ? 'Space' : 'Enter');
+    await activityRows(page, status);
+  }
+  await page.keyboard.press('Tab');
+  await focused(page, '#search');
+  const blocked = activitySnapshot.tasks.find(task => task.status === 'blocked');
+  const query = blocked.title.toUpperCase();
+  await page.keyboard.type(query);
+  await activityRows(page, 'blocked', query);
+  assert.ok(await page.locator('#tasks > article').count() >= 1, 'Uppercase search must match a blocked task');
+  const beforeSubmit = page.url();
+  await page.keyboard.press('Enter');
+  assert.equal(page.url(), beforeSubmit, 'Search must stay local rather than submitting or navigating');
+  await page.keyboard.press('ControlOrMeta+A');
+  await page.keyboard.type('ci-no-matching-work-47c8c9a2');
+  await activityRows(page, 'blocked', 'ci-no-matching-work-47c8c9a2');
+  await page.getByRole('heading', { name: 'No work matches these filters.', exact: true }).waitFor();
+  await capture(page, result, 'keyboard-empty-search');
+  for (const key of ['Enter', 'Space']) {
+    await page.keyboard.press('Tab');
+    await focused(page, '.reset');
+    await page.keyboard.press(key);
+    await focused(page, '#search');
+    assert.equal(await page.locator('#search').inputValue(), '');
+    await activityRows(page);
+  }
+  // Repeat lane changes and confirm reset removes both the lane and query.
+  await page.keyboard.press('Shift+Tab');
+  await focused(page, '#filters button[data-status="blocked"]');
+  await page.keyboard.press('Space');
+  await activityRows(page, 'blocked');
+  await page.keyboard.press('Shift+Tab');
+  await focused(page, '#filters button[data-status="planned"]');
+  await page.keyboard.press('Enter');
+  await activityRows(page, 'planned');
+  for (let index = 0; index < 3; index += 1) await page.keyboard.press('Tab');
+  await focused(page, '.reset');
+  await page.keyboard.press('Enter');
+  await focused(page, '#search');
+  await activityRows(page);
+  await page.keyboard.press('Tab');
+  await page.keyboard.press('Tab');
+  const firstEvidence = page.locator('#tasks .evidence a').first();
+  assert.equal(await firstEvidence.evaluate(node => node === document.activeElement), true, 'Keyboard must reach public evidence links after reset');
+}
+
 function retainedSourceRouteItems(registry) {
   const held = new Set(registry.held.map(row => row.id));
   return ['/finance', '/energy'].map(route => {
@@ -170,12 +364,13 @@ async function captureFullMap(page, result, name) {
 }
 
 async function scenario(name, viewport, work) {
-  const result = { name, viewport, status: 'running', screenshots: [], pageErrors: [], responses: [], failedRequests: [], verifiedRegistryPaths: new Set(), verificationErrors: [] };
+  const result = { name, viewport, status: 'running', screenshots: [], pageErrors: [], responses: [], failedRequests: [], verifiedRegistryPaths: new Set(), verificationErrors: [], requests: [], verifiedActivityPaths: new Set(), activityVerificationErrors: [], activityVerificationPending: 0 };
   report.scenarios.push(result);
   const context = await browser.newContext({ viewport, reducedMotion: 'reduce', deviceScaleFactor: 1 });
   context.setDefaultTimeout(45000);
   const page = await context.newPage();
   const pending = new Set();
+  page.on('request', request => result.requests.push({ url: request.url(), type: request.resourceType(), method: request.method() }));
   page.on('pageerror', error => result.pageErrors.push(error.stack ?? error.message));
   page.on('requestfailed', request => result.failedRequests.push({ url: request.url(), type: request.resourceType(), error: request.failure()?.errorText }));
   page.on('response', response => {
@@ -194,12 +389,25 @@ async function scenario(name, viewport, work) {
       }).catch(error => result.verificationErrors.push(error.message)).finally(() => pending.delete(verification));
       pending.add(verification);
     }
+    const expectedActivity = expectedActivityData.get(url.pathname);
+    if (expectedActivity) {
+      result.activityVerificationPending += 1;
+      const verification = response.body().then(bytes => {
+        assert.equal(response.status(), 200, url.pathname);
+        assert.equal(record.contentType.split(';')[0], expectedActivity.contentType, url.pathname);
+        assert.equal(bytes.length, expectedActivity.bytes, url.pathname);
+        assert.equal(hash(bytes), expectedActivity.sha256, url.pathname);
+        result.verifiedActivityPaths.add(url.pathname);
+      }).catch(error => result.activityVerificationErrors.push(error.message)).finally(() => { result.activityVerificationPending -= 1; pending.delete(verification); });
+      pending.add(verification);
+    }
   });
   let deadline;
   try {
     await Promise.race([work(page, result), new Promise((_, reject) => { deadline = setTimeout(() => reject(new Error('Combined navigation scenario exceeded 150 seconds')), 150000); })]);
     await Promise.all([...pending]);
     assert.deepEqual(result.verificationErrors, [], 'Browser-served registry identity failures');
+    assert.deepEqual(result.activityVerificationErrors, [], 'Browser-served research activity source identity failures');
     assert.deepEqual(result.pageErrors, [], 'Unexpected application runtime errors');
     const failedLocal = result.responses.filter(response => response.status >= 400 && !new URL(response.url).pathname.endsWith('/favicon.ico'));
     assert.deepEqual(failedLocal, [], 'Missing combined-output documents or assets');
@@ -217,6 +425,7 @@ async function scenario(name, viewport, work) {
     await context.close();
     await Promise.all([...pending]);
     result.verifiedRegistryPaths = [...result.verifiedRegistryPaths];
+    result.verifiedActivityPaths = [...result.verifiedActivityPaths];
     console.log(`${result.status.toUpperCase()}: ${name}`);
   }
 }
@@ -304,17 +513,131 @@ try {
     assert.equal(result.responses.filter(response => new URL(response.url).pathname.startsWith(`${spatial}data/registry/`)).length, 0, 'Explicit preview unexpectedly fetched the complete registry');
     await capture(page, result, 'deliberate-preview-remains-labeled');
   });
+
+  for (const [name, viewport, menu] of [
+    ['desktop-research-activity-and-workspaces', { width: 1440, height: 1000 }, 'Open all lenses and registers'],
+    ['mobile-research-activity-and-workspaces', { width: 390, height: 844 }, 'Open navigation'],
+  ]) await scenario(name, viewport, async (page, result) => {
+    await page.goto(`${origin}${activity}`, { waitUntil: 'domcontentloaded' });
+    await activityReady(page, result);
+    await activityRows(page);
+    await activityLayout(page, result, 'initial');
+    await capture(page, result, 'dated-roadmap-overview');
+    await exerciseActivityKeyboard(page, result);
+
+    let expectedSnapshotLoads = 1;
+    if (name.startsWith('desktop')) {
+      // Change only the isolated browser's clock; production snapshot bytes stay
+      // untouched and continue to pass response identity checks on every reload.
+      result.clockFixtures = [];
+      for (const [state, milliseconds] of [
+        ['stale', Date.parse(activitySnapshot.asOf) + activitySnapshot.freshnessHours * 3600000 + 60000],
+        ['future', Date.parse(activitySnapshot.asOf) - 60000],
+      ]) {
+        await page.clock.setFixedTime(new Date(milliseconds));
+        await page.reload({ waitUntil: 'domcontentloaded' });
+        expectedSnapshotLoads += 1;
+        await activityReady(page, result);
+        await activityRows(page);
+        assert.equal(await page.locator('#freshness').evaluate(node => node.classList.contains('stale')), true);
+        await page.locator('#freshness').scrollIntoViewIfNeeded();
+        await capture(page, result, `clock-fixture-${state}`);
+        result.clockFixtures.push({ state, deviceTime: new Date(milliseconds).toISOString(), snapshotAsOf: activitySnapshot.asOf, sourceBytesUnchanged: true });
+      }
+      await page.clock.setFixedTime(new Date());
+      await page.reload({ waitUntil: 'domcontentloaded' });
+      expectedSnapshotLoads += 1;
+      await activityReady(page, result);
+    } else {
+      await page.setViewportSize({ width: 320, height: 844 });
+      await activityLayout(page, result, 'narrow-320px');
+      await page.locator('#work').scrollIntoViewIfNeeded();
+      await capture(page, result, 'narrow-320px-reflow');
+      await page.setViewportSize(viewport);
+    }
+
+    const consoleRequests = [...result.requests];
+    assert.deepEqual(consoleRequests.filter(request => {
+      const url = new URL(request.url);
+      return request.method !== 'GET' || url.origin !== origin || (!expectedActivityData.has(url.pathname) && url.pathname !== '/favicon.ico');
+    }), [], 'The activity console must request only its local static runtime and snapshot before navigation');
+    assert.equal(consoleRequests.filter(request => new URL(request.url).pathname === `${activity}snapshot.json`).length, expectedSnapshotLoads, 'Snapshot reads must correspond to explicit page loads, without polling');
+    result.activityRequestsBeforeNavigation = consoleRequests;
+    assert.deepEqual(await page.evaluate(() => ({ local: localStorage.length, session: sessionStorage.length })), { local: 0, session: 0 }, 'The console must not persist filter or activity state');
+    const anchors = await page.locator('a').evaluateAll(links => links.map(link => ({ href: link.href, text: link.textContent })));
+    for (const link of anchors) {
+      const url = new URL(link.href);
+      assert.ok((url.origin === origin && [base, spatial, activity].includes(url.pathname)) || /^https:\/\/github\.com\/occult-kranti\/india-corporate-intelligence\/pull\/[1-9][0-9]*$/.test(link.href), `Unexpected or private console link: ${link.href}`);
+    }
+
+    // Exercise actual same-tab link activation and browser Back without relying
+    // on public GitHub availability. This explicit fixture is not a live PR check.
+    const publicLink = page.locator('#tasks .evidence a').first();
+    const publicURL = await publicLink.getAttribute('href');
+    await page.route(publicURL, route => route.fulfill({ status: 200, contentType: 'text/html', body: '<!doctype html><html lang="en"><title>CI public-link navigation fixture</title><h1>CI public-link navigation fixture</h1><p>This is an intercepted destination, not a live GitHub verification.</p></html>' }));
+    await publicLink.focus();
+    await page.keyboard.press('Enter');
+    await page.waitForURL(publicURL);
+    await page.getByRole('heading', { name: 'CI public-link navigation fixture', exact: true }).waitFor();
+    result.publicLinkNavigation = { destination: publicURL, mode: 'intercepted CI navigation fixture; not a live public PR availability check' };
+    await page.goBack({ waitUntil: 'domcontentloaded' });
+    await activityReady(page, result);
+    await activityRows(page);
+    await page.unroute(publicURL);
+
+    const workbench = page.getByRole('link', { name: 'Original workbench', exact: true });
+    assert.equal(await workbench.evaluate(link => link.href), `${origin}${base}#/investigate`);
+    await workbench.click();
+    await rootReady(page, '/investigate');
+    await page.getByRole('button', { name: menu, exact: true }).click();
+    const dialog = page.getByRole('dialog', { name: 'Explore the atlas' });
+    await dialog.waitFor();
+    const activityLink = dialog.getByRole('link', { name: 'Research activity', exact: true });
+    assert.equal(await activityLink.count(), 1);
+    assert.equal(await activityLink.evaluate(link => link.href), `${origin}${activity}`);
+    await activityLink.scrollIntoViewIfNeeded();
+    await activityLink.focus();
+    await page.keyboard.press('Enter');
+    await activityReady(page, result);
+    await activityRows(page);
+    await capture(page, result, 'workbench-to-activity');
+
+    const atlas = page.getByRole('link', { name: 'Evidence atlas', exact: true });
+    assert.equal(await atlas.evaluate(link => link.href), `${origin}${spatial}`);
+    await atlas.click();
+    await fullReady(page, result);
+    await atlasActivityNavigation(page, result, 'status');
+    await page.getByRole('button', { name: 'Reading', exact: true }).click();
+    await page.getByRole('region', { name: 'Accessible record reading mode', exact: true }).waitFor();
+    await atlasActivityNavigation(page, result, 'reading');
+    await capture(page, result, 'atlas-navigation-clear-of-reader');
+    const atlasActivity = page.getByRole('navigation', { name: 'Connected workspaces', exact: true }).getByRole('link', { name: /Research activity/ });
+    assert.equal(await atlasActivity.count(), 1);
+    assert.equal(await atlasActivity.evaluate(link => link.href), `${origin}${activity}`);
+    await atlasActivity.click();
+    await activityReady(page, result);
+    await activityRows(page);
+    await capture(page, result, 'atlas-to-activity');
+    await page.goBack({ waitUntil: 'domcontentloaded' });
+    await fullReady(page, result);
+    await page.goBack({ waitUntil: 'domcontentloaded' });
+    await activityReady(page, result);
+    await activityRows(page);
+    await capture(page, result, 'browser-back-to-activity');
+  });
 } catch (error) {
   report.error = error.stack ?? error.message;
 } finally {
   await browser?.close().catch(() => {});
   if (server) await new Promise(resolveClosed => server.close(resolveClosed));
   report.finishedAt = new Date().toISOString();
-  report.status = !report.error && report.scenarios.length === 4 && report.scenarios.every(result => result.status === 'passed') ? 'passed' : 'failed';
+  report.status = !report.error && report.scenarios.length === 6 && report.scenarios.every(result => result.status === 'passed') ? 'passed' : 'failed';
   await writeFile(join(output, 'report.json'), `${JSON.stringify(report, null, 2)}\n`);
   const lines = [
     '# Combined spatial release review', '', `Status: **${report.status}**`,
     `Commit: ${report.commit}; head: ${report.headCommit}`, `Snapshot SHA-256: ${report.snapshotSha256}`, `Manifest SHA-256: ${report.manifestSha256}`, '',
+    `Research activity as of: ${report.activity.asOf}; ${report.activity.taskCount} tasks; ${report.activity.milestoneCount} milestones. All five static runtime files require source/build/browser hash parity.`,
+    'Clock-fixture screenshots change only the isolated test clock. Public-PR navigation uses an intercepted CI fixture; no live GitHub availability or worker activity is certified.', '',
     ...report.scenarios.map(result => `- ${result.status}: ${result.name} (${result.screenshots.length} screenshots)`), '',
     report.error ? `Setup failure: ${report.error}` : '', report.scope,
   ];

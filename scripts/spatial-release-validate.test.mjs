@@ -4,7 +4,7 @@ import { cp, lstat, mkdir, mkdtemp, readFile, rename, rm, symlink, writeFile } f
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import {
-  ARRAY_KEYS, BASE_COMMIT, BASE_FILES, REVIEWED_REGISTRY, REQUIRED_ROOT_ENTRIES, SPATIAL_NAV_LINE,
+  ACTIVITY_NAV_LINE, ARRAY_KEYS, BASE_COMMIT, BASE_FILES, REVIEWED_REGISTRY, REQUIRED_ROOT_ENTRIES, SPATIAL_NAV_LINE,
   copySpatialBuild, gitBlobSha, parseArguments, preflight, sha256, snapshotTree,
   stripSpatialDeployAdditions, stripSpatialNavigation, validatePinnedSources,
   validateRegistryDirectory, verifyCombined,
@@ -75,7 +75,7 @@ async function sourceFixture(t) {
   };
   const pins = Object.fromEntries(Object.entries(originals).map(([path, text]) => [path, gitBlobSha(text)]));
   for (const [path, text] of Object.entries(originals)) await put(root, path, text);
-  await put(root, 'src/components/Layout.tsx', layoutBase.replace(GLOBAL_LINK, SPATIAL_NAV_LINE + GLOBAL_LINK));
+  await put(root, 'src/components/Layout.tsx', layoutBase.replace(GLOBAL_LINK, ACTIVITY_NAV_LINE + SPATIAL_NAV_LINE + GLOBAL_LINK));
   await put(root, '.github/workflows/deploy.yml', deployBase.replace('      - name: Publish\n', `${block('preflight')}      - name: Publish\n`));
   await writePackage(root, 'spatial-prototype/public/data/registry', fixture);
   return { root, ...fixture, pins };
@@ -119,10 +119,10 @@ test('Git blob hashing uses byte length rather than character count', () => {
 });
 
 test('navigation removal accepts exactly one complete anchor at the reviewed location', () => {
-  assert.equal(stripSpatialNavigation(layoutBase.replace(GLOBAL_LINK, SPATIAL_NAV_LINE + GLOBAL_LINK)), layoutBase);
+  assert.equal(stripSpatialNavigation(layoutBase.replace(GLOBAL_LINK, ACTIVITY_NAV_LINE + SPATIAL_NAV_LINE + GLOBAL_LINK)), layoutBase);
   for (const text of [layoutBase, layoutBase + SPATIAL_NAV_LINE, layoutBase.replace(GLOBAL_LINK, SPATIAL_NAV_LINE.repeat(2) + GLOBAL_LINK),
     layoutBase.replace(GLOBAL_LINK, SPATIAL_NAV_LINE.replace('href={`${import.meta.env.BASE_URL}spatial/`}', 'href="/spatial/"') + GLOBAL_LINK)]) {
-    assert.throws(() => stripSpatialNavigation(text), /reviewed spatial link|immediately precede/);
+    assert.throws(() => stripSpatialNavigation(text), /reviewed spatial link|reviewed activity link|immediately precede/);
   }
 });
 
@@ -346,3 +346,11 @@ test('CLI requires one known mode and allows an explicit root without exposing p
     assert.throws(() => parseArguments(args));
   }
 });
+
+ test('activity navigation guard rejects missing, duplicated, redirected or moved links', () => {
+  const valid = layoutBase.replace(GLOBAL_LINK, ACTIVITY_NAV_LINE + SPATIAL_NAV_LINE + GLOBAL_LINK);
+  for (const text of [valid.replace(ACTIVITY_NAV_LINE, ''), valid.replace(ACTIVITY_NAV_LINE, ACTIVITY_NAV_LINE.repeat(2)),
+    valid.replace('BASE_URL}research-activity/', 'BASE_URL}other/'), valid.replace(ACTIVITY_NAV_LINE, '') + ACTIVITY_NAV_LINE]) {
+    assert.throws(() => stripSpatialNavigation(text), /reviewed activity link|immediately precede/);
+  }
+ });

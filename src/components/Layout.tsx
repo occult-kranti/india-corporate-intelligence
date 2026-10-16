@@ -147,6 +147,7 @@ function Navigation({ query, onNavigate, label }: { query: string; onNavigate?: 
     <nav className="site-navigation" aria-label={label}>
       <div className="nav-group">
         <p className="nav-group-label">Connected research</p>
+        <a className="site-nav-link" href={`${import.meta.env.BASE_URL}research-activity/`} onClick={onNavigate}><Notebook size={16} aria-hidden="true" /><span>Research activity</span></a>
         <a className="site-nav-link" href={`${import.meta.env.BASE_URL}spatial/`} onClick={onNavigate}><Map size={16} aria-hidden="true" /><span>Spatial evidence atlas</span></a>
         <a className="site-nav-link" href="./global-workbench/" onClick={onNavigate}><Globe2 size={16} aria-hidden="true" /><span>Global evidence workbench</span></a>
         <a className="site-nav-link" href="./global-workbench/finance.html" onClick={onNavigate}><Coins size={16} aria-hidden="true" /><span>Public assets &amp; finance</span></a>
