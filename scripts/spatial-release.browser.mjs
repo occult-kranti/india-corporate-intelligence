@@ -37,7 +37,7 @@ const report = {
   headCommit: process.env.SPATIAL_HEAD_SHA ?? null, basePath: base,
   snapshotSha256: manifest.sourceSnapshot.sha256, manifestSha256: hash(manifestBytes),
   counts: manifest.counts, scenarios: [], serverRequests: [],
-  scope: 'Combined output navigation and immutable-source checks. CI screenshots require human review; this is not deployment approval or a device performance benchmark.',
+  scope: 'Combined output navigation and immutable-source checks. CI screenshots require visual/interaction inspection; this is not deployment approval or a device performance benchmark.',
 };
 let browser;
 let server;

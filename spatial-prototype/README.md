@@ -1,6 +1,6 @@
 # Fieldwork: a continuous felt evidence atlas
 
-Experimental, additive review prototype. One continuous rectangular Web Mercator map moves from a felt world overview into actual, geographically aligned building footprints. This package is not deployed or a replacement for the live research application.
+Experimental, additive review prototype. One continuous rectangular Web Mercator map moves from a felt world overview into actual, geographically aligned building footprints. This next-review candidate is not deployed; the atlas remains additive to the original research application.
 
 ## Run
 
@@ -23,7 +23,8 @@ Provenance tests read the original parent registry from `../src/data/investigati
 - World-to-city context flights to public locations in New Delhi, Mumbai and London; native vector-footprint extrusions appear at zoom 14–15 and remain in the same coordinate system
 - Upright DOM source reader with pinning, source links, counter-context, original financial/date qualifiers and explicit geographic precision
 - 4D=time interval and 5D=facet layers, clearly labelled interface metaphors
-- Shared original Casebook schema/storage key, additive pins, notes, source-closed export and reused tutorial progress logic
+- Shared original Casebook schema/storage key, additive pins, notes and source-closed export
+- A 13-step atlas field guide with explicit Skip/Restart/Finish, pausing to try controls, keyboard focus return and versioned progress; it never moves the camera, starts audio or changes evidence automatically
 - Manual browser narration using only `localService` voices, with transcript, Pause and Stop; no automatic speech or external speech service
 - Keyboard-readable 2D mode, WebGL-failure fallback and an independent offline country base if remote tiles fail
 
@@ -53,7 +54,7 @@ Targets, not measured consumer-device guarantees: 60 fps / 16.7 ms in high mode,
 
 World scale draws country display stacks and at most 24 representative original threads; the current snapshot has three unselected cross-country representatives. Area detail draws original area stacks and at most 60 original threads from 765 cross-area candidates (1,659 original links have both endpoints area-anchored, including same-area links). World representatives are selected by directed country pair and original facet, but retain the original edge ID, evidence endpoints, coordinates and citations. Same-country threads remain available through selection and detail zoom. A selected original edge is prioritized, including its exact endpoint pins; selected detail overlays do not inflate the unique country membership counts. No aggregate relationship or citation union is fabricated. All 4,203 relationships stay in the reader. Exact filtered, placed, unplaced and drawn counts remain visible.
 
-The entry bundle is approximately 157 KB raw / 52 KB estimated gzip, with the accessible app about 310 KB raw / 66 KB estimated gzip. MapLibre/Three load only when exploration starts. `?mode=reading` never imports the map runtime. The 23.2 MB raw registry is separately chunked; map geometry is emitted as source-identical JSON assets rather than JavaScript. The local country base remains available if the optional remote tile service fails. `npm run build` enforces bounded JavaScript chunks and writes `dist/build-budget.json`. These are build sizes, not measured real network transfers or consumer-device FPS results.
+Per-build raw and estimated-gzip sizes are recorded in `dist/build-budget.json`; the initial static JavaScript closure is capped at 220 KB. MapLibre/Three load only when exploration starts. `?mode=reading` never imports the map runtime. The 23.2 MB raw registry is separately chunked; map geometry is emitted as source-identical JSON assets rather than JavaScript. The local country base remains available if the optional remote tile service fails. `npm run build` enforces bounded JavaScript chunks and writes `dist/build-budget.json`. These are build sizes, not measured real network transfers or consumer-device FPS results.
 
 ## Validation and review
 
@@ -61,6 +62,12 @@ The entry bundle is approximately 157 KB raw / 52 KB estimated gzip, with the ac
 
 No local Chromium is used. CI uses software rendering and is not a consumer-GPU benchmark. Do not call visual review complete until current-head screenshots are inspected. Merge and deployment require all exact-head original, spatial and combined-route gates plus screenshot review.
 
+## Historical review candidate
+
+A separate nine-claim historical reader is integrated behind three deliberate gates: build with `VITE_HISTORICAL_REVIEW=true`, use exactly one `?review=historical-2025` parameter on the full dataset, then choose **Open historical review reader**. Default/full behavior and explicit preview stay unchanged. The flag controls entry only; it is not authentication, a publication decision or a source-access restriction.
+
+The full base registry remains the only factual-graph input. The reader retains the original nine source holds, adds nine hold-to-target sidecars and 27 exact-ID exclusion guards, and keeps `PUBLIC_GRAPH_BLOCKED`. All payload/base bytes are pinned and all added sources, original IDs, identity/date/denominator/control qualifications and overview-only fallbacks remain explicit. See [historical review integration](docs/historical-review.md) for loading boundaries, portable safety tests and required next-head rendering review.
+
 ## Separate follow-on work
 
-The atlas does not yet federate the separate retained global-current, finance or media workbench datasets. Their original pages remain linked and intact. Future federation must preserve original IDs, path-eligibility, uncertainty/currentness and review queues. The separately prepared research subset and route-aware tutorial reconciliation also remain follow-on work; neither is silently admitted by this release.
+The atlas does not yet federate the separate retained global-current, finance or media workbench datasets. Their original pages remain linked and intact. Future federation must preserve original IDs, path-eligibility, uncertainty/currentness and review queues. This candidate adds the separately gated historical inspection reader and the 13-step atlas guide; it does not admit research additions into the factual graph. The 59 original app-route and three static-page guides remain separate runtime-pending work, as do wider research imports. See [atlas tutorial](docs/atlas-guidance.md) for the bounded guide scope and interaction checks.

@@ -77,7 +77,8 @@ import {
 import { useNarration } from "./useNarration";
 import { buildNarrationTranscript } from "./narrationTranscript";
 import cityMetadata from "./assets/city-metadata.json";
-import { readProgress, updateProgress } from "./tutorial/model";
+import { GuidedTutorial } from "./guidance/GuidedTutorial";
+import atlasGuide from "./guidance/atlas-guide.json";
 const readable = (word: string) => word.replace(/-/g, " ");
 const itemTitle = (item: EvidenceItem) =>
   "title" in item ? item.title : item.label;
@@ -109,28 +110,6 @@ function makeDownload(value: unknown, name: string) {
   a.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
-const HELP = [
-  {
-    title: "Enter the evidence room",
-    text: "Drag the felt map to pan. Scroll to zoom. Right-drag to tilt and rotate. Home restores your orientation; Reading mode has the same source-backed records without the 3D scene.",
-  },
-  {
-    title: "Read a pin before following it",
-    text: "Select a paper card. Its source IDs, evidence status, date basis, responses and limitations stay together in the reading panel. Pin the panel to keep it readable while you travel.",
-  },
-  {
-    title: "Follow a sourced thread",
-    text: "Choose a relationship and press Follow thread. The camera travels between the exact recorded endpoints. Pause, Escape and any manual camera gesture stop or pause travel. A path never establishes guilt or causation.",
-  },
-  {
-    title: "Time and layers are lenses",
-    text: "4D is the time filter; 5D is the facet layer. These are interface metaphors, not additional physical dimensions. Unknown dates remain visible unless you deliberately exclude them.",
-  },
-  {
-    title: "Keep control of sound and motion",
-    text: "Narration starts only when you press Read this record. Only browser voices marked as local are used. No local voice means text only. Reduced motion replaces fly-throughs with immediate destinations.",
-  },
-];
 export default function App({
   registry = previewRegistry,
   dataset = "preview",
@@ -199,21 +178,9 @@ export default function App({
   );
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [helpOpen, setHelpOpen] = useState(false);
-  const [helpStep, setHelpStep] = useState(() => {
-    try {
-      return (
-        readProgress(localStorage.getItem("fieldwork-spatial-tutorial:v1"), {
-          "spatial-room": 5,
-        }).tours["spatial-room"]?.step ?? 0
-      );
-    } catch {
-      return 0;
-    }
-  });
   const [audioOpen, setAudioOpen] = useState(false);
   const [saved, setSaved] = useState(readBook);
   const [message, setMessage] = useState("");
-  const helpRef = useRef<HTMLDialogElement>(null);
   const lastFocus = useRef<HTMLElement | null>(null);
   const panelRef = useRef<HTMLElement>(null);
   const narration = useNarration();
@@ -353,6 +320,8 @@ export default function App({
   }, []);
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
+      // Tutorial keys must never stop/start camera travel or narration.
+      if (helpOpen || event.defaultPrevented) return;
       const editable =
         event.target instanceof HTMLElement &&
         Boolean(event.target.closest("input,textarea,select"));
@@ -389,38 +358,6 @@ export default function App({
     journey.phase,
     narration.stop,
   ]);
-  useEffect(() => {
-    try {
-      const key = "fieldwork-spatial-tutorial:v1";
-      const old = readProgress(localStorage.getItem(key), {
-        "spatial-room": HELP.length,
-      });
-      if (helpOpen || old.tours["spatial-room"])
-        localStorage.setItem(
-          key,
-          JSON.stringify(
-            updateProgress(
-              old,
-              "spatial-room",
-              helpStep,
-              helpOpen
-                ? "active"
-                : helpStep === HELP.length - 1
-                  ? "completed"
-                  : "paused",
-              HELP.length,
-            ),
-          ),
-        );
-    } catch {
-      /* Help remains usable when browser storage is blocked. */
-    }
-  }, [helpOpen, helpStep]);
-  useEffect(() => {
-    const dialog = helpRef.current;
-    if (helpOpen && !dialog?.open) dialog?.showModal();
-    else if (!helpOpen && dialog?.open) dialog.close();
-  }, [helpOpen]);
   useEffect(() => {
     const refresh = (e: StorageEvent) => {
       if (e.key === CASEBOOK_KEY) setSaved(readBook());
@@ -575,6 +512,7 @@ export default function App({
             lastFocus.current = document.activeElement as HTMLElement;
             setHelpOpen(true);
           }}
+          data-guide-launcher="atlas"
           aria-label="Help exploring the evidence room"
         >
           <HelpCircle size={19} />
@@ -1179,6 +1117,7 @@ export default function App({
             <button
               disabled={narration.state === "off"}
               onClick={narration.pause}
+              aria-label={narration.state === "paused" ? "Resume narration" : "Pause narration"}
             >
               {narration.state === "paused" ? (
                 <Play size={15} />
@@ -1662,58 +1601,7 @@ export default function App({
         {message}
         {journey.phase === "paused" ? " Camera travel paused." : ""}
       </div>
-      <dialog
-        ref={helpRef}
-        className="help-dialog"
-        onCancel={() => setHelpOpen(false)}
-        onClose={() => {
-          setHelpOpen(false);
-          lastFocus.current?.focus();
-        }}
-      >
-        <button
-          className="dialog-close"
-          onClick={() => setHelpOpen(false)}
-          aria-label="Close help"
-        >
-          <X size={20} />
-        </button>
-        <span className="eyebrow">
-          A FIELD GUIDE / {helpStep + 1} OF {HELP.length}
-        </span>
-        <h2>{HELP[helpStep].title}</h2>
-        <p>{HELP[helpStep].text}</p>
-        <div className="help-progress">
-          {HELP.map((step, i) => (
-            <button
-              key={step.title}
-              aria-label={`Step ${i + 1}: ${step.title}`}
-              aria-current={i === helpStep ? "step" : undefined}
-              onClick={() => setHelpStep(i)}
-            />
-          ))}
-        </div>
-        <div className="button-row">
-          <button
-            disabled={helpStep === 0}
-            onClick={() => setHelpStep(helpStep - 1)}
-          >
-            <ArrowLeft size={15} />
-            Back
-          </button>
-          <button
-            className="primary"
-            onClick={() =>
-              helpStep === HELP.length - 1
-                ? setHelpOpen(false)
-                : setHelpStep(helpStep + 1)
-            }
-          >
-            {helpStep === HELP.length - 1 ? "Explore the room" : "Next"}
-            <ArrowRight size={15} />
-          </button>
-        </div>
-      </dialog>
+      <GuidedTutorial guide={atlasGuide} open={helpOpen} onClose={() => setHelpOpen(false)} />
     </main>
   );
 }
