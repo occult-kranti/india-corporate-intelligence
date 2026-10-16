@@ -9,7 +9,7 @@ const sourceRoot = path.resolve(process.env.CASE_LABEL_SOURCE_ROOT ?? host);
 const require = createRequire(path.join(host, 'package.json')), { build } = require('esbuild');
 const built = await build({ entryPoints: [path.join(sourceRoot, 'src/profile-host/readable-label-layout.ts')], bundle:true, write:false, format:'cjs', platform:'node' });
 const module={exports:{}};new Function('module','exports',built.outputFiles[0].text)(module,module.exports);
-const { planReadableCaseLabels: plan, wrapReadableNodeLabels: wrap, isAllLabelPose, observeReadableCaseLabels: observe }=module.exports;
+const { planReadableCaseLabels: plan, wrapReadableNodeLabels: wrap, isAllLabelPose, observeReadableCaseLabels: observe, invalidateReadableCaseLabels: invalidate }=module.exports;
 const node=(id,left,top,width=96,height=30)=>({id,left,top,width,height});
 const policy=(ids,required=[],requireAll=false,roles=[])=>({allNodeIds:ids,allRoleIds:roles,requiredNodeIds:required,requiredRoleIds:roles,requireAll});
 
@@ -77,7 +77,7 @@ function observerFixture(){
  const win={requestAnimationFrame(fn){const id=next++;frames.set(id,fn);return id;},cancelAnimationFrame(id){frames.delete(id);},ResizeObserver:class{constructor(fn){callback=fn;}observe(){}disconnect(){disconnected=true;}}};
  const root={isConnected:true,dataset:{},getBoundingClientRect(){return{left:0,top:0,width:500,height:200};},querySelectorAll(selector){return selector==='.cw-node-label'?[element]:[];},ownerDocument:{defaultView:win,querySelectorAll(){return[];},fonts:{addEventListener(name,fn){fontHandlers.set(name,fn);},removeEventListener(name){fontHandlers.delete(name);}}}};
  const step=()=>{const jobs=[...frames.values()];frames.clear();for(const fn of jobs)fn();};
- return{root,element,frames,reports,fontHandlers,step,setSettled:value=>{settled=value;},get disconnected(){return disconnected;},notify:()=>callback(),options:{...policy(['a'],['a']),isSettled:()=>settled,onReport:r=>reports.push(r)}};
+ return{root,element,frames,reports,fontHandlers,step,setSettled:value=>{settled=value;},get disconnected(){return disconnected;},notify:()=>callback(),options:{...policy(['a'],['a']),isSettled:()=>settled,onReport:r=>{reports.push(r);return true;}}};
 }
 
 test('observer never reports in-flight or stale states and has no idle polling loop',()=>{
@@ -94,8 +94,8 @@ test('host report is bound to the exact controller state and uses existing reade
  const source=fs.readFileSync(path.join(sourceRoot,'src/profile-host/CaseWorkspace.tsx'),'utf8');
  assert.match(source,/active.controller.state === state/);assert.match(source,/dataset.caseMotion === 'false'/);assert.match(source,/dataset.caseSelection === selection/);
  assert.match(source,/if \(report.status === 'insufficient'\) \{[\s\S]*?act\(\{ type: 'set-view', view: 'list' \}\)/);
- assert.match(source,/data-case-deferred-node-count=\{labelReport.deferredNodes.length\}/);assert.match(source,/data-case-deferred-role-count=\{labelReport.deferredRoles.length\}/);
- assert.match(source,/Use Fit case to show all nodes, or Complete reader/);
+ const status=fs.readFileSync(path.join(sourceRoot,'src/profile-host/ReadableLabelStatus.tsx'),'utf8');assert.match(status,/data-case-deferred-node-count=\{ready \? report.deferredNodes.length/);assert.match(status,/data-case-deferred-role-count=\{ready \? report.deferredRoles.length/);
+ assert.match(status,/Use Fit case to show all nodes, or Complete reader/);
 });
 
 
@@ -120,5 +120,37 @@ test('freshness predicate can cancel same-selection camera or resize fallback wi
 test('unsettled frames do not hide peripheral plaques or claim a settled policy report',()=>{
  const f=observerFixture();f.options.requiredNodeIds=[];f.element.getBoundingClientRect=()=>({left:490,top:65,width:96,height:30});
  const stop=observe(f.root,f.options);assert.equal(f.element.style.visibility,'');assert.equal(f.root.dataset.caseLabelReport,'');f.step();f.step();assert.equal(f.reports.length,0);
- f.setSettled(true);f.notify();assert.equal(f.element.style.visibility,'hidden');f.step();f.step();assert.deepEqual(f.reports[0].deferredNodes,[{id:'a',reason:'outside-view'}]);stop();
+ f.setSettled(true);f.notify();assert.equal(f.element.style.visibility,'');assert.equal(f.root.dataset.caseLabelReport,'');f.step();f.step();assert.equal(f.element.style.visibility,'hidden');assert.deepEqual(f.reports[0].deferredNodes,[{id:'a',reason:'outside-view'}]);stop();
+});
+
+
+test('exact two-RAF gap retains full labels until the matching notice is committed',()=>{
+ const f=observerFixture();f.setSettled(true);f.options.requiredNodeIds=[];
+ f.element.getBoundingClientRect=()=>({left:490,top:65,width:96,height:30});
+ let notice=false;const events=[];
+ f.options.onReport=report=>{events.push({stage:'before-notice',hidden:f.element.style.visibility==='hidden',layer:f.root.dataset.caseLabelReport});notice=true;f.reports.push(report);return notice;};
+ const stop=observe(f.root,f.options);
+ assert.equal(f.element.style.visibility,'');assert.equal(f.root.dataset.caseLabelPublication,'pending');
+ f.step();assert.equal(notice,false);assert.equal(f.element.style.visibility,'');assert.equal(f.root.dataset.caseLabelReport,'');
+ f.step();assert.deepEqual(events,[{stage:'before-notice',hidden:false,layer:''}]);assert.equal(f.element.style.visibility,'hidden');assert.equal(f.root.dataset.caseLabelPublication,'committed');assert.ok(JSON.parse(f.root.dataset.caseLabelReport));assert.equal(f.frames.size,0);stop();
+});
+test('refused acknowledgement cannot expose deferrals or a ready layer and never polls',()=>{
+ const f=observerFixture();f.setSettled(true);f.options.requiredNodeIds=[];f.element.getBoundingClientRect=()=>({left:490,top:65,width:96,height:30});f.options.onReport=()=>false;
+ const stop=observe(f.root,f.options);f.step();f.step();assert.equal(f.element.style.visibility,'');assert.equal(f.root.dataset.caseLabelReport,'');assert.equal(f.frames.size,0);stop();
+});
+test('host invalidation restores labels before the matching notice is removed and cancels old delivery',()=>{
+ const f=observerFixture();f.setSettled(true);f.options.requiredNodeIds=[];f.element.getBoundingClientRect=()=>({left:490,top:65,width:96,height:30});
+ const stop=observe(f.root,f.options);f.step();f.step();assert.equal(f.element.style.visibility,'hidden');invalidate(f.root);
+ assert.equal(f.element.style.visibility,'');assert.equal(f.root.dataset.caseLabelReport,'');assert.equal(f.frames.size,0);
+ f.notify();const queued=[...f.frames.values()][0];invalidate(f.root);queued();f.step();assert.equal(f.reports.length,1);assert.equal(f.root.dataset.caseLabelReport,'');assert.equal(f.frames.size,0);stop();
+});
+test('reentrant invalidation during host acknowledgement prevents stale publication',()=>{
+ const f=observerFixture();f.setSettled(true);f.options.requiredNodeIds=[];f.element.getBoundingClientRect=()=>({left:490,top:65,width:96,height:30});f.options.onReport=()=>{invalidate(f.root);return true;};
+ const stop=observe(f.root,f.options);f.step();f.step();assert.equal(f.root.dataset.caseLabelReport,'');assert.equal(f.element.style.visibility,'');assert.equal(f.frames.size,0);stop();
+});
+test('repeat unchanged measurement does not create idle work after acknowledgement',()=>{
+ const f=observerFixture();f.setSettled(true);const stop=observe(f.root,f.options);f.step();f.step();for(let i=0;i<20;i++)f.notify();assert.equal(f.reports.length,1);assert.equal(f.frames.size,0);assert.equal(f.root.dataset.caseLabelPublication,'committed');stop();
+});
+test('automatic fallback uses a workspace banner without moving reader scroll or owned focus',()=>{
+ const source=fs.readFileSync(path.join(sourceRoot,'src/profile-host/CaseWorkspace.tsx'),'utf8');assert.match(source,/data-case-auto-fallback-notice/);assert.match(source,/!chooser && !scene && labelReport\?\.status === 'insufficient'/);assert.doesNotMatch(source,/scrollTop\s*=|scrollIntoView/);assert.match(source,/!dialog.current\?\.open/);assert.match(source,/heading.current\?\.focus\(\{ preventScroll: true \}\)/);
 });

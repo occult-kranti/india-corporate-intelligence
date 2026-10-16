@@ -4,6 +4,26 @@ import { wrapNodeLabels } from './node-label-width';
 export interface LabelRect { left: number; top: number; width: number; height: number }
 export interface RoleLabelBox { id: string; x: number; y: number; width: number; height: number; selected: boolean }
 export interface RoleLabelPlacement extends RoleLabelBox { left: number; top: number; displaced: boolean; unresolved: boolean }
+export type RoleLabelPlacementState = 'anchored' | 'displaced-contained' | 'displaced' | 'unresolved';
+
+/** Displacement is not sufficient to require a visible leader. The original
+ * midpoint can remain inside the moved plaque (including its boundary).
+ * Containment is exact: never absorb an outside anchor with a geometry epsilon. */
+export function roleLabelPresentation(role: RoleLabelPlacement, rect: LabelRect = role): {
+  placement: RoleLabelPlacementState; x2: number; y2: number; leaderVisible: boolean;
+} {
+  const centerX = rect.left + rect.width / 2, centerY = rect.top + rect.height / 2;
+  const displaced = Math.hypot(centerX - role.x, centerY - role.y) > .5;
+  const contained = role.x >= rect.left && role.x <= rect.left + rect.width
+    && role.y >= rect.top && role.y <= rect.top + rect.height;
+  const placement: RoleLabelPlacementState = role.unresolved ? 'unresolved'
+    : !displaced ? 'anchored' : contained ? 'displaced-contained' : 'displaced';
+  if (placement !== 'displaced') return { placement, x2: role.x, y2: role.y, leaderVisible: false };
+  // Outside anchor: retain the original ray-to-plaque-edge construction.
+  const dx = role.x - centerX, dy = role.y - centerY;
+  const scale = Math.min(rect.width / 2 / Math.max(Math.abs(dx), .001), rect.height / 2 / Math.max(Math.abs(dy), .001), 1);
+  return { placement, x2: centerX + dx * scale, y2: centerY + dy * scale, leaderVisible: true };
+}
 const GAP = 8, PAD = 4;
 const right = (r: LabelRect) => r.left + r.width;
 const bottom = (r: LabelRect) => r.top + r.height;
@@ -75,16 +95,17 @@ export function observeRoleLabels(root: HTMLElement): () => void {
       const element = roleElements[index];
       element.style.left = `${role.left + role.width / 2}px`;
       element.style.top = `${role.top + role.height / 2}px`;
-      element.dataset.caseLabelPlacement = role.unresolved ? 'unresolved' : role.displaced ? 'displaced' : 'anchored';
+      // Classify the actual plaque after CSS subpixel rounding, without moving it.
+      const measured = element.getBoundingClientRect();
+      const presentation = roleLabelPresentation(role, { left: measured.left - bounds.left, top: measured.top - bounds.top,
+        width: measured.width, height: measured.height });
+      element.dataset.caseLabelPlacement = presentation.placement;
       const leader = leaders.get(role.id);
       if (!leader) return;
-      // Neutral leader, not a source relation or an arrow. It ends at the plaque edge.
-      const centerX = role.left + role.width / 2, centerY = role.top + role.height / 2;
-      const dx = role.x - centerX, dy = role.y - centerY;
-      const scale = Math.min(role.width / 2 / Math.max(Math.abs(dx), .001), role.height / 2 / Math.max(Math.abs(dy), .001), 1);
-      leader.setAttribute('x2', String(centerX + dx * scale));
-      leader.setAttribute('y2', String(centerY + dy * scale));
-      leader.style.visibility = role.displaced ? 'visible' : 'hidden';
+      // Neutral leader, not a source relation or an arrow. Never move its origin.
+      leader.setAttribute('x2', String(presentation.x2));
+      leader.setAttribute('y2', String(presentation.y2));
+      leader.style.visibility = presentation.leaderVisible ? 'visible' : 'hidden';
     });
   };
   place();

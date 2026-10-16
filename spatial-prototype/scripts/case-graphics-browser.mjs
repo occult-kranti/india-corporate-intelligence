@@ -852,7 +852,7 @@ export async function runCaseGraphicsBrowserCases({ root, output, scenario, capt
     result.notes.push(fault === 'render' ? 'A one-shot exception interrupts only the native draw of the owned case felt program. Every subsequent same-context Three draw attempt is retained, including the current MapLibre frame. Zero are allowed before or after explicit complete renderer/context replacement.' : 'A one-shot actual shader-source compile error affects only the owned case felt fragment. Phase A retains reader/history and proves fresh geographic draws on the original renderer only after Close. Phase B opens a new workspace and explicitly re-establishes selection/history before a second declared one-shot shader fault; full recreation preserves that second workspace. Both geographic recoveries require the current default-target viewport.');
   });
 
-  await run(GRAPHICS_SCENARIOS[7], { reducedMotion: true, budgetMs: 240000 }, async (page, result) => {
+  await run(GRAPHICS_SCENARIOS[7], { reducedMotion: true, budgetMs: 300000 }, async (page, result) => {
     lifecycleObservationPages.add(page);
     async function checkpoint(phase, recovery = null) {
       const pair = await page.evaluate(() => ({ active: document.querySelector('.webgl-host')?.dataset.geographicWorkspaceActive,

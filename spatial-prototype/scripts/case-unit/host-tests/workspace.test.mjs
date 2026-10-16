@@ -85,7 +85,7 @@ async function harness(graphics,viewport={width:1280,height:900}){
     return {dispatch(action){options.onState(options.controller.dispatch(action,performance.now()));},setInteractionMode(){},setQuality(value){lastQuality=value;},requestRepaint(){},dispose(){if(!dead){dead=true;disposed++;}}};
   };
   const mockPlugin={name:'mock-only-graphics-boundary',setup(build){build.onResolve({filter:/^\.\/attachScene$/},args=>args.importer===source?{path:'attachScene',namespace:'test'}:null);build.onLoad({filter:/.*/,namespace:'test'},()=>({contents:'export const attachCaseScene = options => require("test-attach")(options)',loader:'js'}));}};
-  const Component=(await moduleFrom(source,{external:['react','react/jsx-runtime','test-attach'],plugins:[mockPlugin]},name=>name==='react'?react:name==='react/jsx-runtime'?{jsx,jsxs:jsx,Fragment:Symbol.for('fragment')}:name==='test-attach'?attach:require(name))).default;
+  const Component=(await moduleFrom(source,{external:['react','react/jsx-runtime','react-dom','test-attach'],plugins:[mockPlugin]},name=>name==='react'?react:name==='react/jsx-runtime'?{jsx,jsxs:jsx,Fragment:Symbol.for('fragment')}:name==='react-dom'?{flushSync(fn){fn();if(dirty)render();}}:name==='test-attach'?attach:require(name))).default;
   let props={graphics,reducedMotion:false,onClose(){closed++;},onRecreateGraphics(){recreated++;}};
   function allNodes(){const nodes=[];function visit(node){if(!node||typeof node!=='object')return;if(Array.isArray(node)){node.forEach(visit);return;}if(node.props){nodes.push(node);visit(node.props.children);}}visit(tree);return nodes;}
   function text(node){if(node==null||typeof node==='boolean')return '';if(Array.isArray(node))return node.map(text).join('');return typeof node==='object'?text(node.props?.children):String(node);}
@@ -258,6 +258,7 @@ test('settled missing-label fallback transfers only removed-surface focus and pr
       assert.equal(report.status,'insufficient');assert.ok(report.failures.some(item=>item.reason==='missing'));
       if(focusOwner==='surface'||focusOwner==='camera')assert.equal(document.activeElement,h.find(node=>node.type==='h1').element);
       else assert.equal(document.activeElement,focused);
+      assert.ok(h.find(node=>'data-case-auto-fallback-notice' in node.props));
       if(focusOwner==='source-dialog')assert.equal(h.find(node=>'data-case-source-dialog' in node.props).element.open,true);
     }finally{h.destroy();}
   }

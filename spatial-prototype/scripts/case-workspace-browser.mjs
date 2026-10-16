@@ -333,7 +333,7 @@ export async function assertCompleteCaseReader(page, file) {
   return { id: file.id, profileId: file.profileId, claims: file.claims.map(claim => claim.claimId), sourceReferences: file.claims.reduce((total, claim) => total + claim.sourceIds.length, 0), nodes: file.nodes.length, edges: file.edges.length, readerOnly: file.readerFactIds.length };
 }
 
-export async function assertCaseFrame(page, file, until, result, phase = 'frame', labelCoverage = null) {
+export async function assertCaseFrame(page, file, until, result, phase = 'frame', labelCoverage = null, afterLabelCheck = null) {
   await until(async () => Number(await caseSurface(page).getAttribute('data-case-frame-nodes')) === file.nodes.length &&
     Number(await caseSurface(page).getAttribute('data-case-scene-draws')) > 0 && Number(await caseSurface(page).getAttribute('data-case-composite-draws')) > 0 &&
     await caseWorkspace(page).getAttribute('data-case-motion') === 'false', `${file.id}: frame did not settle after physical draws`, 15000);
@@ -363,7 +363,10 @@ export async function assertCaseFrame(page, file, until, result, phase = 'frame'
     assert.equal(await evidence(page).locator(`[data-node-id=${quoted(selection)}] button`).getAttribute('aria-pressed'), 'true');
   }
   if (result) (result.caseFrameSamples ??= []).push({ caseId: file.id, phase, selection, ...sample });
-  const checkLabels = () => assertCaseLabelReadability(page, file, result ?? {}, { phase, fit: phase === 'initial' });
+  const checkLabels = async () => {
+    await assertCaseLabelReadability(page, file, result ?? {}, { phase, fit: phase === 'initial', requireReadablePolicy: true });
+    if (afterLabelCheck) await afterLabelCheck();
+  };
   if (labelCoverage) await labelCoverage.observe(file.id, phase, checkLabels);
   else await checkLabels();
   return sample;
@@ -780,7 +783,17 @@ export async function runCaseWorkspaceBrowserCases({ root, dist, output, scenari
 
       await evidence(page).locator(`[data-edge-id=${quoted(edge.id)}] button`).click();
       await until(async () => await caseWorkspace(page).getAttribute('data-case-selection') === edge.id, 'Exact relation selection did not reach the workspace');
-      await assertCaseFrame(page, file, until, result, 'selected-edge', labelCoverage);
+      await assertCaseFrame(page, file, until, result, 'selected-edge', labelCoverage, async () => {
+        if(file.id!=='case:brazil-batista')return;
+        const beforeScroll=await caseSurface(page).boundingBox(), beforeStatus=await caseWorkspace(page).locator('[data-case-label-status]').boundingBox();
+        const selected=await caseWorkspace(page).getAttribute('data-case-selection');
+        const scroll=await caseRail(page).evaluate(rail=>{rail.scrollTop=Math.min(600,rail.scrollHeight-rail.clientHeight);return rail.scrollTop;});
+        await assertCaseLabelReadability(page,file,result,{phase:'rail-scroll-stability',requireReadablePolicy:true});
+        assert.deepEqual(await caseSurface(page).boundingBox(),beforeScroll,'Rail scroll changed case board geometry');
+        assert.deepEqual(await caseWorkspace(page).locator('[data-case-label-status]').boundingBox(),beforeStatus,'Rail scroll changed persistent status geometry');
+        assert.equal(await caseRail(page).evaluate(rail=>rail.scrollTop),scroll,'Status publication reset evidence rail scroll');
+        assert.equal(await caseWorkspace(page).getAttribute('data-case-selection'),selected,'Rail scroll changed exact selection');
+      });
       for (const factId of file.readerFactIds) assert.equal(await caseArticle(page, factId).count(), 1, 'A reader-only fact disappeared in scene mode');
       if (file.claims.length >= 4) {
         await caseRail(page).evaluate(element => { element.scrollTop = 0; });
@@ -922,9 +935,19 @@ export async function runCaseWorkspaceBrowserCases({ root, dist, output, scenari
     assert.equal(await caseSurface(page).count(), 0);
     assert.equal(await caseWorkspace(page).getAttribute('data-case-selection'), shortEdge.id);
     assert.equal(await caseWorkspace(page).locator('.cw-header h1').evaluate(element => document.activeElement === element), true, 'Removed board focus was not restored inside the workspace');
-    includesText(await caseRail(page).innerText(), 'cannot fit the required full labels at a readable width', 'short-board fallback');
+    const fallbackNotice = await caseWorkspace(page).locator('[data-case-auto-fallback-notice]').evaluate(element => {
+      const rect=element.getBoundingClientRect(), rail=element.closest('[data-case-workspace]').querySelector('.cw-rail'), reader=rail.getBoundingClientRect();
+      const points=[[rect.left+4,rect.top+4],[rect.right-4,rect.top+4],[rect.left+4,rect.bottom-4],[rect.right-4,rect.bottom-4],[(rect.left+rect.right)/2,(rect.top+rect.bottom)/2]];
+      return { text:element.textContent, rect:rect.toJSON(), reader:reader.toJSON(), railScrollTop:rail.scrollTop,
+        visible:element.checkVisibility({opacityProperty:true,visibilityProperty:true}),
+        inViewport:rect.left>=0&&rect.top>=0&&rect.right<=innerWidth&&rect.bottom<=innerHeight,
+        unobscured:points.every(([x,y])=>{const top=document.elementFromPoint(x,y);return top===element||element.contains(top);}) };
+    });
+    includesText(fallbackNotice.text, 'cannot fit the required full labels at a readable width', 'short-board fallback');
+    assert.ok(fallbackNotice.visible && fallbackNotice.inViewport && fallbackNotice.unobscured, 'Automatic fallback reason is not actually visible');
+    assert.ok(fallbackNotice.reader.height > 0 && fallbackNotice.reader.top >= fallbackNotice.rect.bottom && fallbackNotice.reader.bottom <= 651, 'Fallback banner obscures or removes the short reader');
     await assertCompleteCaseReader(page, shortFile);
-    result.readableLabelShortBoard = { viewport: { width: 901, height: 651 }, outcome: 'complete-reader-fallback', sceneCoverage: false, selection: shortEdge.id, report: shortReport };
+    result.readableLabelShortBoard = { viewport: { width: 901, height: 651 }, outcome: 'complete-reader-fallback', sceneCoverage: false, selection: shortEdge.id, report: shortReport, fallbackNotice };
     await capture(page, result, 'supported-short-board-explicit-readable-label-fallback');
     const shortClaim = shortFile.claims.find(item => item.claimId === shortEdge.claimId);
     const shortOpener = await openClaimSourcesByKeyboard(page, shortClaim, result, 'readable-short-board');
@@ -936,6 +959,25 @@ export async function runCaseWorkspaceBrowserCases({ root, dist, output, scenari
     assert.equal(await caseWorkspace(page).getAttribute('data-case-selection'), shortEdge.id, 'Readable-policy retry lost retained selection');
     await assertNoAdmission(page, baseline);
     await capture(page, result, 'readable-label-default-desktop-reentry-with-retained-selection');
+    // An already-open native source dialog owns focus through automatic fallback.
+    await caseWorkspace(page).getByRole('button',{name:'Fit case',exact:true}).click();
+    await assertCaseFrame(page,shortFile,until,result,'initial');
+    const retainedDialogOpener=await openClaimSourcesByKeyboard(page,shortClaim,result,'readable-fallback-already-open-source');
+    await page.setViewportSize({width:901,height:651});
+    await until(async()=>await caseWorkspace(page).getAttribute('data-case-view')==='list'&&JSON.parse(await caseWorkspace(page).getAttribute('data-case-readable-label-report')??'null')?.status==='insufficient','Open-dialog readable fallback did not complete',15000);
+    assert.equal(await caseSourceDialog(page).evaluate(dialog=>dialog.open&&dialog.contains(document.activeElement)),true,'Automatic fallback stole native source-dialog focus');
+    assert.equal(await caseWorkspace(page).getAttribute('data-case-selection'),shortEdge.id);
+    assertClaimEvidence(await readEvidenceDOM(caseSourceDialog(page).locator('[data-reader-scroll] > .ocd-evidence-content')),shortClaim,shortFile);
+    await capture(page,result,'automatic-readable-fallback-retains-open-source-dialog');
+    await closeClaimSources(page,retainedDialogOpener,until);
+    const restoredReason=await caseWorkspace(page).locator('[data-case-auto-fallback-notice]').evaluate(element=>{const r=element.getBoundingClientRect();return {visible:element.checkVisibility({opacityProperty:true,visibilityProperty:true}),rect:r.toJSON(),unobscured:element.contains(document.elementFromPoint((r.left+r.right)/2,(r.top+r.bottom)/2))};});
+    assert.ok(restoredReason.visible&&restoredReason.unobscured&&restoredReason.rect.top>=0&&restoredReason.rect.bottom<=651,'Closing sources did not reveal persistent fallback reason');
+    result.readableLabelFallbackWithOpenSources={selection:shortEdge.id,reason:restoredReason,sceneCoverage:false};
+    await capture(page,result,'automatic-readable-fallback-visible-after-source-close');
+    await page.setViewportSize({width:1440,height:1000});
+    await showCaseScene(page,until,result,'readable-policy-open-dialog-reentry');
+    await assertCaseFrame(page,shortFile,until,result,'readable-policy-open-dialog-reentry');
+
     await page.keyboard.press('Escape');
     await until(async () => await caseWorkspace(page).count() === 0, 'Workspace Escape did not close');
     assert.equal(await page.getByRole('button', { name: 'Selected case files', exact: true }).evaluate(element => document.activeElement === element), true, 'Workspace failed to return focus to its atlas launcher');

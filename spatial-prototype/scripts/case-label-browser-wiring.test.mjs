@@ -5,7 +5,7 @@ const harness = readFileSync(new URL('./case-workspace-browser.mjs', import.meta
 test('every exact case frame passes actual full-label geometry after native drawing settles', () => {
   const frame = harness.slice(harness.indexOf('export async function assertCaseFrame'), harness.indexOf('async function geographySnapshot'));
   assert.match(frame, /case-scene-draws/); assert.match(frame, /case-composite-draws/);
-  assert.match(frame, /const checkLabels = \(\) => assertCaseLabelReadability\(page, file, result \?\? \{\}, \{ phase, fit: phase === 'initial' \}\)/);
+  assert.match(frame, /const checkLabels = async \(\) => \{\s*await assertCaseLabelReadability\(page, file, result \?\? \{\}, \{ phase, fit: phase === 'initial', requireReadablePolicy: true \}\);\s*if \(afterLabelCheck\) await afterLabelCheck\(\);/);
   assert.match(frame, /if \(labelCoverage\) await labelCoverage.observe\(file.id, phase, checkLabels\);\s*else await checkLabels\(\)/);
 });
 test('dense source access and forced-colors repair have actual native browser assertions and captures', () => {

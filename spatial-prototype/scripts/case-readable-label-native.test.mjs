@@ -29,3 +29,12 @@ test('short-board native case retains the original deadline and records actual f
 test('existing compact, native source, browser zoom, and workspace-return checks are retained',()=>{
  for(const marker of ['compact-320','effective-640x450','exerciseSourceDialogKeyboard','Browser zoom shortcut pass-through','keyboard Close did not restore its exact opener','Workspace failed to return focus to its atlas launcher'])assert.ok(case38.includes(marker),marker);
 });
+
+test('native acceptance requires committed readable policy and retains geometry/scroll/focus stability',()=>{
+ assert.match(source,/fit: phase === 'initial', requireReadablePolicy: true/);
+ assert.match(case37,/rail-scroll-stability/);assert.match(case37,/Rail scroll changed case board geometry/);assert.match(case37,/Status publication reset evidence rail scroll/);
+ assert.match(case38,/Automatic fallback reason is not actually visible/);assert.match(case38,/Automatic fallback stole native source-dialog focus/);assert.match(case38,/automatic-readable-fallback-visible-after-source-close/);
+ const reader=fs.readFileSync(path.join(host,'scripts/case-label-readability.mjs'),'utf8');
+ for(const marker of ['report publication changed measured board geometry','reserved status geometry changed during publication','publication reset evidence reading position','publication changed focused control'])assert.ok(reader.includes(marker));
+ assert.ok(reader.indexOf('(result[samples] ??= []).push')<reader.indexOf('validateCaseLabelSemantics(sample, file, options);',reader.indexOf('async function readCommittedCaseLabels')));
+});

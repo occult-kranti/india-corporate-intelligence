@@ -1,11 +1,13 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
 import type { CaseController } from '../case-scene/controller';
 import type { CameraPose, CaseSceneState, SceneAction } from '../case-scene/state';
 import type { CaseFrame } from '../case-scene/CaseSceneLayer';
 import type { CaseGraphicsHost, CaseSession } from './graphics-contract';
 import cases from './case-index.json';
-import { observeReadableCaseLabels, isAllLabelPose, type ReadableLabelReport } from './readable-label-layout';
+import { observeReadableCaseLabels, invalidateReadableCaseLabels, isAllLabelPose, type ReadableLabelReport } from './readable-label-layout';
 import './workspace.css';
+import { ReadableLabelStatus } from './ReadableLabelStatus';
 
 type Reader = typeof import('./reader-runtime');
 type ActiveCase = { reader: Reader; controller: CaseController };
@@ -19,6 +21,7 @@ const focusable = 'button:not(:disabled),a[href],input:not(:disabled),select:not
 const wall = () => performance.now();
 const compactViewport = () => typeof window !== 'undefined' && (window.innerWidth <= 900 || window.innerHeight <= 650);
 const compactNotice = 'This viewport is too small for the case scene and its evidence rail. Use a larger desktop viewport for Case scene; the complete reader and all sources remain available here.';
+const readableFallbackNotice = 'The available case board cannot fit the required full labels at a readable width. The complete reader is shown with your selection and sources retained. Use a larger view, then choose Case scene again.';
 function boardFits(graphics: CaseGraphicsHost, board: HTMLElement) {
   const box = board.getBoundingClientRect(), canvas = graphics.map.getCanvas().getBoundingClientRect();
   return box.width >= 240 && box.height >= 180 && box.left >= canvas.left - .5 && box.top >= canvas.top - .5
@@ -65,14 +68,25 @@ export default function CaseWorkspace({ graphics, reducedMotion, onClose, onRecr
           && root.current?.dataset.caseMotion === 'false' && root.current?.dataset.caseSelection === selection;
       },
       onReport: report => {
-        setLabelReport(report);
-        if (report.status === 'insufficient') {
-          // Transfer focus only from the scene region that is about to be removed.
-          // Header/reader focus and an open native source dialog keep ownership.
-          if (!dialog.current?.open && surface.current?.closest('.cw-scene')?.contains(document.activeElement)) heading.current?.focus({ preventScroll: true });
-          act({ type: 'set-view', view: 'list' });
-          setNotice('The available case board cannot fit the required full labels at a readable width. The complete reader is shown with your selection and sources retained. Use a larger view, then choose Case scene again.');
-        }
+        // This callback runs only in the observer's bounded RAF delivery, outside
+        // React render/commit. Commit the explanation before hiding any plaque.
+        flushSync(() => {
+          setLabelReport(report);
+          if (report.status === 'insufficient') {
+            // Transfer focus only from the scene region that is about to be removed.
+            // Header/reader focus and an open native source dialog keep ownership.
+            if (!dialog.current?.open && surface.current?.closest('.cw-scene')?.contains(document.activeElement)) heading.current?.focus({ preventScroll: true });
+            act({ type: 'set-view', view: 'list' });
+            setNotice('');
+          }
+        });
+        if (report.status !== 'ready') return false;
+        const notice = root.current?.querySelector<HTMLElement>('[data-case-label-notice]');
+        return root.current?.dataset.caseReadableLabelReport === JSON.stringify(report)
+          && Boolean(notice?.checkVisibility({ opacityProperty: true, visibilityProperty: true }))
+          && notice?.dataset.caseDeferredNodeCount === String(report.deferredNodes.length)
+          && notice?.dataset.caseDeferredRoleCount === String(report.deferredRoles.length);
+
       },
     });
   }, [frame, state, paused]);
@@ -203,10 +217,11 @@ export default function CaseWorkspace({ graphics, reducedMotion, onClose, onRecr
       if (cancelled || closing.current || !surface.current) return;
       attached = module.attachCaseScene({
         graphics, controller, surface: surface.current, opener: null,
-        onState: next => { if (!cancelled && !closing.current) { setState(next); setPaused(null); setAmbiguous([]); if (next.view === 'scene') setLabelReport(null); } },
+        onState: next => { if (!cancelled && !closing.current) { if (labels.current) invalidateReadableCaseLabels(labels.current); setState(next); setPaused(null); setAmbiguous([]); if (next.view === 'scene') setLabelReport(null); } },
         onFrame: next => { if (!cancelled && !failed && !closing.current) {
           const box = surface.current?.getBoundingClientRect();
           frameContext.current = box ? { frame: next, state: controller.state, width: box.width, height: box.height } : null;
+          if (labels.current) invalidateReadableCaseLabels(labels.current);
           setLabelReport(null); setFrame(next);
         } },
         onMetrics: metrics => {
@@ -300,6 +315,7 @@ export default function CaseWorkspace({ graphics, reducedMotion, onClose, onRecr
         {active && !chooser && <button type="button" onClick={() => { act({ type: 'set-view', view: 'list' }); setChooser(true); }}>Choose another case</button>}
         <button type="button" onClick={closeWorkspace}>Close workspace</button>
       </div>
+      {!chooser && !scene && labelReport?.status === 'insufficient' && <p className="cw-auto-fallback-notice" role="status" data-case-auto-fallback-notice="">{readableFallbackNotice}</p>}
     </header>
     {chooser ? <div className="cw-chooser cw-scroll" tabIndex={0} aria-label="Reviewed case chooser">
       <p>19 reviewed, dated cases · 72 core claims. Choose a case to load its complete reader.</p>
@@ -332,6 +348,7 @@ export default function CaseWorkspace({ graphics, reducedMotion, onClose, onRecr
             <button type="button" onClick={() => act({ type: 'set-view', view: 'list' })}>Complete reader</button>
           </div>
           <p className="cw-kicker" role="status">{reducedMotion ? 'Reduced motion: camera changes are immediate.' : 'Travel occurs only after a deliberate selection or camera action.'}</p>
+          <ReadableLabelStatus report={!state.motion && !paused ? labelReport : null} nodeMaximum={file.nodes.length} roleMaximum={file.edges.length}/>
         </div>
         <div ref={surface} data-case-surface="" data-case-frame-nodes={frame?.nodes.length ?? 0} data-case-frame-roles={frame?.roles.length ?? 0} className="cw-surface" tabIndex={0} role="group" aria-label={`${file.label}: nongeographic case board`} aria-describedby={help}>
           {!frame && <p className="cw-scene-loading" role="status">Loading the case scene. Complete source evidence is available in the reader.</p>}
@@ -344,13 +361,7 @@ export default function CaseWorkspace({ graphics, reducedMotion, onClose, onRecr
       </section>}
       <div className="cw-rail cw-scroll" data-reader-scroll="workspace-evidence" data-reader-body="" tabIndex={0} aria-label="Complete case evidence and sources">
         {notice && <p className="cw-notice" role="status">{notice}</p>}
-        {scene && !state.motion && !paused && labelReport?.status === 'ready' && labelReport.deferredNodes.length + labelReport.deferredRoles.length > 0 && <p className="cw-notice" role="status" data-case-label-notice=""
-          data-case-deferred-node-count={labelReport.deferredNodes.length} data-case-deferred-role-count={labelReport.deferredRoles.length}>
-          {labelReport.deferredNodes.length} node labels and {labelReport.deferredRoles.length} relation labels are listed in the complete reader instead of this view:
-          {' '}{[...labelReport.deferredNodes, ...labelReport.deferredRoles].filter(item => item.reason === 'outside-view').length} outside this view;
-          {' '}{[...labelReport.deferredNodes, ...labelReport.deferredRoles].filter(item => item.reason === 'crowded').length} deferred to prevent overlap.
-          {' '}Use Fit case to show all nodes, or Complete reader for every full name and source. The All case nodes controls below still select each exact node.
-        </p>}
+
         {!graphics?.isUsable() && <p>The reader works without WebGL. <button type="button" onClick={recreate}>Recreate graphics</button></p>}
         {sceneFailed && graphics?.isUsable() && <button type="button" onClick={recreate}>Recreate graphics</button>}
         {ambiguous.length > 0 && <section aria-label="Overlapping case relations"><h2>Choose an exact relation</h2><ul>{ambiguous.map(id => {

@@ -77,7 +77,7 @@ test('retired and poisoned context observations are retained, not folded into cu
 test('scenario46 retains counts/budget/actions and full raw checkpoint/final evidence routes', async () => {
   const source = await readFile(new URL('./case-graphics-browser.mjs', import.meta.url), 'utf8');
   const lifecycle = source.slice(source.indexOf('await run(GRAPHICS_SCENARIOS[7]'), source.indexOf('coverage.scenarios ='));
-  assert.match(lifecycle, /reducedMotion: true, budgetMs: 240000/);
+  assert.match(lifecycle, /reducedMotion: true, budgetMs: 300000/);
   assert.match(lifecycle, /index <= 3/); assert.match(lifecycle, /index <= 30/); assert.match(lifecycle, /assertHandlePlateau\(baseline, result\.caseResourceCycles\)/);
   assert.match(lifecycle, /await frames\(page, 3\)/); assert.match(lifecycle, /frames\(120, true\)/);
   assert.match(lifecycle, /await showCompleteCaseReader\(page, until\); await showCaseScene\(page, until\);/);

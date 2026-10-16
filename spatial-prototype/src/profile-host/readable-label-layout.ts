@@ -1,5 +1,5 @@
 import { nodeLabelWidths } from './node-label-width';
-import { placeRoleLabels, type LabelRect, type RoleLabelBox, type RoleLabelPlacement } from './role-label-layout';
+import { placeRoleLabels, roleLabelPresentation, type LabelRect, type RoleLabelBox, type RoleLabelPlacement } from './role-label-layout';
 
 export const READABLE_NODE_MIN_WIDTH = 96;
 export type DeferredReason = 'outside-view' | 'crowded';
@@ -95,28 +95,71 @@ export function planReadableCaseLabels(nodes: readonly ReadableNodeBox[], roles:
 
 export interface ReadableLabelObserverOptions extends ReadableLabelPolicy {
   isSettled: () => boolean;
-  onReport: (report: ReadableLabelReport) => void;
+  /** Commit the matching explanation synchronously, then acknowledge it. */
+  onReport: (report: ReadableLabelReport) => boolean;
+}
+const invalidators = new WeakMap<HTMLElement, () => void>();
+/** Clear exposed policy/deferrals before the host removes a report's explanation. */
+export function invalidateReadableCaseLabels(root: HTMLElement): void {
+  invalidators.get(root)?.();
 }
 
-/** Event-driven measurement. Two finite frames defer reporting until queued
- * selection/renderer updates settle; this does not create an idle loop. */
+/** Event-driven measurement with a bounded, acknowledged publication. Pending
+ * frames retain full labels and expose no ready policy. No idle polling loop. */
 export function observeReadableCaseLabels(root: HTMLElement, policy: ReadableLabelObserverOptions): () => void {
   const nodes = [...root.querySelectorAll<HTMLElement>('.cw-node-label')], roles = [...root.querySelectorAll<HTMLElement>('.cw-role-label')];
   const leaders = new Map([...root.querySelectorAll<SVGLineElement>('[data-case-label-leader]')].map(line => [line.dataset.caseLabelLeader!, line]));
   const creditElements = [...root.ownerDocument.querySelectorAll<HTMLElement>('.evidence-app .city-attribution > a,.evidence-app .maplibregl-ctrl-attrib-inner')];
   const window = root.ownerDocument.defaultView!;
-  let active = true, pendingFrame = 0, signature = '';
-  const reportAfterSettling = (report: ReadableLabelReport) => {
-    const next = JSON.stringify(report);
-    if (next === signature) return;
-    signature = next;
+  let active = true, pendingFrame = 0, pendingKey = '', publishedKey = '', revision = 0;
+  let last: ReturnType<typeof planReadableCaseLabels> | null = null;
+  const apply = (result: ReturnType<typeof planReadableCaseLabels>, publish: boolean) => {
+    const bounds = root.getBoundingClientRect();
+    const deferredNodes = new Map(result.report.deferredNodes.map(item => [item.id, item.reason]));
+    const deferredRoles = new Map(result.report.deferredRoles.map(item => [item.id, item.reason]));
+    nodes.forEach(element => {
+      const reason = publish ? deferredNodes.get(element.dataset.caseNodeId!) : undefined;
+      element.dataset.caseLabelDisposition = reason ?? 'shown';
+      element.style.visibility = reason ? 'hidden' : '';
+    });
+    result.roles.forEach((role, index) => {
+      const element = roles[index], reason = publish ? deferredRoles.get(role.id) : undefined, leader = leaders.get(role.id);
+      element.dataset.caseLabelDisposition = reason ?? 'shown';
+      element.style.visibility = reason ? 'hidden' : '';
+      element.style.left = `${role.left + role.width / 2}px`; element.style.top = `${role.top + role.height / 2}px`;
+      const rect = element.getBoundingClientRect();
+      const presentation = roleLabelPresentation(role, { left: rect.left - bounds.left, top: rect.top - bounds.top, width: rect.width, height: rect.height });
+      element.dataset.caseLabelPlacement = presentation.placement;
+      if (!leader) return;
+      leader.setAttribute('x2', String(presentation.x2)); leader.setAttribute('y2', String(presentation.y2));
+      leader.style.visibility = !reason && presentation.leaderVisible ? 'visible' : 'hidden';
+    });
+    root.dataset.caseLabelReport = publish ? JSON.stringify(result.report) : '';
+    root.dataset.caseLabelPublication = publish ? 'committed' : 'pending';
+  };
+  const invalidate = () => {
+    revision++;
     if (pendingFrame) window.cancelAnimationFrame(pendingFrame);
+    pendingFrame = 0; pendingKey = ''; publishedKey = '';
+    if (last) apply(last, false);
+    else { root.dataset.caseLabelReport = ''; root.dataset.caseLabelPublication = 'pending'; }
+  };
+  invalidators.set(root, invalidate);
+  const publishAfterSettling = (result: ReturnType<typeof planReadableCaseLabels>, key: string) => {
+    if (key === pendingKey) return;
+    if (pendingFrame) window.cancelAnimationFrame(pendingFrame);
+    pendingKey = key;
+    const token = ++revision;
+    const current = () => active && root.isConnected && revision === token && policy.isSettled();
     pendingFrame = window.requestAnimationFrame(() => {
-      if (!active || !root.isConnected) return;
+      if (!current()) { pendingFrame = 0; pendingKey = ''; return; }
       pendingFrame = window.requestAnimationFrame(() => {
-        pendingFrame = 0;
-        if (active && root.isConnected && policy.isSettled()) policy.onReport(report);
-        else signature = ''; // A later actual frame/resize event may report; never poll.
+        pendingFrame = 0; pendingKey = '';
+        if (!current()) return;
+        // The host's acknowledgement is after its matching notice DOM commit.
+        const acknowledged = policy.onReport(result.report);
+        if (!current() || acknowledged !== true || result.report.status !== 'ready') return;
+        apply(result, true); publishedKey = key;
       });
     });
   };
@@ -131,36 +174,23 @@ export function observeReadableCaseLabels(root: HTMLElement, policy: ReadableLab
     const credits = creditElements.filter(element => element.checkVisibility({ opacityProperty: true, visibilityProperty: true }))
       .map(element => local(element.getBoundingClientRect())).filter(rect => rect.width > 0 && rect.height > 0 && rect.left < bounds.width && right(rect) > 0 && rect.top < bounds.height && bottom(rect) > 0);
     const result = planReadableCaseLabels(nodeBoxes, roleBoxes, bounds.width, bounds.height, policy, credits);
+    last = result;
+    const key = JSON.stringify([result, nodeBoxes, roleBoxes, credits]);
     const settled = policy.isSettled();
-    const deferredNodes = new Map(result.report.deferredNodes.map(item => [item.id, item.reason]));
-    const deferredRoles = new Map(result.report.deferredRoles.map(item => [item.id, item.reason]));
-    nodes.forEach(element => {
-      const reason = settled ? deferredNodes.get(element.dataset.caseNodeId!) : undefined;
-      element.dataset.caseLabelDisposition = reason ?? 'shown';
-      element.style.visibility = reason ? 'hidden' : '';
-    });
-    result.roles.forEach((role, index) => {
-      const element = roles[index], reason = settled ? deferredRoles.get(role.id) : undefined, leader = leaders.get(role.id);
-      element.dataset.caseLabelDisposition = reason ?? 'shown';
-      element.style.visibility = reason ? 'hidden' : '';
-      element.style.left = `${role.left + role.width / 2}px`; element.style.top = `${role.top + role.height / 2}px`;
-      element.dataset.caseLabelPlacement = role.unresolved ? 'unresolved' : role.displaced ? 'displaced' : 'anchored';
-      if (!leader) return;
-      const centerX = role.left + role.width / 2, centerY = role.top + role.height / 2, dx = role.x - centerX, dy = role.y - centerY;
-      const scale = Math.min(role.width / 2 / Math.max(Math.abs(dx), .001), role.height / 2 / Math.max(Math.abs(dy), .001), 1);
-      leader.setAttribute('x2', String(centerX + dx * scale)); leader.setAttribute('y2', String(centerY + dy * scale));
-      leader.style.visibility = !reason && role.displaced ? 'visible' : 'hidden';
-    });
     root.dataset.caseLabelPolicy = 'readable-minimum';
-    root.dataset.caseLabelReport = settled ? JSON.stringify(result.report) : '';
     root.dataset.caseLabelUnresolved = String(result.report.failures.length);
     root.dataset.caseLabelReservedCredits = String(credits.length);
-    if (settled) reportAfterSettling(result.report);
-    else { if (pendingFrame) window.cancelAnimationFrame(pendingFrame); pendingFrame = 0; signature = ''; }
+    if (!settled) { invalidate(); return; }
+    if (key === publishedKey) { apply(result, true); return; }
+    publishedKey = ''; apply(result, false); publishAfterSettling(result, key);
   };
   place();
   const observer = window.ResizeObserver ? new window.ResizeObserver(place) : null;
   for (const element of [root, ...nodes, ...roles, ...creditElements]) observer?.observe(element);
   root.ownerDocument.fonts?.addEventListener('loadingdone', place);
-  return () => { active = false; if (pendingFrame) window.cancelAnimationFrame(pendingFrame); observer?.disconnect(); root.ownerDocument.fonts?.removeEventListener('loadingdone', place); };
+  return () => {
+    invalidate(); active = false;
+    if (invalidators.get(root) === invalidate) invalidators.delete(root);
+    observer?.disconnect(); root.ownerDocument.fonts?.removeEventListener('loadingdone', place);
+  };
 }

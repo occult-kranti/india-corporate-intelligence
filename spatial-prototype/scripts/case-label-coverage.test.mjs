@@ -80,7 +80,11 @@ test('harness uses collector only in scenario37 and unconditionally finishes aft
   assert.ok(body.indexOf('labelCoverage.finish') > body.indexOf('await resources.finish()'));
   assert.ok(body.indexOf('labelCoverage.finish') > body.indexOf('No real shared-context drawing was observed'));
   assert.ok(body.indexOf('labelCoverage.finish') < body.indexOf("result.notes.push('All 19 cases completed"));
-  for (const phase of phases(ids[0])) assert.ok(body.includes(`assertCaseFrame(page, file, until, result, '${phase}', labelCoverage)`));
+  for (const phase of phases(ids[0])) assert.ok(body.includes(`assertCaseFrame(page, file, until, result, '${phase}', labelCoverage${phase === 'selected-edge' ? ', async () => {' : ')'}`));
+  const railCheck = body.slice(body.indexOf("'selected-edge', labelCoverage, async () => {"), body.indexOf('for (const factId of file.readerFactIds)'));
+  assert.match(railCheck, /rail-scroll-stability/);
+  assert.match(railCheck, /Rail scroll changed exact selection/);
+  assert.ok(!body.slice(body.indexOf('for (const factId of file.readerFactIds)')).includes('rail-scroll-stability'));
   assert.ok(body.includes('await assertNoAdmission(page, baseline)'));
   assert.ok(!elsewhere.includes('createCaseLabelCoverage(files.map'));
   assert.match(elsewhere, /else await checkLabels\(\)/);

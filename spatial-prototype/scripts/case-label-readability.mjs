@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { assertRoleLabelPlacementSemantics } from './case-role-label-semantics.mjs';
 import { assertReadableGeometry } from './case-label-coverage.mjs';
 import { prepareReadableCaseLabelGeometry } from './case-label-policy.mjs';
 
@@ -50,12 +51,28 @@ export async function readCaseLabelGeometry(page) {
       .map(element => ({ text: element.textContent, rect: copy(element.getBoundingClientRect()) }))
       .filter(credit => credit.rect.width > 0 && credit.rect.height > 0 && credit.rect.left < board.width && credit.rect.left + credit.rect.width > 0 && credit.rect.top < board.height && credit.rect.top + credit.rect.height > 0);
     const workspace = surface.closest('[data-case-workspace]'), notice = workspace.querySelector('[data-case-label-notice]');
+    const noticeGeometry = element => {
+      const rect = element.getBoundingClientRect(), band = workspace.querySelector('.cw-scene-band')?.getBoundingClientRect();
+      const points = [[rect.left+4,rect.top+4],[rect.right-4,rect.top+4],[rect.left+4,rect.bottom-4],[rect.right-4,rect.bottom-4],[(rect.left+rect.right)/2,(rect.top+rect.bottom)/2]];
+      return { rect: { left:rect.left,top:rect.top,width:rect.width,height:rect.height },
+        viewport: { width:innerWidth,height:innerHeight },
+        inViewport:rect.width>0&&rect.height>0&&rect.left>=0&&rect.top>=0&&rect.right<=innerWidth&&rect.bottom<=innerHeight,
+        inSceneBand:Boolean(band)&&rect.left>=band.left&&rect.top>=band.top&&rect.right<=band.right&&rect.bottom<=band.bottom,
+        unobscured:points.every(([x,y])=>{const top=document.elementFromPoint(x,y);return top===element||element.contains(top);}) };
+    };
     const readerRows = selector => [...workspace.querySelectorAll(selector)].map(element => ({ id: element.dataset.nodeId ?? element.dataset.edgeId, text: element.querySelector(':scope > button')?.textContent }));
     const available = name => [...workspace.querySelectorAll('button')].some(button => button.textContent === name && !button.disabled && button.checkVisibility({ opacityProperty: true, visibilityProperty: true }));
+    const rail=workspace.querySelector('.cw-rail'), status=workspace.querySelector('[data-case-label-status]'), focused=document.activeElement;
+    const globalRect=element=>element?{left:element.getBoundingClientRect().left,top:element.getBoundingClientRect().top,width:element.getBoundingClientRect().width,height:element.getBoundingClientRect().height}:null;
     return { width: board.width, height: board.height, labels, leaders, credits,
+      boardRect:globalRect(surface),statusRect:globalRect(status),railScrollTop:rail?.scrollTop,
+      focusedControl:focused?{tag:focused.tagName,text:focused.textContent,node:focused.closest('[data-node-id]')?.getAttribute('data-node-id'),edge:focused.closest('[data-edge-id]')?.getAttribute('data-edge-id')}:null,
+      labelPolicyName: layer.dataset.caseLabelPolicy ?? null,
+      labelPublication: layer.dataset.caseLabelPublication ?? null,
+      workspaceLabelPolicy: workspace.dataset.caseReadableLabelReport ? JSON.parse(workspace.dataset.caseReadableLabelReport) : null,
       labelPolicy: layer.dataset.caseLabelReport ? JSON.parse(layer.dataset.caseLabelReport) : null,
       allFrameNodeIds: JSON.parse(layer.dataset.caseAllNodeIds ?? '[]'), allFrameRoleIds: JSON.parse(layer.dataset.caseAllRoleIds ?? '[]'),
-      policyNotice: notice ? { visible: notice.checkVisibility({ opacityProperty: true, visibilityProperty: true }), nodeCount: Number(notice.dataset.caseDeferredNodeCount), roleCount: Number(notice.dataset.caseDeferredRoleCount), text: notice.textContent } : null,
+      policyNotice: notice ? { ...noticeGeometry(notice), visible: notice.checkVisibility({ opacityProperty: true, visibilityProperty: true }), nodeCount: Number(notice.dataset.caseDeferredNodeCount), roleCount: Number(notice.dataset.caseDeferredRoleCount), text: notice.textContent } : null,
       readerNodes: readerRows('.cw-rail [data-node-id]'), readerRoles: readerRows('.cw-rail [data-edge-id]'),
       fitControlAvailable: available('Fit case'), readerControlAvailable: available('Complete reader'),
       expectedNodeIds: JSON.parse(layer.dataset.caseVisibleNodeIds), expectedRoleIds: JSON.parse(layer.dataset.caseVisibleRoleIds),
@@ -83,11 +100,8 @@ export function validateCaseLabelSemantics(sample, file, { phase = 'frame', fit 
     assert.equal(label.text, label.kind === 'node' ? file.nodes.find(node => node.id === label.id)?.label : file.edges.find(edge => edge.id === label.id)?.role, `${prefix}: exact full text ${label.id}`);
     if (label.kind === 'node') {
       assert.ok(Math.abs(label.rect.left + label.rect.width / 2 - label.anchor.x) <= .75 && Math.abs(label.rect.top + label.rect.height / 2 - label.anchor.y) <= .75, `${prefix}: node label moved away from original pin ${label.id}`);
-    } else if (label.placement === 'displaced') {
-      const leader = sample.leaders.find(item => item.id === label.id);
-      const deferred = sample.labelPolicy?.deferredRoles?.some(item => item.id === label.id && item.reason === label.disposition && ['outside-view', 'crowded'].includes(item.reason));
-      assert.ok(leader && (leader.visible || (deferred && !label.visible)), `${prefix}: displaced role missing visible leader or explicit deferral ${label.id}`);
-      assert.ok(Math.abs(leader.x1 - label.anchor.x) <= .01 && Math.abs(leader.y1 - label.anchor.y) <= .01, `${prefix}: leader does not retain projected relation midpoint ${label.id}`);
+    } else {
+      assertRoleLabelPlacementSemantics(sample, label, prefix);
     }
   }
   return { prefix, nodes, roles, mandatory };
@@ -114,6 +128,7 @@ export function validateCaseLabelGeometry(sample, file, options = {}) {
         const leader = sample.leaders.find(item => item.id === label.id);
         assert.ok(leader?.visible, `${prefix}: displaced role missing visible leader ${label.id}`);
         assert.ok(Math.abs(leader.x1 - label.anchor.x) <= .01 && Math.abs(leader.y1 - label.anchor.y) <= .01, `${prefix}: leader does not retain projected relation midpoint ${label.id}`);
+        assertReadableGeometry(Math.hypot(leader.x2 - leader.x1, leader.y2 - leader.y1) > 0, `${prefix}: outside-anchor leader has zero length ${label.id}`);
         const onX = Math.abs(leader.x2 - label.rect.left) < .75 || Math.abs(leader.x2 - right(label.rect)) < .75;
         const onY = Math.abs(leader.y2 - label.rect.top) < .75 || Math.abs(leader.y2 - bottom(label.rect)) < .75;
         assertReadableGeometry((onX || onY) && leader.x2 >= label.rect.left - .75 && leader.x2 <= right(label.rect) + .75 && leader.y2 >= label.rect.top - .75 && leader.y2 <= bottom(label.rect) + .75, `${prefix}: leader does not terminate at plaque boundary ${label.id}`);
@@ -127,7 +142,8 @@ export function validateCaseLabelGeometry(sample, file, options = {}) {
       assertReadableGeometry(!overlaps(lineA, lineB), `${prefix}: actual wrapped text-line collision: ${a.id} / ${b.id}`);
   }
   return { labels: sample.labels.length, nodes: nodes.length, roles: roles.length, clippedNonselectedIds: clipped,
-    fullBoardContainmentRequired: fit, reservedCreditCount: sample.credits?.length ?? 0, displacedRoles: roles.filter(role => role.placement === 'displaced').map(role => role.id) };
+    fullBoardContainmentRequired: fit, reservedCreditCount: sample.credits?.length ?? 0, displacedRoles: roles.filter(role => role.placement === 'displaced').map(role => role.id),
+    containedDisplacedRoles: roles.filter(role => role.placement === 'displaced-contained').map(role => role.id) };
 }
 
 export function validateCaseNodeLabelSizingMetadata(sample, { phase = 'frame' } = {}) {
@@ -156,11 +172,43 @@ export function validateCaseNodeLabelSizing(sample, { phase = 'frame' } = {}) {
   }
 }
 
+/** Pending frames are diagnostic, never scene credit. Source/identity/pin checks
+ * run on every observation; a truthful pending frame restores every emitted
+ * plaque. Wait only for the explicit committed-state transition, under the
+ * existing locator timeout, rather than adding a settling sleep. */
+async function readCommittedCaseLabels(page, file, result, options, read) {
+  const deadline = Date.now() + 12000;
+  while (true) {
+    const sample = await readCaseLabelGeometry(page);
+    const samples = read === 'initial' ? 'caseLabelReadabilitySamples' : 'caseLabelReadabilityRepeatedSamples';
+    (result[samples] ??= []).push({ caseId:file.id, phase:options.phase, ...sample });
+    validateCaseLabelSemantics(sample, file, options);
+    validateCaseNodeLabelSizingMetadata(sample, options);
+    if (options.requireReadablePolicy) assert.equal(sample.labelPolicyName, 'readable-minimum', `${file.id}: native scene lacks exact readable-label policy marker`);
+    if (options.requireReadablePolicy || sample.labelPolicyName === 'readable-minimum') {
+      assert.deepEqual(sample.allFrameNodeIds,file.nodes.map(node=>node.id),`${file.id}: full frame node identities differ`);
+      assert.equal(new Set(sample.allFrameRoleIds).size,sample.allFrameRoleIds.length,`${file.id}: duplicate full frame role identity`);
+      for(const id of sample.allFrameRoleIds)assert.ok(file.edges.some(edge=>edge.id===id),`${file.id}: unknown full frame role identity ${id}`);
+      for(const id of sample.expectedRoleIds)assert.ok(sample.allFrameRoleIds.includes(id),`${file.id}: emitted role absent from full frame ${id}`);
+      assert.deepEqual(sample.leaders.map(leader=>leader.id),sample.expectedRoleIds,`${file.id}: exact original leader identity set differs`);
+    }
+    if (sample.labelPolicyName !== 'readable-minimum' || sample.labelPublication === 'committed') return sample;
+    (result.caseLabelPendingSamples ??= []).push({ caseId:file.id, phase:options.phase, read, ...sample });
+    assert.equal(sample.labelPublication, 'pending', `${file.id}: unknown label publication state`);
+    assert.equal(sample.labelPolicy, null, `${file.id}: pending layer exposes stale ready policy`);
+    for (const label of sample.labels) {
+      assert.equal(label.disposition, 'shown', `${file.id}: pending label retained deferral ${label.id}`);
+      assert.equal(label.visible, true, `${file.id}: pending label hidden before matching explanation ${label.id}`);
+    }
+    assert.ok(Date.now() < deadline, `${file.id}: label publication did not commit within the existing native timeout`);
+    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(resolve)));
+  }
+}
+
 export async function assertCaseLabelReadability(page, file, result, options = {}) {
   // Allow the event-bounded host report to commit before checking its visible notice.
   await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(() => requestAnimationFrame(resolve)))));
-  const sample = await readCaseLabelGeometry(page);
-  (result.caseLabelReadabilitySamples ??= []).push({ caseId: file.id, phase: options.phase, ...sample });
+  const sample = await readCommittedCaseLabels(page, file, result, options, 'initial');
   validateCaseLabelSemantics(sample, file, options);
   validateCaseNodeLabelSizingMetadata(sample, options);
   const prepared = prepareReadableCaseLabelGeometry(sample, file, options);
@@ -169,17 +217,25 @@ export async function assertCaseLabelReadability(page, file, result, options = {
   // Give ResizeObserver another delivery opportunity. Position-only writes must
   // not change an absolute plaque's width and cause size/position oscillation.
   await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
-  const repeated = await readCaseLabelGeometry(page);
+  const repeated = await readCommittedCaseLabels(page, file, result, options, 'repeated');
   validateCaseLabelSemantics(repeated, file, options);
   validateCaseNodeLabelSizingMetadata(repeated, options);
-  prepareReadableCaseLabelGeometry(repeated, file, options);
   assert.deepEqual(repeated.labelPolicy, sample.labelPolicy, `${file.id}: unstable readable-label disposition`);
+  if(options.requireReadablePolicy){
+    assert.deepEqual(repeated.boardRect,sample.boardRect,`${file.id}: report publication changed measured board geometry`);
+    assert.deepEqual(repeated.statusRect,sample.statusRect,`${file.id}: reserved status geometry changed during publication`);
+    assert.equal(repeated.railScrollTop,sample.railScrollTop,`${file.id}: publication reset evidence reading position`);
+    assert.equal(repeated.selection,sample.selection,`${file.id}: publication changed selection`);
+    assert.deepEqual(repeated.focusedControl,sample.focusedControl,`${file.id}: publication changed focused control`);
+  }
   // Identity/anchor stability also completes before any second-read geometry.
   for (const before of sample.labels) {
     const after = repeated.labels.find(label => label.kind === before.kind && label.id === before.id);
     assert.ok(after, `${file.id}: ${before.kind} vanished during settled placement ${before.id}`);
     assert.deepEqual(after.anchor, before.anchor, `${file.id}: ${before.kind} anchor changed during placement ${before.id}`);
   }
+  const repeatedPrepared = prepareReadableCaseLabelGeometry(repeated, file, options);
+  validateCaseLabelGeometry(repeatedPrepared.sample, file, repeatedPrepared.options);
   validateCaseNodeLabelSizing(repeated, options);
   for (const before of sample.labels) {
     const after = repeated.labels.find(label => label.kind === before.kind && label.id === before.id);

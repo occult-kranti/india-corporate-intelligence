@@ -16,13 +16,21 @@ export function attachCaseScene(options: CaseSessionOptions): CaseSession {
     onFailure:reason=>{ if(!disposed)options.onFailure(reason); },
     onFrame:options.onFrame,onMetrics:options.onMetrics,
   });
+  let boardRect = surface.getBoundingClientRect();
   const invalidate=()=>layer.resize();
+  // A scrolled evidence rail does not move this board. Invalidate for actual
+  // board movement while retaining resize/quality invalidations unconditionally.
+  const invalidateMovement=()=>{
+    const next=surface.getBoundingClientRect();
+    if(next.left===boardRect.left&&next.top===boardRect.top&&next.width===boardRect.width&&next.height===boardRect.height)return;
+    boardRect=next;layer.resize();
+  };
   const window=surface.ownerDocument.defaultView!;
   // Scroll and ancestor style/class movement may change the board's position without resizing it.
   let movement: MutationObserver | undefined;
   const dispose=()=>{
     if(disposed)return;disposed=true;unregister();
-    window.removeEventListener('scroll',invalidate,true);
+    window.removeEventListener('scroll',invalidateMovement,true);
     window.removeEventListener('resize',invalidate);
     movement?.disconnect();
     // A host state callback must never prevent listener/resource teardown.
@@ -32,7 +40,7 @@ export function attachCaseScene(options: CaseSessionOptions): CaseSession {
     catch(error){layer.dispose();graphics.failSharedRenderer(String(error));}
   };
   try {
-    movement = new MutationObserver(invalidate);
+    movement = new MutationObserver(invalidateMovement);
     for (let ancestor: HTMLElement | null = surface; ancestor; ancestor = ancestor.parentElement)
       movement.observe(ancestor, { attributes: true, attributeFilter: ['style', 'class', 'hidden'] });
     unregister=graphics.beforeDispose(dispose);
@@ -44,7 +52,7 @@ export function attachCaseScene(options: CaseSessionOptions): CaseSession {
       stopGeographicJourney:()=>graphics.stopGeographicJourney(),
       onContextRestored:()=>options.onFailure('Graphics were interrupted. Recreate graphics explicitly to continue the scene.'),
     });
-    window.addEventListener('scroll',invalidate,true);
+    window.addEventListener('scroll',invalidateMovement,true);
     window.addEventListener('resize',invalidate);
     layer.setState(controller.state,controller.clock.now);
   } catch(error) { dispose();throw error; }

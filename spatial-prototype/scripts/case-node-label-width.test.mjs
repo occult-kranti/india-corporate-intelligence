@@ -106,7 +106,7 @@ test('the measured selected Koch columns still fail the unweakened collision gat
 
 test('all-19 actual frame gates retain initial/selected coverage and extend settled stability to nodes', () => {
   const harness = fs.readFileSync(path.join(host, 'scripts/case-workspace-browser.mjs'), 'utf8');
-  for (const phase of ['initial', 'selected-node', 'selected-edge']) assert.ok(harness.includes(`await assertCaseFrame(page, file, until, result, '${phase}', labelCoverage)`));
+  for (const phase of ['initial', 'selected-node', 'selected-edge']) assert.ok(harness.includes(`await assertCaseFrame(page, file, until, result, '${phase}', labelCoverage${phase === 'selected-edge' ? ', async () => {' : ')'}`));
   assert.match(harness, /labelCoverage\.finish\(completedLabelCases\)/);
   const reader = fs.readFileSync(new URL('./case-label-readability.mjs', import.meta.url), 'utf8');
   assert.match(reader, /validateCaseNodeLabelSizing\(sample, options\)/);

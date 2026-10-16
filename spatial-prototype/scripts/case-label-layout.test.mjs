@@ -177,6 +177,7 @@ test('selected role and both exact endpoints are mandatory even if frame metadat
   assert.throws(() => validateCaseLabelGeometry(selected, selectedFile), /emitted role IDs/);
   selected.labels.push({ id: 'r', kind: 'role', text: 'reviewed relation', selected: true, rect: { left: 10, top: 150, width: 150, height: 30 },
     anchor: { x: 85, y: 165 }, lines: [{ left: 15, top: 155, width: 140, height: 20 }], visible: true, textOverflow: 'clip', lineClamp: 'none', placement: 'anchored' });
+  selected.leaders = [{ id: 'r', x1: 85, y1: 165, x2: 85, y2: 165, visible: false }];
   validateCaseLabelGeometry(selected, selectedFile);
   selected.labels = selected.labels.filter(label => label.id !== 'b'); selected.expectedNodeIds = ['a'];
   assert.throws(() => validateCaseLabelGeometry(selected, selectedFile), /selected role\/node\/endpoint missing/);

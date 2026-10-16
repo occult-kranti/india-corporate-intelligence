@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { assertRoleLabelPlacementSemantics } from './case-role-label-semantics.mjs';
 import { assertReadableGeometry } from './case-label-coverage.mjs';
 const right = r => r.left + r.width, bottom = r => r.top + r.height;
 const overlaps = (a,b) => a.left < right(b)+6-.5 && right(a)+6-.5 > b.left && a.top < bottom(b)+6-.5 && bottom(a)+6-.5 > b.top;
@@ -8,6 +9,11 @@ const sorted = values => [...new Set(values)].sort();
 /** Account for every original ID/text/pin before filtering explicitly deferred
  * geometry. Caller still runs the collector's full semantic/sizing prepasses. */
 export function prepareReadableCaseLabelGeometry(sample, file, options = {}) {
+  if (sample.labelPolicyName === 'readable-minimum') {
+    assert.ok(sample.labelPolicy, `${file.id}: pending label policy cannot count as settled scene coverage`);
+    assert.equal(sample.labelPublication, 'committed', `${file.id}: label policy lacks committed explanation`);
+    assert.deepEqual(sample.workspaceLabelPolicy, sample.labelPolicy, `${file.id}: layer/host report association differs`);
+  }
   if (!sample.labelPolicy) return { sample, options };
   const policy = sample.labelPolicy, prefix = `${file.id}:${options.phase ?? 'frame'}:policy`;
   assert.ok(policy.board && Math.abs(policy.board.width-sample.width)<=.25 && Math.abs(policy.board.height-sample.height)<=.25,`${prefix}: stale or missing measured board bounds`);
@@ -20,9 +26,7 @@ export function prepareReadableCaseLabelGeometry(sample, file, options = {}) {
     assert.equal(label.text,label.kind==='node'?file.nodes.find(node=>node.id===label.id)?.label:file.edges.find(edge=>edge.id===label.id)?.role,`${prefix}: original exact full text ${label.id}`);
     if(label.kind==='node')assert.ok(Math.abs(label.rect.left+label.rect.width/2-label.anchor.x)<=.75&&Math.abs(label.rect.top+label.rect.height/2-label.anchor.y)<=.75,`${prefix}: original node pin changed ${label.id}`);
     else{
-      assert.ok(['anchored','displaced','unresolved'].includes(label.placement),`${prefix}: invalid original role placement metadata`);
-      const leader=sample.leaders.find(item=>item.id===label.id),deferred=policy.deferredRoles.some(item=>item.id===label.id&&item.reason===label.disposition&&['outside-view','crowded'].includes(item.reason));assert.ok(leader&&(label.placement!=='displaced'||leader.visible||(deferred&&!label.visible)),`${prefix}: original displaced role leader missing`);
-      assert.ok(Math.abs(leader.x1-label.anchor.x)<=.01&&Math.abs(leader.y1-label.anchor.y)<=.01,`${prefix}: original role midpoint changed`);
+      assertRoleLabelPlacementSemantics(sample, label, prefix);
     }
   }
   assert.deepEqual(sample.allFrameNodeIds,file.nodes.map(node=>node.id),`${prefix}: all source node IDs`);
@@ -66,16 +70,21 @@ export function prepareReadableCaseLabelGeometry(sample, file, options = {}) {
   }
   const count=policy.deferredNodes.length+policy.deferredRoles.length;
   if(count){
-    assert.ok(sample.policyNotice?.visible,`${prefix}: deferred labels lack visible explanation`);
+    assert.ok(sample.policyNotice,`${prefix}: deferred labels lack an associated explanation`);
     assert.equal(sample.policyNotice.nodeCount,policy.deferredNodes.length,`${prefix}: deferred node count differs`);
     assert.equal(sample.policyNotice.roleCount,policy.deferredRoles.length,`${prefix}: deferred relation count differs`);
     assert.ok(sample.fitControlAvailable&&sample.readerControlAvailable,`${prefix}: missing Fit/Complete reader access`);
   }
   // Contract checks above must all finish before any collectable geometry.
+  if(count){
+    assertReadableGeometry(sample.policyNotice.visible,`${prefix}: deferred labels lack visible explanation`);
+    assertReadableGeometry(sample.policyNotice.inViewport && sample.policyNotice.inSceneBand && sample.policyNotice.unobscured,`${prefix}: deferred explanation is outside the visible scene controls or obscured`);
+  }
   for(const label of sample.labels){
     const kind=label.kind,id=label.id,reason=(kind==='node'?deferredNodes:deferredRoles).get(id);
       if(kind==='role'&&reason&&label.placement==='displaced'){
         const leader=sample.leaders.find(item=>item.id===id);
+        assertReadableGeometry(Math.hypot(leader.x2-leader.x1,leader.y2-leader.y1)>0,`${prefix}: deferred outside-anchor leader has zero length ${id}`);
         const onX=Math.abs(leader.x2-label.rect.left)<.75||Math.abs(leader.x2-right(label.rect))<.75,onY=Math.abs(leader.y2-label.rect.top)<.75||Math.abs(leader.y2-bottom(label.rect))<.75;
         assertReadableGeometry((onX||onY)&&leader.x2>=label.rect.left-.75&&leader.x2<=right(label.rect)+.75&&leader.y2>=label.rect.top-.75&&leader.y2<=bottom(label.rect)+.75,`${prefix}: deferred leader does not terminate at plaque boundary ${id}`);
       }

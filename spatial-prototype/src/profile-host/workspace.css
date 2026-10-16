@@ -70,3 +70,15 @@
 @media(forced-colors:active) {.cw-header,.cw-scene-band,.cw-rail,.cw-case-list li,.cw-source-dialog,.cw-source-band,.cw-node-label,.cw-role-label {background:Canvas;color:CanvasText;border:1px solid CanvasText;}.cw-workspace :focus-visible {outline-color:Highlight;}}
 
 @media(forced-colors:active) {.cw-label-leaders line {stroke:CanvasText;}}
+
+/* Reserve the complete explanation from scene entry. Neither rail scrolling nor
+ * a pending/ready report changes this area's layout or the measured board. */
+.cw-label-status {position:relative;margin-top:.6rem;background:#e2d3ad;color:#183a2b;border-left:3px solid #8d6b29;}
+.cw-scene-band .cw-label-status p {margin:0;padding:.5rem .65rem;font-variant-numeric:tabular-nums;}
+.cw-label-status-reserve {visibility:hidden;pointer-events:none;}
+.cw-label-status-live {position:absolute;inset:0;}
+.cw-label-status-count {display:inline-block;white-space:nowrap;}
+
+/* Automatic readability fallback remains in the fixed workspace header while
+ * the complete reader retains its existing scroll position and focus. */
+.cw-header .cw-auto-fallback-notice {flex:1 0 100%;margin:0;padding:.65rem .8rem;background:#e2d3ad;color:#183a2b;border-left:3px solid #8d6b29;font-size:.85rem;}
