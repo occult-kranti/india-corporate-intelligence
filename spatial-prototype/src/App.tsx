@@ -6,6 +6,7 @@ import {
   useCallback,
   useDeferredValue,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -81,6 +82,7 @@ import { useNarration } from "./useNarration";
 import { buildNarrationTranscript } from "./narrationTranscript";
 import cityMetadata from "./assets/city-metadata.json";
 import { GuidedTutorial } from "./guidance/GuidedTutorial";
+import { bindHeaderClearance } from "./headerClearance";
 import atlasGuide from "./guidance/atlas-guide.json";
 const readable = (word: string) => word.replace(/-/g, " ");
 const itemTitle = presentationTitle;
@@ -163,6 +165,8 @@ export default function App({
   const [graphics, setGraphics] = useState<CaseGraphicsHost | null>(null);
   const [graphicsGeneration, setGraphicsGeneration] = useState(0);
   const caseOpener = useRef<HTMLButtonElement>(null);
+  const appRef = useRef<HTMLElement>(null);
+  useLayoutEffect(() => bindHeaderClearance(appRef.current!), []);
   const caseGeography = useRef<GeographicSnapshot | null>(null);
   const acceptGraphics = useCallback((binding: CaseGraphicsHost | null) => {
     if (binding && caseOpen && caseGeography.current) binding.adoptGeography(caseGeography.current);
@@ -450,6 +454,7 @@ export default function App({
   return (
     <>
     <main
+      ref={appRef}
       {...(caseOpen ? { inert: "" } : {})}
       aria-hidden={caseOpen || undefined}
       data-dataset={dataset}

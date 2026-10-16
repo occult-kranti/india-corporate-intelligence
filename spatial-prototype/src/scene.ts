@@ -1097,7 +1097,7 @@ export class EvidenceWorld {
   setWorkspaceActive(active: boolean) {
     if (this.disposed || this.workspaceActive === active) return;
     this.workspaceActive = active;
-    this.container.dataset.caseWorkspace = String(active);
+    this.container.dataset.geographicWorkspaceActive = String(active);
     this.stopGeographicJourney();
     try {
       if (active) {

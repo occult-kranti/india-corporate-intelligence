@@ -275,7 +275,11 @@ async function focused(page, selector) {
   assert.ok(outline.width >= 2 && outline.style !== 'none', `Visible keyboard focus required on ${selector}`);
 }
 
-async function atlasActivityNavigation(page, result, mode) {
+async function atlasActivityNavigation(page, result, mode, phase = 'initial') {
+  await page.evaluate(async () => {
+    await document.fonts.ready;
+    await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+  });
   const frame = await page.evaluate(() => {
     const sample = node => {
       if (!node) return null;
@@ -285,8 +289,13 @@ async function atlasActivityNavigation(page, result, mode) {
     const link = document.querySelector('.atlas-workspace-links a[href="../research-activity/"]');
     const box = link?.getBoundingClientRect();
     const hit = box ? document.elementFromPoint(box.x + box.width / 2, box.y + box.height / 2) : null;
-    return { viewport: { width: innerWidth, height: innerHeight }, header: sample(document.querySelector('.masthead')), link: sample(link), linkHit: Boolean(link && (link === hit || link.contains(hit))), status: sample(document.querySelector('.scene-overview')), reading: sample(document.querySelector('.reading-surface')) };
+    return { viewport: { width: innerWidth, height: innerHeight }, header: sample(document.querySelector('.masthead')), link: sample(link), linkHit: Boolean(link && (link === hit || link.contains(hit))), status: sample(document.querySelector('.scene-overview')), reading: sample(document.querySelector('.reading-surface')),
+      clearance: getComputedStyle(document.querySelector('.evidence-app')).getPropertyValue('--atlas-header-clearance'),
+      intro: sample(document.querySelector('.room-caption')), dock: sample(document.querySelector('.bottom-dock')), camera: sample(document.querySelector('.camera-tools')),
+      overlays: ['.evidence-inspector', '.city-info', '.map-status', '.journey-bar', '.lens-panel', '.audio-panel'].map(selector => ({ selector, frame: sample(document.querySelector(selector)) })) };
   });
+  // Keep the actual failing boxes in report.json, including an overlap failure.
+  (result.atlasNavigationLayouts ??= []).push({ mode, phase, ...frame });
   assert.ok(frame.header?.visible && frame.link?.visible && frame.linkHit, 'The atlas Research activity link must be visible and hit-testable');
   assert.ok(frame.link.width > 0 && frame.link.height >= 24 && frame.link.left >= 0 && frame.link.top >= 0 && frame.link.right <= frame.viewport.width && frame.link.bottom <= frame.viewport.height, 'Atlas activity navigation must fit within the viewport with a 24px minimum target height');
   const surface = mode === 'reading' ? frame.reading : frame.status;
@@ -294,7 +303,39 @@ async function atlasActivityNavigation(page, result, mode) {
   if (surface.left < frame.header.right && surface.right > frame.header.left) {
     assert.ok(surface.top >= frame.header.bottom || surface.bottom <= frame.header.top, `The atlas header must not overlap the visible ${mode} surface at ${frame.viewport.width}px`);
   }
-  (result.atlasNavigationLayouts ??= []).push({ mode, ...frame });
+  const intersects = (a, b) => a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
+  for (const box of [frame.intro, ...frame.overlays.map(row => row.frame)].filter(box => box?.visible)) {
+    assert.ok(!intersects(box, frame.header), 'Visible atlas intro and overlays must clear the measured header');
+  }
+  assert.ok(surface.height > 0 && surface.bottom <= frame.dock.top, `The ${mode} surface must retain usable height above the bottom dock`);
+  if (frame.camera?.visible) assert.ok(!intersects(surface, frame.camera), `The ${mode} surface must leave the camera strip unobscured`);
+}
+
+async function exerciseAtlasHeaderClearance(page, result, viewport) {
+  const nav = page.locator('.atlas-workspace-links');
+  const previous = await nav.getAttribute('style');
+  // Deliberately constrain navigation text to exercise a taller wrapped header.
+  await nav.evaluate(node => { node.style.maxWidth = '104px'; });
+  await atlasActivityNavigation(page, result, 'reading', 'wrapped-navigation-text');
+  await capture(page, result, 'atlas-wrapped-header-reading');
+  await page.getByRole('button', { name: 'Explore', exact: true }).click();
+  await atlasActivityNavigation(page, result, 'status', 'wrapped-navigation-text');
+  await capture(page, result, 'atlas-wrapped-header-status');
+  await nav.evaluate((node, style) => { if (style === null) node.removeAttribute('style'); else node.setAttribute('style', style); }, previous);
+  // 720×500 is a 200% effective viewport relative to 1440×1000, not browser zoom.
+  await page.setViewportSize({ width: 720, height: 500 });
+  await atlasActivityNavigation(page, result, 'status', '200-percent-effective-viewport');
+  await capture(page, result, 'atlas-200-percent-effective-viewport-status');
+  await page.getByRole('button', { name: 'Reading', exact: true }).click();
+  await atlasActivityNavigation(page, result, 'reading', '200-percent-effective-viewport');
+  const reader = page.locator('.reading-surface');
+  const scroll = await reader.evaluate(node => { node.scrollTop = node.scrollHeight; return { top: node.scrollTop, height: node.clientHeight, content: node.scrollHeight }; });
+  (result.atlasReaderScroll ??= []).push({ phase: '200-percent-effective-viewport', ...scroll });
+  assert.ok(scroll.content > scroll.height && scroll.top > 0, 'The reader must remain scrollable in the reduced effective viewport');
+  await reader.evaluate(node => { node.scrollTop = 0; });
+  await capture(page, result, 'atlas-200-percent-effective-viewport-reading');
+  await page.setViewportSize(viewport);
+  await atlasActivityNavigation(page, result, 'reading', 'viewport-restored');
 }
 
 async function exerciseActivityKeyboard(page, result) {
@@ -647,6 +688,7 @@ try {
     await page.getByRole('region', { name: 'Accessible record reading mode', exact: true }).waitFor();
     await atlasActivityNavigation(page, result, 'reading');
     await capture(page, result, 'atlas-navigation-clear-of-reader');
+    await exerciseAtlasHeaderClearance(page, result, viewport);
     const atlasActivity = page.getByRole('navigation', { name: 'Connected workspaces', exact: true }).getByRole('link', { name: /Research activity/ });
     assert.equal(await atlasActivity.count(), 1);
     assert.equal(await atlasActivity.evaluate(link => link.href), `${origin}${activity}`);

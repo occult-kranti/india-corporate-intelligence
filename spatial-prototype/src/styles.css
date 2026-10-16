@@ -1856,15 +1856,50 @@ svg {
 }
 
 /* Small, ordinary navigation for the dated roadmap; no live telemetry controls. */
-.reading-surface { top: 166px; }
-.is-exploring .scene-overview { top: 174px; }
 .atlas-workspace-links { display: flex; flex-wrap: wrap; gap: 3px 14px; margin-top: 3px; }
 .atlas-workspace-links a { display: inline-flex; align-items: center; min-height: 24px; }
 @media (max-width: 800px) {
   .atlas-workspace-links { flex-direction: column; gap: 0; }
   .atlas-workspace-links a { font-size: 9px; min-height: 24px; }
-  .scene-overview, .is-exploring .scene-overview { top: 174px; }
-  .reading-surface { top: 174px; }
+}
+
+/* One measured header boundary for wrapped navigation, fonts and viewport changes.
+   Bottom/right reservations remain owned by the camera strip and dock rules. */
+.evidence-app {
+  --atlas-header-clearance: 200px;
+  --atlas-intro-clearance: 500px;
+  --atlas-overview-top: max(var(--atlas-header-clearance), var(--atlas-intro-clearance));
+}
+.reading-surface,
+.room-caption,
+.evidence-inspector,
+.city-info,
+.map-status,
+.journey-bar,
+.accessible-node-list:focus-within { top: var(--atlas-header-clearance); }
+.scene-overview,
+.is-exploring .scene-overview {
+  top: var(--atlas-overview-top);
+  max-height: max(0px, calc(100% - var(--atlas-overview-top) - 130px));
+  overflow: auto;
+  pointer-events: auto;
+}
+.city-info,
+.map-status,
+.journey-bar,
+.accessible-node-list:focus-within,
+.lens-panel,
+.audio-panel {
+  max-height: max(0px, calc(100% - var(--atlas-header-clearance) - 130px));
+  overflow: auto;
+}
+@media (max-width: 800px), (max-height: 850px) {
+  .evidence-app { --atlas-intro-clearance: 0px; }
+}
+@media (max-width: 800px) {
+  .scene-overview, .is-exploring .scene-overview {
+    max-width: min(320px, calc(100% - 90px));
+  }
 }
 
 .reader-collections {
