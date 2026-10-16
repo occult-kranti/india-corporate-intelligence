@@ -53,6 +53,8 @@ jobs:
           test "$(git -C frozen-baseline rev-parse HEAD)" = 85702ec5f553415e009a37e89d7333c96c952c66
           cp spatial-prototype/scripts/thread-zoom-browser.mjs frozen-baseline/spatial-prototype/scripts/
           cp spatial-prototype/scripts/thread-zoom-browser.test.mjs frozen-baseline/spatial-prototype/scripts/
+          cp spatial-prototype/scripts/thread-zoom-camera-fixture{,.test}.mjs frozen-baseline/spatial-prototype/scripts/
+          cp spatial-prototype/scripts/thread-zoom-screenshot-sampling{,.test}.mjs frozen-baseline/spatial-prototype/scripts/
           git -C frozen-baseline diff --exit-code -- spatial-prototype/src spatial-prototype/public
       - name: Use Node 20
         uses: actions/setup-node@v4
@@ -63,7 +65,7 @@ jobs:
       - name: Install isolated prototype dependencies
         run: npm ci
       - name: Test the portable harness contract without a browser
-        run: node --test scripts/thread-zoom-browser.test.mjs
+        run: node --test scripts/thread-zoom-browser.test.mjs scripts/thread-zoom-camera-fixture.test.mjs scripts/thread-zoom-screenshot-sampling.test.mjs
       - name: Build the verified served runtime under its unchanged budgets
         run: |
           test "$(git rev-parse HEAD)" = "$SPATIAL_HEAD_SHA"

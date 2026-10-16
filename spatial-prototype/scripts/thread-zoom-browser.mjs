@@ -1,6 +1,8 @@
 /** CI-only native zoom regression. Importing helpers never launches a browser.
  * Observes Three r180 scenes and native GL uploads/draws; never changes scene data,
- * camera internals, materials, draw arguments, or native draw results. */
+ * camera internals, materials, draw arguments, or native draw results.
+ * Exact raster fixtures use the public MapLibre camera API through a CI-only CDP
+ * object handle; real product-input navigation remains a separate required path. */
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { createServer } from 'node:http';
@@ -9,6 +11,8 @@ import { readFile, mkdir, realpath, writeFile } from 'node:fs/promises';
 import { dirname, extname, isAbsolute, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { setTimeout as delay } from 'node:timers/promises';
+import { prepareCameraFixture, assertSameFixturePose } from './thread-zoom-camera-fixture.mjs';
+import { inspectScreenshotPath, cropScreenshotRegion } from './thread-zoom-screenshot-sampling.mjs';
 
 export const ATLAS_EDGE = 'legacy:relationship:9e7654ec6cc7ec18|joshi|role|coal';
 export const CASE_EDGE = 'case:india-ambani:edge:1:1';
@@ -231,7 +235,25 @@ export function assertRasterEvidence(row, label) {
     assert.ok(draw?.nativePositionBufferMatched&&draw.poseKey===frame.poseKey,`${label}: final strip is not tied to an original matching-pose native draw`);
     assert.ok(Number.isSafeInteger(draw.programId)&&Number.isSafeInteger(draw.positionBufferId),`${label}: native program/position-buffer identity missing`);
     assert.equal(final.programId,draw.programId,`${label}: final native program identity changed`);
-    if(row.kind==='atlas'){assert.equal(draw.material?.type,'MeshStandardMaterial',`${label}: original wool material family changed`);assert.equal(draw.material.opacity,.9,`${label}: original material opacity changed`);assert.equal(draw.nativeOpacity,Math.fround(.9),`${label}: native opacity uniform changed`);}
+    if(row.kind==='atlas'){
+      assert.equal(draw.edgeId,ATLAS_EDGE,`${label}: final source is not the exact original target edge`);
+      assert.deepEqual(draw.sourceIds,ATLAS_COINCIDENT_ORIGINALS[0].sourceIds,`${label}: original target source IDs changed`);
+      assert.equal(draw.material?.type,'MeshStandardMaterial',`${label}: original wool material family changed`);assert.equal(draw.material.opacity,.9,`${label}: original material opacity changed`);assert.equal(draw.nativeOpacity,Math.fround(.9),`${label}: native opacity uniform changed`);
+      assert.equal(final.colorAgreementTolerance255,8,`${label}: final native contribution agreement changed`);
+      assert.ok(final.contributions?.length,`${label}: missing observed original contribution chain`);
+      assert.equal(final.contributions[0].drawId,draw.drawId,`${label}: contribution chain lost its original target draw`);
+      for(const receipt of final.contributions) {
+        const original=receipt.drawId!==null?row.draws.find(d=>d.drawId===receipt.drawId):(row.contributions??[]).find(d=>d.contributionId===receipt.contributionId);
+        const fixture=ATLAS_COINCIDENT_ORIGINALS.find(f=>f.edgeId===receipt.edgeId);
+        assert.ok(fixture&&original?.nativePositionBufferMatched&&original.poseKey===frame.poseKey&&original.frameToken===frame.token,`${label}: contribution is not a same-frame original source/mesh draw`);
+        assert.deepEqual(receipt.sourceIds,fixture.sourceIds,`${label}: contribution source IDs changed`);
+        for(const key of ['edgeId','meshUuid','programId','positionBufferId','observationOrdinal'])assert.equal(receipt[key],original[key],`${label}: native contribution ${key} identity changed`);
+        assert.ok(receipt.observationOrdinal>=draw.observationOrdinal,`${label}: contribution predates the target proof`);
+        assert.equal(receipt.pathMatch?.targetMeshUuid,row.meshUuid,`${label}: contribution follows another mesh path`);
+        assert.equal(receipt.pathMatch?.meshUuid,receipt.meshUuid,`${label}: contribution path/mesh identity changed`);
+        assert.ok(receipt.drawId!==null?frame.drawIds.includes(receipt.drawId):frame.contributionIds?.includes(receipt.contributionId),`${label}: contribution borrowed another frame`);
+      }
+    }
     if(row.kind==='atlas')assert.ok(frame.drawIds.includes(draw.drawId),`${label}: atlas frame reused an earlier successful draw`);
     else assert.ok(frame.composites.some(c=>c.textureId===draw.textureId&&c.defaultFramebuffer),`${label}: exact case texture was not sampled by this frame's default-canvas composite`);
     assertPathEvidence(draw.raster,`${label} original draw`);
@@ -260,6 +282,87 @@ export function assertComparableZoomEvidence(rows) {
 }
 
 export const ATLAS_SOURCE_FIXTURE = Object.freeze({ id:'legacy:source:8c9d47878789e779', url:'https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=1573010' });
+// Existing retained edges sharing the original Karnataka–Delhi curve, in either
+// direction. This closed list is source-checked independently of scene discovery.
+export const ATLAS_COINCIDENT_ORIGINALS = Object.freeze([
+  {edgeId:ATLAS_EDGE,from:'legacy:entity:joshi',to:'legacy:entity:coal',layer:'people',sourceIds:[ATLAS_SOURCE_FIXTURE.id],urls:[ATLAS_SOURCE_FIXTURE.url]},
+  {edgeId:'legacy:relationship:88925b74a92265a2|coal|award|jsw',from:'legacy:entity:coal',to:'legacy:entity:jsw',layer:'procurement',sourceIds:['legacy:source:4377d63d6bbb7bb3'],urls:['https://pib.gov.in/PressReleasePage.aspx?PRID=1975677']},
+  {edgeId:'legacy:relationship:1e16c34c899e8848|jsw|pmin|pmcares',from:'legacy:entity:jsw',to:'legacy:entity:pmcares',layer:'funding',sourceIds:['legacy:source:9ce81bf63394c088'],urls:['https://www.deccanherald.com/india/karnataka/jsw-group-donates-rs-100-cr-to-pm-cares-fund-819033.html']},
+  {edgeId:'legacy:relationship:fc525907a37b031f|ongc|csr|svyasa',from:'legacy:entity:ongc',to:'legacy:entity:svyasa',layer:'funding',sourceIds:['legacy:source:2979141a17909a70'],urls:['https://www.thenewsminute.com/news/state-owned-ongc-donated-over-rs-668-crore-to-20-sangh-linked-organisations-across-10-years']},
+].map(row=>Object.freeze({...row,sourceIds:Object.freeze(row.sourceIds),urls:Object.freeze(row.urls)})));
+
+/** Compare original double-precision CatmullRom control points, never GPU clip
+ * attributes or pixels. The allowance is only 64 double ULPs for reversing the
+ * equivalent lerps; at zoom 19 it is <0.000004 CSS px in Mercator coordinates. */
+export function matchCoincidentOriginalPath(target,candidate) {
+  if(!target||!candidate||target.type!=='CatmullRomCurve3'||candidate.type!==target.type||
+    candidate.closed!==target.closed||candidate.curveType!==target.curveType||candidate.tension!==target.tension||
+    target.points?.length!==5||candidate.points?.length!==5)return null;
+  if(![...target.points,...candidate.points].every(p=>p.length===3&&p.every(Number.isFinite)))return null;
+  const tolerance=64*Number.EPSILON*Math.max(1,...target.points.flat().map(Math.abs),...candidate.points.flat().map(Math.abs));
+  for(const direction of ['forward','reverse']) {
+    const error=Math.max(...target.points.flatMap((p,i)=>p.map((v,c)=>Math.abs(v-candidate.points[direction==='forward'?i:4-i][c]))));
+    if(error<=tolerance)return {targetEdgeId:target.edgeId,targetMeshUuid:target.meshUuid,edgeId:candidate.edgeId,meshUuid:candidate.meshUuid,
+      direction,controlPoints:target.points,candidateControlPoints:candidate.points,maxControlPointError:error,roundoffTolerance:tolerance};
+  }
+  return null;
+}
+
+/** Serialized pure native-pixel attribution. A later repaint is eligible only
+ * after exact original ID/source, mesh/buffer, curve, pose and projection checks.
+ * It must actually change that pixel: a no-op draw cannot launder an occluder.
+ * Neither fitted alpha predictions nor final-minus-background guesses are used. */
+export function traceAtlasContributions(source,later,final,fixtures) {
+  const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b),delta=(a,b,i)=>Math.max(...[0,1,2].map(c=>Math.abs(a[i+c]-b[i+c])));
+  const validPath=p=>{
+    if(!p||!['forward','reverse'].includes(p.direction)||p.controlPoints?.length!==5||p.candidateControlPoints?.length!==5||
+      ![...p.controlPoints,...p.candidateControlPoints].every(point=>point.length===3&&point.every(Number.isFinite)))return false;
+    const error=Math.max(...p.controlPoints.flatMap((point,i)=>point.map((v,c)=>Math.abs(v-p.candidateControlPoints[p.direction==='forward'?i:4-i][c]))));
+    return same(p.controlPoints,source.pathMatch?.controlPoints)&&error===p.maxControlPointError&&error<=p.roundoffTolerance&&
+      p.roundoffTolerance<=64*Number.EPSILON*Math.max(1,...p.controlPoints.flat().map(Math.abs),...p.candidateControlPoints.flat().map(Math.abs));
+  };
+  const valid=draw=>{
+    const fixture=fixtures.find(row=>row.edgeId===draw.edgeId),p=draw.pathMatch;
+    return Boolean(fixture&&same(draw.sourceIds,fixture.sourceIds)&&draw.nativePositionBufferMatched&&
+      draw.meshUuid&&Number.isSafeInteger(draw.programId)&&Number.isSafeInteger(draw.positionBufferId)&&
+      draw.material?.type==='MeshStandardMaterial'&&draw.material.opacity===.9&&draw.nativeOpacity===Math.fround(.9)&&
+      p?.targetEdgeId===source.edgeId&&p.targetMeshUuid===source.meshUuid&&p.edgeId===draw.edgeId&&p.meshUuid===draw.meshUuid&&
+      validPath(p)&&
+      draw.poseKey===source.poseKey&&draw.frameToken===source.frameToken&&draw.expected?.sourceCount===fixture.sourceIds.length&&
+      same(draw.expected?.projectionMatrix,source.expected?.projectionMatrix)&&draw.expected?.lift===source.expected?.lift&&
+      draw._source?.before&&draw._source?.after);
+  };
+  if(!valid(source)||source.edgeId!==fixtures[0]?.edgeId)throw new Error('Final atlas contribution lacks the exact original target source/mesh proof');
+  let targetChangedPixels=0;for(let i=0;i<source._source.before.pixels.length;i+=4)if(delta(source._source.before.pixels,source._source.after.pixels,i)>=2)targetChangedPixels++;
+  if(targetChangedPixels<8)throw new Error('Coincident originals cannot replace an absent original target contribution');
+  const a={...final,pixels:new Uint8Array(final.pixels.length)},b={...final,pixels:new Uint8Array(final.pixels.length)};
+  const known=new Uint8Array(final.width*final.height),reference=new Uint8Array(final.pixels.length),receipts=[],rejected=[];
+  const grid=region=>[region.width,region.height,region.x,region.y,region.sx,region.sy,region.cssLeft,region.cssTop];
+  const records=[source,...later.filter(draw=>draw.observationOrdinal>source.observationOrdinal).sort((a,b)=>a.observationOrdinal-b.observationOrdinal)];
+  for(const draw of records) {
+    if(!valid(draw)){rejected.push({edgeId:draw.edgeId,observationOrdinal:draw.observationOrdinal,reason:'original identity/path/pose/projection mismatch'});continue;}
+    const {before,after}=draw._source;
+    if(!same(grid(before),grid(final))||!same(grid(after),grid(final)))throw new Error('Coincident original contribution changed native readback grid');
+    let changedPixels=0,restartedPixels=0;
+    for(let pixel=0;pixel<known.length;pixel++) {
+      const i=pixel*4;if(delta(before.pixels,after.pixels,i)<2)continue;changedPixels++;
+      // An intervening unknown painter cannot contribute its contrast to the
+      // verified original. Restart from the later original's actual predecessor.
+      if(!known[pixel]||delta(before.pixels,reference,i)>8){if(known[pixel])restartedPixels++;for(let c=0;c<3;c++)a.pixels[i+c]=before.pixels[i+c];}
+      known[pixel]=1;for(let c=0;c<3;c++)reference[i+c]=after.pixels[i+c];
+    }
+    receipts.push({edgeId:draw.edgeId,sourceIds:draw.sourceIds,meshUuid:draw.meshUuid,programId:draw.programId,positionBufferId:draw.positionBufferId,
+      observationOrdinal:draw.observationOrdinal,drawId:draw.drawId??null,contributionId:draw.contributionId??null,changedPixels,restartedPixels,pathMatch:draw.pathMatch});
+  }
+  let sourcePixels=0,retainedPixels=0;
+  for(let pixel=0;pixel<known.length;pixel++) {
+    const i=pixel*4,retained=known[pixel]&&delta(reference,final.pixels,i)<=8;
+    if(known[pixel])sourcePixels++;if(retained)retainedPixels++;
+    for(let c=0;c<3;c++)b.pixels[i+c]=retained?final.pixels[i+c]:a.pixels[i+c];a.pixels[i+3]=b.pixels[i+3]=255;
+  }
+  return {before:a,after:b,targetChangedPixels,sourcePixels,retainedPixels,contributions:receipts,rejectedContributions:rejected,colorAgreementTolerance255:8};
+}
+
 export async function loadAtlasSourceReference(root=ROOT) {
   const directory=join(root,'public/data/registry'),manifest=JSON.parse(await readFile(join(directory,'manifest.json'),'utf8'));
   const matches={};const receipts=[];
@@ -271,7 +374,21 @@ export async function loadAtlasSourceReference(root=ROOT) {
   }
   assert.deepEqual(matches.relationships?.sourceIds,[ATLAS_SOURCE_FIXTURE.id],'Pinned original atlas source IDs changed');
   assert.equal(matches.sources?.url,ATLAS_SOURCE_FIXTURE.url,'Pinned original atlas source URL changed');
-  return {edgeId:ATLAS_EDGE,sourceId:ATLAS_SOURCE_FIXTURE.id,url:ATLAS_SOURCE_FIXTURE.url,receipts};
+  const coincidentReceipts=new Map(),records={relationships:new Map(),sources:new Map()};
+  for(const kind of ['relationships','sources'])for(const chunk of manifest.arrays.find(group=>group.key===kind).chunks) {
+    const bytes=await readFile(join(directory,chunk.file));assert.equal(sha256(bytes),chunk.sha256,'Coincident original reference chunk failed integrity');
+    for(const record of JSON.parse(bytes))if(ATLAS_COINCIDENT_ORIGINALS.some(f=>kind==='relationships'?f.edgeId===record.id:f.sourceIds.includes(record.id))) {
+      assert.equal(records[kind].has(record.id),false,'Duplicate coincident original reference');records[kind].set(record.id,record);coincidentReceipts.set(chunk.file,{file:chunk.file,sha256:chunk.sha256});
+    }
+  }
+  for(const fixture of ATLAS_COINCIDENT_ORIGINALS) {
+    const edge=records.relationships.get(fixture.edgeId);
+    assert.ok(edge,'Missing retained coincident original edge');assert.equal(edge.from,fixture.from);assert.equal(edge.to,fixture.to);
+    assert.equal(edge.layers[0],fixture.layer);assert.deepEqual(edge.sourceIds,fixture.sourceIds,'Coincident original source IDs changed');
+    assert.deepEqual(fixture.sourceIds.map(id=>records.sources.get(id)?.url),fixture.urls,'Coincident original source URLs changed');
+  }
+  return {edgeId:ATLAS_EDGE,sourceId:ATLAS_SOURCE_FIXTURE.id,url:ATLAS_SOURCE_FIXTURE.url,receipts,
+    coincidentOriginals:ATLAS_COINCIDENT_ORIGINALS,coincidentReceipts:[...coincidentReceipts.values()]};
 }
 export function assertExactSourceLinks(actual, expected, label) {
   assert.ok(expected.length,`${label}: missing accepted source expectations`);
@@ -287,7 +404,7 @@ export function recordCheck(report, label, work, diagnostic = false) {
 /** Serialized with addInitScript. Native GL methods, rAF timestamps and the official read-only
  * Three observer are observed without changing callback arguments or draw behavior. Upload-array identity maps a real GPU buffer back to
  * the original mesh. No renderer methods, factual arrays, uniforms or matrices are patched. */
-export function installThreadZoomProbe({ atlasEdge, caseEdge, atlasSourceCount = 1 }) {
+export function installThreadZoomProbe({ atlasEdge, caseEdge, atlasSourceCount = 1, coincidentOriginals = [] }) {
   const scenes = [], contexts = [], renderers = [], buffers = new WeakMap(), shaderSources = new WeakMap(), programSources = new WeakMap();
   const nativeGetContext = HTMLCanvasElement.prototype.getContext;
   const state = { active: null, captures: {}, errors: [], versions: [], contexts: [], renderers: 0, inputs: [], programs: {}, frameTimestamp: null };
@@ -327,6 +444,22 @@ export function installThreadZoomProbe({ atlasEdge, caseEdge, atlasSourceCount =
       if (found?.parent) return found;
     }
     return null;
+  }
+  function originalPathDescriptor(mesh) {
+    const curve=mesh?.geometry.parameters?.path;
+    return curve&&{edgeId:mesh.userData.edgeId,meshUuid:mesh.uuid,type:curve.type,closed:curve.closed,curveType:curve.curveType,tension:curve.tension,
+      points:curve.points?.map(p=>[p.x,p.y,p.z])};
+  }
+  function atlasDrawMesh(actualBuffer) {
+    const target=atlasMesh();if(!target||!actualBuffer)return null;
+    // Only already-admitted siblings, never fabricated curves or scene changes.
+    const admitted=JSON.parse(document.querySelector('.webgl-host')?.dataset.renderedEdgeIds??'[]');
+    const matches=target.parent.children.filter(mesh=>coincidentOriginals.some(f=>f.edgeId===mesh.userData?.edgeId)&&admitted.includes(mesh.userData.edgeId)&&
+      buffers.get(mesh.geometry?.attributes.position?.array)===actualBuffer);
+    if(matches.length!==1)return null;
+    const mesh=matches[0],pathMatch=window.__threadZoomMatchPath(originalPathDescriptor(target),originalPathDescriptor(mesh));
+    if(!pathMatch)return null;
+    return {mesh,target,pathMatch,fixture:coincidentOriginals.find(f=>f.edgeId===mesh.userData.edgeId)};
   }
   function caseMeshes() {
     const roots = scenes.filter(scene => scene.children.some(object => object.isGroup && object.children.some(mesh => mesh.geometry?.attributes.distanceAlong)));
@@ -478,7 +611,7 @@ export function installThreadZoomProbe({ atlasEdge, caseEdge, atlasSourceCount =
     let pending=null,lastCaseSource=null;
     function frameFor(capture) {
       const token=state.frameTimestamp??performance.now();let frame=capture.frames.at(-1);
-      if(!frame||frame.token!==token){frame={token,drawIds:[],composites:[],complete:false};capture.frames.push(frame);}
+      if(!frame||frame.token!==token){frame={token,drawIds:[],contributionIds:[],composites:[],complete:false};capture.frames.push(frame);}
       return frame;
     }
     function finish(frame,capture,kind) {
@@ -490,24 +623,36 @@ export function installThreadZoomProbe({ atlasEdge, caseEdge, atlasSourceCount =
         if(!sourceRecord){frame.finalCanvas={error:'No original native source draw for this complete frame'};return;}
         if(sourceRecord.poseKey!==frame.poseKey){frame.finalCanvas={error:'Native source draw pose does not match the complete frame'};return;}
         if(kind==='case'&&!frame.composites.some(c=>c.textureId===sourceRecord.textureId)){frame.finalCanvas={error:'Original case target texture was not composited into this default canvas frame'};return;}
-        const final=readRegion(kind,true);frame.finalCanvas={...survivingContribution(sourceRecord._source,final,kind==='case'),sourceDrawId:sourceRecord.drawId,
+        const final=readRegion(kind,true);let contribution;
+        if(kind==='atlas') {
+          const later=[...sources.filter(draw=>draw!==sourceRecord),...frame.contributionIds.map(index=>capture.contributions[index])];
+          const traced=window.__threadZoomTraceAtlas(sourceRecord,later,final,coincidentOriginals),{before,after,...receipt}=traced;
+          contribution={...receipt,raster:rasterDelta(before,after,sourceRecord.expected),canvasRgbaBase64:encode(final.pixels),
+            transfer:'same-frame observed original target plus verified original coincident-path repaint; actual per-pixel before/after, no synthetic blend'};
+        } else contribution=survivingContribution(sourceRecord._source,final,true);
+        frame.finalCanvas={...contribution,sourceDrawId:sourceRecord.drawId,
           meshUuid:sourceRecord.meshUuid,programId:sourceRecord.programId,textureId:sourceRecord.textureId,defaultFramebuffer:true,viewport:final.viewport,poseKey:frame.poseKey};
       }catch(error){frame.finalCanvas={error:String(error)};}
     }
     for(const method of ['drawArrays','drawElements','drawArraysInstanced','drawElementsInstanced']) {
       gl[method]=function(...args) {
-        const active=state.active,capture=active&&state.captures[active.name];let before=null,record=null,frame=null,composite=null,matched=false;
+        const active=state.active,capture=active&&state.captures[active.name];let before=null,record=null,frame=null,composite=null,matched=false,coincident=false;
         if(active) {
           frame=frameFor(capture);
+          const observationOrdinal=capture.observationOrdinal++;
           try {
             const program=native.getParameter(gl.CURRENT_PROGRAM),sources=(programSources.get(program)??[]).join('\n');
-            const mesh=active.kind==='atlas'?atlasMesh():caseMeshes().mesh,position=program&&native.getAttribLocation(program,'position');
+            const position=program&&native.getAttribLocation(program,'position');
             const actualBuffer=position>=0?native.getVertexAttrib(position,gl.VERTEX_ATTRIB_ARRAY_BUFFER_BINDING):null;
+            const atlas=active.kind==='atlas'?atlasDrawMesh(actualBuffer):null,mesh=active.kind==='atlas'?atlas?.mesh:caseMeshes().mesh;
             matched=Boolean(mesh&&actualBuffer&&buffers.get(mesh.geometry.attributes.position.array) === actualBuffer&&
               (active.kind==='atlas'?sources.includes('uThreadRadius'):sources.includes('distanceAlong')&&sources.includes('uniform float stops[8]')));
             if(matched) {
+              coincident=active.kind==='atlas'&&mesh.userData.edgeId!==atlasEdge;
               const snap=snapshot(active.kind),framebuffer=native.getParameter(gl.DRAW_FRAMEBUFFER_BINDING);
-              record={drawId:capture.draws.length,frameToken:frame.token,method,args:[...args],nativePositionBufferMatched:true,shaderKind:active.kind,
+              record={...(coincident?{contributionId:capture.contributions.length}:{drawId:capture.draws.length}),role:coincident?'coincident-original':'target-original',observationOrdinal,
+                edgeId:active.kind==='atlas'?mesh.userData.edgeId:caseEdge,sourceIds:atlas?.fixture.sourceIds??null,pathMatch:atlas?.pathMatch??null,
+                frameToken:frame.token,method,args:[...args],nativePositionBufferMatched:true,shaderKind:active.kind,
                 meshUuid:mesh.uuid,material:{type:mesh.material.type,opacity:mesh.material.opacity,color:mesh.material.color?.toArray()??null},nativeOpacity:uniform(program,'opacity'),poseKey:poseKey(snap),snapshot:snap,programId:id(program),positionBufferId:id(actualBuffer),framebufferId:id(framebuffer),viewport:Array.from(native.getParameter(gl.VIEWPORT))};
               if(!state.programs[id(program)])state.programs[id(program)]={sources:programSources.get(program)};
               if(framebuffer)record.textureId=id(native.getFramebufferAttachmentParameter(gl.DRAW_FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.FRAMEBUFFER_ATTACHMENT_OBJECT_NAME));
@@ -525,7 +670,9 @@ export function installThreadZoomProbe({ atlasEdge, caseEdge, atlasSourceCount =
           if(before)try{const after=readRegion(active.kind);record.raster=rasterDelta(before,after,record.expected);
             Object.defineProperty(record,'_source',{value:{before,after,expected:record.expected},enumerable:false});
           }catch(error){record.raster={error:String(error)};}
-          capture.draws.push(record);frame.drawIds.push(record.drawId);if(active.kind==='case'&&record.raster?.changedPixels>0)lastCaseSource=record;
+          if(coincident){capture.contributions.push(record);frame.contributionIds.push(record.contributionId);}
+          else{capture.draws.push(record);frame.drawIds.push(record.drawId);}
+          if(active.kind==='case'&&record.raster?.changedPixels>0)lastCaseSource=record;
         }
         if(composite)frame.composites.push(composite);
         if(active) {
@@ -545,7 +692,7 @@ export function installThreadZoomProbe({ atlasEdge, caseEdge, atlasSourceCount =
     return context;
   };
   window.__threadZoomProbe = Object.freeze({
-    arm(name, kind) { state.active = { name, kind }; state.captures[name] = { ...snapshot(kind), draws: [], frames: [] }; },
+    arm(name, kind) { state.active = { name, kind }; state.captures[name] = { ...snapshot(kind), draws: [], contributions: [], observationOrdinal: 0, frames: [] }; },
     finish(name, kind) { const capture=state.captures[name], fresh=snapshot(kind); state.active=null; Object.assign(capture,fresh,{finalPoseKey:poseKey(fresh)}); return capture; },
     stop() { state.active = null; },
     snapshot,
@@ -561,7 +708,17 @@ async function until(check, message, timeout = 20000) {
 async function pose(page) {
   return page.locator('.webgl-host').evaluate(element => JSON.parse(element.dataset.geographicPose).pose);
 }
-const navigationReports = new WeakMap();
+const navigationReports = new WeakMap(), cameraFixtures = new WeakMap();
+async function fixtureAtlas(page, zoom, label, extra={}) {
+  const expected={center:[...CROSSING_CENTER],zoom:zoom===6?6.0001:zoom,pitch:0,bearing:0,...extra};
+  const before=await page.evaluate(navigationSnapshot);
+  await cameraFixtures.get(page).set(expected,label);
+  await until(async()=>{try{assertSameFixturePose(await pose(page),expected);return true;}catch{return false;}},`Fixture pose was not rendered: ${label}`);
+  const after=await page.evaluate(navigationSnapshot);
+  assert.deepEqual(after.inspector,before.inspector,'Camera setup changed the source reader');
+  assert.deepEqual(after.caseSelection,before.caseSelection,'Camera setup changed case selection');
+}
+
 async function gesturePlan(page, selector, offsets, label) {
   const receipt = { label, offsets, before: await page.evaluate(navigationSnapshot) };
   navigationReports.get(page)?.push(receipt);
@@ -646,7 +803,7 @@ export function decodeScreenshotPng(bytes) {
     for(let x=0;x<width;x++){for(let c=0;c<3;c++)pixels[(y*width+x)*4+c]=scan[y*stride+x*channels+c];pixels[(y*width+x)*4+3]=channels===4?scan[y*stride+x*channels+3]:255;}}
   return {width,height,pixels};
 }
-async function verifyScreenshotCrossing(row,output) {
+async function verifyScreenshotCrossing(row,output,page) {
   const last=row.frames?.at(-1),final=last?.finalCanvas,source=row.draws.find(draw=>draw.drawId===final?.sourceDrawId);
   if(!final?.raster?.roi||!source?.expected){row.screenshotEvidence={error:'No final native source to compare with screenshot'};return;}
   try {
@@ -659,9 +816,13 @@ async function verifyScreenshotCrossing(row,output) {
       if(Math.max(...[0,1,2].map(c=>Math.abs(after[i+c]-before[i+c])))>=2&&Math.max(...[0,1,2].map(c=>Math.abs(screenshot[i+c]-canvas[i+c])))<=8)screenshot.copy(retained,i,i,i+4);
     }
     const a={...roi,pixels:before},b={...roi,pixels:retained};
-    row.screenshotEvidence={raster:analyzePathRaster(a,b,source.expected),screenshotRgbaBase64:screenshot.toString('base64'),frameToken:last.token,sourceDrawId:source.drawId,
+    const fullRaster=analyzePathRaster(a,b,source.expected);
+    const sampling=await page.evaluate(inspectScreenshotPath,{points:fullRaster.path.samples.map(({x,y})=>({x,y})),box,kind:row.kind,roi,nominalWidthCss:source.expected.nominalWidthCss});
+    row.screenshotEvidence={fullRaster,sampling};
+    const croppedBefore=cropScreenshotRegion(a,sampling.selected),croppedAfter=cropScreenshotRegion(b,sampling.selected);
+    row.screenshotEvidence={raster:analyzePathRaster(croppedBefore,croppedAfter,source.expected),fullRaster,sampling,screenshotRgbaBase64:screenshot.toString('base64'),frameToken:last.token,sourceDrawId:source.drawId,
       method:'Lossless screenshot ROI agrees with exact final default-canvas native contribution at the same CSS crossing',colorAgreementTolerance255:8};
-  }catch(error){row.screenshotEvidence={error:String(error)};}
+  }catch(error){row.screenshotEvidence={...row.screenshotEvidence,error:String(error)};}
 }
 
 async function screenshot(page, directory, name, requireCanvas = true) {
@@ -687,7 +848,7 @@ async function captureAtlas(page, output, name, orient = true) {
   }
   const image = await screenshot(page, output, name);
   const capture = await page.evaluate(name => window.__threadZoomProbe.finish(name, 'atlas'), name);
-  const row={ ...capture, screenshot: image };await verifyScreenshotCrossing(row,output);return row;
+  const row={ ...capture, screenshot: image };await verifyScreenshotCrossing(row,output,page);return row;
 }
 async function inspectAtlasClick(page, point) {
   assert.equal(await page.evaluate(({ x, y }) => document.elementFromPoint(x, y) === document.querySelector('.webgl-host canvas'), point), true, 'Crossing click must hit the real map canvas, never a DOM label');
@@ -709,10 +870,10 @@ async function inspectAtlasClick(page, point) {
 async function runAtlas(page, output, report) {
   const diagnostic = report.mode === 'baseline-diagnostic';
   await page.getByRole('button', { name: 'Top-down orientation', exact: true }).click();
-  await setAtlasZoom(page, 4.5); await centerAtlas(page);
+  await fixtureAtlas(page,4.5,'initial overview fixture');
   let areaIds, selectedAreaIds, selected = false;
   for (const zoom of REQUIRED_ZOOMS) {
-    await setAtlasZoom(page, zoom); await centerAtlas(page);
+    await fixtureAtlas(page,zoom,`exact zoom ${zoom}`);
     const label = `atlas-z${String(zoom).replace('.', '_')}`, row = await captureAtlas(page, output, label);
     report.atlas.push(row);
     recordCheck(report, `${label}: native thread raster`, () => assertRasterEvidence(row, label), diagnostic);
@@ -739,35 +900,57 @@ async function runAtlas(page, output, report) {
     }
   }
   // Normal world-mode caps and detail reentry remain separate admission policies.
-  await setAtlasZoom(page, 2.5);
+  await fixtureAtlas(page,2.5,'world cap fixture');
   const world = await page.evaluate(() => window.__threadZoomProbe.snapshot('atlas'));
   recordCheck(report, 'atlas zoom-out retains world admission cap', () => { assert.equal(world.semanticMode, 'world'); assert.ok(world.visibleEdgeIds.length <= 24); });
-  await setAtlasZoom(page, 5.9); await centerAtlas(page);
+  await fixtureAtlas(page,5.9,'detail reentry fixture');
   const reentry = await captureAtlas(page, output, 'atlas-reentry-z5_9'); report.atlas.push(reentry);
   recordCheck(report, 'atlas reentry native raster and exact original IDs', () => { assertRasterEvidence(reentry, 'reentry'); assert.deepEqual(reentry.visibleEdgeIds, selected ? selectedAreaIds : areaIds); }, diagnostic);
   // Pan the retained crossing away and back without using an endpoint-in-view gate.
   await dragSurface(page, '.webgl-host canvas', [70, 35], 'atlas deliberate pan away');
-  await centerAtlas(page);
+  // One real inverse drag, not a subpixel corrective loop.
+  await dragSurface(page, '.webgl-host canvas', [-70, -35], 'atlas deliberate pan return');
   const pan = await captureAtlas(page, output, 'atlas-pan-return'); report.atlas.push(pan);
   recordCheck(report, 'atlas pan-return raster and both offscreen endpoints', () => { assertRasterEvidence(pan, 'pan-return'); assert.equal(pan.geometry.bothEndpointsOffscreen, true); }, diagnostic);
-  await setAtlasZoom(page, 8); await centerAtlas(page);
+  await fixtureAtlas(page,8,'oblique starting fixture');
   await page.getByRole('button', { name: 'Rotate right', exact: true }).click(); await delay(150);
   const oblique = await captureAtlas(page, output, 'atlas-oblique-z8', false); report.atlas.push(oblique);
   recordCheck(report, 'atlas oblique nonzero-bearing native raster', () => { assertRasterEvidence(oblique, 'oblique'); assert.ok(oblique.pose.pitch >= 35 && Math.abs(oblique.pose.bearing) >= 20); }, diagnostic);
   await page.getByRole('button', { name: 'Top-down orientation', exact: true }).click();
-  await setAtlasZoom(page, 5.9); await centerAtlas(page);
+  await fixtureAtlas(page,5.9,'handoff starting fixture');
   await writeRasterReport(report,output,'report.partial.json');
+}
+
+async function runInputAtlas(page,output,report) {
+  // Fixture positioning is separate from these genuine product input paths.
+  // Wheel events cross both the old cutoff and the current maximum zoom.
+  report.realInputZoom=[];
+  for(const [start,target,name] of [[5.99,6,'atlas-real-wheel-cutoff'],[18.99,19,'atlas-real-wheel-maximum']]) {
+    await fixtureAtlas(page,start,`${name}: starting pose`);
+    const before=await pose(page),point=await clearMapPoint(page);
+    await page.mouse.move(point.x,point.y);await page.mouse.wheel(0,-3.8);
+    await until(async()=>{const actual=await pose(page);return target===19?actual.zoom===19:actual.zoom>target;},`${name}: genuine wheel did not cross target`);
+    await delay(180);
+    const row=await captureAtlas(page,output,name);report.atlas.push(row);
+    report.realInputZoom.push({name,before,after:row.pose,point,deltaY:-3.8,fixtureRequestsDuringInput:0});
+    recordCheck(report,`${name}: real input and native raster`,()=>{assertRasterEvidence(row,name);assert.ok(row.pose.zoom>before.zoom);assert.equal(row.geometry.bothEndpointsOffscreen,true);},report.mode==='baseline-diagnostic');
+    try {const selected=await inspectAtlasClick(page,{x:row.canvas.x+row.canvas.width/2,y:row.canvas.y+row.canvas.height/2});
+      report.clicks.push({zoom:row.pose.zoom,inputPath:name,...selected});
+      report.checks.push({label:`${name}: exact original input click`,status:'passed'});
+    } catch(error) {report.checks.push({label:`${name}: exact original input click`,status:report.mode==='baseline-diagnostic'?'baseline-diagnostic-failure':'failed',message:error.message});const close=page.getByRole('button',{name:'Close reading panel',exact:true});if(await close.count())await close.click();}
+  }
+  await fixtureAtlas(page,5.9,'real input completion pose');
 }
 
 async function runNarrowAtlas(page, output, report) {
   await page.setViewportSize({ width: 390, height: 844 }); await delay(150);
   for (const zoom of [5.9, 6, 19]) {
-    await setAtlasZoom(page, zoom); await centerAtlas(page);
+    await fixtureAtlas(page,zoom,`narrow exact zoom ${zoom}`);
     const row = await captureAtlas(page, output, `atlas-narrow-z${String(zoom).replace('.', '_')}`); report.atlas.push(row);
     recordCheck(report, `narrow z${zoom}: exact crossing raster`, () => { assertRasterEvidence(row, `narrow z${zoom}`); assert.equal(row.geometry.bothEndpointsOffscreen, true); assert.ok(Math.abs(row.pose.zoom - zoom) < .002); }, report.mode === 'baseline-diagnostic');
   }
   await page.setViewportSize({ width: 800, height: 500 }); await delay(150);
-  await setAtlasZoom(page, 5.9); await centerAtlas(page);
+  await fixtureAtlas(page,5.9,'restore desktop fixture');
 }
 async function runLive(page, output, report) {
   report.live = { url: LIVE_ATLAS_URL, observedAt: new Date().toISOString(), runtimeCommit: 'not inferred from a concurrent deployment', diagnosticOnly: true };
@@ -859,7 +1042,7 @@ async function runCase(page, output, report) {
   await surface.focus();
   for(let check=0;check<3;check++){await surface.press('+');await delay(160);}
   const row = await page.evaluate(() => window.__threadZoomProbe.finish('case-max-zoom','case'));
-  row.screenshot = await screenshot(page, output, 'case-max-zoom'); await verifyScreenshotCrossing(row,output); report.case.push(row);
+  row.screenshot = await screenshot(page, output, 'case-max-zoom'); await verifyScreenshotCrossing(row,output,page); report.case.push(row);
   recordCheck(report, 'case max-zoom native exact-edge raster and crossing', () => {
     assertRasterEvidence(row, 'case max zoom'); assert.equal(row.edgeId, CASE_EDGE); assert.equal(row.meshUuid, initial.meshUuid, 'Original case GPU geometry identity changed');
     const length = points => points.slice(1).reduce((sum, p, i) => sum + Math.hypot(p[0] - points[i][0], p[1] - points[i][1]), 0);
@@ -946,26 +1129,29 @@ export async function main(args = process.argv.slice(2), env = process.env) {
     startedAt: new Date().toISOString(), renderer: 'Chromium / ANGLE SwiftShader, native WebGL calls and software rasterization; not consumer-device FPS',
     checks: [], atlas: [], case: [], clicks: [], errors: [], screenshots: [], scriptAssets: [], sourceHashes: {}, navigation: [] };
   if (mode !== 'live-diagnostic') for (const file of ['src/registry.json', 'src/semanticZoom.ts', 'src/case-data/reviewed-transport.json', 'src/threadGeometry.ts', 'src/scene.ts']) report.sourceHashes[file] = sha256(await readFile(join(ROOT, file)));
-  let browser, server, page; const assetReads = [];
+  let browser, server, page, cameraFixture; const assetReads = [];
   try {
     if(mode!=='live-diagnostic')report.atlasSourceReference=await loadAtlasSourceReference();
     const serving = mode === 'live-diagnostic' ? { origin: new URL(LIVE_ATLAS_URL).origin } : await startServer(join(ROOT, 'dist')); server = serving.server;
     browser = await chromium.launch({ headless: true, args: ['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader'] });
     report.browserVersion = browser.version();
     const context = await browser.newContext({ viewport: { width: 800, height: 500 }, deviceScaleFactor: 1, reducedMotion: 'reduce' });
-    await context.addInitScript({ content: `window.__threadZoomAnalyze = ${analyzePathRaster.toString()}; (${installThreadZoomProbe.toString()})(${JSON.stringify({atlasEdge:ATLAS_EDGE,caseEdge:CASE_EDGE})});` });
+    await context.addInitScript({ content: `window.__threadZoomAnalyze = ${analyzePathRaster.toString()}; window.__threadZoomMatchPath = ${matchCoincidentOriginalPath.toString()}; window.__threadZoomTraceAtlas = ${traceAtlasContributions.toString()}; (${installThreadZoomProbe.toString()})(${JSON.stringify({atlasEdge:ATLAS_EDGE,caseEdge:CASE_EDGE,coincidentOriginals:ATLAS_COINCIDENT_ORIGINALS})});` });
     page = await context.newPage(); navigationReports.set(page, report.navigation); page.setDefaultTimeout(15000); page.on('pageerror', error => report.errors.push(error.message));
     page.on('response', response => {
       if (!response.url().startsWith(`${serving.origin}${PREFIX}`) || !/\.js(?:\?|$)/.test(response.url())) return;
       const asset = { url: response.url(), status: response.status(), sha256: null }; report.scriptAssets.push(asset);
       assetReads.push(response.body().then(bytes => { asset.sha256 = sha256(bytes); asset.bytes = bytes.length; }).catch(error => { asset.error = String(error); }));
     });
+    if(mode!=='live-diagnostic'){report.cameraFixture={};cameraFixture=await prepareCameraFixture(context,page,join(ROOT,'dist'),serving.origin,PREFIX,report.cameraFixture);cameraFixtures.set(page,cameraFixture);}
     await page.goto(mode === 'live-diagnostic' ? LIVE_ATLAS_URL : `${serving.origin}${PREFIX}`, { waitUntil: 'domcontentloaded', timeout: 60000 });
     await until(async () => await page.locator('.webgl-host').getAttribute('data-renderer') === 'maplibre-three-mercator' &&
       (mode === 'live-diagnostic' || Boolean(await page.locator('.webgl-host').getAttribute('data-geographic-pose'))), 'Default factual atlas did not render', 60000);
+    if(cameraFixture)await cameraFixture.ready();
     if (mode === 'live-diagnostic') await runLive(page, output, report);
     else {
     await runAtlas(page, output, report);
+    await runInputAtlas(page, output, report);
     await runNarrowAtlas(page, output, report);
     recordCheck(report,'comparable top-down zoom local width and contrast',()=>assertComparableZoomEvidence(report.atlas),mode==='baseline-diagnostic');
     // Nongeographic case gets a comfortably readable independent viewport.
@@ -984,6 +1170,7 @@ export async function main(args = process.argv.slice(2), env = process.env) {
       }
     }
     await Promise.allSettled(assetReads);
+    if(cameraFixture){await cameraFixture.close();recordCheck(report,'camera fixture uses unchanged served asset bytes',()=>assert.ok(report.scriptAssets.some(asset=>asset.url===report.cameraFixture.asset&&asset.sha256===report.cameraFixture.assetSha256),'Camera fixture source differs from served bytes'));}
     if (browser) await browser.close().catch(error => report.errors.push(`Browser cleanup: ${error}`)); if (server) await new Promise(resolveClosed => server.close(resolveClosed));
     for (const [file, hash] of Object.entries(report.sourceHashes)) assert.equal(sha256(await readFile(join(ROOT, file))), hash, `${file}: browser review mutated source`);
     report.finishedAt = new Date().toISOString(); report.status = diagnosticStatus(mode, report.checks);

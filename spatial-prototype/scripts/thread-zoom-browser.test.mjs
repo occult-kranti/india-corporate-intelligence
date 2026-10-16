@@ -13,7 +13,8 @@ import { deflateSync, gunzipSync } from 'node:zlib';
 import { ATLAS_EDGE, CASE_EDGE, CROSSING_CENTER, REQUIRED_ZOOMS, BASELINE_COMMIT,
   requireAuthorizedCI, parseMode, mercator, panDelta, clipSegment, assertRasterEvidence, recordCheck,
   installThreadZoomProbe, dragOffsets, findClearGesture, navigationSnapshot, atlasCenterReached, ATLAS_CENTER_ERROR_PX,
-  analyzePathRaster, assertPathEvidence, assertExactSourceLinks, decodeScreenshotPng, loadAtlasSourceReference, writeRasterReport } from './thread-zoom-browser.mjs';
+  analyzePathRaster, assertPathEvidence, assertExactSourceLinks, decodeScreenshotPng, loadAtlasSourceReference, writeRasterReport,
+  ATLAS_COINCIDENT_ORIGINALS, matchCoincidentOriginalPath, traceAtlasContributions } from './thread-zoom-browser.mjs';
 
 const path = fileURLToPath(new URL('./thread-zoom-browser.mjs', import.meta.url));
 const source = await readFile(path, 'utf8');
@@ -171,9 +172,11 @@ function paintRect(region,x0,x1,y0,y1,contrast=100) {
   for(let y=y0;y<y1;y++)for(let x=x0;x<x1;x++)for(let c=0;c<3;c++)region.pixels[(y*region.width+x)*4+c]=contrast;
 }
 function rasterFrames(rasters) {
-  const draws=rasters.map((raster,i)=>({drawId:i,nativePositionBufferMatched:true,raster,poseKey:'settled',meshUuid:'original',programId:1,positionBufferId:2,material:{type:'MeshStandardMaterial',opacity:.9},nativeOpacity:Math.fround(.9)}));
+  const draws=rasters.map((raster,i)=>({drawId:i,frameToken:i,observationOrdinal:i,edgeId:ATLAS_EDGE,sourceIds:ATLAS_COINCIDENT_ORIGINALS[0].sourceIds,
+    pathMatch:{targetMeshUuid:'original',meshUuid:'original'},nativePositionBufferMatched:true,raster,poseKey:'settled',meshUuid:'original',programId:1,positionBufferId:2,material:{type:'MeshStandardMaterial',opacity:.9},nativeOpacity:Math.fround(.9)}));
   return {kind:'atlas',meshUuid:'original',finalPoseKey:'settled',canvas:{width:800,height:500},buffer:{width:800,height:500},contextLost:false,draws,
-    frames:draws.map(draw=>({token:draw.drawId,complete:true,poseKey:'settled',drawIds:[draw.drawId],composites:[],finalCanvas:{raster:draw.raster,sourceDrawId:draw.drawId,poseKey:'settled',meshUuid:'original',programId:1,defaultFramebuffer:true}})),
+    frames:draws.map(draw=>({token:draw.drawId,complete:true,poseKey:'settled',drawIds:[draw.drawId],composites:[],finalCanvas:{raster:draw.raster,sourceDrawId:draw.drawId,poseKey:'settled',meshUuid:'original',programId:1,defaultFramebuffer:true,colorAgreementTolerance255:8,
+      contributions:[{...draw,raster:undefined}]}})),
     screenshotEvidence:{raster:rasters.at(-1)}};
 }
 const raster=()=>{const r=portableStrip();return rasterFrames([r,r,r]);};
@@ -313,6 +316,8 @@ test('accepted original atlas source reference is integrity-checked independentl
   assert.equal(reference.sourceId,'legacy:source:8c9d47878789e779');
   assert.equal(reference.url,'https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=1573010');
   assert.equal(reference.receipts.length,2);
+  assert.deepEqual(reference.coincidentOriginals,ATLAS_COINCIDENT_ORIGINALS);
+  assert.equal(reference.coincidentOriginals.length,4);assert.ok(reference.coincidentReceipts.length>=2);
 });
 
 
@@ -340,4 +345,86 @@ test('gap/continuity analysis respects intended dash intervals and rejects missi
 test('failed raster messages remain concise and never include raw pixels',()=>{
   const row=raster();row.draws.forEach(draw=>draw.raster.changedPixels=0);
   try{assertRasterEvidence(row,'absence');assert.fail('Expected failure');}catch(error){assert.ok(error.message.length<500);assert.doesNotMatch(error.message,/RgbaBase64/);}
+});
+
+function contributionFixture() {
+  const descriptor=(edgeId,meshUuid,reverse=false)=>({edgeId,meshUuid,type:'CatmullRomCurve3',closed:false,curveType:'centripetal',tension:.5,
+    points:(reverse?[[.8,.6,0],[.71,.58,.001],[.65,.55,.002],[.59,.52,.001],[.5,.5,0]]:[[.5,.5,0],[.59,.52,.001],[.65,.55,.002],[.71,.58,.001],[.8,.6,0]])});
+  const region=()=>{const r={pixels:new Uint8Array(160*128*4),width:160,height:128,x:320,y:186,sx:1,sy:1,cssLeft:0,cssTop:0};r.pixels.fill(40);return r;};
+  const clone=r=>({...r,pixels:new Uint8Array(r.pixels)}),before=region(),after=clone(before);paintRect(after,0,160,63,65,160);
+  const expected={kind:'atlas',points:[[-100,64],[260,64]],nominalWidthCss:2.2,sourceCount:1,projectionMatrix:[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1],lift:1};
+  const target=descriptor(ATLAS_EDGE,'original');
+  const source={drawId:0,frameToken:0,observationOrdinal:0,edgeId:ATLAS_EDGE,sourceIds:ATLAS_COINCIDENT_ORIGINALS[0].sourceIds,meshUuid:'original',programId:1,positionBufferId:2,
+    nativePositionBufferMatched:true,poseKey:'settled',material:{type:'MeshStandardMaterial',opacity:.9},nativeOpacity:Math.fround(.9),expected,
+    pathMatch:matchCoincidentOriginalPath(target,target),_source:{before,after,expected}};
+  source.raster=analyzePathRaster(before,after,expected);
+  const fixture=ATLAS_COINCIDENT_ORIGINALS[2],repaint=clone(after);paintRect(repaint,0,160,63,65,172);
+  const later={...source,drawId:undefined,contributionId:0,observationOrdinal:1,edgeId:fixture.edgeId,sourceIds:fixture.sourceIds,meshUuid:'coincident',positionBufferId:3,
+    pathMatch:matchCoincidentOriginalPath(target,descriptor(fixture.edgeId,'coincident',true)),_source:{before:after,after:repaint,expected}};
+  const run=(draws=[later],final=repaint)=>{const result=traceAtlasContributions(source,draws,final,ATLAS_COINCIDENT_ORIGINALS);return {...result,raster:analyzePathRaster(result.before,result.after,expected)};};
+  return {source,later,before,after,repaint,expected,descriptor,clone,run};
+}
+test('original curve coincidence requires the entire existing forward/reverse curve within double roundoff',()=>{
+  const {descriptor}=contributionFixture(),target=descriptor(ATLAS_EDGE,'original'),candidate=descriptor(ATLAS_COINCIDENT_ORIGINALS[1].edgeId,'other',true);
+  assert.equal(matchCoincidentOriginalPath(target,candidate).direction,'reverse');
+  const altered=structuredClone(candidate);altered.points[2][0]+=.00001;assert.equal(matchCoincidentOriginalPath(target,altered),null,'Shared endpoints or screen crossings cannot establish coincidence');
+  for(const change of [r=>r.type='LineCurve3',r=>r.tension=.6,r=>r.closed=true,r=>r.points[2][0]=NaN]){const wrong=structuredClone(candidate);change(wrong);assert.equal(matchCoincidentOriginalPath(target,wrong),null);}
+});
+test('same-frame verified original repaint preserves exact target proof and the unchanged 8/255 final agreement',()=>{
+  const f=contributionFixture(),result=f.run();assert.doesNotThrow(()=>assertPathEvidence(result.raster,'observed original repaint'));
+  assert.equal(result.targetChangedPixels,320);assert.equal(result.retainedPixels,320);assert.equal(result.colorAgreementTolerance255,8);
+  assert.deepEqual(result.contributions.map(r=>r.edgeId),[ATLAS_EDGE,ATLAS_COINCIDENT_ORIGINALS[2].edgeId]);
+  assert.equal(result.contributions[1].changedPixels,320);assert.equal(result.contributions[1].restartedPixels,0);
+  const oldComparison=f.run([],f.repaint);assert.equal(oldComparison.retainedPixels,0,'A later actual paint must be observed; matching a fitted blend is not allowed');
+  const boundary=f.clone(f.repaint);paintRect(boundary,0,160,63,65,180);assert.equal(f.run([f.later],boundary).retainedPixels,320);
+  paintRect(boundary,0,160,63,65,181);assert.equal(f.run([f.later],boundary).retainedPixels,0);
+  const serialized=runInNewContext(`(${traceAtlasContributions.toString()})`,{})(f.source,[f.later],f.repaint,ATLAS_COINCIDENT_ORIGINALS);
+  assert.equal(serialized.retainedPixels,result.retainedPixels,'The browser-serialized helper is independent of Node module globals');
+});
+test('unrelated later paint and wrong source, mesh, buffer, curve, frame or projection cannot repair the final strip',()=>{
+  const changes={unrelated:r=>r.edgeId='unrelated-edge',wrongSource:r=>r.sourceIds=['wrong-source'],wrongMesh:r=>r.meshUuid='another-mesh',
+    wrongBuffer:r=>r.nativePositionBufferMatched=false,wrongFrame:r=>r.frameToken=1,wrongPose:r=>r.poseKey='earlier',wrongProjection:r=>r.expected={...r.expected,lift:.5},
+    wrongPath:r=>r.pathMatch={...r.pathMatch,candidateControlPoints:r.pathMatch.candidateControlPoints.map((p,i)=>i===2?[p[0]+.001,p[1],p[2]]:p)}};
+  for(const [name,change]of Object.entries(changes)) {
+    const f=contributionFixture(),bad={...f.later};change(bad);const result=f.run([bad]);
+    assert.equal(result.retainedPixels,0,name);assert.equal(result.rejectedContributions.length,1,name);assert.throws(()=>assertPathEvidence(result.raster,name));
+  }
+});
+test('a later no-op original draw cannot copy an unrelated occluder into the known contribution chain',()=>{
+  const f=contributionFixture(),occluder=f.clone(f.repaint);paintRect(occluder,0,160,63,65,220);
+  const noop={...f.later,_source:{...f.later._source,before:occluder,after:occluder}};
+  const hidden=f.run([noop],occluder);assert.equal(hidden.retainedPixels,0);assert.equal(hidden.contributions[1].changedPixels,0);
+  assert.throws(()=>assertPathEvidence(hidden.raster,'opaque occluder followed by no-op original'));
+  const faint=f.clone(occluder);paintRect(faint,0,160,63,65,222);
+  const repainted=f.run([{...noop,_source:{...noop._source,after:faint}}],faint);
+  assert.equal(repainted.contributions[1].restartedPixels,320);assert.equal(repainted.raster.path.contrast255.p50,2);
+  assert.throws(()=>assertPathEvidence(repainted.raster,'unknown occluder contrast cannot be borrowed by a 2/255 repaint'));
+});
+test('absent original target, disappearing final pixels and screenshot obstruction still fail with a valid coincident repaint',()=>{
+  const f=contributionFixture();assert.throws(()=>assertPathEvidence(f.run([f.later],f.before).raster,'late disappearance'));
+  const absent={...f.source,_source:{...f.source._source,after:f.before}};
+  assert.throws(()=>traceAtlasContributions(absent,[f.later],f.repaint,ATLAS_COINCIDENT_ORIGINALS),/cannot replace an absent original target/);
+  const row=raster(),good=f.run().raster;row.screenshotEvidence.raster=portableStrip(()=>{});
+  assert.throws(()=>assertRasterEvidence(row,'DOM obstruction after native contributions'),/displayed screenshot/);
+  assert.doesNotThrow(()=>assertPathEvidence(good,'native canvas remains supported independently'));
+});
+
+test('the four accepted retained edges produce exactly coincident original scene curves, with unchanged source counts',async()=>{
+  const root=dirname(dirname(path)),sceneSource=await readFile(join(root,'src/scene.ts'),'utf8');
+  const curveFunction=sceneSource.slice(sceneSource.indexOf('function geographicCurve('),sceneSource.indexOf('\nexport class EvidenceWorld'));
+  const compiled=await build({stdin:{contents:curveFunction.replace('function geographicCurve','export function geographicCurve'),loader:'ts'},format:'cjs',write:false,logLevel:'silent'});
+  const THREE=await import('three'),{MercatorCoordinate}=await import('maplibre-gl'),module={exports:{}};
+  runInNewContext(compiled.outputFiles[0].text,{module,exports:module.exports,THREE,coordinate:anchor=>{const c=MercatorCoordinate.fromLngLat([anchor.lng,anchor.lat]);return new THREE.Vector3(c.x,c.y,c.z);}});
+  const model=await build({stdin:{contents:"export {buildEvidenceScene} from './src/model.ts'; export {getNodeAnchor} from './src/geography.ts';",resolveDir:root},bundle:true,platform:'node',format:'esm',write:false,logLevel:'silent'});
+  const {buildEvidenceScene,getNodeAnchor}=await import(`data:text/javascript;base64,${Buffer.from(model.outputFiles[0].text).toString('base64')}`);
+  const directory=join(root,'public/data/registry'),manifest=JSON.parse(await readFile(join(directory,'manifest.json'),'utf8')),input={};
+  for(const group of manifest.arrays)input[group.key]=(await Promise.all(group.chunks.map(async chunk=>JSON.parse(await readFile(join(directory,chunk.file),'utf8'))))).flat();
+  const scene=buildEvidenceScene(input);let target;const directions=[];
+  for(const fixture of ATLAS_COINCIDENT_ORIGINALS) {
+    const edge=scene.edges.find(edge=>edge.id===fixture.edgeId);assert.equal(edge.sourceCount,fixture.sourceIds.length);
+    const curve=module.exports.geographicCurve(getNodeAnchor(scene.nodes.find(n=>n.id===edge.from)),getNodeAnchor(scene.nodes.find(n=>n.id===edge.to)));
+    const descriptor={edgeId:edge.id,meshUuid:edge.id,type:curve.type,closed:curve.closed,curveType:curve.curveType,tension:curve.tension,points:curve.points.map(p=>p.toArray())};
+    target??=descriptor;const match=matchCoincidentOriginalPath(target,descriptor);assert.ok(match);assert.equal(match.maxControlPointError,0);directions.push(match.direction);
+  }
+  assert.deepEqual(directions,['forward','reverse','forward','reverse']);
 });
