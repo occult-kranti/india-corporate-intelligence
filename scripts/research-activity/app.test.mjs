@@ -25,7 +25,7 @@ async function boot({data=source,ok=true,parseError=false}={}){
 }
 test('app renders validated snapshot, counts, evidence and milestones',async()=>{
  const $=await boot();assert.equal($('console-content').hidden,false);assert.equal($('tasks').children.length,9);assert.equal($('milestone-list').children.length,4);
- assert.match($('tasks').textContent,/PR9/);assert.match($('tasks').textContent,/deployment is still running at this checkpoint/);assert.equal($('filters').children.length,5);
+ assert.match($('tasks').textContent,/PR9/);assert.match($('tasks').textContent,/PR12 is live at the verified 3032fd73 release/);assert.equal($('filters').children.length,5);
 });
 test('filter/search/reset interactions retain truthful counts and keyboard-native controls',async()=>{
  const $=await boot();const working=$('filters').children.find(n=>n.dataset.status==='working');working.fire('click');assert.equal($('tasks').children.length,5);assert.equal(working.attributes['aria-pressed'],'true');

@@ -74,7 +74,7 @@ test('four simple display groups preserve internal review and hold states',()=>{
  assert.equal(groupCounts([{status:'running'},{status:'review-pending'}]).working,2);
 });
 test('review checkpoint remains dated, candidate-only and non-live',()=>{
- assert.equal(source.asOf,'2026-10-16T09:12:40Z');
+ assert.equal(source.asOf,'2026-10-16T09:38:40Z');
  assert.equal(source.tasks.length,9);
  assert.equal(source.tasks.filter(task=>task.status==='running').length,0);
  const release=source.tasks.find(task=>task.id==='base-release');
@@ -88,8 +88,10 @@ test('review checkpoint remains dated, candidate-only and non-live',()=>{
  assert.equal(next.completion.verifiedAt,'2026-10-16T07:03:10Z');
  const readers=source.tasks.find(task=>task.id==='source-reviews');
  assert.match(readers.summary,/reader-only publication approval/);
- assert.match(readers.summary,/PR12 merged at 3032fd73/);
- assert.match(readers.summary,/deployment is still running at this checkpoint/);
+ assert.match(readers.summary,/PR12 is live at the verified 3032fd73 release/);
+ assert.match(readers.summary,/All 146 checked published paths, including 96 raw registry chunks, matched the release tree/);
+  assert.match(readers.summary,/PR13 is a draft review candidate/);
+  assert.equal(readers.evidence[1].url,"https://github.com/occult-kranti/india-corporate-intelligence/pull/13");
  assert.match(readers.summary,/Raw baseline bytes and all research graph\/path holds remain intact/);
  const profiles=source.tasks.find(task=>task.id==='cross-border-finance');
  assert.match(profiles.summary,/20 selected billionaire and public-office case packets/);

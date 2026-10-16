@@ -156,3 +156,48 @@ test('global correction interactions target the visible record list instead of h
 });
 
 test('new source-scope combined case covers original partner and energy readers plus served/offline upstream hold',()=>{for(const required of ['qualified-jio-and-progressive-original-global','data-jio-ownership-hold','original-energy-c040-qualified-report','progressive-upstream-hold','does not establish the upstream amount'])assert.ok(source.includes(required),required);});
+
+
+test('qualified original claim capture requires every visible text line, including the heading', async () => {
+  const readable = helper('textFrameIsReadable');
+  const frame = { visible: true, viewport: { width: 1440, height: 1000 }, lines: [{ left: 700, top: 450, right: 1380, bottom: 475, unobscured: true }] };
+  assert.equal(readable(frame), true);
+  for (const patch of [{ visible: false }, { lines: [] }, { lines: [{ ...frame.lines[0], top: -1 }] }, { lines: [{ ...frame.lines[0], bottom: 1001 }] }, { lines: [{ ...frame.lines[0], unobscured: false }] }]) assert.equal(readable({ ...frame, ...patch }), false);
+  const calls = [];
+  let evaluations = 0;
+  const heading = { evaluate: async callback => { calls.push('heading'); return frame; } };
+  const qualification = { evaluate: async callback => {
+    evaluations += 1;
+    if (evaluations === 1) { assert.match(callback.toString(), /scrollIntoView.*block: 'center'/); return; }
+    calls.push('qualification'); return frame;
+  } };
+  const claim = { getByRole: (role, options) => { assert.equal(role, 'heading'); assert.equal(options.exact, true); return heading; }, locator: selector => { assert.equal(selector, 'p'); return { filter: ({hasText}) => { assert.match(hasText,/Exact payment dates/); return qualification; } }; } };
+  const result = {};
+  const captureQualified = helper('captureQualifiedOriginalClaim', {
+    readTextFrame: () => {}, textFrameIsReadable: readable,
+    until: async (check, message, timeout) => { assert.match(message,/every qualification line/); assert.equal(timeout,10000); assert.equal(await check(),true); },
+    capture: async (page, actualResult, name) => { assert.equal(actualResult,result); assert.equal(name,'original-energy-c040-qualified-report'); calls.push('capture'); },
+  });
+  await captureQualified({},result,claim);
+  assert.deepEqual(calls,['heading','qualification','capture']);
+  assert.deepEqual(result.qualifiedOriginalClaim,{heading:frame,qualification:frame});
+  assert.ok(source.includes('await captureQualifiedOriginalClaim(page,result,claim)'));
+  assert.ok(!source.includes("await claim.scrollIntoViewIfNeeded();await capture(page,result,'original-energy-c040-qualified-report')"));
+});
+
+test('text visibility samples the rendered lines without altering page styles', () => {
+  const read = helper('readTextFrame');
+  const rect = { left: 100, top: 200, right: 300, bottom: 220, width: 200, height: 20 };
+  let target, hit = true;
+  const probes = [];
+  const document = {
+    defaultView: { innerWidth: 1440, innerHeight: 1000, getComputedStyle: () => ({ display: 'block', visibility: 'visible', opacity: '1' }) },
+    createRange: () => ({ selectNodeContents: node => { target = node; }, getClientRects: () => [rect] }),
+    elementFromPoint: (x,y) => { probes.push([x,y]); return hit ? target : {}; },
+  };
+  const node = { ownerDocument: document, textContent: 'Exact qualified text', contains: element => element === node };
+  assert.equal(read(node).lines[0].unobscured,true);
+  assert.deepEqual(probes,[[130,210],[200,210],[270,210]]);
+  hit = false;
+  assert.equal(read(node).lines[0].unobscured,false);
+});

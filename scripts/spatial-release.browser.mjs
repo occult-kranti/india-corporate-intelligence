@@ -233,6 +233,42 @@ async function activityLayout(page, result, label) {
   (result.activityLayouts ??= []).push({ label, ...frame });
 }
 
+// A whole tall aside can be visible while its qualified heading is offscreen.
+// Measure the actual text-line boxes and their hit-test visibility before capture.
+function readTextFrame(node) {
+  const doc = node.ownerDocument;
+  const win = doc.defaultView;
+  const range = doc.createRange();
+  range.selectNodeContents(node);
+  const style = win.getComputedStyle(node);
+  return {
+    text: node.textContent, viewport: { width: win.innerWidth, height: win.innerHeight },
+    visible: style.display !== 'none' && style.visibility === 'visible' && Number(style.opacity) > 0,
+    lines: [...range.getClientRects()].filter(box => box.width > 0 && box.height > 0).map(box => ({
+      left: box.left, top: box.top, right: box.right, bottom: box.bottom,
+      unobscured: [0.15, 0.5, 0.85].every(fraction => node.contains(doc.elementFromPoint(box.left + box.width * fraction, box.top + box.height / 2))),
+    })),
+  };
+}
+
+function textFrameIsReadable(frame) {
+  return frame.visible && frame.lines.length > 0 && frame.lines.every(line =>
+    line.left >= 0 && line.top >= 0 && line.right <= frame.viewport.width && line.bottom <= frame.viewport.height && line.unobscured);
+}
+
+async function captureQualifiedOriginalClaim(page, result, claim) {
+  const heading = claim.getByRole('heading', { name: 'Progressive → BJP: reported FY2024–25 donation', exact: true });
+  const qualification = claim.locator('p').filter({ hasText: 'Exact payment dates and the adjacent subsidy chronology have not been independently verified' });
+  await qualification.evaluate(node => node.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'instant' }));
+  let frames;
+  await until(async () => {
+    frames = await Promise.all([heading.evaluate(readTextFrame), qualification.evaluate(readTextFrame)]);
+    result.qualifiedOriginalClaim = { heading: frames[0], qualification: frames[1] };
+    return frames.every(textFrameIsReadable);
+  }, 'Original claim heading and every qualification line must be within the viewport and unobscured', 10000);
+  await capture(page, result, 'original-energy-c040-qualified-report');
+}
+
 async function focused(page, selector) {
   assert.equal(await page.locator(selector).evaluate(node => node === document.activeElement), true, `Keyboard focus must reach ${selector}`);
   const outline = await page.locator(selector).evaluate(node => { const style = getComputedStyle(node); return { width: parseFloat(style.outlineWidth), style: style.outlineStyle }; });
@@ -665,7 +701,7 @@ try {
     const energyRoute='/energy?iw_view=dossier&claim=money%3Ac040';
     await page.goto(`${origin}${base}#${energyRoute}`,{waitUntil:'domcontentloaded'});await rootReady(page,energyRoute);
     const claim=page.getByRole('complementary',{name:'Progressive → BJP: reported FY2024–25 donation',exact:true});await claim.waitFor();
-    const prose=await claim.innerText();assert.match(prose,/Exact payment dates and the adjacent subsidy chronology have not been independently verified/);assert.doesNotMatch(prose,/₹834\.97|two donations|weeks after the Cabinet/);assert.match(prose,/does not establish company-to-party earmarking or causation/);await claim.scrollIntoViewIfNeeded();await capture(page,result,'original-energy-c040-qualified-report');
+    const prose=await claim.innerText();assert.match(prose,/Exact payment dates and the adjacent subsidy chronology have not been independently verified/);assert.doesNotMatch(prose,/₹834\.97|two donations|weeks after the Cabinet/);assert.match(prose,/does not establish company-to-party earmarking or causation/);await captureQualifiedOriginalClaim(page,result,claim);
     for(const offline of [false,true]){
       await page.goto(`${origin}${base}global-workbench/${offline?'fieldwork-offline.html':''}`,{waitUntil:'domcontentloaded'});await page.locator('#records [data-record]').first().waitFor();
       const id='india-corporate-intelligence:edge-290870791c720e40b543';await page.locator(`#records [data-record=${JSON.stringify(id)}]`).click();const detail=page.locator('#detail');await detail.getByRole('heading',{name:'Tata / Progressive · upstream amount held',exact:true}).waitFor();const text=await detail.innerText();assert.match(text,/HELD SOURCE SCOPE/);assert.match(text,/does not establish the upstream amount/);assert.doesNotMatch(text,/Relation endpoints|Documented relation types|₹757\.6cr → BJP FY25/);await detail.scrollIntoViewIfNeeded();await capture(page,result,`${offline?'offline':'served'}-progressive-upstream-hold`);
