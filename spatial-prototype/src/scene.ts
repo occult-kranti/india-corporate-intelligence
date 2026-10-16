@@ -14,12 +14,17 @@ import type { PreviewData, SceneNode } from "./model";
 import { type GeoAnchor } from "./geography";
 import { loadMapBoundaries } from "./cartographyAssets";
 import type { GeographicCollection } from "./geography";
-import { planGeographicDisplay, type AreaGroup } from "./displayBudget";
+import {
+  planSemanticDisplay,
+  WORLD_STACK_ZOOM_THRESHOLD,
+  type SemanticDisplayGroup,
+} from "./semanticZoom";
 import type {
   CameraCommand,
   JourneyState,
   LabelPosition,
   SceneMetric,
+  DisplaySummary,
 } from "./scene-types";
 import { feltMapStyle } from "./geoStyle";
 import { WORLD_CAMERA_BOUNDS } from "./mapBounds";
@@ -49,6 +54,7 @@ export interface WorldCallbacks {
   onFailure: (reason: string) => void;
   onMapStatus?: (status: string) => void;
   onInteraction?: () => void;
+  onDisplay?: (summary: DisplaySummary) => void;
 }
 interface Pose {
   center: [number, number];
@@ -102,20 +108,32 @@ function feltPixels(base: string) {
   });
   return canvas.getContext("2d")!.getImageData(0, 0, 128, 128);
 }
-function paperTexture(node: SceneNode, count: number, anchor: GeoAnchor) {
+function paperTexture(
+  node: SceneNode,
+  count: number,
+  anchor: GeoAnchor,
+  display?: SemanticDisplayGroup,
+) {
+  const isStack = display?.kind === "country-stack";
   const canvas = colorCanvas(768, 448, (ctx) => {
     ctx.fillStyle = "#e9dfbf";
     ctx.fillRect(0, 0, 768, 448);
     ctx.fillStyle = "#657257";
     ctx.font = "19px monospace";
     ctx.fillText(
-      `${anchor.precision.toUpperCase()} CONTEXT · ${count} RECORD${count === 1 ? "" : "S"}`,
+      isStack
+        ? `COUNTRY STACK · ${display.areaCount} DOCUMENTED AREAS`
+        : `${anchor.precision.toUpperCase()} CONTEXT · ${count} RECORD${count === 1 ? "" : "S"}`,
       35,
       53,
     );
     ctx.fillStyle = "#293f2d";
     ctx.font = "bold 35px Georgia";
-    const words = node.title.split(/\s+/);
+    const words = (
+      isStack
+        ? `${display.countryLabel}: ${display.memberCount} retained items`
+        : node.title
+    ).split(/\s+/);
     let row = "",
       line = 0;
     for (const word of words) {
@@ -129,7 +147,13 @@ function paperTexture(node: SceneNode, count: number, anchor: GeoAnchor) {
     if (line < 3) ctx.fillText(row, 35, 118 + line * 43);
     ctx.fillStyle = "#737c60";
     ctx.font = "19px Georgia";
-    ctx.fillText("Read the original source and its limits.", 35, 320);
+    ctx.fillText(
+      isStack
+        ? "Expand to original areas and evidence."
+        : "Read the original source and its limits.",
+      35,
+      320,
+    );
     ctx.strokeStyle = "#b7b297";
     ctx.beginPath();
     ctx.moveTo(35, 356);
@@ -137,7 +161,9 @@ function paperTexture(node: SceneNode, count: number, anchor: GeoAnchor) {
     ctx.stroke();
     ctx.font = "18px monospace";
     ctx.fillText(
-      `${node.item.sourceIds.length} SOURCE REFERENCES · NOT AN ADDRESS`,
+      isStack
+        ? "DISPLAY GROUP ONLY · NOT AN ENTITY"
+        : `${node.item.sourceIds.length} SOURCE REFERENCES · NOT AN ADDRESS`,
       35,
       397,
     );
@@ -195,7 +221,8 @@ export class EvidenceWorld {
   private curves = new Map<string, THREE.CatmullRomCurve3>();
   private selected = "";
   private areaBoundaries: GeographicCollection | null = null;
-  private areaGroups = new Map<string, AreaGroup>();
+  private displayGroups = new Map<string, SemanticDisplayGroup>();
+  private displayPlan: ReturnType<typeof planSemanticDisplay> | null = null;
   private maxThreadRadius = 0;
   private ready = false;
   private reduced = false;
@@ -382,6 +409,9 @@ export class EvidenceWorld {
     );
   };
   private onMove = () => {
+    const mode =
+      this.map.getZoom() < WORLD_STACK_ZOOM_THRESHOLD ? "world" : "areas";
+    if (this.ready && this.displayPlan?.mode !== mode) this.rebuildDisplay();
     this.updateLabels();
   };
   private onInteract = (event: { originalEvent?: Event }) => {
@@ -394,16 +424,25 @@ export class EvidenceWorld {
   };
   private onClick = (event: MapMouseEvent) => {
     if (!this.ready) return;
-    let nearest: { id: string; distance: number } | null = null;
-    for (const { anchor, records } of this.areaGroups.values()) {
+    let nearest: { id: string; distance: number; stack: boolean } | null = null;
+    for (const display of this.displayGroups.values()) {
+      const { anchor, records } = display;
       const id =
         records.find((n) => n.id === this.selected)?.id ?? records[0].id;
       const p = this.map.project([anchor.lng, anchor.lat]);
       const distance = Math.hypot(event.point.x - p.x, event.point.y - p.y);
       if (distance < 24 && (!nearest || distance < nearest.distance))
-        nearest = { id, distance };
+        nearest = {
+          id: display.kind === "country-stack" ? display.key : id,
+          distance,
+          stack: display.kind === "country-stack",
+        };
     }
     if (nearest) {
+      if (nearest.stack) {
+        this.expandStack(nearest.id);
+        return;
+      }
       this.cb.onSelect(nearest.id, "node");
       return;
     }
@@ -445,22 +484,32 @@ export class EvidenceWorld {
   setData(data: PreviewData) {
     this.data = data;
     this.stop();
-    const display = planGeographicDisplay(data, this.selected);
-    this.anchors = display.anchors;
-    this.areaGroups = display.groups;
     if (!this.ready) return;
+    this.rebuildDisplay();
+  }
+  private rebuildDisplay() {
+    const display = planSemanticDisplay(
+      this.data,
+      this.selected,
+      this.map.getZoom(),
+    );
+    this.displayPlan = display;
+    this.anchors = display.anchors;
+    this.displayGroups = display.groups;
     disposeGroup(this.group);
     this.nodeObjects.clear();
-    const grouped = new Map(
-      [...display.groups].map(([key, group]) => [key, group.records]),
-    );
-    for (const records of grouped.values()) {
-      const node = records.find((n) => n.id === this.selected) ?? records[0];
-      const a = this.anchors.get(node.id)!;
+    for (const item of display.groups.values()) {
+      const records = item.records;
+      const node =
+        records.find(
+          (n) => n.id === this.selected || item.selectedIds.includes(n.id),
+        ) ?? records[0];
+      const a = item.anchor;
       const p = coordinate(a);
       const group = new THREE.Group();
       group.position.copy(p);
       group.userData.ids = records.map((r) => r.id);
+      group.userData.display = item;
       const stem = new THREE.Mesh(
         new THREE.CylinderGeometry(0.7, 0.7, 11, 6),
         new THREE.MeshStandardMaterial({
@@ -485,7 +534,7 @@ export class EvidenceWorld {
       const card = new THREE.Mesh(
         new THREE.PlaneGeometry(58, 34),
         new THREE.MeshStandardMaterial({
-          map: paperTexture(node, records.length, a),
+          map: paperTexture(node, records.length, a, item),
           roughness: 0.96,
           side: THREE.DoubleSide,
         }),
@@ -500,13 +549,14 @@ export class EvidenceWorld {
     const source = this.map.getSource("evidence-locations") as GeoJSONSource;
     source.setData({
       type: "FeatureCollection",
-      features: [...grouped.values()].map((records) => {
-        const a = this.anchors.get(records[0].id)!;
+      features: [...display.groups.values()].map((item) => {
+        const { records, anchor: a } = item;
         return {
           type: "Feature",
           geometry: { type: "Point", coordinates: [a.lng, a.lat] },
           properties: {
-            id: records[0].id,
+            id: item.key,
+            displayKind: item.kind,
             count: records.length,
             precision: a.precision,
           },
@@ -516,7 +566,7 @@ export class EvidenceWorld {
     this.updateAreaBoundaries();
     this.container.dataset.placedPins = String(this.anchors.size);
     this.container.dataset.unplacedPins = String(
-      data.nodes.length - this.anchors.size,
+      this.data.nodes.length - this.anchors.size,
     );
     this.map.triggerRepaint();
     this.updateLabels(true);
@@ -524,7 +574,9 @@ export class EvidenceWorld {
   private updateAreaBoundaries() {
     if (!this.ready || !this.areaBoundaries) return;
     const ids = new Set(
-      [...this.anchors.values()].map((a) => a.geometryFeatureId),
+      [...this.displayGroups.values()].map(
+        (group) => group.anchor.geometryFeatureId,
+      ),
     );
     const features = this.areaBoundaries.features.filter((feature) =>
       ids.has(String(feature.id)),
@@ -535,7 +587,8 @@ export class EvidenceWorld {
     });
   }
   private rebuildThreads() {
-    const display = planGeographicDisplay(this.data, this.selected);
+    const display = this.displayPlan;
+    if (!display) return;
     disposeGroup(this.curveGroup);
     this.curves.clear();
     for (const edge of display.rendered) {
@@ -569,13 +622,30 @@ export class EvidenceWorld {
     );
     this.container.dataset.eligibleThreads = String(display.candidates.length);
     this.container.dataset.renderedThreads = String(display.rendered.length);
-    this.container.dataset.areaGroups = String(display.groups.size);
+    this.container.dataset.areaGroups = String(display.areaGroupCount);
+    this.container.dataset.semanticMode = display.mode;
+    this.container.dataset.displayGroups = String(display.groups.size);
+    this.container.dataset.countryStacks = String(display.countryStacks.size);
+    this.container.dataset.selectedEndpointGroups = String(
+      [...display.groups.values()].filter((g) => g.kind === "selected-area")
+        .length,
+    );
+    this.container.dataset.renderedEdgeIds = JSON.stringify(
+      display.rendered.map((e) => e.id),
+    );
+    this.cb.onDisplay?.({
+      mode: display.mode,
+      visibleGroups: display.groups.size,
+      countryStacks: display.countryStacks.size,
+      areaGroups: display.areaGroupCount,
+      candidates: display.candidates.length,
+      renderedThreads: display.rendered.length,
+    });
   }
   setSelected(id: string) {
     const changed = this.selected !== id;
     this.selected = id;
-    if (this.ready && changed && this.data.edges.some((e) => e.id === id))
-      this.rebuildThreads();
+    if (this.ready && changed) this.rebuildDisplay();
     for (const group of this.group.children) {
       const pin = group.children[1] as THREE.Mesh;
       const material = pin.material as THREE.MeshStandardMaterial;
@@ -585,6 +655,20 @@ export class EvidenceWorld {
     }
     this.map.triggerRepaint();
     this.updateLabels(true);
+  }
+  private expandStack(key: string) {
+    const stack = this.displayGroups.get(key);
+    if (!stack || stack.kind !== "country-stack") return;
+    this.cb.onInteraction?.();
+    this.go({
+      center: [stack.anchor.lng, stack.anchor.lat],
+      zoom: Math.max(
+        WORLD_STACK_ZOOM_THRESHOLD + 0.5,
+        Math.min(4, stack.anchor.focusZoom),
+      ),
+      pitch: 18,
+      bearing: 0,
+    });
   }
   setReducedMotion(value: boolean) {
     this.reduced = value;
@@ -662,6 +746,9 @@ export class EvidenceWorld {
           });
         break;
       }
+      case "expand-stack":
+        if (command.id) this.expandStack(command.id);
+        break;
       case "focus":
         if (anchor) this.go(this.focus(anchor));
         break;
@@ -780,34 +867,35 @@ export class EvidenceWorld {
       height = this.container.clientHeight;
     const occupied: { x: number; y: number }[] = [];
     const labels: LabelPosition[] = [];
-    const list = [...this.areaGroups.values()]
-      .map(
-        (group) =>
-          group.records.find((node) => node.id === this.selected) ??
-          group.records[0],
-      )
-      .sort(
-        (a, b) =>
-          Number(b.id === this.selected) - Number(a.id === this.selected),
-      );
-    for (const node of list) {
-      const anchor = this.anchors.get(node.id);
-      if (!anchor) continue;
+    const list = [...this.displayGroups.values()].sort(
+      (a, b) =>
+        Number(b.kind === "country-stack") -
+          Number(a.kind === "country-stack") ||
+        Number(b.kind === "selected-area") - Number(a.kind === "selected-area"),
+    );
+    for (const display of list) {
+      const node =
+        display.records.find(
+          (n) => n.id === this.selected || display.selectedIds.includes(n.id),
+        ) ?? display.records[0];
+      const anchor = display.anchor;
       const p = this.map.project([anchor.lng, anchor.lat]);
       const within = p.x > 8 && p.x < width - 8 && p.y > 8 && p.y < height - 8;
       const collision = occupied.some(
-        (q) => Math.abs(p.x - q.x) < 170 && Math.abs(p.y - q.y) < 45,
+        (q) => Math.abs(p.x - q.x) < 200 && Math.abs(p.y - q.y) < 45,
       );
       const visible = within && !collision && occupied.length < 12;
       if (visible) occupied.push({ x: p.x, y: p.y });
-      const count = this.nodeObjects.get(node.id)?.userData.ids.length ?? 1;
+      const stack = display.kind === "country-stack";
       labels.push({
-        id: node.id,
-        title: `${anchor.label} · ${count} record${count === 1 ? "" : "s"} · ${anchor.precision} scope`,
+        id: stack ? display.key : node.id,
+        title: stack
+          ? `${display.countryLabel} stack · ${display.memberCount} items · ${display.areaCount} areas · Expand`
+          : `${display.kind === "selected-area" ? "Selected endpoint · " : ""}${anchor.label} · ${display.memberCount} items`,
         x: p.x,
         y: p.y - 19,
         visible,
-        kind: node.kind,
+        kind: stack ? "stack" : node.kind,
         distance: 0,
       });
     }
@@ -838,10 +926,25 @@ export class EvidenceWorld {
       .copy(this.camera.projectionMatrix)
       .invert();
     const unit = 1 / (512 * 2 ** this.map.getZoom());
-    for (const group of this.group.children) {
+    const occupiedCards: { x: number; y: number }[] = [];
+    const orderedGroups = [...this.group.children].sort(
+      (a, b) =>
+        Number(b.userData.ids.includes(this.selected)) -
+        Number(a.userData.ids.includes(this.selected)),
+    );
+    for (const group of orderedGroups) {
       group.scale.setScalar(unit);
+      const display = group.userData.display as SemanticDisplayGroup;
+      const point = this.map.project([display.anchor.lng, display.anchor.lat]);
+      const collision = occupiedCards.some(
+        (q) => Math.abs(point.x - q.x) < 85 && Math.abs(point.y - q.y) < 50,
+      );
       const card = group.children[2];
-      card.visible = this.map.getZoom() < 8;
+      card.visible =
+        this.map.getZoom() < 8 &&
+        display.kind !== "selected-area" &&
+        !collision;
+      if (card.visible) occupiedCards.push({ x: point.x, y: point.y });
     }
     const projection = threadProjectionScale(this.map.getZoom());
     this.threadRadiusUniform.value = projection.radius;

@@ -1815,6 +1815,16 @@ svg {
   max-height: 230px;
   overflow: auto;
 }
+.world-label[data-label-kind="stack"] {
+  max-width: 280px;
+  border-color: #a79560;
+  white-space: normal;
+  text-align: left;
+}
+.world-label[data-label-kind="stack"]:focus-visible {
+  outline: 2px solid #e8d8a3;
+  outline-offset: 3px;
+}
 @media (max-height: 850px) and (min-width: 801px) {
   .room-caption {
     display: none;
@@ -1825,5 +1835,22 @@ svg {
   .legend {
     max-height: 190px;
     overflow: auto;
+  }
+}
+/* Keep the snapshot identity and original-workbench link visible on phones.
+   The expanded registry status belongs below the header, never over it. */
+@media (max-width: 800px) {
+  .masthead p {
+    display: block;
+    max-width: 148px;
+    font-size: 8px;
+    line-height: 1.35;
+    margin: 5px 0;
+  }
+  .scene-overview,
+  .is-exploring .scene-overview {
+    top: 132px;
+    left: 12px;
+    max-width: min(320px, calc(100vw - 24px));
   }
 }

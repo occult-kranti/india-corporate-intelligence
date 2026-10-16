@@ -62,7 +62,12 @@ import {
   type CasebookSelection,
 } from "./casebookStore";
 import type { InvestigationLayer, InvestigationRegistry } from "./domain";
-import type { CameraCommand, JourneyState, SceneMetric } from "./scene-types";
+import type {
+  CameraCommand,
+  JourneyState,
+  SceneMetric,
+  DisplaySummary,
+} from "./scene-types";
 import {
   getNodeAnchor,
   getUnplacedReason,
@@ -186,6 +191,9 @@ export default function App({
     edgeId: null,
   });
   const [metric, setMetric] = useState<SceneMetric | null>(null);
+  const [displaySummary, setDisplaySummary] = useState<DisplaySummary | null>(
+    null,
+  );
   const [reduced, setReduced] = useState(
     () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
   );
@@ -514,6 +522,7 @@ export default function App({
               onSelect={open}
               onJourney={setJourney}
               onMetric={setMetric}
+              onDisplay={setDisplaySummary}
               onMapStatus={setMapStatus}
               onInteraction={() => setExploring(true)}
               onFailure={(reason) => {
@@ -534,7 +543,7 @@ export default function App({
           <h1>The felt atlas</h1>
           <p>
             {dataset === "full"
-              ? "Complete original registry · retained snapshot"
+              ? "Complete original registry · India app retained snapshot"
               : "Selected preview subset · 48 items"}
           </p>
           <a className="original-app-link" href="../#/investigate">
@@ -638,8 +647,19 @@ export default function App({
           Snapshot {registry.updatedAt}
         </small>
         <small>
-          {display.groups.size} area groups · {display.rendered.length} of{" "}
-          {display.candidates.length} cross-area threads drawn
+          {displaySummary?.mode === "world"
+            ? `${displaySummary.countryStacks} country stacks · expand or zoom for ${displaySummary.areaGroups} original areas`
+            : `${display.groups.size} original area groups`}
+          <br />
+          {displaySummary?.renderedThreads ?? 0} of {display.candidates.length}{" "}
+          original cross-area threads shown. All links remain in the reader.
+          {displaySummary?.mode === "world" && (
+            <>
+              <br />
+              Stacks are display groups, not entities. Selected endpoint pins
+              are detail overlays.
+            </>
+          )}
         </small>
         <button className="overview-read" onClick={enterReading}>
           Search and read the registry
@@ -757,9 +777,9 @@ export default function App({
           <span>Status · retained in the source reader</span>
         </div>
         <p className="legend-note">
-          Source count describes support. It is not a guilt score. Up to 60
-          representative original threads are drawn; every retained relationship
-          remains in the reader.
+          Source count is not a guilt score. World view shows up to 24 original
+          threads; area view shows up to 60. These are displayed subsets, not
+          the whole network. Every retained relationship remains in the reader.
         </p>
         <details>
           <summary>Map & placement limits</summary>

@@ -70,6 +70,7 @@ let registryManifest;
 let heavyAssetNames;
 let spatialAssetName;
 let displayBudget;
+let semanticZoom;
 
 const mime = {
   ".html": "text/html; charset=utf-8",
@@ -180,6 +181,9 @@ async function capture(page, result, name) {
   const filename = `${result.name}--${name}.png`;
   const layout = await page.evaluate(() => ({
     stylesheets: [...document.styleSheets].map((sheet) => sheet.href),
+    mapState: document.querySelector(".webgl-host")
+      ? { ...document.querySelector(".webgl-host").dataset }
+      : null,
     rectangles: Object.fromEntries(
       [".webgl-host", ".webgl-host canvas"].map((selector) => {
         const element = document.querySelector(selector);
@@ -252,6 +256,88 @@ async function assertSpatial(page) {
       .count(),
     0,
   );
+}
+
+async function assertCountryBase(page) {
+  await until(
+    async () =>
+      Number(
+        await page
+          .locator(".webgl-host")
+          .getAttribute("data-country-base-features"),
+      ) > 0,
+    "Independent country-base geometry was not reported before the world overview capture",
+    30000,
+  );
+}
+
+async function assertSemanticDisplay(page, result, data, selected, mode) {
+  let expected;
+  let state;
+  await until(async () => {
+    state = await page
+      .locator(".webgl-host")
+      .evaluate((element) => ({ ...element.dataset }));
+    const zoom = Number(state.zoom);
+    if (!Number.isFinite(zoom)) return false;
+    expected = semanticZoom.planSemanticDisplay(data, selected, zoom);
+    return (
+      (!mode || expected.mode === mode) &&
+      state.semanticMode === expected.mode &&
+      Number(state.areaGroups) === expected.areaGroupCount &&
+      Number(state.displayGroups) === expected.groups.size &&
+      Number(state.countryStacks) === expected.countryStacks.size &&
+      Number(state.selectedEndpointGroups) ===
+        expected.counts.selectedAreaDetails &&
+      Number(state.eligibleThreads) === expected.candidates.length &&
+      Number(state.renderedThreads) === expected.rendered.length &&
+      state.renderedEdgeIds ===
+        JSON.stringify(expected.rendered.map((edge) => edge.id))
+    );
+  }, "Semantic groups, selected endpoint details or original edge IDs differ from the retained planner");
+  const originalEdges = new Map(data.edges.map((edge) => [edge.id, edge]));
+  assert.ok(
+    expected.rendered.every((edge) => originalEdges.get(edge.id) === edge),
+  );
+  const cap =
+    expected.mode === "world"
+      ? semanticZoom.MAX_WORLD_THREAD_MESHES
+      : displayBudget.MAX_THREAD_MESHES;
+  assert.ok(expected.rendered.length <= cap);
+  if (expected.candidates.some((edge) => edge.id === selected)) {
+    assert.equal(
+      expected.rendered[0]?.id,
+      selected,
+      "The selected original relationship must survive the representative display cap",
+    );
+  }
+  (result.semanticSamples ??= []).push({
+    selected,
+    mode: expected.mode,
+    zoom: Number(state.zoom),
+    counts: expected.counts,
+    renderedEdgeIds: JSON.parse(state.renderedEdgeIds),
+    sourceSnapshotSha256:
+      data === fullScene ? registryManifest.sourceSnapshot.sha256 : undefined,
+  });
+  return expected;
+}
+
+async function expandIndiaStack(page, expected) {
+  const india = expected.countryStacks.get("IN");
+  assert.ok(india, "The retained registry has no India country stack");
+  const label = `${india.countryLabel} stack · ${india.memberCount} items · ${india.areaCount} areas · Expand`;
+  const button = page.getByRole("button", { name: label, exact: true });
+  assert.equal(await button.getAttribute("data-label-kind"), "stack");
+  await button.click();
+  await until(async () => {
+    const state = await page
+      .locator(".webgl-host")
+      .evaluate((element) => ({ ...element.dataset }));
+    return (
+      state.semanticMode === "areas" && Math.abs(Number(state.zoom) - 4) < 0.06
+    );
+  }, "India stack did not expand into the original area groups at zoom 4");
 }
 
 async function assertCounts(page, filters = {}, base = preview) {
@@ -708,7 +794,12 @@ try {
     logLevel: "silent",
   });
   model = await import(pathToFileURL(join(temporary, "model.mjs")).href);
-  for (const name of ["geography", "geoStyle", "displayBudget"]) {
+  for (const name of [
+    "geography",
+    "geoStyle",
+    "displayBudget",
+    "semanticZoom",
+  ]) {
     await build({
       entryPoints: [join(root, `src/${name}.ts`)],
       outfile: join(temporary, `${name}.mjs`),
@@ -724,6 +815,9 @@ try {
   mapStyle = await import(pathToFileURL(join(temporary, "geoStyle.mjs")).href);
   displayBudget = await import(
     pathToFileURL(join(temporary, "displayBudget.mjs")).href
+  );
+  semanticZoom = await import(
+    pathToFileURL(join(temporary, "semanticZoom.mjs")).href
   );
   preview = model.buildPreview();
   registryManifest = JSON.parse(
@@ -822,7 +916,17 @@ try {
 
   await scenario("01-overview-and-source-trail", {}, async (page, result) => {
     await assertSpatial(page);
+    await assertCountryBase(page);
     await assertCounts(page);
+    const world = await assertSemanticDisplay(
+      page,
+      result,
+      preview,
+      preview.nodes[0].id,
+      "world",
+    );
+    assert.equal(world.countryStacks.size, 3);
+    assert.equal(world.rendered.length, 2);
     await until(async () => {
       const radius = Number(
         await page
@@ -835,6 +939,7 @@ try {
     const edge = trailEdge.relationship;
     await page.getByRole("button", { name: "Start a source trail" }).click();
     await assertProvenance(page, edge);
+    await assertSemanticDisplay(page, result, preview, edge.id);
     await assertCameraControlsClearOfReader(page);
     await journey(page)
       .getByRole("button", { name: "Pause", exact: true })
@@ -1057,6 +1162,7 @@ try {
         "Long-range threads remain visible at the close-up destination zoom",
       );
       await assertCameraControlsClearOfReader(page);
+      await assertSemanticDisplay(page, result, preview, trailEdge.id, "areas");
       const destinationLabel = page
         .locator(".world-label")
         .filter({ hasText: destination.label });
@@ -1512,21 +1618,20 @@ try {
       const geographic = geography.getGeographicScene(factual);
       assert.equal(geographic.nodes.length, 3856);
       assert.equal(geographic.unplacedNodes.length, 4003);
-      const display = displayBudget.planGeographicDisplay(
-        factual,
+      const display = await assertSemanticDisplay(
+        page,
+        result,
+        fullScene,
         fullScene.nodes[0].id,
+        "world",
       );
-      await until(async () => {
-        const state = await page
-          .locator(".webgl-host")
-          .evaluate((element) => ({ ...element.dataset }));
-        return (
-          Number(state.areaGroups) === display.groups.size &&
-          Number(state.eligibleThreads) === display.candidates.length &&
-          Number(state.renderedThreads) === display.rendered.length
-        );
-      }, "Full map area groups and original-thread budget differ from the factual registry");
-      assert.ok(display.rendered.length <= 60);
+      assert.equal(display.areaGroupCount, 42);
+      assert.equal(display.countryStacks.size, 6);
+      assert.equal(display.rendered.length, 3);
+      assert.ok(
+        display.groups.size < display.areaGroupCount,
+        "World view did not summarize the 42 original areas into country stacks",
+      );
       const heldIds = new Set(fullRegistry.held.map((row) => row.id));
       assert.ok(
         factual.nodes.every(
@@ -1539,11 +1644,29 @@ try {
             !heldIds.has(edge.id) && edge.relationship.status !== "not-drawn",
         ),
       );
+      await assertCountryBase(page);
       await capture(
         page,
         result,
         "complete-registry-world-and-explicit-counts",
       );
+      await expandIndiaStack(page, display);
+      const areas = await assertSemanticDisplay(
+        page,
+        result,
+        fullScene,
+        fullScene.nodes[0].id,
+        "areas",
+      );
+      assert.equal(areas.groups.size, 42);
+      assert.equal(areas.rendered.length, 60);
+      assert.equal(
+        await inspector(page).count(),
+        0,
+        "A UI-only country stack opened as if it were an original evidence item",
+      );
+      await assertCounts(page, {}, fullScene);
+      await capture(page, result, "india-stack-expanded-to-original-areas");
       await page
         .getByRole("button", {
           name: "Search and read the registry",
@@ -1577,9 +1700,104 @@ try {
           ),
         fullScene.nodes.slice(40, 80).map((node) => node.id),
       );
+      await until(
+        async () =>
+          reader.evaluate(
+            (element) =>
+              element.closest(".reading-surface")?.scrollTop === 0 &&
+              document.activeElement ===
+                element.querySelector(".reader-result-count"),
+          ),
+        "Next page did not reset the reader scroll and focus the new result range",
+      );
       await capture(page, result, "full-reader-page-two");
+      await reader.getByRole("button", { name: /^Relationships / }).click();
+      const unfiltered = await assertCounts(page, {}, fullScene);
+      await readerView(page, "relationships", unfiltered.edges.length);
+      const firstPageIds = new Set(
+        unfiltered.edges.slice(0, 40).map((edge) => edge.id),
+      );
+      const selectedEdge = display.candidates.find((edge) =>
+        firstPageIds.has(edge.id),
+      );
+      assert.ok(
+        selectedEdge,
+        "No original cross-area relationship is available on the first reader page",
+      );
+      await reader
+        .locator(`[data-record-id=${JSON.stringify(selectedEdge.id)}]`)
+        .click();
+      await assertProvenance(page, selectedEdge.relationship, fullRegistry);
+      await page.getByRole("button", { name: "Explore", exact: true }).click();
+      await assertSpatial(page);
+      const selectedWorld = await assertSemanticDisplay(
+        page,
+        result,
+        fullScene,
+        selectedEdge.id,
+        "world",
+      );
+      assert.equal(selectedWorld.counts.selectedAreaDetails, 2);
+      assert.equal(selectedWorld.rendered[0].id, selectedEdge.id);
+      await assertCountryBase(page);
+      await assertProvenance(page, selectedEdge.relationship, fullRegistry);
+      await capture(
+        page,
+        result,
+        "selected-original-edge-across-country-stacks",
+      );
+      await expandIndiaStack(page, selectedWorld);
+      const selectedAreas = await assertSemanticDisplay(
+        page,
+        result,
+        fullScene,
+        selectedEdge.id,
+        "areas",
+      );
+      assert.equal(selectedAreas.rendered[0].id, selectedEdge.id);
+      assert.equal(selectedAreas.groups.size, 42);
+      await assertCounts(page, {}, fullScene);
+      await assertProvenance(page, selectedEdge.relationship, fullRegistry);
+      await capture(
+        page,
+        result,
+        "selected-original-edge-after-stack-expansion",
+      );
+      await inspector(page)
+        .getByRole("button", { name: "Save this evidence", exact: true })
+        .click();
+      const downloading = page.waitForEvent("download");
+      await inspector(page)
+        .getByRole("button", {
+          name: "Export casebook with evidence",
+          exact: true,
+        })
+        .click();
+      const download = await downloading;
+      const filename = join(
+        output,
+        "full-registry-semantic-zoom-casebook.json",
+      );
+      await download.saveAs(filename);
+      const packet = JSON.parse(await readFile(filename, "utf8"));
+      assert.equal(packet.registryUpdatedAt, fullRegistry.updatedAt);
+      assert.ok(packet.relationships.some((row) => row.id === selectedEdge.id));
+      for (const key of ["entities", "relationships", "records", "sources"]) {
+        for (const row of packet[key]) {
+          assert.deepEqual(
+            row,
+            fullRegistry[key].find((original) => original.id === row.id),
+            `${key}: semantic zoom changed or fabricated an exported original object`,
+          );
+        }
+      }
+      assert.ok(
+        selectedEdge.relationship.sourceIds.every((id) =>
+          packet.sources.some((source) => source.id === id),
+        ),
+      );
       result.notes.push(
-        "Default entry fetched all 96 verified chunks; 8,086 retained items include 7,859 factual-map-eligible items, with 3,856 area-anchored and 4,003 unplaced. Held metadata is preserved separately. At most 60 representative original cross-area threads are drawn.",
+        "Default entry fetched all 96 verified chunks; 8,086 retained items include 7,859 factual-map-eligible items, with 3,856 area-anchored and 4,003 unplaced. Six UI-only country stacks expand to 42 original areas. Exact original rendered-edge IDs follow the 24-world/60-area caps; the selected original relationship, both endpoint details, provenance and exported source objects survive semantic zoom. Full-reader pagination resets scroll and focuses the new result range.",
       );
     },
   );

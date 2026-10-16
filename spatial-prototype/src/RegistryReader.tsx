@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
 import type { PreviewData } from "./model";
 import { originalRoute, safeSourceUrl } from "./navigation";
+import { restoreReaderStart } from "./readerPagination";
 const PAGE_SIZE = 40;
 type View = "items" | "relationships" | "sources" | "held";
 const normal = (value: string) =>
@@ -51,6 +52,17 @@ export default function RegistryReader({
   const total = rows[view].length;
   const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const current = Math.min(page, pages - 1);
+  const resultRange = useRef<HTMLParagraphElement>(null);
+  const pageNavigation = useRef(false);
+  const changePage = (next: number) => {
+    pageNavigation.current = true;
+    setPage(next);
+  };
+  useEffect(() => {
+    if (!pageNavigation.current) return;
+    pageNavigation.current = false;
+    restoreReaderStart(resultRange.current);
+  }, [current]);
   const slice = <T,>(values: T[]) =>
     values.slice(current * PAGE_SIZE, (current + 1) * PAGE_SIZE);
   return (
@@ -90,7 +102,12 @@ export default function RegistryReader({
           evidence items and relationships, not to this source/review catalogue.
         </p>
       )}
-      <p className="reader-result-count" aria-live="polite">
+      <p
+        ref={resultRange}
+        tabIndex={-1}
+        className="reader-result-count"
+        aria-live="polite"
+      >
         {total
           ? `${current * PAGE_SIZE + 1}–${Math.min(total, (current + 1) * PAGE_SIZE)} of ${total.toLocaleString()}`
           : "No matching entries"}
@@ -240,7 +257,10 @@ export default function RegistryReader({
           ))}
       </div>
       <nav className="reader-pagination" aria-label="Result pages">
-        <button disabled={current === 0} onClick={() => setPage(current - 1)}>
+        <button
+          disabled={current === 0}
+          onClick={() => changePage(current - 1)}
+        >
           <ArrowLeft size={16} /> Previous page
         </button>
         <span>
@@ -248,7 +268,7 @@ export default function RegistryReader({
         </span>
         <button
           disabled={current + 1 >= pages}
-          onClick={() => setPage(current + 1)}
+          onClick={() => changePage(current + 1)}
         >
           Next page <ArrowRight size={16} />
         </button>

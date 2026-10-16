@@ -4,6 +4,7 @@ export type CameraCommand = {
     | "fit"
     | "back"
     | "focus"
+    | "expand-stack"
     | "follow"
     | "city"
     | "pause"
@@ -35,6 +36,14 @@ export type LabelPosition = {
   x: number;
   y: number;
   visible: boolean;
-  kind: "entity" | "record" | "edge";
+  kind: "entity" | "record" | "edge" | "stack";
   distance: number;
+};
+export type DisplaySummary = {
+  mode: "world" | "areas";
+  visibleGroups: number;
+  countryStacks: number;
+  areaGroups: number;
+  candidates: number;
+  renderedThreads: number;
 };

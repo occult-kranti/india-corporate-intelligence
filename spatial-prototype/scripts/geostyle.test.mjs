@@ -61,7 +61,9 @@ test("geographic renderer contains no arbitrary city placements or tabletop wing
   assert.ok(!renderer.includes("placements:"));
   assert.ok(!renderer.includes("buildCityLayer"));
   assert.ok(!renderer.includes("buildRoom"));
-  assert.match(renderer, /planGeographicDisplay/);
+  assert.match(renderer, /planSemanticDisplay/);
+  const semantic = await readFile("src/semanticZoom.ts", "utf8");
+  assert.match(semantic, /planGeographicDisplay/);
   const display = await readFile("src/displayBudget.ts", "utf8");
   assert.match(display, /getNodeAnchor/);
   assert.match(renderer, /renderWorldCopies:\s*false/);

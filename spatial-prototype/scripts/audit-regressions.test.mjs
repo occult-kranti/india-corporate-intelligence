@@ -306,3 +306,34 @@ test('held/not-drawn records and relationships cannot supply the entity temporal
     assert.equal(filtered.registry, registry, 'reader snapshot remains complete');
   }
 });
+
+test('country-stack control stays visible when its selected endpoint label collides', () => {
+  const instance = Object.create(EvidenceWorld.prototype);
+  const node = factual.nodes[0];
+  const country = { key: 'country-stack:IN', kind: 'country-stack', records: [node], selectedIds: [], anchor: { lng: 78, lat: 22, label: 'India' }, memberCount: 3838, areaCount: 37, countryLabel: 'India' };
+  const endpoint = { ...country, key: 'selected-area:IN-29', kind: 'selected-area', selectedIds: [node.id] };
+  let labels;
+  Object.assign(instance, { lastLabels: 0, container: { clientWidth: 1000, clientHeight: 800 },
+    displayGroups: new Map([[endpoint.key, endpoint], [country.key, country]]), selected: node.id,
+    map: { project: () => ({ x: 500, y: 400 }), getZoom: () => 1.5 }, data: { edges: [] },
+    cb: { onLabels: value => { labels = value; } },
+  });
+  instance.updateLabels(true);
+  assert.equal(labels.find(label => label.kind === 'stack').visible, true);
+  assert.match(labels.find(label => label.kind === 'stack').title, /3838 items · 37 areas · Expand/);
+  assert.equal(labels.filter(label => label.visible).length, 1);
+});
+
+test('stack expansion changes only camera focus and never selects a synthetic evidence item', () => {
+  const instance = Object.create(EvidenceWorld.prototype);
+  const poses = [], selections = [];
+  Object.assign(instance, { ready: true, anchors: new Map(), pose: () => ({ center: [27, 18], zoom: 1.5, pitch: 18, bearing: 0 }),
+    displayGroups: new Map([['country-stack:IN', { kind: 'country-stack', anchor: { lng: 78, lat: 22, focusZoom: 4 } }]]),
+    cb: { onSelect: id => selections.push(id) }, go: pose => poses.push(pose),
+  });
+  instance.command({ type: 'expand-stack', id: 'country-stack:IN', stamp: 0 });
+  assert.deepEqual(poses, [{ center: [78, 22], zoom: 4, pitch: 18, bearing: 0 }]);
+  assert.deepEqual(selections, []);
+  instance.command({ type: 'expand-stack', id: 'unknown-display-group', stamp: 1 });
+  assert.equal(poses.length, 1);
+});

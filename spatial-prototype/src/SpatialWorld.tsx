@@ -7,6 +7,7 @@ import type {
   JourneyState,
   LabelPosition,
   SceneMetric,
+  DisplaySummary,
 } from "./scene-types";
 interface Props {
   data: PreviewData;
@@ -20,6 +21,7 @@ interface Props {
   onFailure: (reason: string) => void;
   onMapStatus: (status: string) => void;
   onInteraction: () => void;
+  onDisplay: (summary: DisplaySummary) => void;
 }
 export default function SpatialWorld(props: Props) {
   const host = useRef<HTMLDivElement>(null);
@@ -38,6 +40,7 @@ export default function SpatialWorld(props: Props) {
         onFailure: (s) => latest.current.onFailure(s),
         onMapStatus: (s) => latest.current.onMapStatus(s),
         onInteraction: () => latest.current.onInteraction(),
+        onDisplay: (summary) => latest.current.onDisplay(summary),
       });
       world.current.setReducedMotion(latest.current.reducedMotion);
     } catch (error) {
@@ -68,20 +71,27 @@ export default function SpatialWorld(props: Props) {
   return (
     <div className="spatial-stage">
       <div ref={host} className="webgl-host" />
-      <div className="world-labels" aria-hidden="true">
+      <div className="world-labels" aria-label="Geographic map labels">
         {labels
           .filter((l) => l.visible)
           .map((l) => (
             <button
               key={l.id}
-              tabIndex={-1}
+              tabIndex={l.kind === "stack" ? 0 : -1}
+              data-label-kind={l.kind}
               className={
                 props.selected === l.id ? "world-label selected" : "world-label"
               }
               style={{ left: l.x, top: l.y }}
-              onClick={() =>
-                props.onSelect(l.id, l.kind === "edge" ? "edge" : "node")
-              }
+              onClick={() => {
+                if (l.kind === "stack")
+                  world.current?.command({
+                    type: "expand-stack",
+                    id: l.id,
+                    stamp: performance.now(),
+                  });
+                else props.onSelect(l.id, l.kind === "edge" ? "edge" : "node");
+              }}
             >
               <span className="label-dot" />
               {l.title}

@@ -122,6 +122,53 @@ async function fullReady(page, result) {
   assert.match(await page.locator('.masthead').innerText(), /Complete original registry.*retained snapshot/s);
 }
 
+function retainedSourceRouteItems(registry) {
+  const held = new Set(registry.held.map(row => row.id));
+  return ['/finance', '/energy'].map(route => {
+    const item = [...registry.entities, ...registry.records].find(row => row.route === route && row.sourceIds.length && !held.has(row.id) && row.status !== 'not-drawn');
+    assert.ok(item, `No retained source-backed test item at ${route}`);
+    return item;
+  });
+}
+
+function readMapViewport() {
+  const host = document.querySelector('.webgl-host');
+  const canvas = host?.querySelector('canvas');
+  const sample = element => {
+    if (!element) return null;
+    const style = getComputedStyle(element);
+    return { ...element.getBoundingClientRect().toJSON(), visible: style.display !== 'none' && style.visibility === 'visible' && Number(style.opacity) > 0 };
+  };
+  return {
+    viewport: { width: innerWidth, height: innerHeight }, host: sample(host), canvas: sample(canvas),
+    canvasWidth: canvas?.width ?? 0, canvasHeight: canvas?.height ?? 0,
+    renderer: host?.dataset.renderer, drawCalls: Number(host?.dataset.drawCalls ?? 0),
+    countryBaseFeatures: Number(host?.dataset.countryBaseFeatures ?? 0),
+  };
+}
+
+function mapViewportIsReady(frame) {
+  const { viewport, host, canvas } = frame;
+  return Boolean(
+    frame.countryBaseFeatures > 0 && frame.renderer === 'maplibre-three-mercator' && frame.drawCalls > 0 &&
+    frame.canvasWidth > 0 && frame.canvasHeight > 0 && host?.visible && canvas?.visible &&
+    host.width >= viewport.width * 0.9 && host.height >= viewport.height * 0.9 &&
+    host.x >= -2 && host.y >= -2 && host.right <= viewport.width + 2 && host.bottom <= viewport.height + 2 &&
+    Math.abs(canvas.width - host.width) <= 4 && Math.abs(canvas.height - host.height) <= 4 &&
+    Math.abs(canvas.x - host.x) <= 2 && Math.abs(canvas.y - host.y) <= 2
+  );
+}
+
+async function captureFullMap(page, result, name) {
+  let frame;
+  await until(async () => {
+    frame = await page.evaluate(readMapViewport);
+    return mapViewportIsReady(frame);
+  }, 'No populated country base with a visible viewport-sized map host/canvas was observed', 60000);
+  (result.mapCaptures ??= []).push({ capture: name, ...frame });
+  await capture(page, result, name);
+}
+
 async function scenario(name, viewport, work) {
   const result = { name, viewport, status: 'running', screenshots: [], pageErrors: [], responses: [], failedRequests: [], verifiedRegistryPaths: new Set(), verificationErrors: [] };
   report.scenarios.push(result);
@@ -196,10 +243,8 @@ try {
     await capture(page, result, 'preserved-navigation-spatial-link');
     if (name.startsWith('desktop')) { await link.focus(); await page.keyboard.press('Enter'); } else await link.click();
     await fullReady(page, result);
-    // The separate spatial suite checks rendering in depth. This gate proves
-    // default nested-path entry really mounts the complete atlas and its assets.
-    await page.locator('.webgl-host canvas').waitFor({ timeout: 45000 });
-    await capture(page, result, 'full-registry-default');
+    // Registry completion can precede geometry loading and the first map draw.
+    await captureFullMap(page, result, 'full-registry-default');
     const back = page.getByRole('link', { name: 'Original investigation pages ↗' });
     assert.equal(await back.evaluate(element => element.href), `${origin}${base}#/investigate`);
     await back.click();
@@ -207,14 +252,11 @@ try {
     await capture(page, result, 'original-workbench-return');
     await page.goBack({ waitUntil: 'domcontentloaded' });
     await fullReady(page, result);
-    await capture(page, result, 'browser-back-to-complete-spatial');
+    await captureFullMap(page, result, 'browser-back-to-complete-spatial');
   });
 
   await scenario('original-item-source-route-round-trips', { width: 1440, height: 1000 }, async (page, result) => {
-    const held = new Set(registry.held.map(row => row.id));
-    for (const route of ['/international-finance', '/energy']) {
-      const item = [...registry.entities, ...registry.records].find(row => row.route === route && row.sourceIds.length && !held.has(row.id) && row.status !== 'not-drawn');
-      assert.ok(item, `No retained source-backed test item at ${route}`);
+    for (const item of retainedSourceRouteItems(registry)) {
       await page.goto(`${origin}${spatial}?mode=reading`, { waitUntil: 'domcontentloaded' });
       await fullReady(page, result);
       const search = page.getByRole('textbox', { name: 'Search retained records' });
@@ -226,10 +268,11 @@ try {
       const original = inspector.getByRole('link', { name: 'Open this item’s original page' });
       assert.equal(await original.getAttribute('href'), `../#${item.route}`);
       assert.equal(await original.evaluate(element => element.href), `${origin}${base}#${item.route}`);
-      await capture(page, result, `${route.slice(1)}-source-backed-reader`);
+      await capture(page, result, `${item.route.slice(1)}-source-backed-reader`);
       await original.click();
-      await rootReady(page, route);
-      await capture(page, result, `${route.slice(1)}-actual-original-destination`);
+      await rootReady(page, item.route);
+      (result.originalDestinations ??= []).push({ id: item.id, retainedRoute: item.route, url: page.url() });
+      await capture(page, result, `${item.route.slice(1)}-actual-original-destination`);
       await page.goBack({ waitUntil: 'domcontentloaded' });
       await fullReady(page, result);
     }

@@ -1,6 +1,6 @@
 # Full original registry transport
 
-This is a deterministic, source-preserving packaging of the existing `getInvestigationRegistry()` result. It adds no research, identity merges, geographic guesses, factual edges, or evidence conclusions. The source application is read-only. The full JSON is **not imported into the JavaScript bundle**.
+This is a deterministic, source-preserving packaging of the existing India application `getInvestigationRegistry()` result. Separate global-current, finance and media workbench bundles are preserved on their original routes but are not federated into this snapshot. It adds no research, identity merges, geographic guesses, factual edges, or evidence conclusions. The source application is read-only. The full JSON is **not imported into the JavaScript bundle**.
 
 ## Snapshot
 
