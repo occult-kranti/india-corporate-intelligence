@@ -221,13 +221,14 @@ async function assertSpatial(page) {
 }
 
 async function assertCounts(page, filters = {}, base = preview) {
-  const expected = model.filterScene(base, {
+  const lenses = {
     fromYear: base.yearRange[0],
     toYear: base.yearRange[1],
     includeUndated: true,
     ...filters,
-  });
-  const factual = model.factualScene(expected);
+  };
+  const expected = model.filterScene(base, lenses);
+  const factual = model.filterScene(model.factualScene(base), lenses);
   const geographic = geography.getGeographicScene(factual);
   await until(async () => {
     const data = await page
@@ -1576,10 +1577,14 @@ try {
           .isDisabled(),
         true,
       );
-      assert.ok(
-        !model
-          .factualScene(heldSearch)
-          .nodes.some((node) => node.id === held.id),
+      assert.equal(
+        Number(
+          await page
+            .locator(".evidence-app")
+            .getAttribute("data-factual-items"),
+        ),
+        0,
+        "A held-only record search must not indirectly admit its entity endpoints into the factual map",
       );
       await capture(
         page,
