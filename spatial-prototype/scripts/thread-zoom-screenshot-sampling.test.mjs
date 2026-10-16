@@ -24,3 +24,15 @@ test('pointer-events-none case plaques remain screenshot obstructions',()=>{
  global.document={querySelector:()=>surface,querySelectorAll:()=>[plaque],elementFromPoint:()=>surface};global.getComputedStyle=()=>({display:'block',visibility:'visible',opacity:'1',pointerEvents:'none'});
  try{const result=inspectScreenshotPath({points,box:{x:0,y:0},kind:'case',roi,nominalWidthCss:1.5});assert.equal(result.selected,null);assert.ok(result.obstructions.length);}finally{delete global.document;delete global.getComputedStyle;}
 });
+
+test('native witness candidates retain fixed160×128 area along original offscreen crossing',async()=>{
+ const {witnessRegions,witnessPathSamples}=await import('./thread-zoom-screenshot-sampling.mjs');
+ const path=[[-10000,330],[10000,330]],regions=witnessRegions(path,840,663);assert.ok(regions.length>10);assert.deepEqual(regions[0].center,[420,331.5]);
+ for(const region of regions){assert.equal(region.width,160);assert.equal(region.height,128);assert.ok(region.cssLeft>=0&&region.cssLeft+160<=840);assert.ok(region.cssTop>=0&&region.cssTop+128<=663);const samples=witnessPathSamples(path,region);assert.ok(samples.length>=320);assert.ok(samples.every(p=>p.y===330&&p.x>=region.cssLeft-1e-9&&p.x<=region.cssLeft+160+1e-9));}
+ assert.throws(()=>witnessRegions([[0,0],[NaN,4]],840,663));assert.throws(()=>witnessRegions(path,100,100));
+});
+test('a central plaque forces an independent same-path native witness outside it',async()=>{
+ const {witnessRegions,witnessPathSamples}=await import('./thread-zoom-screenshot-sampling.mjs');const path=[[-10000,330],[10000,330]],regions=witnessRegions(path,840,663);
+ global.document={querySelector:()=>surface,querySelectorAll:()=>[],elementFromPoint:(x,y)=>x>=329&&x<=511&&y>=314&&y<=346?overlay:surface};
+ try{const observations=regions.map(roi=>({roi,receipt:inspectScreenshotPath({points:witnessPathSamples(path,roi),box:{x:0,y:0},kind:'case',roi,nominalWidthCss:1.5})}));assert.equal(observations[0].receipt.selected,null);const witness=observations.find(o=>o.receipt.selected?.arcCss>=64);assert.ok(witness);assert.notDeepEqual(witness.roi.center,regions[0].center);assert.equal(witness.roi.width,160);assert.equal(witness.roi.height,128);const click=witness.receipt.selected.witnessPoint;assert.ok(click.x>witness.receipt.selected.left&&click.x<witness.receipt.selected.right);assert.equal(click.y,330);assert.ok(click.x>520||click.x<320);assert.ok(click.x>=witness.roi.cssLeft&&click.x<=witness.roi.cssLeft+160);assert.notEqual(click.x,420);}finally{delete global.document;}
+});

@@ -3,6 +3,24 @@ export type ThreadPoint = readonly [number, number, number];
 export type ClipPoint = readonly [number, number, number, number];
 export type ThreadSegment = { a: ThreadPoint; b: ThreadPoint; index: number };
 export const THREAD_SEGMENTS = 48;
+
+export const THREAD_HIT_RADIUS_PX = 9;
+/** CSS-pixel numerical tie only. Reversed F64 projection of the same original
+ * curve differs by at most 2.23e-9 px in the native z4.5–19 regression fixture.
+ * Keep this bound at 1e-8 px; it must never become a visual snapping radius. */
+export const THREAD_HIT_TIE_PX = 1e-8;
+export type ThreadHit = { id: string; distance: number };
+
+/** Input order is retained/selected-first. Anchor ties to the true minimum,
+ * rather than chaining approximate pairwise comparisons across originals. */
+export function selectThreadHit(hits: readonly ThreadHit[]): ThreadHit | null {
+  let nearest = THREAD_HIT_RADIUS_PX;
+  for (const hit of hits)
+    if (hit.distance >= 0 && hit.distance < nearest) nearest = hit.distance;
+  return hits.find(hit => hit.distance >= 0 && hit.distance < THREAD_HIT_RADIUS_PX &&
+    hit.distance - nearest <= THREAD_HIT_TIE_PX) ?? null;
+}
+
 const mix = (a: ClipPoint, b: ClipPoint, t: number): ClipPoint =>
   a.map((value, i) => value + (b[i] - value) * t) as unknown as ClipPoint;
 

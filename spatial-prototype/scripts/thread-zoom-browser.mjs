@@ -12,7 +12,7 @@ import { dirname, extname, isAbsolute, join, relative, resolve, sep } from 'node
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { setTimeout as delay } from 'node:timers/promises';
 import { prepareCameraFixture, assertSameFixturePose } from './thread-zoom-camera-fixture.mjs';
-import { inspectScreenshotPath, cropScreenshotRegion } from './thread-zoom-screenshot-sampling.mjs';
+import { inspectScreenshotPath, cropScreenshotRegion, witnessRegions, witnessPathSamples } from './thread-zoom-screenshot-sampling.mjs';
 
 export const ATLAS_EDGE = 'legacy:relationship:9e7654ec6cc7ec18|joshi|role|coal';
 export const CASE_EDGE = 'case:india-ambani:edge:1:1';
@@ -526,7 +526,9 @@ export function installThreadZoomProbe({ atlasEdge, caseEdge, atlasSourceCount =
       const available=defaultTarget?[gl.drawingBufferWidth,gl.drawingBufferHeight]:viewport.slice(2);
       const width=Math.min(available[0],Math.max(1,Math.ceil(160*sx))),height=Math.min(available[1],Math.max(1,Math.ceil(128*sy)));
       const originX=defaultTarget?(box.x-canvasBox.x)*sx:viewport[0],originY=defaultTarget?gl.drawingBufferHeight-(box.y-canvasBox.y+box.height)*sy:viewport[1];
-      const x=Math.round(originX+box.width*sx/2-width/2),y=Math.round(originY+box.height*sy/2-height/2);
+      const center=state.active?.sampleCenter??[box.width/2,box.height/2];
+      if(center.length!==2||!center.every(Number.isFinite))throw new Error('Invalid preselected native witness center');
+      const x=Math.round(originX+center[0]*sx-width/2),y=Math.round(originY+(box.height-center[1])*sy-height/2);
       if(x<0||y<0||x+width>available[0]+(defaultTarget?0:viewport[0])||y+height>available[1]+(defaultTarget?0:viewport[1]))throw new Error('Expected crossing ROI leaves framebuffer');
       for(const name of ['PACK_ROW_LENGTH','PACK_SKIP_PIXELS','PACK_SKIP_ROWS'])if(native.getParameter(gl[name])!==0)throw new Error(`Unexpected ${name}`);
       if(native.getParameter(gl.PIXEL_PACK_BUFFER_BINDING))throw new Error('Unexpected pixel pack buffer');
@@ -692,7 +694,7 @@ export function installThreadZoomProbe({ atlasEdge, caseEdge, atlasSourceCount =
     return context;
   };
   window.__threadZoomProbe = Object.freeze({
-    arm(name, kind) { state.active = { name, kind }; state.captures[name] = { ...snapshot(kind), draws: [], contributions: [], observationOrdinal: 0, frames: [] }; },
+    arm(name, kind, sampleCenter=null) { state.active = { name, kind, sampleCenter }; state.captures[name] = { ...snapshot(kind), draws: [], contributions: [], observationOrdinal: 0, frames: [] }; },
     finish(name, kind) { const capture=state.captures[name], fresh=snapshot(kind); state.active=null; Object.assign(capture,fresh,{finalPoseKey:poseKey(fresh)}); return capture; },
     stop() { state.active = null; },
     snapshot,
@@ -1038,12 +1040,23 @@ async function runCase(page, output, report) {
     const scale = Math.min(1, 80 / Math.max(Math.abs(dx), Math.abs(dy)));
     await dragSurface(page, '[data-case-surface]', [dx * scale, dy * scale], `case center correction ${i}`);
   }
-  await page.evaluate(() => window.__threadZoomProbe.arm('case-max-zoom', 'case'));
+  const witnessSnapshot=await page.evaluate(()=>window.__threadZoomProbe.snapshot('case'));
+  const witnessCandidates=witnessRegions(witnessSnapshot.geometry.points,witnessSnapshot.geometry.board.width,witnessSnapshot.geometry.board.height);
+  const witnessReceipt={basis:'Original case polyline and DOM only, selected before native capture',edgeId:CASE_EDGE,geometry:witnessSnapshot.geometry,candidates:[],chosen:null,clickPoint:null};
+  for(const region of witnessCandidates){
+    const observation=await page.evaluate(inspectScreenshotPath,{points:witnessPathSamples(witnessSnapshot.geometry.points,region),box:witnessSnapshot.geometry.board,kind:'case',roi:region,nominalWidthCss:1.5});
+    witnessReceipt.candidates.push({region,observation});
+    if(observation.selected?.arcCss>=64){witnessReceipt.chosen=region;witnessReceipt.clickPoint=observation.selected.witnessPoint;break;}
+  }
+  report.caseWitness=witnessReceipt;assert.ok(witnessReceipt.chosen,'No clear same-original case witness; do not hide the role plaque');
+  await page.evaluate(center => window.__threadZoomProbe.arm('case-max-zoom', 'case',center),witnessReceipt.chosen.center);
   await surface.focus();
   for(let check=0;check<3;check++){await surface.press('+');await delay(160);}
   const row = await page.evaluate(() => window.__threadZoomProbe.finish('case-max-zoom','case'));
   row.screenshot = await screenshot(page, output, 'case-max-zoom'); await verifyScreenshotCrossing(row,output,page); report.case.push(row);
   recordCheck(report, 'case max-zoom native exact-edge raster and crossing', () => {
+    const nativeROI=row.frames.at(-1)?.finalCanvas?.raster?.roi;assert.ok(nativeROI,'Case native witness ROI missing');
+    assert.ok(Math.abs(nativeROI.cssLeft+nativeROI.width/nativeROI.sx/2-witnessReceipt.chosen.center[0])<=.5/nativeROI.sx&&Math.abs(nativeROI.cssTop+nativeROI.height/nativeROI.sy/2-witnessReceipt.chosen.center[1])<=.5/nativeROI.sy,'Case native readback differs from independently chosen witness');
     assertRasterEvidence(row, 'case max zoom'); assert.equal(row.edgeId, CASE_EDGE); assert.equal(row.meshUuid, initial.meshUuid, 'Original case GPU geometry identity changed');
     const length = points => points.slice(1).reduce((sum, p, i) => sum + Math.hypot(p[0] - points[i][0], p[1] - points[i][1]), 0);
     const currentBoard = row.geometry.board;
@@ -1053,11 +1066,14 @@ async function runCase(page, output, report) {
     assert.ok(row.visibleEdgeIds.includes(CASE_EDGE)); assert.ok(row.visibleEdgeIds.length <= 12);
     assert.ok(row.draws.every(draw => draw.viewport[2] <= 1024 && draw.viewport[3] <= 1024 && draw.viewport[2] * draw.viewport[3] <= 786432));
   });
-  const g = row.geometry, mid = g.points[Math.floor(g.points.length / 2)];
-  const clickPoint={x:g.board.x+mid[0],y:g.board.y+mid[1]};
+  const g = row.geometry, fixedWitness = witnessReceipt.clickPoint;
+  assert.ok(fixedWitness&&Number.isFinite(fixedWitness.x)&&Number.isFinite(fixedWitness.y),'Case click lacks a preselected DOM-clear original-path witness');
+  const clickPoint={x:g.board.x+fixedWitness.x,y:g.board.y+fixedWitness.y};
   assert.equal(await page.evaluate(point=>document.elementFromPoint(point.x,point.y)===document.querySelector('[data-case-surface]'),clickPoint),true,'Case crossing click must hit the real case input surface');
   const displayed=row.frames.at(-1)?.finalCanvas?.raster?.path?.samples??[];
-  assert.ok(displayed.some(p=>p.supported&&Math.hypot(p.x-mid[0],p.y-mid[1])<=2),'Case click is not on the measured final visible crossing');
+  assert.ok(displayed.some(p=>p.supported&&Math.hypot(p.x-fixedWitness.x,p.y-fixedWitness.y)<=2),'Preselected case click is not supported by the measured native crossing');
+  const screenshotDisplayed=row.screenshotEvidence?.raster?.path?.samples??[];
+  assert.ok(screenshotDisplayed.some(p=>p.supported&&Math.hypot(p.x-fixedWitness.x,p.y-fixedWitness.y)<=2),'Preselected case click is not visibly supported by the final screenshot');
   await page.mouse.click(clickPoint.x,clickPoint.y);
   await until(async () => await caseWorkspace(page).getAttribute('data-case-selection') === CASE_EDGE, 'Case crossing click did not select the exact original ID');
   const selected = caseWorkspace(page).locator(`[data-edge-id=${JSON.stringify(CASE_EDGE)}]`);

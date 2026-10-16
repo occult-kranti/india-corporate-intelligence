@@ -40,7 +40,7 @@ import {
   threadRadiusPixels,
   THREAD_OPACITY,
 } from "./threadGeometry";
-import { projectThreadSegments, threadSegmentDistance, THREAD_SEGMENTS, type ThreadPoint } from "./threadProjection";
+import { projectThreadSegments, threadSegmentDistance, selectThreadHit, THREAD_SEGMENTS, type ThreadPoint, type ThreadHit } from "./threadProjection";
 setWorkerUrl(workerUrl);
 export const CATEGORY_COLORS: Record<string, string> = {
   funding: "#d3a752",
@@ -470,17 +470,18 @@ export class EvidenceWorld {
       this.cb.onSelect(nearest.id, "node");
       return;
     }
-    let threadHit: { id: string; distance: number } | null = null;
-    // The retained display map is selected-first; a tied crossing keeps that exact ID.
+    const threadHits: ThreadHit[] = [];
+    // The retained display map is selected-first; a numerical tie keeps that exact ID.
     for (const [id, curve] of this.curves) {
       const points = curve.getSpacedPoints(THREAD_SEGMENTS).map(p => [p.x, p.y, p.z] as ThreadPoint);
       const segments = projectThreadSegments(points, this.camera.projectionMatrix.elements,
         this.container.clientWidth, this.container.clientHeight, this.threadLiftUniform.value);
-      for (const segment of segments) {
-        const distance = threadSegmentDistance(event.point.x, event.point.y, segment);
-        if (distance < 9 && (!threadHit || distance < threadHit.distance)) threadHit = { id, distance };
-      }
+      let distance = Infinity;
+      for (const segment of segments)
+        distance = Math.min(distance, threadSegmentDistance(event.point.x, event.point.y, segment));
+      threadHits.push({ id, distance });
     }
+    const threadHit = selectThreadHit(threadHits);
     if (threadHit) this.cb.onSelect(threadHit.id, "edge");
   };
   private pose(): Pose {
