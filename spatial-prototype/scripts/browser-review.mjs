@@ -27,6 +27,7 @@ import { setTimeout as delay } from "node:timers/promises";
 import { build } from "esbuild";
 import { chromium } from "playwright";
 import { createHash } from "node:crypto";
+import { execFileSync } from "node:child_process";
 
 if (
   process.env.GITHUB_ACTIONS !== "true" ||
@@ -37,6 +38,16 @@ if (
   );
 }
 
+function expectedHistoricalReview(value) {
+  if (value === undefined || value === "false") return false;
+  if (value === "true") return true;
+  throw new Error(
+    "SPATIAL_EXPECT_HISTORICAL_REVIEW must be true, false, or absent",
+  );
+}
+const expectHistoricalReview = expectedHistoricalReview(
+  process.env.SPATIAL_EXPECT_HISTORICAL_REVIEW,
+);
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const dist = await realpath(join(root, "dist"));
 const output = join(root, "browser-review");
@@ -48,9 +59,12 @@ const report = {
   startedAt: new Date().toISOString(),
   commit: process.env.GITHUB_SHA ?? null,
   headCommit: process.env.SPATIAL_HEAD_SHA ?? null,
+  expectedHistoricalReview: expectHistoricalReview,
   viewport,
   basePath: prefix,
   renderer: "Chromium / ANGLE SwiftShader (CI software rendering)",
+  reviewLabel:
+    "next-head historical reader and atlas tutorial review · PUBLIC_GRAPH_BLOCKED",
   scope:
     "Behavior and review captures, not pixel approval, a hardware benchmark, or a deployment.",
   scenarios: [],
@@ -71,6 +85,38 @@ let heavyAssetNames;
 let spatialAssetName;
 let displayBudget;
 let semanticZoom;
+let historical;
+let historicalOverlay;
+let historicalAdditionsText;
+let historicalPayloadAsset;
+let historicalPanelAsset;
+let historicalGateAsset;
+let atlasGuide;
+const atlasGuideHash =
+  "c9cef1fb5f5cded79795573808a5c958e2cdfa092b3567700d89781a3706dfd4";
+const atlasTutorialKey = "fieldwork-guide:v2:atlas-source-reading-v2";
+const tutorialDialog = (page) => page.locator("dialog.field-guide");
+const tutorialHelp = (page) => page.locator('[data-guide-launcher="atlas"]');
+const historicalDeferredAssets = new Set();
+// Independent retained-packet anchors: never infer expectations from rendered text.
+const historicalReference = Object.freeze({
+  baseSha256:
+    "048f89ffd008a498212ff2ac71d4413aef09b138a50ab77f336a23fec4722064",
+  additionsSha256:
+    "5cd5c36de9dd98609c948cf526595a175f30fd29457fa1c7db9cf29b978eaf45",
+  provenanceSha256:
+    "7ad1b6269af516d7f88dbee5687a6f3ba2cd0ac2f3b97318931d248c382eebf0",
+  counts: { entities: 2469, records: 5617, relationships: 4203, sources: 3314 },
+});
+const sha256 = (value) => createHash("sha256").update(value).digest("hex");
+const historicalGate = (page) =>
+  page.getByRole("complementary", { name: "Optional historical review" });
+const historicalDialog = (page) =>
+  page.getByRole("dialog", { name: "Issuer-reported ownership at 2025-12-31" });
+const assetRequests = (result, names, offset = 0) =>
+  result.requests
+    .slice(offset)
+    .filter((url) => names.has(new URL(url).pathname.split("/").at(-1)));
 
 const mime = {
   ".html": "text/html; charset=utf-8",
@@ -185,7 +231,12 @@ async function capture(page, result, name) {
       ? { ...document.querySelector(".webgl-host").dataset }
       : null,
     rectangles: Object.fromEntries(
-      [".webgl-host", ".webgl-host canvas"].map((selector) => {
+      [
+        ".webgl-host",
+        ".webgl-host canvas",
+        ".historical-review-dialog",
+        ".historical-review-content",
+      ].map((selector) => {
         const element = document.querySelector(selector);
         const style = element ? getComputedStyle(element) : null;
         return [
@@ -553,6 +604,663 @@ async function readerView(page, view, count) {
   return reader;
 }
 
+async function assertHistoricalBaseUnchanged(page, result, phase) {
+  await assertFullLoad(page, result);
+  assert.equal(
+    await page.locator(".evidence-app").count(),
+    1,
+    "Review must not replace or duplicate the base atlas",
+  );
+  const data = await page
+    .locator(".evidence-app")
+    .evaluate((element) => ({ ...element.dataset }));
+  for (const key of Object.keys(historicalReference.counts)) {
+    assert.equal(
+      Number(data[`loaded${key[0].toUpperCase()}${key.slice(1)}`]),
+      fullRegistry[key].length,
+    );
+  }
+  assert.equal(
+    Number(data.heldCount),
+    fullRegistry.held.length,
+    "Review holds leaked into the base reader",
+  );
+  const originalIds = new Set(
+    [
+      ...fullRegistry.entities,
+      ...fullRegistry.records,
+      ...fullRegistry.relationships,
+    ].map((row) => row.id),
+  );
+  for (const id of await page
+    .locator(".evidence-app [data-record-id]")
+    .evaluateAll((rows) => rows.map((row) => row.dataset.recordId))) {
+    assert.ok(
+      originalIds.has(id),
+      `Non-original evidence was admitted into the base reader: ${id}`,
+    );
+  }
+  if (await page.locator(".webgl-host").count()) {
+    // The retained App initializes selection to the first original node even
+    // while its inspector is closed. Keep the same baseline as case 12 rather
+    // than falsely expecting no selected endpoint detail behind this overlay.
+    const display = await assertSemanticDisplay(
+      page,
+      result,
+      fullScene,
+      fullScene.nodes[0].id,
+    );
+    const originalEdges = new Set(
+      fullRegistry.relationships.map((row) => row.id),
+    );
+    assert.ok(display.rendered.every((edge) => originalEdges.has(edge.id)));
+  }
+  (result.historicalBaseSamples ??= []).push({
+    phase,
+    ...data,
+    sourceSnapshotSha256: historicalReference.baseSha256,
+  });
+}
+
+async function assertHistoricalReader(page, result) {
+  const dialog = historicalDialog(page);
+  await dialog.waitFor({ state: "visible", timeout: 30000 });
+  assert.equal(
+    await dialog.evaluate(
+      (element) => element.open && element.matches(":modal"),
+    ),
+    true,
+  );
+  const content = dialog.locator(
+    '[data-historical-review="review-only"][data-public-graph="blocked"]',
+  );
+  assert.equal(await content.count(), 1);
+  const text = normalized(await content.innerText());
+  for (const qualification of [
+    "PUBLIC_GRAPH_BLOCKED",
+    "Same-issuer materials are dependent, not independent corroboration",
+    "No current ownership or independent registry certification is established",
+    "No payment flow, award influence, wrongdoing or propagated control is established",
+    "Ownership percentages are interests, not financial amounts",
+    "it does not propagate through Rijn’s minority Ferrovial stake",
+    "Validity endpoints remain unknown",
+    "independent of the base atlas’s event-year filter",
+    "not merged with Fairfax Financial, Fairfax Media or a name match",
+    "IRB reuses the exact existing entity unchanged; it is not the Private InvIT",
+    "No addresses, coordinates, operational locations, buildings or project coverage have been added",
+  ])
+    assert.ok(
+      text.includes(qualification),
+      `Missing visible qualification: ${qualification}`,
+    );
+  const displayedBaseCounts = [
+    "entities",
+    "records",
+    "relationships",
+    "sources",
+  ]
+    .map((key) => `${fullRegistry[key].length.toLocaleString("en-US")} ${key}`)
+    .join(" · ");
+  assert.ok(
+    text.includes(`The base graph remains unchanged: ${displayedBaseCounts}`),
+    "Historical introduction does not display the exact verified base counts",
+  );
+  const displayedReviewCounts = [
+    "entities",
+    "records",
+    "relationships",
+    "sources",
+  ]
+    .map((key) =>
+      historicalOverlay.readerRegistry[key].length.toLocaleString("en-US"),
+    )
+    .join(" / ");
+  assert.ok(
+    text.includes(displayedReviewCounts),
+    "Historical introduction does not display the separately verified reader counts",
+  );
+  const { additions, provenance, reusedEntity } = historicalOverlay;
+  const sources = new Map(
+    additions.sources.map((source) => [source.id, source]),
+  );
+  const provenanceById = new Map(provenance.map((row) => [row.sourceId, row]));
+  const entities = new Map(
+    [...additions.entities, reusedEntity].map((row) => [row.id, row]),
+  );
+  const claims = content.locator("[data-review-relationship]");
+  assert.deepEqual(
+    await claims.evaluateAll((rows) =>
+      rows.map((row) => row.dataset.reviewRelationship),
+    ),
+    additions.relationships.map((row) => row.id),
+  );
+  assert.equal(await claims.count(), 9);
+  result.historicalClaims = [];
+  for (const edge of additions.relationships) {
+    const claim = content.locator(
+      `[data-review-relationship=${JSON.stringify(edge.id)}]`,
+    );
+    const record = additions.records.find(
+      (row) => row.id === edge.recordIds[0],
+    );
+    assert.equal(await claim.getAttribute("data-review-record"), record.id);
+    assert.equal(
+      normalized(await claim.getByRole("heading", { level: 3 }).innerText()),
+      `${entities.get(edge.from).label} → ${entities.get(edge.to).label}`,
+    );
+    const claimText = normalized(await claim.innerText());
+    for (const value of [
+      record.originalId,
+      record.response,
+      edge.label,
+      edge.summary,
+      edge.dateBasis,
+      ...edge.limitations,
+      ...edge.alternativeExplanations,
+      edge.falsifier,
+    ]) {
+      assert.ok(
+        claimText.includes(normalized(value)),
+        `${edge.id}: omitted exact retained wording: ${value}`,
+      );
+    }
+    assert.ok(
+      claimText.includes(
+        `${historicalOverlay.snapshot} · issuer-reported · self-reported · PUBLIC_GRAPH_BLOCKED`,
+      ),
+    );
+    assert.equal(edge.amounts.length, 0);
+    assert.equal(edge.fromDate, null);
+    assert.equal(edge.toDate, null);
+    const cards = claim.locator(".historical-source");
+    assert.deepEqual(
+      await cards.evaluateAll((rows) =>
+        rows.map((row) => row.dataset.sourceId),
+      ),
+      edge.sourceIds,
+    );
+    for (const sourceId of edge.sourceIds) {
+      const source = sources.get(sourceId);
+      const provenance = provenanceById.get(sourceId);
+      const card = claim.locator(
+        `[data-source-id=${JSON.stringify(sourceId)}]`,
+      );
+      const link = card.getByRole("link");
+      assert.equal(
+        await link.getAttribute("href"),
+        source.url,
+        `${edge.id}: exact primary-source URL`,
+      );
+      assert.equal(await link.innerText(), source.title);
+      assert.equal(await link.getAttribute("target"), "_blank");
+      assert.ok(
+        (await link.getAttribute("rel")).split(/\s+/).includes("noopener"),
+      );
+      assert.deepEqual(await card.locator("dt").allTextContents(), [
+        "Reporting period",
+        "Document / MD&A date",
+        "First publication",
+        "Retained retrieval",
+        "Page / section locator",
+      ]);
+      assert.deepEqual(
+        (await card.locator("dd").allTextContents()).map(normalized),
+        [
+          provenance.reportingPeriod,
+          provenance.documentDate ?? "Unverified",
+          "Unverified; not inferred from URL or retrieval date",
+          source.retrievedAt ? `${source.retrievedAt} (${provenance.retrievalPrecision} precision)` : `${provenance.retrievalDate} (day precision)`,
+          normalized(source.locator),
+        ],
+      );
+      const sourceText = normalized(await card.innerText());
+      assert.ok(
+        sourceText.includes(
+          `Issuer: ${source.publisher} · self-reported · source family: ${provenance.sourceFamily}`,
+        ),
+      );
+      for (const limitation of source.limitations)
+        assert.ok(sourceText.includes(normalized(limitation)));
+    }
+    result.historicalClaims.push({
+      id: edge.id,
+      recordId: record.id,
+      from: edge.from,
+      to: edge.to,
+      status: edge.status,
+      label: edge.label,
+      sourceIds: edge.sourceIds,
+      sourceUrls: edge.sourceIds.map((id) => sources.get(id).url),
+    });
+  }
+  const identities = content.getByRole("region", {
+    name: "Historical identities and incorporation context",
+  });
+  assert.deepEqual(
+    await identities
+      .locator("[data-entity-id]")
+      .evaluateAll((rows) => rows.map((row) => row.dataset.entityId)),
+    additions.entities.map((row) => row.id),
+  );
+  for (const entity of additions.entities) {
+    const itemText = normalized(
+      await identities
+        .locator(`[data-entity-id=${JSON.stringify(entity.id)}]`)
+        .innerText(),
+    );
+    assert.ok(itemText.includes(entity.label));
+    assert.ok(itemText.includes(normalized(entity.identityBasis)));
+    for (const geo of entity.geography)
+      assert.ok(itemText.includes(normalized(geo.note)));
+  }
+  const irbLink = identities.getByRole("link");
+  const irbDestination = historical.reviewOriginalDestination(reusedEntity);
+  assert.equal(await irbLink.getAttribute("href"), irbDestination.href);
+  assert.ok((await irbLink.innerText()).includes(reusedEntity.label));
+  assert.equal(
+    await irbLink.evaluate((element) => element.href),
+    new URL(irbDestination.href, page.url()).href,
+  );
+  const holds = content.getByRole("region", { name: "Publication holds" });
+  const holdText = normalized(await holds.innerText());
+  for (const hold of additions.held)
+    assert.ok(holdText.includes(normalized(`${hold.id}: ${hold.reason}`)));
+  for (const target of historicalOverlay.holdTargets) {
+    for (const id of [
+      ...target.relationshipIds,
+      ...target.recordIds,
+      ...target.entityIds,
+    ])
+      assert.ok(holdText.includes(id));
+  }
+  const overview = historical.reviewOriginalDestination(additions.records[0]);
+  assert.equal(
+    await holds.getByRole("link").getAttribute("href"),
+    overview.href,
+  );
+  for (const item of [
+    ...additions.entities,
+    ...additions.records,
+    ...additions.relationships,
+  ]) {
+    assert.deepEqual(
+      historical.reviewOriginalDestination(item),
+      overview,
+      "New additions must only have the original overview fallback",
+    );
+  }
+  const links = await content
+    .getByRole("link")
+    .evaluateAll((rows) => rows.map((row) => row.getAttribute("href")));
+  const allowed = new Set([
+    historical.withoutHistoricalReview(page.url()),
+    overview.href,
+    irbDestination.href,
+    ...additions.sources.map((row) => row.url),
+  ]);
+  assert.ok(
+    links.every((href) => allowed.has(href)),
+    "Reader invented an original-item deep link or source destination",
+  );
+  assert.equal(
+    result.requests.filter((url) =>
+      additions.sources.some((row) => row.url === url),
+    ).length,
+    0,
+    "Review must inspect source destinations without opening external evidence sites",
+  );
+  await assertHistoricalBaseUnchanged(page, result, "reader-open");
+  return dialog;
+}
+
+async function captureHistoricalSection(page, result, locator, name) {
+  const dimensions = await locator.evaluate((element) => {
+    const dialog = element.closest("dialog");
+    const outer = dialog.getBoundingClientRect();
+    const inner = element.getBoundingClientRect();
+    return {
+      top: inner.top - outer.top + dialog.scrollTop - dialog.clientTop,
+      height: inner.height,
+      viewport: dialog.clientHeight,
+      maxScroll: dialog.scrollHeight - dialog.clientHeight,
+    };
+  });
+  // Cover the entire expanded claim/source, not only its first screenful.
+  // Overlap leaves room for the sticky Close control without hiding qualifiers.
+  const stride = dimensions.viewport - 160;
+  assert.ok(stride > 200, "Historical reader viewport is too small for review");
+  const positions = [];
+  for (let offset = 0; offset < dimensions.height; offset += stride) {
+    positions.push(
+      Math.min(dimensions.maxScroll, Math.max(0, dimensions.top - 70 + offset)),
+    );
+  }
+  const unique = [...new Set(positions)];
+  assert.ok(
+    unique.length > 0 && unique.length <= 12,
+    "Historical section needs a bounded complete capture plan",
+  );
+  (result.historicalCaptureCoverage ??= []).push({
+    name,
+    ...dimensions,
+    stride,
+    positions: unique,
+  });
+  for (const [index, top] of unique.entries()) {
+    await historicalDialog(page).evaluate((element, value) => {
+      element.scrollTop = value;
+    }, top);
+    const part = index ? `${name}--part-${index + 1}` : name;
+    await capture(page, result, part);
+    const filename = `${result.name}--${part}--reader.png`;
+    await historicalDialog(page).screenshot({
+      path: join(output, filename),
+      timeout: 10000,
+    });
+    result.screenshots.push(filename);
+  }
+}
+
+async function assertHistoricalFocusReturned(page, result, phase) {
+  await historicalDialog(page).waitFor({ state: "detached" });
+  const opener = historicalGate(page).getByRole("button", {
+    name: "Open historical review reader",
+    exact: true,
+  });
+  await until(
+    () =>
+      opener.evaluate(
+        (element) =>
+          document.activeElement === element &&
+          element.isConnected &&
+          element.getClientRects().length > 0,
+      ),
+    "Historical dismissal did not restore focus to its original visible Open button",
+  );
+  (result.historicalFocus ??= []).push({
+    phase,
+    ...(await page.evaluate(() => ({
+      tag: document.activeElement.tagName,
+      text: document.activeElement.textContent,
+      label: document.activeElement.getAttribute("aria-label"),
+    }))),
+  });
+}
+
+async function installHistoricalDigestProbe(context, failFirstPayload = false) {
+  await context.addInitScript(
+    ({ payload, baseHash, payloadHash, failFirstPayload }) => {
+      const stats = { payloadChecks: 0, baseChecks: 0, mismatchesInjected: 0 };
+      window.__historicalReviewVerification = stats;
+      const subtle = crypto.subtle;
+      const digest = subtle.digest.bind(subtle);
+      const payloadBytes = new TextEncoder().encode(payload).byteLength;
+      Object.defineProperty(subtle, "digest", {
+        configurable: true,
+        value: async (algorithm, data) => {
+          const result = await digest(algorithm, data);
+          const actual = [...new Uint8Array(result)]
+            .map((byte) => byte.toString(16).padStart(2, "0"))
+            .join("");
+          if (actual === baseHash) stats.baseChecks += 1;
+          if (
+            actual === payloadHash &&
+            data.byteLength === payloadBytes &&
+            new TextDecoder().decode(data) === payload
+          ) {
+            stats.payloadChecks += 1;
+            if (failFirstPayload && stats.mismatchesInjected === 0) {
+              stats.mismatchesInjected += 1;
+              return new Uint8Array(32).buffer;
+            }
+          }
+          return result;
+        },
+      });
+    },
+    {
+      payload: historicalAdditionsText,
+      baseHash: historicalReference.baseSha256,
+      payloadHash: historicalReference.additionsSha256,
+      failFirstPayload,
+    },
+  );
+}
+
+async function installTutorialProbe(context, denyTutorialStorage = false) {
+  await context.addInitScript(
+    ({ key, denyTutorialStorage }) => {
+      window.__tutorialAudioActions = [];
+      for (const method of ["speak", "cancel", "pause", "resume"]) {
+        if (
+          !window.speechSynthesis ||
+          typeof speechSynthesis[method] !== "function"
+        )
+          continue;
+        const original = speechSynthesis[method].bind(speechSynthesis);
+        speechSynthesis[method] = (...args) => {
+          window.__tutorialAudioActions.push(method);
+          return original(...args);
+        };
+      }
+      const originalPlay = HTMLMediaElement.prototype.play;
+      HTMLMediaElement.prototype.play = function (...args) {
+        window.__tutorialAudioActions.push("media-play");
+        return Reflect.apply(originalPlay, this, args);
+      };
+      if (denyTutorialStorage) {
+        localStorage.setItem(key, "{invalid tutorial progress");
+        const originalSet = Storage.prototype.setItem;
+        Storage.prototype.setItem = function (name, value) {
+          if (name === key)
+            throw new DOMException(
+              "Intentional tutorial-only storage denial",
+              "QuotaExceededError",
+            );
+          return Reflect.apply(originalSet, this, [name, value]);
+        };
+      }
+    },
+    { key: atlasTutorialKey, denyTutorialStorage },
+  );
+}
+
+async function tutorialResearchState(page) {
+  return page.evaluate((tutorialKey) => {
+    const app = document.querySelector(".evidence-app");
+    const host = document.querySelector(".webgl-host");
+    const storage = {};
+    for (const key of Object.keys(localStorage).sort())
+      if (key !== tutorialKey) storage[key] = localStorage.getItem(key);
+    return {
+      url: location.href,
+      dataset: app ? { ...app.dataset } : null,
+      camera: host
+        ? Object.fromEntries(
+            [
+              "centerLng",
+              "centerLat",
+              "zoom",
+              "pitch",
+              "semanticMode",
+              "renderedEdgeIds",
+            ].map((key) => [key, host.dataset[key]]),
+          )
+        : null,
+      controls: [...(app?.querySelectorAll("input, select, textarea") ?? [])]
+        .filter((element) => !element.closest(".field-guide"))
+        .map((element) => ({
+          label: element.getAttribute("aria-label"),
+          type: element.type,
+          value: element.value,
+          checked: element.checked,
+        })),
+      pressed: [...(app?.querySelectorAll("button[aria-pressed]") ?? [])].map(
+        (element) => ({
+          label: element.getAttribute("aria-label") ?? element.textContent,
+          pressed: element.getAttribute("aria-pressed"),
+        }),
+      ),
+      selection:
+        document.querySelector(".evidence-inspector h2")?.textContent ?? null,
+      sources: [
+        ...document.querySelectorAll(".evidence-inspector .source-card a"),
+      ].map((element) => element.getAttribute("href")),
+      journey:
+        document.querySelector('[aria-label="Camera journey"]')?.textContent ??
+        null,
+      storage,
+      audioActions: [...(window.__tutorialAudioActions ?? [])],
+    };
+  }, atlasTutorialKey);
+}
+
+async function assertTutorialUnchanged(page, result, before, action) {
+  assert.deepEqual(
+    await tutorialResearchState(page),
+    before,
+    `${action}: tutorial changed research, camera, audio, filters, sources or navigation`,
+  );
+  (result.tutorialStateChecks ??= []).push(action);
+}
+
+async function tutorialTargetCount(page, selector) {
+  return page.evaluate((selector) => {
+    if (!selector) return 0;
+    return [...document.querySelectorAll(selector)].filter((element) => {
+      const style = getComputedStyle(element);
+      const box = element.getBoundingClientRect();
+      return (
+        box.bottom > 0 &&
+        box.right > 0 &&
+        box.top < innerHeight &&
+        box.left < innerWidth &&
+        element.getClientRects().length > 0 &&
+        style.visibility !== "hidden" &&
+        style.display !== "none" &&
+        !element.closest('[hidden], [aria-hidden="true"]')
+      );
+    }).length;
+  }, selector);
+}
+
+async function assertTutorialStep(page, result, index, requiredTargetState) {
+  const dialog = tutorialDialog(page);
+  await dialog.waitFor({ state: "visible" });
+  const step = atlasGuide.steps[index];
+  await until(
+    async () =>
+      (await dialog.getByRole("heading", { level: 2 }).innerText()) ===
+      step.title,
+    `Tutorial did not reach retained step ${step.id}`,
+  );
+  assert.equal(
+    await dialog.getAttribute("aria-labelledby"),
+    await dialog.getByRole("heading", { level: 2 }).getAttribute("id"),
+  );
+  const description = await dialog.getAttribute("aria-describedby");
+  assert.equal(
+    normalized(
+      await dialog.locator(`[id=${JSON.stringify(description)}]`).innerText(),
+    ),
+    normalized(step.body),
+  );
+  assert.equal(
+    normalized(await dialog.locator(".field-guide-kicker").innerText()),
+    `${atlasGuide.title} · ${index + 1} of ${atlasGuide.steps.length}`,
+  );
+  const count = await tutorialTargetCount(page, step.target);
+  const targetState = !step.target
+    ? "unanchored"
+    : count === 1
+      ? "available"
+      : count > 1
+        ? "ambiguous"
+        : "absent";
+  if (requiredTargetState) assert.equal(targetState, requiredTargetState);
+  const targetText =
+    targetState === "available"
+      ? "This section is present. Pause to try it, then reopen Help to continue."
+      : targetState === "ambiguous"
+        ? "Several matching sections are visible. This note is not pointing at any one of them. Pause to choose the intended section yourself."
+        : targetState === "absent"
+          ? (step.prerequisite ??
+            "This section is not visible in the current view. Continue reading or pause to open it yourself.")
+          : "This is a reading note. You can continue without changing the page.";
+  await until(
+    async () =>
+      normalized(await dialog.locator(".field-guide-target").innerText()) ===
+      normalized(targetText),
+    `Tutorial target note disagrees with actual ${targetState} target`,
+  );
+  const box = await dialog.boundingBox();
+  const viewport = page.viewportSize();
+  assert.ok(
+    box &&
+      box.x >= 0 &&
+      box.y >= 0 &&
+      box.x + box.width <= viewport.width + 1 &&
+      box.y + box.height <= viewport.height + 1,
+    "Tutorial dialog is clipped outside the viewport",
+  );
+  assert.ok(
+    Math.abs(box.x + box.width / 2 - viewport.width / 2) < 2,
+    "Tutorial notes stopped being a central dialog",
+  );
+  assert.equal(
+    await dialog.evaluate(
+      (element) => element.open && element.matches(":modal"),
+    ),
+    true,
+  );
+  (result.tutorialSteps ??= []).push({
+    id: step.id,
+    index,
+    title: step.title,
+    target: step.target,
+    targetState,
+    matchingVisibleTargets: count,
+    box,
+  });
+}
+
+async function assertTutorialFocusReturned(page) {
+  await tutorialDialog(page).waitFor({ state: "hidden" });
+  await until(
+    () =>
+      tutorialHelp(page).evaluate(
+        (element) => document.activeElement === element,
+      ),
+    "Tutorial did not return focus to Help",
+  );
+}
+
+async function assertTutorialProgress(page, step, status) {
+  assert.deepEqual(
+    await page.evaluate(
+      (key) => JSON.parse(localStorage.getItem(key)),
+      atlasTutorialKey,
+    ),
+    { version: 2, step, status },
+  );
+}
+
+async function notApplicable(name, reason) {
+  const result = {
+    name,
+    status: "not-applicable",
+    reason,
+    screenshots: [],
+    expectedHistoricalReview: false,
+  };
+  report.scenarios.push(result);
+  await writeFile(
+    join(output, `${name}.json`),
+    `${JSON.stringify(result, null, 2)}\n`,
+  );
+  console.log(`NOT APPLICABLE: ${name}: ${reason}`);
+}
+
 async function scenario(name, options, work) {
   const result = {
     name,
@@ -565,6 +1273,7 @@ async function scenario(name, options, work) {
     requests: [],
     notes: [],
     expectedFailedRequests: [],
+    viewport: options.viewport ?? viewport,
   };
   report.scenarios.push(result);
   let context;
@@ -572,8 +1281,9 @@ async function scenario(name, options, work) {
   let deadline;
   try {
     context = await browser.newContext({
-      viewport,
+      viewport: options.viewport ?? viewport,
       deviceScaleFactor: 1,
+      hasTouch: options.touch === true,
       reducedMotion: options.reducedMotion ? "reduce" : "no-preference",
       acceptDownloads: true,
     });
@@ -723,6 +1433,7 @@ async function scenario(name, options, work) {
     process.exitCode = 1;
   } finally {
     clearTimeout(deadline);
+    if (options.afterScenario) await options.afterScenario();
     if (page && !page.isClosed()) {
       try {
         await capture(
@@ -744,7 +1455,12 @@ async function scenario(name, options, work) {
         );
         result.viewportGeometry = await page.evaluate(() =>
           Object.fromEntries(
-            [".webgl-host", ".webgl-host canvas"].map((selector) => {
+            [
+              ".webgl-host",
+              ".webgl-host canvas",
+              ".historical-review-dialog",
+              ".historical-review-content",
+            ].map((selector) => {
               const element = document.querySelector(selector);
               return [
                 selector,
@@ -785,6 +1501,51 @@ async function scenario(name, options, work) {
 }
 
 try {
+  const checkedOutCommit = execFileSync(
+    "git",
+    ["-C", root, "rev-parse", "HEAD"],
+    { encoding: "utf8" },
+  ).trim();
+  const commitHeaders = execFileSync(
+    "git",
+    ["-C", root, "cat-file", "-p", "HEAD"],
+    { encoding: "utf8" },
+  ).split("\n\n", 1)[0];
+  const parents = [...commitHeaders.matchAll(/^parent ([0-9a-f]{40})$/gm)].map(
+    (match) => match[1],
+  );
+  assert.equal(
+    expectedHistoricalReview(undefined),
+    false,
+    "Default deployment mode must keep historical review disabled",
+  );
+  assert.equal(expectedHistoricalReview("false"), false);
+  assert.equal(
+    expectedHistoricalReview("true"),
+    true,
+    "Explicit isolated review mode must require positive historical coverage",
+  );
+  assert.throws(() => expectedHistoricalReview("auto"));
+  const candidateHead = process.env.SPATIAL_HEAD_SHA ?? process.env.GITHUB_SHA;
+  assert.match(candidateHead ?? "", /^[0-9a-f]{40}$/);
+  assert.equal(
+    checkedOutCommit,
+    process.env.GITHUB_SHA,
+    "Review checkout does not match the workflow revision",
+  );
+  assert.ok(
+    checkedOutCommit === candidateHead || parents.includes(candidateHead),
+    "Checkout is neither the exact candidate nor its integration merge",
+  );
+  report.revision = {
+    checkedOutCommit,
+    candidateHead,
+    parents,
+    mode:
+      checkedOutCommit === candidateHead
+        ? "exact-head"
+        : "exact-head integration merge",
+  };
   await build({
     entryPoints: [join(root, "src/model.ts")],
     outfile: join(temporary, "model.mjs"),
@@ -851,11 +1612,219 @@ try {
     7859,
     "Factual exclusion baseline changed",
   );
+  await build({
+    entryPoints: [join(root, "src/historical-review/adapter.ts")],
+    outfile: join(temporary, "historical-adapter.mjs"),
+    bundle: true,
+    platform: "node",
+    format: "esm",
+    logLevel: "silent",
+  });
+  historical = await import(
+    pathToFileURL(join(temporary, "historical-adapter.mjs")).href
+  );
+  historicalAdditionsText = await readFile(
+    join(root, "src/historical-review/proposed-additions.json"),
+    "utf8",
+  );
+  const provenanceText = await readFile(
+    join(root, "src/historical-review/source-provenance.json"),
+    "utf8",
+  );
+  assert.equal(
+    sha256(historicalAdditionsText),
+    historicalReference.additionsSha256,
+  );
+  assert.equal(sha256(provenanceText), historicalReference.provenanceSha256);
+  assert.equal(
+    registryManifest.sourceSnapshot.sha256,
+    historicalReference.baseSha256,
+  );
+  assert.deepEqual(
+    Object.fromEntries(
+      Object.keys(historicalReference.counts).map((key) => [
+        key,
+        fullRegistry[key].length,
+      ]),
+    ),
+    historicalReference.counts,
+  );
+  assert.equal(historical.PINNED_BASE_SHA256, historicalReference.baseSha256);
+  assert.equal(
+    historical.PINNED_ADDITIONS_SHA256,
+    historicalReference.additionsSha256,
+  );
+  assert.equal(
+    historical.PINNED_PROVENANCE_SHA256,
+    historicalReference.provenanceSha256,
+  );
+  const baseBeforeReview = JSON.stringify(fullRegistry);
+  historicalOverlay = await historical.buildHistoricalReviewOverlay(
+    fullRegistry,
+    historicalAdditionsText,
+    provenanceText,
+    "historical-2025",
+  );
+  assert.equal(
+    JSON.stringify(fullRegistry),
+    baseBeforeReview,
+    "Review mutated the original registry",
+  );
+  assert.equal(historicalOverlay.status, "PUBLIC_GRAPH_BLOCKED");
+  assert.equal(historicalOverlay.publicGraphEligible, false);
+  assert.equal(historicalOverlay.graphRegistry, fullRegistry);
+  assert.equal(
+    historical.registryForSurface(historicalOverlay, "factual"),
+    fullRegistry,
+  );
+  assert.equal(
+    historicalOverlay.reusedEntity,
+    fullRegistry.entities.find((row) => row.id === historical.REUSED_IRB_ID),
+  );
+  assert.equal(
+    historicalOverlay.readerRegistry.entities.filter(
+      (row) => row.id === historical.REUSED_IRB_ID,
+    ).length,
+    1,
+  );
+  const factualBefore = model.factualScene(fullScene);
+  const factualReview = model.factualScene(
+    model.buildEvidenceScene(historicalOverlay.readerRegistry),
+  );
+  assert.deepEqual(
+    factualReview.nodes,
+    factualBefore.nodes,
+    "Historical reader guards changed factual entity/record admission",
+  );
+  assert.deepEqual(
+    factualReview.edges,
+    factualBefore.edges,
+    "Historical reader guards changed factual edge admission",
+  );
+  for (const row of [
+    ...historicalOverlay.additions.entities,
+    ...historicalOverlay.additions.records,
+    ...historicalOverlay.additions.relationships,
+  ]) {
+    assert.ok(
+      !factualReview.nodes.some((node) => node.id === row.id) &&
+        !factualReview.edges.some((edge) => edge.id === row.id),
+      `Blocked historical ID admitted: ${row.id}`,
+    );
+  }
+  const gateCases = [
+    ["?review=historical-2025", false, "full", false],
+    ["?review=historical-2025", true, "full", true],
+    ["", true, "full", false],
+    ["?review=historical-2025", true, "preview", false],
+    ["?review=unknown", true, "full", false],
+    ["?review=historical-2025&review=historical-2025", true, "full", false],
+  ];
+  for (const [query, enabled, dataset, expected] of gateCases)
+    assert.equal(
+      historical.historicalReviewRequested(query, enabled, dataset),
+      expected,
+    );
+  const entrySource = await readFile(
+    join(root, "src/RegistryEntry.tsx"),
+    "utf8",
+  );
+  assert.match(
+    entrySource,
+    /import\.meta\.env\??\.VITE_HISTORICAL_REVIEW === 'true'/,
+  );
+  assert.match(
+    entrySource,
+    /<App registry=\{state\.registry\} dataset="full" \/>/,
+  );
+  assert.doesNotMatch(
+    entrySource,
+    /readerRegistry|proposed-additions|loadHistoricalReview/,
+  );
+  report.historicalReview = {
+    label: report.reviewLabel,
+    status: historicalOverlay.status,
+    publicGraphEligible: false,
+    snapshot: historicalOverlay.snapshot,
+    reference: historicalReference,
+    reusedEntityId: historicalOverlay.reusedEntity.id,
+    additions: Object.fromEntries(
+      ["entities", "records", "relationships", "sources", "held"].map((key) => [
+        key,
+        historicalOverlay.additions[key].length,
+      ]),
+    ),
+    graph: {
+      nodes: factualBefore.nodes.length,
+      edges: factualBefore.edges.length,
+    },
+    staticGateCases: gateCases.map(([query, enabled, dataset, expected]) => ({
+      query,
+      enabled,
+      dataset,
+      expected,
+    })),
+    sourceProvenance: historicalOverlay.provenance,
+    note: "Reader-only inspection. PUBLIC_GRAPH_BLOCKED is never cleared; passing this CI run is not publication approval.",
+  };
+  const guideText = await readFile(
+    join(root, "src/guidance/atlas-guide.json"),
+    "utf8",
+  );
+  assert.equal(
+    sha256(guideText),
+    atlasGuideHash,
+    "The approved atlas tutorial catalogue changed",
+  );
+  atlasGuide = JSON.parse(guideText);
+  assert.equal(atlasGuide.steps.length, 13);
+  report.atlasTutorial = {
+    label: "next-head atlas-only tutorial review",
+    id: atlasGuide.id,
+    sha256: atlasGuideHash,
+    steps: atlasGuide.steps.map((step) => step.id),
+    storageKey: atlasTutorialKey,
+    scope:
+      "Only the atlas tutorial is exercised; original-route tutorial pages and the wider acceptance matrix remain outside this review.",
+  };
   heavyAssetNames = new Set();
   for (const name of await readdir(join(dist, "assets"))) {
     if (/maplibre.*worker.*\.js$/.test(name)) heavyAssetNames.add(name);
     if (!name.endsWith(".js.map")) continue;
     const map = JSON.parse(await readFile(join(dist, "assets", name), "utf8"));
+    for (const [sourceName, assign] of [
+      [
+        "ReviewGate.tsx",
+        (asset) => {
+          assert.equal(historicalGateAsset, undefined);
+          historicalGateAsset = asset;
+        },
+      ],
+      [
+        "ReviewPanel.tsx",
+        (asset) => {
+          assert.equal(historicalPanelAsset, undefined);
+          historicalPanelAsset = asset;
+        },
+      ],
+      [
+        "loadHistoricalReview.ts",
+        (asset) => {
+          assert.equal(historicalPayloadAsset, undefined);
+          historicalPayloadAsset = asset;
+        },
+      ],
+    ]) {
+      if (
+        map.sources.some((source) =>
+          source.endsWith(`/historical-review/${sourceName}`),
+        )
+      ) {
+        const asset = name.slice(0, -4);
+        historicalDeferredAssets.add(asset);
+        assign(asset);
+      }
+    }
     if (map.sources.some((source) => /src\/SpatialWorld\.tsx$/.test(source))) {
       assert.equal(
         spatialAssetName,
@@ -881,6 +1850,29 @@ try {
   assert.ok(
     spatialAssetName,
     "Cannot identify the deferred SpatialWorld entry chunk",
+  );
+  if (expectHistoricalReview) {
+    assert.ok(
+      historicalGateAsset && historicalPanelAsset && historicalPayloadAsset,
+      "The explicitly expected flagged build must emit identifiable deferred gate, reader and payload chunks",
+    );
+    assert.equal(
+      new Set([
+        historicalGateAsset,
+        historicalPanelAsset,
+        historicalPayloadAsset,
+      ]).size,
+      3,
+      "Historical payload must remain separately deferred until user opt-in",
+    );
+  }
+  report.historicalReview.expectedEnabled = expectHistoricalReview;
+  report.historicalReview.mode = expectHistoricalReview
+    ? "isolated opt-in review expected"
+    : "default deployment: review unavailable expected";
+  report.historicalReview.deferredAssets = [...historicalDeferredAssets];
+  report.historicalReview.loadingBudget = JSON.parse(
+    await readFile(join(dist, "build-budget.json"), "utf8"),
   );
   report.fullRegistry = {
     counts: registryManifest.counts,
@@ -1031,37 +2023,70 @@ try {
     );
   });
 
-  await scenario("02-keyboard-help-and-escape", {}, async (page, result) => {
-    await assertSpatial(page);
-    const help = page.getByRole("button", {
-      name: "Help exploring the evidence room",
-      exact: true,
-    });
-    await help.focus();
-    await page.keyboard.press("Enter");
-    const dialog = page.getByRole("dialog");
-    await dialog.waitFor({ state: "visible" });
-    await capture(page, result, "keyboard-help");
-    await page.keyboard.press("Escape");
-    await dialog.waitFor({ state: "hidden" });
-    assert.equal(
-      await help.evaluate((element) => document.activeElement === element),
-      true,
-      "Help did not restore focus",
-    );
-    const record = page.locator(".accessible-node-list > button").nth(1);
-    await record.focus();
-    await page.keyboard.press("Enter");
-    await assertProvenance(page, preview.nodes[0].item);
-    await page.keyboard.press("Escape");
-    await inspector(page).waitFor({ state: "hidden" });
-    assert.equal(
-      await record.evaluate((element) => document.activeElement === element),
-      true,
-      "Reading panel did not restore keyboard focus",
-    );
-    assert.equal(await journey(page).count(), 0);
-  });
+  await scenario(
+    "02-keyboard-help-and-escape",
+    { beforeNavigation: (context) => installTutorialProbe(context) },
+    async (page, result) => {
+      await assertSpatial(page);
+      const beforeTutorial = await tutorialResearchState(page);
+      const help = page.getByRole("button", {
+        name: "Help exploring the evidence room",
+        exact: true,
+      });
+      await help.focus();
+      await page.keyboard.press("Enter");
+      const dialog = tutorialDialog(page);
+      await assertTutorialStep(page, result, 0);
+      await page.keyboard.press("Tab");
+      assert.equal(
+        await dialog.evaluate((element) =>
+          element.contains(document.activeElement),
+        ),
+        true,
+      );
+      await page.keyboard.press("Shift+Tab");
+      assert.equal(
+        await dialog.evaluate((element) =>
+          element.contains(document.activeElement),
+        ),
+        true,
+      );
+      await page.keyboard.press("Home");
+      await assertTutorialUnchanged(
+        page,
+        result,
+        beforeTutorial,
+        "keyboard Help and contained camera shortcut",
+      );
+      await capture(page, result, "keyboard-help");
+      await page.keyboard.press("Escape");
+      await dialog.waitFor({ state: "hidden" });
+      assert.equal(
+        await help.evaluate((element) => document.activeElement === element),
+        true,
+        "Help did not restore focus",
+      );
+      await assertTutorialProgress(page, 0, "paused");
+      await assertTutorialUnchanged(
+        page,
+        result,
+        beforeTutorial,
+        "tutorial Escape",
+      );
+      const record = page.locator(".accessible-node-list > button").nth(1);
+      await record.focus();
+      await page.keyboard.press("Enter");
+      await assertProvenance(page, preview.nodes[0].item);
+      await page.keyboard.press("Escape");
+      await inspector(page).waitFor({ state: "hidden" });
+      assert.equal(
+        await record.evaluate((element) => document.activeElement === element),
+        true,
+        "Reading panel did not restore keyboard focus",
+      );
+      assert.equal(await journey(page).count(), 0);
+    },
+  );
 
   await scenario("03-time-and-facet-lenses", {}, async (page, result) => {
     await assertSpatial(page);
@@ -2062,6 +3087,841 @@ try {
       );
     },
   );
+  await scenario(
+    "16-historical-default-preview-and-invalid-query-gates",
+    { query: "?mode=reading", budgetMs: 150000 },
+    async (page, result) => {
+      const routes = [
+        {
+          query: "?mode=reading",
+          dataset: "full",
+          label: "default without opt-in query",
+        },
+        {
+          query: "?mode=reading&dataset=preview&review=historical-2025",
+          dataset: "preview",
+          label: "preview cannot enable review",
+        },
+        {
+          query: "?mode=reading&review=unknown",
+          dataset: "full",
+          label: "unknown review rejected",
+        },
+        {
+          query: "?mode=reading&review=historical-2025&review=historical-2025",
+          dataset: "full",
+          label: "duplicate review query rejected",
+        },
+      ];
+      if (!expectHistoricalReview)
+        routes.push({
+          query: "?mode=reading&review=historical-2025",
+          dataset: "full",
+          label: "default build rejects even the exact opt-in query",
+        });
+      result.historicalRoutes = [];
+      for (const [index, route] of routes.entries()) {
+        if (index > 0) {
+          const response = await page.goto(`${origin}${prefix}${route.query}`, {
+            waitUntil: "domcontentloaded",
+          });
+          assert.equal(response.status(), 200);
+          await page
+            .getByRole("heading", { name: "The felt atlas", exact: true })
+            .waitFor({ timeout: 45000 });
+        }
+        if (route.dataset === "full") await assertFullLoad(page, result);
+        else await assertCounts(page);
+        await assertReaderOnly(page, result);
+        assert.equal(await historicalGate(page).count(), 0, route.label);
+        assert.equal(await historicalDialog(page).count(), 0, route.label);
+        assert.deepEqual(
+          assetRequests(result, historicalDeferredAssets),
+          [],
+          "A disallowed route fetched deferred historical modules",
+        );
+        result.historicalRoutes.push({
+          ...route,
+          gateCount: 0,
+          historicalRequests: 0,
+        });
+        await capture(
+          page,
+          result,
+          route.dataset === "preview"
+            ? "preview-does-not-enable-review"
+            : `closed-gate-${index + 1}`,
+        );
+      }
+      result.notes.push(
+        expectHistoricalReview
+          ? "The explicitly flagged review build leaves default, preview, unknown and duplicate-query entries base-only. No deferred historical module was requested. Flag-disabled integration is additionally covered by static/unit checks."
+          : "The default deployment build leaves even the exact review query unavailable, as well as default, preview, unknown and duplicate-query routes. No deferred historical gate, payload or reader was requested. Only flag-dependent positive cases are not applicable; all base and atlas tutorial gates still run.",
+      );
+    },
+  );
+
+  if (expectHistoricalReview) {
+    await scenario(
+      "17-historical-explicit-reader-provenance-and-unchanged-graph",
+      {
+        query: "?review=historical-2025",
+        budgetMs: 150000,
+        beforeNavigation: (context) => installHistoricalDigestProbe(context),
+      },
+      async (page, result) => {
+        await assertFullLoad(page, result);
+        await assertSpatial(page);
+        await assertCountryBase(page);
+        await historicalGate(page).waitFor({ state: "visible" });
+        await assertHistoricalBaseUnchanged(
+          page,
+          result,
+          "before-explicit-open",
+        );
+        assert.deepEqual(
+          assetRequests(
+            result,
+            new Set([historicalPayloadAsset, historicalPanelAsset]),
+          ),
+          [],
+          "URL alone loaded historical payload or reader",
+        );
+        assert.equal(await historicalDialog(page).count(), 0);
+        await page.locator(".webgl-host canvas").evaluate((element) => {
+          window.__historicalBaseCanvas = element;
+        });
+        const opener = historicalGate(page).getByRole("button", {
+          name: "Open historical review reader",
+          exact: true,
+        });
+        await opener.focus();
+        await page.keyboard.press("Enter");
+        const dialog = await assertHistoricalReader(page, result);
+        assert.equal(
+          await page
+            .locator(".webgl-host canvas")
+            .evaluate((element) => element === window.__historicalBaseCanvas),
+          true,
+          "Opening review replaced the existing factual-map canvas",
+        );
+        assert.ok(
+          assetRequests(result, new Set([historicalPayloadAsset])).length > 0,
+        );
+        assert.ok(
+          assetRequests(result, new Set([historicalPanelAsset])).length > 0,
+        );
+        await captureHistoricalSection(
+          page,
+          result,
+          dialog.getByRole("heading", { level: 1 }),
+          "reader-introduction-and-publication-block",
+        );
+        await captureHistoricalSection(
+          page,
+          result,
+          dialog.getByRole("region", {
+            name: "Historical identities and incorporation context",
+          }),
+          "identity-reuse-and-incorporation-limits",
+        );
+        for (const edge of historicalOverlay.additions.relationships) {
+          await captureHistoricalSection(
+            page,
+            result,
+            dialog.locator(
+              `[data-review-relationship=${JSON.stringify(edge.id)}]`,
+            ),
+            `claim-${edge.originalId}`,
+          );
+        }
+        for (const source of historicalOverlay.additions.sources) {
+          await captureHistoricalSection(
+            page,
+            result,
+            dialog
+              .locator(`[data-source-id=${JSON.stringify(source.id)}]`)
+              .first(),
+            `primary-source-${source.originalId}`,
+          );
+        }
+        await captureHistoricalSection(
+          page,
+          result,
+          dialog.getByRole("region", { name: "Publication holds" }),
+          "all-publication-holds-and-overview-only-link",
+        );
+        await page.keyboard.press("Escape");
+        await assertHistoricalFocusReturned(page, result, "Escape");
+        await assertHistoricalBaseUnchanged(page, result, "after-Escape");
+        assert.equal(
+          await page
+            .locator(".webgl-host canvas")
+            .evaluate((element) => element === window.__historicalBaseCanvas),
+          true,
+        );
+        const checksBefore = await page.evaluate(
+          () => window.__historicalReviewVerification.payloadChecks,
+        );
+        await opener.click();
+        await historicalDialog(page).waitFor({ state: "visible" });
+        await until(
+          async () =>
+            (await page.evaluate(
+              () => window.__historicalReviewVerification.payloadChecks,
+            )) > checksBefore,
+          "Reopening did not reverify the pinned historical payload",
+        );
+        await historicalDialog(page)
+          .getByRole("button", { name: "Close review (Escape)", exact: true })
+          .click();
+        await assertHistoricalFocusReturned(page, result, "Close button");
+        await assertHistoricalBaseUnchanged(page, result, "after-Close");
+        result.historicalVerification = await page.evaluate(
+          () => window.__historicalReviewVerification,
+        );
+        result.notes.push(
+          "A build flag plus one exact query only revealed an opt-in prompt. A keyboard user click opened nine exact retained claims, their original primary-source destinations, issuer/date attribution, basis/control/payment limits, identity/incorporation cautions and publication holds. IRB remained the existing entity; new additions only offered the investigation overview. The original canvas, factual totals and exact original edge IDs survived. Escape and Close restored focus to the same Open button; reopening reverified the payload.",
+        );
+      },
+    );
+
+    await scenario(
+      "18-historical-verification-failure-and-explicit-retry",
+      {
+        query: "?mode=reading&review=historical-2025",
+        budgetMs: 100000,
+        beforeNavigation: (context) =>
+          installHistoricalDigestProbe(context, true),
+      },
+      async (page, result) => {
+        await assertFullLoad(page, result);
+        const beforeVerification = await page.evaluate(
+          () => window.__historicalReviewVerification,
+        );
+        await historicalGate(page)
+          .getByRole("button", {
+            name: "Open historical review reader",
+            exact: true,
+          })
+          .click();
+        const alert = historicalGate(page).getByRole("alert");
+        await alert.waitFor();
+        assert.match(
+          await alert.innerText(),
+          /reviewed additions SHA-256 mismatch/,
+        );
+        assert.equal(await historicalDialog(page).count(), 0);
+        assert.deepEqual(
+          assetRequests(result, new Set([historicalPanelAsset])),
+          [],
+          "An unverified payload loaded the historical reader",
+        );
+        await assertHistoricalBaseUnchanged(
+          page,
+          result,
+          "verification-rejected",
+        );
+        await assertReaderOnly(page, result);
+        await capture(page, result, "hash-failure-keeps-complete-base-reader");
+        assert.deepEqual(
+          await page.evaluate(() => window.__historicalReviewVerification),
+          {
+            payloadChecks: 1,
+            baseChecks: beforeVerification.baseChecks,
+            mismatchesInjected: 1,
+          },
+        );
+        await historicalGate(page)
+          .getByRole("button", {
+            name: "Retry verified historical review",
+            exact: true,
+          })
+          .click();
+        await assertHistoricalReader(page, result);
+        await captureHistoricalSection(
+          page,
+          result,
+          historicalDialog(page).getByRole("heading", { level: 1 }),
+          "verified-reader-after-explicit-retry",
+        );
+        const verification = await page.evaluate(
+          () => window.__historicalReviewVerification,
+        );
+        assert.equal(verification.payloadChecks, 2);
+        assert.equal(verification.mismatchesInjected, 1);
+        assert.equal(
+          verification.baseChecks,
+          beforeVerification.baseChecks + 1,
+        );
+        result.historicalVerification = verification;
+        await historicalDialog(page)
+          .getByRole("button", { name: "Close review (Escape)", exact: true })
+          .click();
+        await assertHistoricalFocusReturned(page, result, "retry then Close");
+        await assertReaderOnly(page, result);
+        result.notes.push(
+          "One digest result for the exact retained additions bytes was deliberately replaced with a mismatch. The authentic payload file was never edited. Verification failed closed, left the complete base reader intact and did not load the review panel. Explicit retry reran genuine Web Crypto verification and recovered; the public graph remained blocked.",
+        );
+      },
+    );
+
+    for (const navigation of [false, true]) {
+      let releasePayload;
+      let payloadRequested;
+      let payloadRouteFinished;
+      const requested = new Promise((resolveRequested) => {
+        payloadRequested = resolveRequested;
+      });
+      const completed = new Promise((resolveCompleted) => {
+        payloadRouteFinished = resolveCompleted;
+      });
+      await scenario(
+        navigation
+          ? "20-historical-back-forward-cancels-stale-load"
+          : "19-historical-cancel-loading-and-preserve-base-url",
+        {
+          query:
+            "?mode=reading&review=historical-2025&case=qualification#reader",
+          budgetMs: 100000,
+          afterScenario: () => releasePayload?.(),
+          beforeNavigation: async (context, result) => {
+            await installHistoricalDigestProbe(context);
+            const release = new Promise((resolveRelease) => {
+              releasePayload = resolveRelease;
+            });
+            const payloadUrl = `${origin}${prefix}assets/${historicalPayloadAsset}`;
+            result.delayedHistoricalRequests = [];
+            await context.route(payloadUrl, async (route) => {
+              result.delayedHistoricalRequests.push(route.request().url());
+              payloadRequested();
+              await release;
+              try {
+                await route.continue();
+              } finally {
+                payloadRouteFinished();
+              }
+            });
+          },
+        },
+        async (page, result) => {
+          await assertFullLoad(page, result);
+          const reviewUrl = page.url();
+          const baseHref = historical.withoutHistoricalReview(reviewUrl);
+          const gate = historicalGate(page);
+          await gate.waitFor({ state: "visible" });
+          assert.equal(
+            await gate
+              .getByRole("link", {
+                name: "Return to base-only URL",
+                exact: true,
+              })
+              .getAttribute("href"),
+            baseHref,
+          );
+          if (navigation)
+            await page.evaluate(
+              ({ baseHref, reviewUrl }) => {
+                history.replaceState({ review: "base" }, "", baseHref);
+                history.pushState({ review: "candidate" }, "", reviewUrl);
+              },
+              { baseHref, reviewUrl },
+            );
+          const baseChecks = await page.evaluate(
+            () => window.__historicalReviewVerification.baseChecks,
+          );
+          const opener = gate.getByRole("button", {
+            name: "Open historical review reader",
+            exact: true,
+          });
+          await opener.click();
+          await requested;
+          await gate.getByRole("status").waitFor();
+          assert.equal(
+            await opener.isDisabled(),
+            true,
+            "Repeated opt-in clicks were not disabled while loading",
+          );
+          await capture(page, result, "bounded-verification-loading-state");
+          if (navigation) {
+            await page.goBack({ waitUntil: "domcontentloaded" });
+            await until(
+              () =>
+                Promise.resolve(
+                  new URL(page.url()).searchParams.has("review") === false,
+                ),
+              "Back did not restore base-only URL",
+            );
+          } else
+            await gate
+              .getByRole("button", { name: "Dismiss review", exact: true })
+              .click();
+          await gate.waitFor({ state: "detached" });
+          releasePayload();
+          await completed;
+          await until(
+            async () =>
+              (await page.evaluate(
+                () => window.__historicalReviewVerification.baseChecks,
+              )) > baseChecks,
+            "Released historical verification never completed, so late-result cancellation was not exercised",
+          );
+          assert.equal(
+            await historicalDialog(page).count(),
+            0,
+            "Canceled late verification opened a historical dialog",
+          );
+          assert.deepEqual(
+            assetRequests(result, new Set([historicalPanelAsset])),
+            [],
+            "Canceled verification requested the review panel",
+          );
+          assert.equal(
+            result.delayedHistoricalRequests.length,
+            1,
+            "Repeated loading admitted duplicate payload fetches",
+          );
+          result.historicalCanceledVerification = await page.evaluate(
+            () => window.__historicalReviewVerification,
+          );
+          await assertHistoricalBaseUnchanged(
+            page,
+            result,
+            navigation
+              ? "after-Back-and-late-result"
+              : "after-Dismiss-and-late-result",
+          );
+          if (navigation) {
+            await page.goForward({ waitUntil: "domcontentloaded" });
+            await until(
+              () => Promise.resolve(page.url() === reviewUrl),
+              "Forward did not restore the review URL",
+            );
+            assert.equal(
+              await gate.count(),
+              0,
+              "Forward revived the old opt-in prompt/session",
+            );
+            assert.equal(
+              await historicalDialog(page).count(),
+              0,
+              "Forward revived canceled historical evidence",
+            );
+            await capture(page, result, "forward-keeps-canceled-review-closed");
+          } else {
+            assert.equal(
+              page.url(),
+              reviewUrl,
+              "Dismiss unexpectedly navigated or dropped unrelated query/hash",
+            );
+            await page.reload({ waitUntil: "domcontentloaded" });
+            await assertFullLoad(page, result);
+            await gate
+              .getByRole("link", {
+                name: "Return to base-only URL",
+                exact: true,
+              })
+              .click();
+            await until(
+              () =>
+                Promise.resolve(page.url() === new URL(baseHref, origin).href),
+              "Base-only link failed to preserve unrelated query and hash",
+            );
+            await assertFullLoad(page, result);
+            assert.equal(await gate.count(), 0);
+            assert.equal(await historicalDialog(page).count(), 0);
+            await capture(
+              page,
+              result,
+              "base-only-link-preserves-unrelated-query-and-hash",
+            );
+          }
+          await assertReaderOnly(page, result);
+          result.historicalVerification = await page.evaluate(
+            () => window.__historicalReviewVerification,
+          );
+          result.notes.push(
+            navigation
+              ? "Actual same-document Back/Forward canceled a pending payload import. The late exact-payload verification finished but never mounted the reader or replaced the base, and Forward did not revive the canceled session. This covers browser history, not a synthetic event dispatch."
+              : "Dismiss canceled a real pending payload import. Its late valid result did not mount a reader or change the base. The explicit base-only link removed only the review parameter, preserving the case, reading mode and fragment.",
+          );
+        },
+      );
+      releasePayload?.();
+    }
+  } else {
+    for (const name of [
+      "17-historical-explicit-reader-provenance-and-unchanged-graph",
+      "18-historical-verification-failure-and-explicit-retry",
+      "19-historical-cancel-loading-and-preserve-base-url",
+      "20-historical-back-forward-cancels-stale-load",
+    ])
+      await notApplicable(
+        name,
+        "Default build expectation: historical review must remain unavailable. Case 16 explicitly checks the exact review query and absence of deferred requests. Positive historical behavior requires the separate artifact-only opt-in review workflow.",
+      );
+  }
+
+  await scenario(
+    "21-atlas-tutorial-explicit-progress-and-conditional-targets",
+    {
+      query: "?mode=reading",
+      viewport: { width: 1440, height: 900 },
+      budgetMs: 140000,
+      beforeNavigation: (context) => installTutorialProbe(context),
+    },
+    async (page, result) => {
+      await assertFullLoad(page, result);
+      await assertReaderOnly(page, result);
+      const before = await tutorialResearchState(page);
+      const help = tutorialHelp(page);
+      const dialog = tutorialDialog(page);
+      await help.click();
+      await assertTutorialStep(page, result, 0);
+      await dialog.getByRole("button", { name: "Next", exact: true }).click();
+      await assertTutorialStep(page, result, 1);
+      await assertTutorialUnchanged(page, result, before, "Next");
+      await dialog.getByRole("button", { name: "Back", exact: true }).click();
+      await assertTutorialStep(page, result, 0);
+      await assertTutorialUnchanged(page, result, before, "Back");
+      for (let index = 1; index < atlasGuide.steps.length; index += 1) {
+        await dialog.getByRole("button", { name: "Next", exact: true }).click();
+        await assertTutorialStep(
+          page,
+          result,
+          index,
+          [
+            "inspect",
+            "sources",
+            "direction",
+            "geography",
+            "countercontext",
+            "casebook",
+            "original",
+          ].includes(atlasGuide.steps[index].id)
+            ? "absent"
+            : undefined,
+        );
+        await assertTutorialUnchanged(
+          page,
+          result,
+          before,
+          `read retained step ${atlasGuide.steps[index].id}`,
+        );
+      }
+      const last = atlasGuide.steps.length - 1;
+      assert.equal(
+        await dialog.getByRole("button", { name: "Next", exact: true }).count(),
+        0,
+      );
+      await assertTutorialProgress(page, last, "active");
+      await capture(page, result, "final-step-still-active-until-Finish");
+      await dialog
+        .getByRole("button", { name: "Close field guide", exact: true })
+        .click();
+      await assertTutorialFocusReturned(page);
+      await assertTutorialProgress(page, last, "paused");
+      await assertTutorialUnchanged(
+        page,
+        result,
+        before,
+        "Close final note does not complete",
+      );
+      await help.click();
+      await assertTutorialStep(page, result, last);
+      await dialog.getByRole("button", { name: "Finish", exact: true }).click();
+      await assertTutorialFocusReturned(page);
+      await assertTutorialProgress(page, last, "completed");
+      await assertTutorialUnchanged(page, result, before, "explicit Finish");
+      await help.click();
+      await dialog
+        .getByRole("button", { name: "Restart", exact: true })
+        .click();
+      await assertTutorialStep(page, result, 0);
+      await assertTutorialProgress(page, 0, "active");
+      await assertTutorialUnchanged(page, result, before, "explicit Restart");
+      await dialog.getByRole("button", { name: "Next", exact: true }).click();
+      await dialog.getByRole("button", { name: "Skip", exact: true }).click();
+      await assertTutorialFocusReturned(page);
+      await assertTutorialProgress(page, 1, "skipped");
+      await assertTutorialUnchanged(page, result, before, "explicit Skip");
+      await help.click();
+      await assertTutorialStep(page, result, 1);
+      await dialog.getByRole("button", { name: "Next", exact: true }).click();
+      await dialog.getByRole("button", { name: "Next", exact: true }).click();
+      await assertTutorialStep(page, result, 3, "absent");
+      await capture(
+        page,
+        result,
+        "missing-inspector-has-central-prerequisite-note",
+      );
+      await dialog
+        .getByRole("button", { name: "Pause to try this", exact: true })
+        .click();
+      await assertTutorialFocusReturned(page);
+      await assertTutorialProgress(page, 3, "paused");
+      await assertTutorialUnchanged(
+        page,
+        result,
+        before,
+        "Pause leaves the actual exercise to the user",
+      );
+
+      const sources = new Map(
+        fullRegistry.sources.map((source) => [source.id, source]),
+      );
+      const candidates = fullScene.nodes.filter(
+        (node) => new Set(node.item.sourceIds).size >= 2,
+      );
+      candidates.sort((a, b) => {
+        const length = (node) =>
+          node.item.sourceIds.reduce(
+            (total, id) =>
+              total +
+              (sources.get(id)?.title.length ?? 0) +
+              (sources.get(id)?.locator.length ?? 0),
+            0,
+          );
+        return length(a) - length(b);
+      });
+      const item = candidates[0];
+      assert.ok(
+        item,
+        "The retained full registry has no genuine multi-source item for target ambiguity",
+      );
+      await page
+        .getByRole("textbox", { name: "Search retained records" })
+        .fill(item.id);
+      const filtered = await assertCounts(page, { query: item.id }, fullScene);
+      const reader = await readerView(page, "items", filtered.nodes.length);
+      await reader
+        .locator(`[data-record-id=${JSON.stringify(item.id)}]`)
+        .click();
+      await assertProvenance(page, item.item, fullRegistry);
+      await inspector(page)
+        .locator(".source-card")
+        .first()
+        .scrollIntoViewIfNeeded();
+      await until(
+        async () =>
+          (await tutorialTargetCount(page, atlasGuide.steps[4].target)) >= 2,
+        "Two real source cards were not visible; ambiguity cannot be claimed",
+      );
+      const afterUserChoice = await tutorialResearchState(page);
+      await help.click();
+      await assertTutorialStep(page, result, 3, "available");
+      await assertTutorialUnchanged(
+        page,
+        result,
+        afterUserChoice,
+        "Help resumes the paused step after manual item selection",
+      );
+      await dialog.getByRole("button", { name: "Next", exact: true }).click();
+      await assertTutorialStep(page, result, 4, "ambiguous");
+      await capture(
+        page,
+        result,
+        "multiple-real-sources-get-no-arbitrary-pointer",
+      );
+      await assertTutorialUnchanged(
+        page,
+        result,
+        afterUserChoice,
+        "ambiguous source note preserves evidence and links",
+      );
+      await dialog
+        .getByRole("button", { name: "Pause to try this", exact: true })
+        .click();
+      await assertTutorialFocusReturned(page);
+      await page
+        .getByRole("button", { name: "Close reading panel", exact: true })
+        .click();
+      const afterManualClose = await tutorialResearchState(page);
+      await help.click();
+      await assertTutorialStep(page, result, 4, "absent");
+      await assertTutorialUnchanged(
+        page,
+        result,
+        afterManualClose,
+        "missing source target remains an explanation",
+      );
+      await page.keyboard.press("Escape");
+      await assertTutorialFocusReturned(page);
+      await assertTutorialUnchanged(
+        page,
+        result,
+        afterManualClose,
+        "Escape after a manual exercise",
+      );
+      await assertReaderOnly(page, result);
+      result.notes.push(
+        "Only the 13 approved atlas notes were traversed. Every guide-only action preserved camera/filter/selection/source/casebook/audio/navigation snapshots. Close on the final step stayed paused; Finish, Skip and Restart changed only tutorial progress. Pause let the user open a real retained record, then Help resumed the same step. Missing targets and multiple real source cards produced central explanatory notes rather than selecting an arbitrary target. Original-route tutorials were not exercised.",
+      );
+    },
+  );
+
+  await scenario(
+    "22-atlas-tutorial-mobile-reduced-motion-and-storage-fallback",
+    {
+      query: "?dataset=preview&mode=reading",
+      viewport: { width: 390, height: 844 },
+      reducedMotion: true,
+      touch: true,
+      budgetMs: 80000,
+      beforeNavigation: (context) => installTutorialProbe(context, true),
+    },
+    async (page, result) => {
+      await assertCounts(page);
+      await assertReaderOnly(page, result);
+      const before = await tutorialResearchState(page);
+      const help = tutorialHelp(page);
+      const dialog = tutorialDialog(page);
+      const launcher = await help.boundingBox();
+      assert.ok(await help.isVisible(), "Mobile Help must be visible");
+      assert.ok(await help.isEnabled(), "Mobile Help must be enabled");
+      assert.ok(
+        launcher &&
+          launcher.width >= 44 &&
+          launcher.height >= 44 &&
+          launcher.x >= 0 &&
+          launcher.y >= 0 &&
+          launcher.x + launcher.width <= 390 &&
+          launcher.y + launcher.height <= 844,
+        "Mobile Help must have a viewport-contained touch target of at least 44 CSS pixels",
+      );
+      assert.equal(
+        await help.evaluate((element) => {
+          const rect = element.getBoundingClientRect();
+          return element.contains(
+            document.elementFromPoint(
+              rect.x + rect.width / 2,
+              rect.y + rect.height / 2,
+            ),
+          );
+        }),
+        true,
+        "Another mobile control covers Help",
+      );
+      result.mobileHelpBounds = launcher;
+      await capture(page, result, "mobile-visible-touch-help-launcher");
+      await help.tap();
+      await assertTutorialStep(page, result, 0);
+      await capture(
+        page,
+        result,
+        "mobile-central-guide-invalid-storage-safe-start",
+      );
+      const buttonCount = await dialog.locator("button:not(:disabled)").count();
+      for (let index = 0; index < buttonCount + 2; index += 1) {
+        await page.keyboard.press("Tab");
+        assert.equal(
+          await dialog.evaluate((element) =>
+            element.contains(document.activeElement),
+          ),
+          true,
+          "Tab escaped the mobile tutorial dialog",
+        );
+      }
+      for (let index = 0; index < buttonCount + 2; index += 1) {
+        await page.keyboard.press("Shift+Tab");
+        assert.equal(
+          await dialog.evaluate((element) =>
+            element.contains(document.activeElement),
+          ),
+          true,
+          "Shift+Tab escaped the mobile tutorial dialog",
+        );
+      }
+      await dialog.getByRole("button", { name: "Next", exact: true }).click();
+      await assertTutorialStep(page, result, 1);
+      await dialog
+        .getByText(
+          "Tutorial progress could not be saved. It remains available in this tab.",
+          { exact: true },
+        )
+        .waitFor();
+      await assertTutorialUnchanged(
+        page,
+        result,
+        before,
+        "corrupt progress and denied tutorial-only storage",
+      );
+      await page.keyboard.press("Escape");
+      await assertTutorialFocusReturned(page);
+      await help.tap();
+      await assertTutorialStep(page, result, 1);
+      await assertTutorialUnchanged(
+        page,
+        result,
+        before,
+        "in-tab progress survives denied storage",
+      );
+      // Exercise the actual pointer-hover rule too; touch browsers can retain
+      // this state after a tap, and behavior-only assertions missed its contrast.
+      await dialog.getByRole("button", { name: "Next", exact: true }).hover();
+      const buttonContrast = await dialog
+        .locator("button:not(:disabled)")
+        .evaluateAll((buttons) => {
+          const rgb = (value) => {
+            const parts = value.match(/[\d.]+/g).map(Number);
+            return [parts[0], parts[1], parts[2], parts[3] ?? 1];
+          };
+          const blend = (a, b) =>
+            a.slice(0, 3).map((v, i) => v * a[3] + b[i] * (1 - a[3]));
+          const luminance = (color) =>
+            color
+              .map((v) => {
+                const s = v / 255;
+                return s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
+              })
+              .reduce((sum, v, i) => sum + v * [0.2126, 0.7152, 0.0722][i], 0);
+          return buttons.map((button) => {
+            const style = getComputedStyle(button);
+            const paper = rgb(
+              getComputedStyle(button.closest("dialog")).backgroundColor,
+            );
+            const background = blend(rgb(style.backgroundColor), paper);
+            const foreground = blend(rgb(style.color), background);
+            const a = luminance(foreground),
+              b = luminance(background);
+            return {
+              label: button.textContent.trim(),
+              foreground: style.color,
+              background: style.backgroundColor,
+              hovered: button.matches(":hover"),
+              ratio: (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05),
+            };
+          });
+        });
+      assert.ok(
+        buttonContrast.every((row) => row.ratio >= 4.5),
+        `Paper-guide button text contrast is below 4.5:1: ${JSON.stringify(buttonContrast)}`,
+      );
+      assert.equal(
+        buttonContrast.find((row) => row.label === "Next")?.hovered,
+        true,
+        "The contrast check must exercise the Next hover state",
+      );
+      result.guideButtonContrast = buttonContrast;
+      await capture(page, result, "mobile-reopened-progress-and-save-warning");
+      await dialog
+        .getByRole("button", { name: "Restart", exact: true })
+        .click();
+      await assertTutorialStep(page, result, 0);
+      await dialog.getByRole("button", { name: "Skip", exact: true }).click();
+      await assertTutorialFocusReturned(page);
+      await assertTutorialUnchanged(
+        page,
+        result,
+        before,
+        "mobile Restart and Skip",
+      );
+      await assertReaderOnly(page, result);
+      result.notes.push(
+        "At 390×844 with reduced motion and touch emulation, a visible uncovered 44-pixel Help target opened and reopened the guide by tap. Malformed tutorial progress safely began at step one. Tutorial-only storage writes were deliberately denied; an honest warning appeared and in-tab progress survived Escape/reopen. Forward/reverse keyboard focus stayed in the native modal. Camera, audio, filters, selected evidence, original links and non-tutorial storage were unchanged. This is atlas preview-reading coverage, not an original-route tutorial result.",
+      );
+    },
+  );
 } catch (error) {
   report.setupError = error.stack ?? String(error);
   process.exitCode = 1;
@@ -2085,6 +3945,12 @@ try {
     "",
     `Result: **${report.status}**`,
     `Preview path: ${prefix}`,
+    `Review label: ${report.reviewLabel}`,
+    `Expected historical mode: ${expectHistoricalReview ? "isolated opt-in enabled" : "default disabled"}`,
+    "Only applicable checks contribute to success; not-applicable positive historical cases are listed explicitly.",
+    `Checked out: ${report.revision?.checkedOutCommit ?? "unverified"}`,
+    `Candidate head: ${report.revision?.candidateHead ?? "unverified"}`,
+    `Revision coverage: ${report.revision?.mode ?? "unverified"}`,
     "",
     ...report.scenarios.map(
       (result) => `- ${result.status.toUpperCase()}: ${result.name}`,
@@ -2094,7 +3960,7 @@ try {
       ? `Setup failed: ${report.setupError.split("\n")[0]}`
       : "",
     "Screenshots, DOM snapshots, traces, source export and per-scenario diagnostics are in the review artifact.",
-    "Software-rendered CI captures require human visual review. This is not a pixel approval, hardware FPS benchmark, or deployment.",
+    "Software-rendered CI captures require visual/interaction inspection. This is not a pixel approval, hardware FPS benchmark, or deployment.",
   ]
     .filter(Boolean)
     .join("\n");

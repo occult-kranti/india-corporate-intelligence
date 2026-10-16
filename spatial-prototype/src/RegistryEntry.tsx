@@ -5,6 +5,9 @@ import { loadFullRegistry, RegistryLoadError } from './registryLoader';
 import type { RegistryLoadProgress } from './registryLoader';
 
 const App = lazy(() => import('./App'));
+const HistoricalReviewGate = lazy(() => import('./historical-review/ReviewGate'));
+import { historicalReviewRequested } from './historical-review/adapter';
+import HistoricalReviewBoundary from './historical-review/ReviewBoundary';
 type Dataset = 'full' | 'preview';
 export type RegistryEntryState =
   | { phase: 'loading'; progress: RegistryLoadProgress | null }
@@ -105,6 +108,8 @@ export function RegistryEntryView({ dataset, state, onRetry, href }: {
 
   if (state.phase === 'ready') return <div data-registry-dataset="full" data-registry-state="ready">
     <AppBoundary><Suspense fallback={<OpeningApp dataset="full" />}><App registry={state.registry} dataset="full" /></Suspense></AppBoundary>
+    {historicalReviewRequested(new URL(href).search, import.meta.env?.VITE_HISTORICAL_REVIEW === 'true', dataset) ?
+      <HistoricalReviewBoundary href={href}><Suspense fallback={null}><HistoricalReviewGate base={state.registry} href={href} /></Suspense></HistoricalReviewBoundary> : null}
   </div>;
 
   const progress = state.phase === 'loading' ? state.progress : null;

@@ -1,0 +1,199 @@
+{
+  "schemaVersion": 1,
+  "asOf": "2026-10-16T03:49:31Z",
+  "checkpointTitle": "Release and research status review · 16 October 2026, 03:49 UTC",
+  "freshnessHours": 24,
+  "scope": "Nine curated work items, their next steps, and dated roadmap milestones. This snapshot is updated after reviewed progress; it is not a live activity feed.",
+  "tasks": [
+    {
+      "id": "base-release",
+      "title": "Felt atlas base release",
+      "status": "completed",
+      "role": "Release verification",
+      "question": "Is the retained atlas published and reconciled with its release tree?",
+      "lastChecked": "2026-10-16T03:44:12Z",
+      "nextAction": "Keep this baseline intact while reviewing the next release.",
+      "summary": "PR9 merged into master 6e4d6512. The base evidence atlas is deployed and live.",
+      "evidence": [
+        {
+          "title": "PR9 · base release",
+          "url": "https://github.com/occult-kranti/india-corporate-intelligence/pull/9"
+        },
+        {
+          "title": "Base release and deployment verification · 16 October 2026"
+        }
+      ],
+      "privateProjectLink": null,
+      "completion": {
+        "evidenceIndex": 0,
+        "verifiedAt": "2026-10-16T03:22:00Z",
+        "note": "The supplied release verification records PR9 merged and the base atlas deployed. PR9 is the completion reference; this console does not independently monitor deployment."
+      }
+    },
+    {
+      "id": "historical-tutorial",
+      "title": "Historical reader and field guide",
+      "status": "review-pending",
+      "role": "Implementation review",
+      "question": "Does the historical reader retain source qualifications and does the field guide work in the rendered app?",
+      "lastChecked": "2026-10-16T03:44:12Z",
+      "nextAction": "Review rendered scope and release readiness. Recheck the original-application CI result before any merge.",
+      "summary": "PR10 remains a draft, not merged. Latest checked commit: 0b4af3a1. 174 static tests, 22 spatial browser cases and four combined browser cases passed; original-application CI was still in progress at this check. Historical relationships remain blocked from public graph promotion.",
+      "evidence": [
+        {
+          "title": "PR10 · historical reader and field guide",
+          "url": "https://github.com/occult-kranti/india-corporate-intelligence/pull/10"
+        },
+        {
+          "title": "PR10 verification checkpoint · commit 0b4af3a1"
+        }
+      ],
+      "privateProjectLink": null
+    },
+    {
+      "id": "original-guides",
+      "title": "Original-route guides",
+      "status": "planned",
+      "role": "Route acceptance",
+      "question": "Do all staged original-application guides work on their actual routes?",
+      "lastChecked": "2026-10-16T03:22:00Z",
+      "nextAction": "Run route-by-route browser acceptance for 59 original and three workbench guides.",
+      "summary": "Source checks and 41 Node/SSR tests passed in the checkpoint; browser acceptance is pending.",
+      "evidence": [
+        {
+          "title": "Release and research checkpoint · 03:22 UTC"
+        }
+      ],
+      "privateProjectLink": null
+    },
+    {
+      "id": "federation",
+      "title": "Opt-in federation proposal",
+      "status": "blocked",
+      "role": "Semantic and publication review",
+      "question": "Can the separate workbenches be integrated without losing source, privacy or qualification boundaries?",
+      "lastChecked": "2026-10-16T03:22:00Z",
+      "nextAction": "Complete semantic, privacy, source and publication review before any public integration.",
+      "summary": "Local proposal only. Imported non-source rows remain reader-only; adapter tests do not authorize publication.",
+      "evidence": [
+        {
+          "title": "Federation proposal · publication review"
+        },
+        {
+          "title": "Release and research checkpoint · 03:22 UTC"
+        }
+      ],
+      "privateProjectLink": null
+    },
+    {
+      "id": "source-reviews",
+      "title": "Retained and held source reviews",
+      "status": "blocked",
+      "role": "Independent evidence review",
+      "question": "Which reviewed relationships meet a clearly dated and scoped evidence standard?",
+      "lastChecked": "2026-10-16T03:44:12Z",
+      "nextAction": "Complete independent and publication review of the candidates, and resolve outstanding authentication and date qualifications before any admission.",
+      "summary": "Qualified reviews are retained. New source-lane packets are reviewed candidates awaiting independent and publication review. Held material remains held; no current/common-date certification or public graph promotion is claimed.",
+      "evidence": [
+        {
+          "title": "Source-review coverage register"
+        },
+        {
+          "title": "Release and research checkpoint · 03:22 UTC"
+        },
+        {
+          "title": "Source-lane candidate review register"
+        }
+      ],
+      "privateProjectLink": null
+    },
+    {
+      "id": "research-methods",
+      "title": "Research methods and question discipline",
+      "status": "review-pending",
+      "role": "Research-methods review",
+      "question": "How should research questions, evidence standards and review gates be made repeatable?",
+      "lastChecked": "2026-10-16T03:44:12Z",
+      "nextAction": "Review the locally prepared methods and apply the evidence and stopping conditions to the next scoped research step.",
+      "summary": "Research-methods setup has received local review. The remaining review and adoption decision is pending; this item does not report a running worker.",
+      "evidence": [
+        {
+          "title": "Research-methods setup · local review"
+        }
+      ],
+      "privateProjectLink": null
+    },
+    {
+      "id": "repository-audit",
+      "title": "Repository and corpus audit",
+      "status": "review-pending",
+      "role": "Repository audit",
+      "question": "How should the reviewed repository and corpus findings guide the next safe, additive integration?",
+      "lastChecked": "2026-10-16T03:44:12Z",
+      "nextAction": "Review the repository and corpus findings, then approve the next bounded integration step.",
+      "summary": "Repository and corpus assessments have been prepared for review. They are locally reviewed or review pending; no active audit process or release approval is implied.",
+      "evidence": [
+        {
+          "title": "Repository and corpus assessments · review checkpoint"
+        }
+      ],
+      "privateProjectLink": null
+    },
+    {
+      "id": "cross-border-finance",
+      "title": "US, China and Europe ownership and finance",
+      "status": "review-pending",
+      "reviewStage": "source-review",
+      "role": "Cross-border source review",
+      "question": "Which public records can establish bounded ownership, donations and finance links across the US, China and Europe?",
+      "lastChecked": "2026-10-16T03:49:31Z",
+      "nextAction": "Review the scoped source packets, separate documented links from open questions, and retain unresolved date and entity qualifications.",
+      "summary": "This requested research lane is scoped for public-source packets and independent review. Any resulting links remain research candidates pending source and publication review; no public graph admission is authorized.",
+      "evidence": [
+        {
+          "title": "Cross-border ownership, donations and finance · scoped source review"
+        }
+      ],
+      "privateProjectLink": null
+    },
+    {
+      "id": "public-program-records",
+      "title": "Public government programs and later roles",
+      "status": "review-pending",
+      "reviewStage": "source-review",
+      "role": "Public-record provenance review",
+      "question": "What do public and declassified records establish about government programs and later publicly documented roles?",
+      "lastChecked": "2026-10-16T03:49:31Z",
+      "nextAction": "Review record provenance, dates and scope; distinguish documented roles from unsupported connections before considering any publication.",
+      "summary": "This requested research lane is limited to public and declassified records. Bounded packets await source review; no restricted access, inferred allegation or public graph admission is claimed.",
+      "evidence": [
+        {
+          "title": "Public and declassified program records · scoped source review"
+        }
+      ],
+      "privateProjectLink": null
+    }
+  ],
+  "milestones": [
+    {
+      "title": "Base release published",
+      "taskId": "base-release",
+      "detail": "PR9 · master 6e4d6512"
+    },
+    {
+      "title": "Historical reader release decision",
+      "taskId": "historical-tutorial",
+      "detail": "PR10 remains separate and unmerged"
+    },
+    {
+      "title": "Original-route browser acceptance",
+      "taskId": "original-guides",
+      "detail": "62 staged guides await rendered checks"
+    },
+    {
+      "title": "Federation publication decision",
+      "taskId": "federation",
+      "detail": "Reader-only proposal; review gates remain"
+    }
+  ]
+}

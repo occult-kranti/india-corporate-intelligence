@@ -31,6 +31,7 @@ export const REVIEWED_REGISTRY = Object.freeze({
   counts: Object.freeze({ entities: 2469, relationships: 4203, records: 5617, sources: 3314, states: 36, localities: 167, coverage: 32, held: 316, methodology: 5 }),
 });
 export const SPATIAL_NAV_LINE = '        <a className="site-nav-link" href={`${import.meta.env.BASE_URL}spatial/`} onClick={onNavigate}><Map size={16} aria-hidden="true" /><span>Spatial evidence atlas</span></a>\n';
+export const ACTIVITY_NAV_LINE = '        <a className="site-nav-link" href={`${import.meta.env.BASE_URL}research-activity/`} onClick={onNavigate}><Notebook size={16} aria-hidden="true" /><span>Research activity</span></a>\n';
 const GLOBAL_NAV_LINE = '        <a className="site-nav-link" href="./global-workbench/" onClick={onNavigate}><Globe2 size={16} aria-hidden="true" /><span>Global evidence workbench</span></a>\n';
 export const REQUIRED_ROOT_ENTRIES = Object.freeze(['index.html', 'global-workbench/index.html', 'global-workbench/finance.html', 'global-workbench/media.html']);
 export const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');
@@ -42,7 +43,9 @@ export const gitBlobSha = bytes => {
 export function stripSpatialNavigation(text) {
   assert.equal(text.split(SPATIAL_NAV_LINE).length - 1, 1, 'Layout must contain exactly the reviewed spatial link line');
   assert.ok(text.includes(SPATIAL_NAV_LINE + GLOBAL_NAV_LINE), 'Spatial link must immediately precede the preserved global-workbench link');
-  return text.replace(SPATIAL_NAV_LINE, '');
+  assert.equal(text.split(ACTIVITY_NAV_LINE).length - 1, 1, 'Layout must contain exactly the reviewed activity link line');
+  assert.ok(text.includes(ACTIVITY_NAV_LINE + SPATIAL_NAV_LINE), 'Activity link must immediately precede the reviewed spatial link');
+  return text.replace(ACTIVITY_NAV_LINE, '').replace(SPATIAL_NAV_LINE, '');
 }
 
 /** Remove only complete marked addition lines; preserve all other bytes, including blank lines. */

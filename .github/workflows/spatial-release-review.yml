@@ -13,6 +13,7 @@ on:
       - "vite.config.ts"
       - "scripts/build-global-workbench.mjs"
       - "scripts/spatial-release*.mjs"
+      - "scripts/research-activity/**"
       - ".github/workflows/deploy.yml"
       - ".github/workflows/spatial-release-review.yml"
   workflow_dispatch:
@@ -57,7 +58,7 @@ jobs:
       - name: Verify original source pins and immutable reviewed registry
         run: node scripts/spatial-release-validate.mjs --preflight
       - name: Test release integration guards
-        run: node --test scripts/spatial-release-validate.test.mjs scripts/spatial-release.browser.test.mjs
+        run: node --test scripts/spatial-release-validate.test.mjs scripts/spatial-release.browser.test.mjs scripts/research-activity/*.test.mjs
       - name: Check exact committed original registry before any promotion
         working-directory: spatial-prototype
         env:

@@ -1,0 +1,43 @@
+Research activity integration checks, captured 2026-10-16 UTC.
+No browser acceptance performed by this staging task.
+
+✔ app renders validated snapshot, counts, evidence and milestones (20.283137ms)
+✔ filter/search/reset interactions retain truthful counts and keyboard-native controls (5.377515ms)
+✔ invalid snapshot is withheld from the rendered ledger (1.726948ms)
+✔ fetch and parse failures expose readable recovery instructions (3.09278ms)
+✔ query text cannot create markup (2.466611ms)
+✔ simple group labels and review-pending sublabels remain visible (4.289134ms)
+✔ repeated search resets and status changes preserve totals (6.281074ms)
+✔ seed snapshot is valid and accurately separates PR9 and PR10 (2.233407ms)
+✔ all status lanes filter without mutating source (0.360276ms)
+✔ search is case-insensitive and spans question, role, action and evidence (0.291492ms)
+✔ unknown statuses and duplicate IDs rejected (0.521341ms)
+✔ completion without reviewed evidence is rejected (1.858869ms)
+✔ private project links and extra fields rejected at every level (0.68532ms)
+✔ URL allowlist rejects dangerous, private, credentialed, misleading and tracking URLs (1.814622ms)
+✔ HTML payloads, URLs in text and invalid shapes are rejected (0.748936ms)
+✔ timestamps, temporal order and milestone references validated (1.21303ms)
+✔ freshness has recent, stale and device-clock warning states (0.294346ms)
+✔ UI avoids HTML injection sinks, remote dependencies and disabled private slots (5.135898ms)
+✔ four simple display groups preserve internal review and hold states (0.351723ms)
+✔ review checkpoint remains dated, candidate-only and non-live (0.173953ms)
+✔ standalone shell keeps local modules, local fetch policy and relative return navigation (0.975159ms)
+✔ source review qualification is bounded and cannot imply completion (0.55381ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 121.529719
+
+Optional schema checks:
+..
+----------------------------------------------------------------------
+Ran 2 tests in 0.012s
+
+OK
+
+app.mjs syntax: PASS
+model.mjs syntax: PASS

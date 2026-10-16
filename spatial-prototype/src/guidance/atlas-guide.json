@@ -1,0 +1,97 @@
+{
+  "id": "atlas-source-reading-v2",
+  "title": "Read the felt evidence atlas",
+  "steps": [
+    {
+      "id": "scope",
+      "title": "Read the snapshot and coverage",
+      "body": "Read the loaded dataset label, snapshot date, searchable items, area-anchored and unplaced counts, and separate held queue. Rendered map threads are only a display subset. Held entries are not factual marks. Counts are snapshot coverage, not all activity or independent corroboration.",
+      "target": ".scene-overview",
+      "prerequisite": "This control is not visible in the current view. You can continue reading or skip this step."
+    },
+    {
+      "id": "search",
+      "title": "Find a retained name or exact ID",
+      "body": "Type a retained name or exact record ID in Search retained records. Clear search removes only the text query. Search can combine with other lenses; no result is not proof that evidence does not exist.",
+      "target": "input[aria-label=\"Search retained records\"]",
+      "prerequisite": "This control is not visible in the current view. You can continue reading or skip this step."
+    },
+    {
+      "id": "reader",
+      "title": "Use the readable registry",
+      "body": "Choose Search and read the registry. Entities & records, Relationships, Sources and Held review queue have separate views. Pagination changes the displayed rows, not the retained data. Sources and held catalogues use search and subject, not time/facet lenses.",
+      "target": ".registry-reader",
+      "prerequisite": "This control is not visible in the current view. Choose Search and read the registry yourself, then continue."
+    },
+    {
+      "id": "inspect",
+      "title": "Read the status and date",
+      "body": "Choose a record yourself. Read the evidence tier or identity label, recorded status, source window and date basis where present. Source-bound identity does not mean every identity has a claim tier. Held counter-context retains its warning.",
+      "target": "[aria-label=\"Evidence reading panel\"]",
+      "prerequisite": "This control is not visible in the current view. Select a retained item in the reader yourself."
+    },
+    {
+      "id": "sources",
+      "title": "Read the source and locator",
+      "body": "Read each Source trail entry, publisher, date, locator and limitations. Open the source only if you choose. Distinct source IDs do not establish independent corroboration; several citations can trace to one origin. Missing citations remain missing.",
+      "target": ".evidence-inspector .source-card",
+      "prerequisite": "This control is not visible in the current view. Read Source trail in the selected item; multiple sources remain individually selectable."
+    },
+    {
+      "id": "direction",
+      "title": "Inspect a directed relationship",
+      "body": "Choose Relationships in the reader or a Connected source thread. Read its label, source trail, status, dates and From → To direction. Follow this thread is optional manual camera travel and can be disabled outside the map lens. Direction does not prove a payment or coordination.",
+      "target": ".relationship-route",
+      "prerequisite": "This control is not visible in the current view. Select a relationship yourself. Do not press Follow this thread just to advance the tutorial."
+    },
+    {
+      "id": "geography",
+      "title": "Keep the geographic limit",
+      "body": "Read Geographic precision and Geography and attribution. A state/country representative marker is area context, not a verified building or address. Shared area is not a sourced relationship. Unplaced records stay readable.",
+      "target": ".evidence-inspector details.geography",
+      "prerequisite": "This control is not visible in the current view. Select a retained item and expand Geography and attribution yourself."
+    },
+    {
+      "id": "countercontext",
+      "title": "Compare amounts and counter-context",
+      "body": "Where supplied, read Amounts, with their accounting stage; Response / procedural context; Linked responses and counter-context; Other explanations to consider; and What this does not establish. Missing fields are not confirmation. Programme disbursement, a contract award and recipient cash are different stages.",
+      "target": ".evidence-inspector .inspector-content",
+      "prerequisite": "This control is not visible in the current view. Select the source-bound loan/award example by its exact ID if you want the optional exercise."
+    },
+    {
+      "id": "lenses",
+      "title": "Use time, subject, area and facets",
+      "body": "Open 4D · Time or 5D · Layers yourself. Subject corpus and Documented area narrow scope. Evidence window sets the end year; unknown dates remain visible unless you exclude them. 4D/5D are interface metaphors. Restore all subjects/areas, full end year, no facet selections and unknown dates to widen the lens.",
+      "target": "[aria-label=\"Time and facet filters\"]",
+      "prerequisite": "This control is not visible in the current view. Choose 4D · Time or 5D · Layers yourself."
+    },
+    {
+      "id": "empty",
+      "title": "Recover a clear empty state",
+      "body": "If the spatial lens has no items, Reset lenses clears search, subject, area and facets, restores the maximum end year and includes unknown dates. This reset currently exists only outside Reading mode and graphics failure. In Reading mode, adjust Search and the lens controls manually.",
+      "target": ".empty-state",
+      "prerequisite": "This control is not visible in the current view. Do not change filters solely to trigger this step. Continue with the explanation when the empty state is absent."
+    },
+    {
+      "id": "casebook",
+      "title": "Save and export deliberately",
+      "body": "Save this evidence adds a local reference. A saved item offers Analyst note (your annotation). Export casebook with evidence downloads a JSON packet. Storage is browser-local; storage failure may leave changes only in this tab. Export is a manual backup. This atlas does not expose the old board layout, thread drawing or restore controls.",
+      "target": ".casebook-box",
+      "prerequisite": "This control is not visible in the current view. Select an item yourself; saving, notes and export are optional and never required for tutorial completion."
+    },
+    {
+      "id": "sound",
+      "title": "Choose sound and motion",
+      "body": "Narration is manual. Open Narration or Read aloud yourself, then press Read this record if desired. Only browser voices marked local are offered; without one, use the transcript. Stop narration stops speech. Reduced motion in the lens panel jumps to destinations instead of fly-throughs; the tutorial never travels.",
+      "target": "[aria-label=\"Manual narration controls\"]",
+      "prerequisite": "This control is not visible in the current view. Open Narration yourself or continue reading without audio."
+    },
+    {
+      "id": "original",
+      "title": "Visit the preserved original page",
+      "body": "Open this item’s original page is an ordinary link to the preserved original application. Use browser Back to return. Route existence, filter restoration and return focus still require exact-deployment testing. The tutorial does not open the link or infer that the destination was reviewed.",
+      "target": ".original-item-link",
+      "prerequisite": "This control is not visible in the current view. Select an item; visit its original page only if you choose."
+    }
+  ]
+}

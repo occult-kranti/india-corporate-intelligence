@@ -127,3 +127,14 @@ test('both full-map screenshots wait for geometry and record the final viewport 
     assert.ok(!source.includes(`await capture(page, result, '${name}')`));
   }
 });
+
+test('activity navigation and four simple groups are additive CI requirements', async () => {
+  const layout = await readFile(new URL('../src/components/Layout.tsx', import.meta.url), 'utf8');
+  assert.match(layout, /BASE_URL}research-activity\//);
+  assert.match(layout, /<span>Research activity<\/span>/);
+  for (const relative of ['../.github/workflows/deploy.yml','../.github/workflows/spatial-release-review.yml']) {
+    const workflow = await readFile(new URL(relative, import.meta.url), 'utf8');
+    assert.match(workflow, /node --test scripts\/spatial-release-validate.test.mjs scripts\/spatial-release.browser.test.mjs scripts\/research-activity\/\*.test.mjs/);
+    assert.match(workflow, /node scripts\/spatial-release.browser.mjs/);
+  }
+});
