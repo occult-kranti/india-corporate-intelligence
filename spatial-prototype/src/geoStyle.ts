@@ -1,0 +1,216 @@
+import type { StyleSpecification } from "maplibre-gl";
+import type { FeatureCollection } from "geojson";
+import { WORLD_COUNTRIES } from "./geography";
+/** Worldwide vector outlines, never a fabricated city texture. No key or private data in URLs. */
+export const TILE_SOURCE = "https://tiles.openfreemap.org/planet";
+export const MAP_CREDITS =
+  '<a href="https://openfreemap.org/" target="_blank">OpenFreeMap</a> · <a href="https://www.openmaptiles.org/" target="_blank">© OpenMapTiles</a> · <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a>';
+export function feltMapStyle(): StyleSpecification {
+  return {
+    version: 8,
+    sources: {
+      world: { type: "vector", url: TILE_SOURCE, attribution: MAP_CREDITS },
+      "country-base": {
+        type: "geojson",
+        data: WORLD_COUNTRIES as unknown as FeatureCollection,
+        attribution: "Natural Earth · public domain",
+      },
+    },
+    layers: [
+      {
+        id: "felt-ground",
+        type: "background",
+        paint: { "background-color": "#123e2d" },
+      },
+      {
+        id: "country-base",
+        source: "country-base",
+        type: "fill",
+        paint: { "fill-color": "#246342" },
+      },
+      {
+        id: "country-base-outline",
+        source: "country-base",
+        type: "line",
+        maxzoom: 8,
+        paint: {
+          "line-color": "#b1b18b",
+          "line-opacity": 0.45,
+          "line-width": 0.6,
+          "line-dasharray": [2, 3],
+        },
+      },
+      {
+        id: "water",
+        source: "world",
+        "source-layer": "water",
+        type: "fill",
+        paint: { "fill-color": "#123e2d", "fill-opacity": 1 },
+      },
+      {
+        id: "landcover",
+        source: "world",
+        "source-layer": "landcover",
+        type: "fill",
+        minzoom: 3,
+        paint: {
+          "fill-color": [
+            "match",
+            ["get", "class"],
+            "wood",
+            "#2b6845",
+            "grass",
+            "#36704b",
+            "#2b6543",
+          ],
+          "fill-opacity": 0.35,
+        },
+      },
+      {
+        id: "landuse",
+        source: "world",
+        "source-layer": "landuse",
+        type: "fill",
+        minzoom: 9,
+        paint: { "fill-color": "#7c8656", "fill-opacity": 0.12 },
+      },
+      {
+        id: "waterways",
+        source: "world",
+        "source-layer": "waterway",
+        type: "line",
+        minzoom: 6,
+        paint: {
+          "line-color": "#123e2d",
+          "line-width": ["interpolate", ["linear"], ["zoom"], 6, 0.5, 16, 7],
+        },
+      },
+      {
+        id: "country-borders",
+        source: "world",
+        "source-layer": "boundary",
+        type: "line",
+        filter: ["==", ["get", "admin_level"], 2],
+        paint: {
+          "line-color": "#c0ba7c",
+          "line-width": ["interpolate", ["linear"], ["zoom"], 1, 0.6, 7, 1.4],
+          "line-opacity": 0.5,
+          "line-dasharray": [2, 3],
+        },
+      },
+      {
+        id: "regional-borders",
+        source: "world",
+        "source-layer": "boundary",
+        type: "line",
+        filter: [">", ["get", "admin_level"], 2],
+        minzoom: 4,
+        paint: {
+          "line-color": "#bac19a",
+          "line-width": 0.6,
+          "line-opacity": 0.25,
+        },
+      },
+      {
+        id: "streets-casing",
+        source: "world",
+        "source-layer": "transportation",
+        type: "line",
+        minzoom: 10,
+        paint: {
+          "line-color": "#1b4633",
+          "line-width": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            10,
+            0.4,
+            14,
+            2.5,
+            18,
+            12,
+          ],
+          "line-opacity": 0.9,
+        },
+      },
+      {
+        id: "streets",
+        source: "world",
+        "source-layer": "transportation",
+        type: "line",
+        minzoom: 10,
+        paint: {
+          "line-color": "#adac82",
+          "line-width": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            10,
+            0.2,
+            14,
+            1.2,
+            18,
+            6,
+          ],
+          "line-opacity": 0.6,
+        },
+      },
+      {
+        id: "building-footprints",
+        source: "world",
+        "source-layer": "building",
+        type: "fill",
+        minzoom: 13,
+        filter: ["!=", ["get", "hide_3d"], true],
+        paint: {
+          "fill-color": "#c9c5a2",
+          "fill-opacity": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            13,
+            0.5,
+            15,
+            0.12,
+          ],
+        },
+      },
+      {
+        id: "buildings-3d",
+        source: "world",
+        "source-layer": "building",
+        type: "fill-extrusion",
+        minzoom: 14,
+        filter: ["!=", ["get", "hide_3d"], true],
+        paint: {
+          "fill-extrusion-color": [
+            "case",
+            ["has", "render_height"],
+            "#dcd6b5",
+            "#a9b095",
+          ],
+          "fill-extrusion-height": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            14,
+            0,
+            15,
+            ["coalesce", ["get", "render_height"], 12],
+          ],
+          "fill-extrusion-base": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            14,
+            0,
+            15,
+            ["coalesce", ["get", "render_min_height"], 0],
+          ],
+          "fill-extrusion-opacity": 0.96,
+          "fill-extrusion-vertical-gradient": true,
+        },
+      },
+    ],
+  };
+}

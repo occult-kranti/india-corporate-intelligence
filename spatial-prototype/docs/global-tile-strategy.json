@@ -1,0 +1,75 @@
+{
+  "verifiedOn": "2026-10-15",
+  "recommendation": "MapLibre with OpenFreeMap global vector tiles; same geographic camera from felt world view to building extrusion",
+  "source": {
+    "type": "vector",
+    "url": "https://tiles.openfreemap.org/planet"
+  },
+  "buildingLayer": "building",
+  "nativeZoom": [
+    0,
+    14
+  ],
+  "buildingNativeZoom": [
+    13,
+    14
+  ],
+  "worldBounds": [
+    -180,
+    -85.05113,
+    180,
+    85.05113
+  ],
+  "heightProperties": [
+    "render_height",
+    "render_min_height"
+  ],
+  "heightBasis": "provider-rendering-unknown",
+  "hide3dProperty": "hide_3d",
+  "accountsRequired": false,
+  "apiKeysRequired": false,
+  "paidServicesRequired": false,
+  "serviceGuarantee": "none",
+  "termsUrl": "https://openfreemap.org/tos/",
+  "attribution": [
+    {
+      "name": "OpenMapTiles",
+      "url": "https://www.openmaptiles.org/"
+    },
+    {
+      "name": "OpenStreetMap contributors",
+      "url": "https://www.openstreetmap.org/copyright"
+    }
+  ],
+  "offlineLimits": {
+    "maxTiles": 3000,
+    "maxBytesConservative": 50000000,
+    "maxParallel": 4,
+    "uniqueUserAgentRequired": true
+  },
+  "residentialFootprintsPresent": true,
+  "residentialExclusionGuaranteed": false,
+  "privacyControls": [
+    "No house-number layer",
+    "No resident identification",
+    "No person tracking",
+    "No inferred building-evidence joins"
+  ],
+  "productionAlternatives": [
+    {
+      "name": "Self-host Protomaps PMTiles",
+      "hotlinkDailyBuilds": false,
+      "wholePlanetApproxBytes": 120000000000
+    },
+    {
+      "name": "Build custom Overture tiles",
+      "publicInspectionTilesProductionSuitable": false,
+      "license": "ODbL-1.0"
+    }
+  ],
+  "testReport": "global-tile-probe/validation.json",
+  "layerSpec": "openfreemap-buildings-layer.json",
+  "report": "GLOBAL_TILE_STRATEGY.md",
+  "fixtureSchema": "1.1",
+  "fixturePolygons": 25
+}

@@ -1,0 +1,60 @@
+{
+  "excluded": [
+    {
+      "city": "delhi",
+      "id": "relation/12737019",
+      "reason": "Invalid source geometry excluded without repair: holes 1,0 nested; holes 2,1 nested; holes 3,1 intersect; holes 3,2 nested; holes 4,1 nested; holes 5,1 nested; holes 6,1 nested; holes 7,1 nested; holes 8,0 nested; holes 8,1 nested; non-positive net area -260.92071050001323"
+    },
+    {
+      "city": "mumbai",
+      "id": "relation/18045769",
+      "reason": "Missing selected feature"
+    }
+  ],
+  "cities": [
+    {
+      "id": "delhi",
+      "buildings": 7,
+      "boundsMeters": [
+        -345.932,
+        -304.748,
+        460.197,
+        285.368
+      ],
+      "heightCounts": {
+        "source-reported": 3,
+        "assumed": 2,
+        "levels-derived": 2
+      }
+    },
+    {
+      "id": "mumbai",
+      "buildings": 7,
+      "boundsMeters": [
+        -135.627,
+        -399.748,
+        365.68,
+        223.641
+      ],
+      "heightCounts": {
+        "assumed": 3,
+        "levels-derived": 4
+      }
+    },
+    {
+      "id": "london",
+      "buildings": 11,
+      "boundsMeters": [
+        -255.161,
+        -241.964,
+        145.342,
+        145.55
+      ],
+      "heightCounts": {
+        "assumed": 2,
+        "levels-derived": 7,
+        "source-reported": 2
+      }
+    }
+  ]
+}

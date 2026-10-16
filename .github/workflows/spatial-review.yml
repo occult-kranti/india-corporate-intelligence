@@ -1,0 +1,79 @@
+name: Spatial prototype review
+
+on:
+  pull_request:
+    paths:
+      - "spatial-prototype/**"
+      - ".github/workflows/spatial-review.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: spatial-review-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  browser-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    defaults:
+      run:
+        shell: bash
+    env:
+      CI: "true"
+      SPATIAL_BROWSER_REVIEW: github-actions
+      SPATIAL_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - name: Check out review revision
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Use Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: spatial-prototype/package-lock.json
+      - name: Install isolated prototype dependencies
+        run: npm ci --prefix spatial-prototype
+      - name: Test retained evidence and model
+        working-directory: spatial-prototype
+        run: |
+          mkdir -p browser-review
+          npm test 2>&1 | tee browser-review/unit-tests.log
+      - name: Build isolated static preview
+        working-directory: spatial-prototype
+        run: npm run build 2>&1 | tee browser-review/build.log
+      - name: Install Chromium in CI only
+        working-directory: spatial-prototype
+        run: npx --no-install playwright install --with-deps chromium
+      - name: Review browser behavior at the repository subpath
+        working-directory: spatial-prototype
+        run: node scripts/browser-review.mjs 2>&1 | tee browser-review/browser-run.log
+      - name: Publish review summary
+        if: always()
+        shell: bash
+        run: |
+          if [ -f spatial-prototype/browser-review/summary.md ]; then
+            cat spatial-prototype/browser-review/summary.md >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo 'Browser review did not complete. Inspect earlier steps and the available review logs.' >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Preserve screenshots and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: spatial-browser-review-${{ github.run_id }}-${{ github.run_attempt }}
+          path: spatial-prototype/browser-review/
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Preserve static preview build (no deployment)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: spatial-static-preview-${{ github.run_id }}-${{ github.run_attempt }}
+          path: spatial-prototype/dist/
+          if-no-files-found: warn
+          retention-days: 14
