@@ -37,3 +37,9 @@ Paper cards hide at zoom 8; screen-normalized geographic threads fade by zoom 6;
 ## Precise-coordinate gap
 
 The current retained evidence supports only country/state areas. Evidence-driven travel therefore cannot truthfully end at a particular bank or company building. Public city destination controls demonstrate the requested continuous world-to-building transition without claiming an evidence join. Adding genuine institution-site destinations requires independently sourced coordinate records with source IDs, address/coordinate precision and temporal qualifiers. It must not geocode a name and silently upgrade its evidentiary meaning.
+
+## Full registry and loading boundaries
+
+The full reader is mounted only after all 96 registry chunks and the 23,207,262-byte canonical snapshot validate. It retains 8,086 entity/record items, 4,203 relationships, 3,314 sources and all 316 held entries. Held/not-drawn objects remain reader context and are excluded before factual scene filtering. Pagination limits DOM work to 40 catalogue cards.
+
+The lightweight UI imports area representatives only. The map runtime is React-lazy and the source-identical world/state geometry loads as separate same-origin JSON assets after exploration starts; reading-only mode does not import MapLibre/Three. One paper group per documented area and at most 60 representative original cross-area threads bound overlay work. Each drawn edge retains its own original direction, predicate and distinct source count; selection may replace a representative but cannot create a new relationship. Build byte budgets are enforced independently of unmeasured device FPS.

@@ -1655,3 +1655,136 @@ svg {
     top: 235px;
   }
 }
+
+/* The original registry stays searchable without thousands of DOM cards. */
+.original-app-link {
+  font-size: 10px;
+  color: var(--muted);
+}
+.original-item-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 18px;
+  font-size: 12px;
+}
+.overview-read {
+  margin-top: 8px;
+  padding: 5px 0;
+  border: 0;
+  font-size: 11px;
+  text-align: left;
+}
+.scene-overview {
+  max-width: 320px;
+}
+.scene-overview small {
+  display: block;
+}
+.reader-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 14px;
+}
+.reader-tabs button {
+  font-size: 12px;
+}
+.reader-tabs button[aria-pressed="true"] {
+  background: #ded5b4;
+  color: #163727;
+}
+.reader-tabs span {
+  font-variant-numeric: tabular-nums;
+}
+.reader-result-count {
+  font-size: 12px;
+  color: var(--muted);
+}
+.reader-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  margin: 20px 0 50px;
+}
+.reader-pagination span {
+  font-size: 12px;
+}
+.subject-control {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.subject-control select {
+  width: 100%;
+}
+.source-catalogue-card,
+.held-card {
+  display: block;
+}
+.source-catalogue-card p,
+.held-card p {
+  display: block;
+  overflow: visible;
+  -webkit-line-clamp: unset;
+}
+.source-catalogue-card details {
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.held-card h3 {
+  overflow-wrap: anywhere;
+  font-family: inherit;
+  font-size: 13px;
+}
+.held-card a {
+  display: block;
+  margin-top: 12px;
+  font-size: 12px;
+}
+.reading-card[data-held="true"] {
+  border-style: dashed;
+}
+.active-area {
+  font-size: 12px;
+}
+.active-area button {
+  margin-left: 12px;
+  font-size: 11px;
+  padding: 5px;
+}
+.map-loading {
+  position: absolute;
+  top: 42%;
+  left: 35%;
+  max-width: 340px;
+  padding: 20px;
+}
+.reading-active .scene-overview {
+  display: none;
+}
+.reading-active .legend {
+  display: none;
+}
+.registry-entry-panel h1 {
+  font-size: 36px;
+}
+@media (max-width: 800px) {
+  .reader-pagination {
+    flex-wrap: wrap;
+  }
+  .map-loading {
+    left: 10%;
+    right: 10%;
+  }
+}
+.retained-metadata {
+  margin: 22px 0;
+  font-size: 11px;
+}
+.retained-metadata pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font: 11px/1.5 monospace;
+}

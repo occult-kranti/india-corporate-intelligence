@@ -42,12 +42,16 @@ test("worldwide building layer is a coordinate-native extrusion with qualified p
   assert.match(MAP_CREDITS, /OpenMapTiles/);
   assert.match(MAP_CREDITS, /openstreetmap\.org\/copyright/);
 });
-test("a source-backed static world remains when optional remote map tiles fail", () => {
+test("a source-backed static world remains when optional remote map tiles fail", async () => {
   const style = feltMapStyle();
   const source = style.sources["country-base"];
   assert.equal(source.type, "geojson");
-  assert.equal(source.data.type, "FeatureCollection");
-  assert.ok(source.data.features.length >= 240);
+  assert.match(source.data, /world-countries-50m\.json$/);
+  const world = JSON.parse(
+    await readFile("src/assets/geography/world-countries-50m.json", "utf8"),
+  );
+  assert.equal(world.type, "FeatureCollection");
+  assert.ok(world.features.length >= 240);
   assert.ok(
     style.layers.some((l) => l.source === "country-base" && l.type === "fill"),
   );
@@ -57,7 +61,9 @@ test("geographic renderer contains no arbitrary city placements or tabletop wing
   assert.ok(!renderer.includes("placements:"));
   assert.ok(!renderer.includes("buildCityLayer"));
   assert.ok(!renderer.includes("buildRoom"));
-  assert.match(renderer, /getNodeAnchor/);
+  assert.match(renderer, /planGeographicDisplay/);
+  const display = await readFile("src/displayBudget.ts", "utf8");
+  assert.match(display, /getNodeAnchor/);
   assert.match(renderer, /renderWorldCopies:\s*false/);
   assert.match(renderer, /MercatorCoordinate/);
   assert.match(renderer, /defaultProjectionData\.mainMatrix/);

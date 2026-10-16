@@ -1,3 +1,4 @@
+import "maplibre-gl/dist/maplibre-gl.css";
 import { useEffect, useRef, useState } from "react";
 import { EvidenceWorld } from "./scene";
 import type { PreviewData } from "./model";

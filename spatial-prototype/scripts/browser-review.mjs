@@ -6,6 +6,7 @@ import {
   mkdir,
   mkdtemp,
   readFile,
+  readdir,
   realpath,
   rm,
   stat,
@@ -25,6 +26,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { setTimeout as delay } from "node:timers/promises";
 import { build } from "esbuild";
 import { chromium } from "playwright";
+import { createHash } from "node:crypto";
 
 if (
   process.env.GITHUB_ACTIONS !== "true" ||
@@ -62,6 +64,11 @@ let geography;
 let mapStyle;
 let preview;
 let trailEdge;
+let fullRegistry;
+let fullScene;
+let registryManifest;
+let heavyAssetNames;
+let displayBudget;
 
 const mime = {
   ".html": "text/html; charset=utf-8",
@@ -213,19 +220,42 @@ async function assertSpatial(page) {
   );
 }
 
-async function assertCounts(page, filters = {}) {
-  const expected = model.filterScene(preview, {
-    fromYear: preview.yearRange[0],
-    toYear: preview.yearRange[1],
+async function assertCounts(page, filters = {}, base = preview) {
+  const expected = model.filterScene(base, {
+    fromYear: base.yearRange[0],
+    toYear: base.yearRange[1],
     includeUndated: true,
     ...filters,
   });
-  const geographic = geography.getGeographicScene(expected);
-  const text = `${geographic.nodes.length} area-anchored records · ${geographic.unplacedNodes.length} in reading tray`;
-  await until(
-    async () =>
-      normalized(await page.locator(".scene-overview p").innerText()) === text,
-    `Scene counts did not match the retained model: ${text}`,
+  const factual = model.factualScene(expected);
+  const geographic = geography.getGeographicScene(factual);
+  await until(async () => {
+    const data = await page
+      .locator(".evidence-app")
+      .evaluate((element) => ({ ...element.dataset }));
+    return (
+      Number(data.filteredItems) === expected.nodes.length &&
+      Number(data.factualItems) === factual.nodes.length &&
+      Number(data.unplacedItems) === geographic.unplacedNodes.length
+    );
+  }, "Displayed item, factual-map and unplaced totals differ from the retained model");
+  const overview = normalized(
+    await page.locator(".scene-overview p").innerText(),
+  );
+  assert.ok(
+    overview.includes(
+      `${expected.nodes.length.toLocaleString("en-US")} filtered items`,
+    ),
+  );
+  assert.ok(
+    overview.includes(
+      `${geographic.nodes.length.toLocaleString("en-US")} area-anchored`,
+    ),
+  );
+  assert.ok(
+    overview.includes(
+      `${geographic.unplacedNodes.length.toLocaleString("en-US")} unplaced`,
+    ),
   );
   if (await page.locator(".webgl-host").count()) {
     await until(async () => {
@@ -243,14 +273,18 @@ async function assertCounts(page, filters = {}) {
     .allTextContents();
   if (await page.locator(".accessible-node-list").count()) {
     assert.deepEqual(
-      actualTitles.map(normalized),
-      expected.nodes.map((node) => node.title),
+      actualTitles.slice(1).map(normalized),
+      expected.nodes.slice(0, 40).map((node) => node.title),
+    );
+    assert.match(
+      normalized(actualTitles[0]),
+      /Open searchable keyboard reader for all/,
     );
   }
   return expected;
 }
 
-async function assertProvenance(page, item) {
+async function assertProvenance(page, item, registry = model.registry) {
   const panel = inspector(page);
   await panel.waitFor({ state: "visible" });
   assert.equal(
@@ -267,7 +301,7 @@ async function assertProvenance(page, item) {
       .includes(`${new Set(item.sourceIds).size} distinct source ids`),
     "Visible source count differs from the retained distinct source IDs",
   );
-  assert.ok((await panel.innerText()).includes(model.registry.updatedAt));
+  assert.ok((await panel.innerText()).includes(registry.updatedAt));
   const sourceIds = [
     ...new Set([
       ...item.sourceIds,
@@ -276,7 +310,7 @@ async function assertProvenance(page, item) {
   ];
   assert.equal(await panel.locator(".source-card").count(), sourceIds.length);
   for (const [index, id] of sourceIds.entries()) {
-    const source = model.registry.sources.find((source) => source.id === id);
+    const source = registry.sources.find((source) => source.id === id);
     assert.ok(source, `Retained source ID missing: ${id}`);
     const card = panel.locator(".source-card").nth(index);
     assert.equal(
@@ -314,6 +348,74 @@ async function assertProvenance(page, item) {
   );
 }
 
+async function assertFullLoad(page, result) {
+  await page
+    .locator('[data-registry-dataset="full"][data-registry-state="ready"]')
+    .waitFor({ timeout: 45000 });
+  const app = page.locator('.evidence-app[data-dataset="full"]');
+  await app.waitFor();
+  for (const key of ["entities", "records", "relationships", "sources"]) {
+    assert.equal(
+      Number(await app.getAttribute(`data-loaded-${key}`)),
+      registryManifest.counts[key],
+      `Loaded ${key} differs from the complete snapshot`,
+    );
+  }
+  assert.equal(Number(await app.getAttribute("data-held-count")), 316);
+  const expectedPaths = registryManifest.arrays.flatMap((group) =>
+    group.chunks.map((chunk) => `${prefix}data/registry/${chunk.file}`),
+  );
+  const loaded = new Set(
+    result.responses
+      .filter(
+        (response) =>
+          response.status === 200 && response.url.startsWith(origin),
+      )
+      .map((response) => new URL(response.url).pathname),
+  );
+  assert.equal(expectedPaths.length, 96);
+  for (const path of expectedPaths)
+    assert.ok(
+      loaded.has(path),
+      `A declared full-registry chunk was never successfully fetched: ${path}`,
+    );
+  assert.equal(
+    new URL(page.url()).searchParams.has("dataset"),
+    false,
+    "The default route silently selected the preview",
+  );
+  await assertCounts(page, {}, fullScene);
+}
+
+async function assertReaderOnly(page, result) {
+  assert.equal(await page.locator(".webgl-host canvas").count(), 0);
+  const graphics = await page.evaluate(() => window.__spatialReviewGraphics);
+  assert.equal(graphics.drawCalls, 0);
+  assert.deepEqual(
+    graphics.contexts,
+    [],
+    "Reading-only entry created a WebGL context",
+  );
+  assert.deepEqual(
+    result.requests.filter((url) =>
+      heavyAssetNames.has(new URL(url).pathname.split("/").at(-1)),
+    ),
+    [],
+    "Reading-only entry fetched deferred Three/MapLibre rendering JavaScript",
+  );
+}
+
+async function readerView(page, view, count) {
+  const reader = page.locator(".registry-reader");
+  await until(
+    async () =>
+      (await reader.getAttribute("data-reader-view")) === view &&
+      Number(await reader.getAttribute("data-result-count")) === count,
+    `Reader ${view} total did not become ${count}`,
+  );
+  return reader;
+}
+
 async function scenario(name, options, work) {
   const result = {
     name,
@@ -323,7 +425,9 @@ async function scenario(name, options, work) {
     pageErrors: [],
     requestsFailed: [],
     responses: [],
+    requests: [],
     notes: [],
+    expectedFailedRequests: [],
   };
   report.scenarios.push(result);
   let context;
@@ -347,6 +451,8 @@ async function scenario(name, options, work) {
         },
       );
     }
+    if (options.beforeNavigation)
+      await options.beforeNavigation(context, result);
     await context.tracing.start({
       screenshots: true,
       snapshots: true,
@@ -422,15 +528,20 @@ async function scenario(name, options, work) {
         type: response.request().resourceType(),
       }),
     );
+    page.on("request", (request) => result.requests.push(request.url()));
     await Promise.race([
       (async () => {
-        const response = await page.goto(`${origin}${prefix}`, {
-          waitUntil: "domcontentloaded",
-        });
+        const response = await page.goto(
+          `${origin}${prefix}${options.query ?? "?dataset=preview"}`,
+          {
+            waitUntil: "domcontentloaded",
+          },
+        );
         assert.equal(response.status(), 200);
-        await page
-          .getByRole("heading", { name: "The felt atlas", exact: true })
-          .waitFor();
+        if (!options.skipReady)
+          await page
+            .getByRole("heading", { name: "The felt atlas", exact: true })
+            .waitFor({ timeout: 45000 });
         await work(page, result);
         assert.deepEqual(
           result.pageErrors,
@@ -449,6 +560,7 @@ async function scenario(name, options, work) {
           result.requestsFailed.filter(
             (request) =>
               request.url.startsWith(origin) &&
+              !result.expectedFailedRequests.includes(request.url) &&
               !request.error?.includes("ERR_ABORTED"),
           ),
           [],
@@ -458,8 +570,12 @@ async function scenario(name, options, work) {
       new Promise((_, reject) => {
         deadline = setTimeout(
           () =>
-            reject(new Error("Scenario exceeded its 80-second review budget")),
-          80000,
+            reject(
+              new Error(
+                `Scenario exceeded its ${options.budgetMs ?? 80000} ms review budget`,
+              ),
+            ),
+          options.budgetMs ?? 80000,
         );
       }),
     ]);
@@ -525,7 +641,7 @@ try {
     logLevel: "silent",
   });
   model = await import(pathToFileURL(join(temporary, "model.mjs")).href);
-  for (const name of ["geography", "geoStyle"]) {
+  for (const name of ["geography", "geoStyle", "displayBudget"]) {
     await build({
       entryPoints: [join(root, `src/${name}.ts`)],
       outfile: join(temporary, `${name}.mjs`),
@@ -539,7 +655,65 @@ try {
     pathToFileURL(join(temporary, "geography.mjs")).href
   );
   mapStyle = await import(pathToFileURL(join(temporary, "geoStyle.mjs")).href);
+  displayBudget = await import(
+    pathToFileURL(join(temporary, "displayBudget.mjs")).href
+  );
   preview = model.buildPreview();
+  registryManifest = JSON.parse(
+    await readFile(join(dist, "data/registry/manifest.json"), "utf8"),
+  );
+  fullRegistry = { updatedAt: registryManifest.metadata.updatedAt };
+  for (const group of registryManifest.arrays) {
+    fullRegistry[group.key] = [];
+    for (const chunk of group.chunks) {
+      const bytes = await readFile(join(dist, "data/registry", chunk.file));
+      assert.equal(
+        createHash("sha256").update(bytes).digest("hex"),
+        chunk.sha256,
+      );
+      fullRegistry[group.key].push(...JSON.parse(bytes));
+    }
+    assert.equal(fullRegistry[group.key].length, group.count);
+  }
+  assert.equal(
+    createHash("sha256").update(JSON.stringify(fullRegistry)).digest("hex"),
+    registryManifest.sourceSnapshot.sha256,
+  );
+  fullScene = model.buildEvidenceScene(fullRegistry);
+  assert.equal(
+    fullScene.nodes.length,
+    8086,
+    "Full registry item baseline changed",
+  );
+  assert.equal(
+    model.factualScene(fullScene).nodes.length,
+    7859,
+    "Factual exclusion baseline changed",
+  );
+  heavyAssetNames = new Set();
+  for (const name of await readdir(join(dist, "assets"))) {
+    if (/maplibre.*worker.*\.js$/.test(name)) heavyAssetNames.add(name);
+    if (!name.endsWith(".js.map")) continue;
+    const map = JSON.parse(await readFile(join(dist, "assets", name), "utf8"));
+    if (
+      map.sources.some((source) =>
+        /(?:node_modules\/(?:three|maplibre-gl)\/|src\/(?:scene\.ts|SpatialWorld\.tsx)$)/.test(
+          source,
+        ),
+      )
+    ) {
+      heavyAssetNames.add(name.slice(0, -4));
+    }
+  }
+  assert.ok(
+    heavyAssetNames.size >= 2,
+    "Cannot identify deferred WebGL assets from the production source maps",
+  );
+  report.fullRegistry = {
+    counts: registryManifest.counts,
+    chunks: registryManifest.totalChunks,
+    deferredAssets: [...heavyAssetNames],
+  };
   const nodes = new Map(preview.nodes.map((node) => [node.id, node]));
   trailEdge = preview.edges.find((edge) => {
     const from = geography.getNodeAnchor(nodes.get(edge.from));
@@ -691,7 +865,7 @@ try {
       true,
       "Help did not restore focus",
     );
-    const record = page.locator(".accessible-node-list > button").first();
+    const record = page.locator(".accessible-node-list > button").nth(1);
     await record.focus();
     await page.keyboard.press("Enter");
     await assertProvenance(page, preview.nodes[0].item);
@@ -833,8 +1007,14 @@ try {
     assert.equal(await page.locator(".webgl-host canvas").count(), 0);
     assert.deepEqual(
       await reading.locator(".reading-card h3").allTextContents(),
-      expected.nodes.map((node) => node.title),
+      expected.nodes.slice(0, 40).map((node) => node.title),
     );
+    await reading.getByRole("button", { name: "Next page" }).click();
+    assert.deepEqual(
+      await reading.locator(".reading-card h3").allTextContents(),
+      expected.nodes.slice(40).map((node) => node.title),
+    );
+    await reading.getByRole("button", { name: "Previous page" }).click();
     await capture(page, result, "reading-records");
     const node = expected.nodes.find(
       (node) =>
@@ -843,6 +1023,8 @@ try {
         node.item.limitations.length,
     );
     assert.ok(node, "No retained response record is available for review");
+    if (expected.nodes.indexOf(node) >= 40)
+      await reading.getByRole("button", { name: "Next page" }).click();
     await reading
       .getByRole("button")
       .filter({
@@ -883,7 +1065,7 @@ try {
       const expected = await assertCounts(page);
       assert.equal(
         await reading.locator(".reading-card").count(),
-        expected.nodes.length,
+        Math.min(40, expected.nodes.length),
       );
       await reading.locator(".reading-card").first().click();
       await assertProvenance(page, expected.nodes[0].item);
@@ -1157,12 +1339,321 @@ try {
       const expected = await assertCounts(page);
       assert.equal(
         await reading.locator(".reading-card").count(),
-        expected.nodes.length,
+        Math.min(40, expected.nodes.length),
       );
       await reading.locator(".reading-card").first().click();
       await assertProvenance(page, expected.nodes[0].item);
       result.notes.push(
         "The public vector-tile provider was deliberately blocked; retained records and independently bundled Natural Earth country geometry remained available. This does not count as a successful live-building review.",
+      );
+    },
+  );
+
+  let releaseFullChunk;
+  await scenario(
+    "12-full-default-map-and-counts",
+    {
+      query: "",
+      budgetMs: 110000,
+      skipReady: true,
+      beforeNavigation: async (context) => {
+        const gate = new Promise((resolve) => {
+          releaseFullChunk = resolve;
+        });
+        const path = `${origin}${prefix}data/registry/${registryManifest.arrays[0].chunks[0].file}`;
+        await context.route(path, async (route) => {
+          await gate;
+          await route.continue();
+        });
+      },
+    },
+    async (page, result) => {
+      try {
+        const progress = page.getByRole("progressbar", {
+          name: "Verified registry chunks",
+        });
+        await progress.waitFor();
+        await until(
+          async () => Number(await progress.getAttribute("max")) === 96,
+          "The complete manifest did not declare 96 chunks in the loading UI",
+        );
+        assert.equal(
+          await page.locator(".evidence-app").count(),
+          0,
+          "The atlas opened before every declared chunk was verified",
+        );
+        assert.ok(Number(await progress.getAttribute("value")) < 96);
+        await capture(
+          page,
+          result,
+          "complete-registry-verification-in-progress",
+        );
+      } finally {
+        releaseFullChunk();
+      }
+      await assertFullLoad(page, result);
+      await assertSpatial(page);
+      const factual = model.factualScene(fullScene);
+      const geographic = geography.getGeographicScene(factual);
+      assert.equal(geographic.nodes.length, 3856);
+      assert.equal(geographic.unplacedNodes.length, 4003);
+      const display = displayBudget.planGeographicDisplay(
+        factual,
+        fullScene.nodes[0].id,
+      );
+      await until(async () => {
+        const state = await page
+          .locator(".webgl-host")
+          .evaluate((element) => ({ ...element.dataset }));
+        return (
+          Number(state.areaGroups) === display.groups.size &&
+          Number(state.eligibleThreads) === display.candidates.length &&
+          Number(state.renderedThreads) === display.rendered.length
+        );
+      }, "Full map area groups and original-thread budget differ from the factual registry");
+      assert.ok(display.rendered.length <= 60);
+      const heldIds = new Set(fullRegistry.held.map((row) => row.id));
+      assert.ok(
+        factual.nodes.every(
+          (node) => !heldIds.has(node.id) && node.item.status !== "not-drawn",
+        ),
+      );
+      assert.ok(
+        factual.edges.every(
+          (edge) =>
+            !heldIds.has(edge.id) && edge.relationship.status !== "not-drawn",
+        ),
+      );
+      await capture(
+        page,
+        result,
+        "complete-registry-world-and-explicit-counts",
+      );
+      await page
+        .getByRole("button", {
+          name: "Search and read the registry",
+          exact: true,
+        })
+        .click();
+      const reader = await readerView(page, "items", 8086);
+      assert.equal(await reader.locator(".reading-card").count(), 40);
+      assert.deepEqual(
+        await reader
+          .locator("[data-record-id]")
+          .evaluateAll((elements) =>
+            elements.map((element) => element.dataset.recordId),
+          ),
+        fullScene.nodes.slice(0, 40).map((node) => node.id),
+      );
+      await reader.getByRole("button", { name: "Next page" }).click();
+      await until(
+        async () =>
+          (await reader
+            .locator("[data-record-id]")
+            .first()
+            .getAttribute("data-record-id")) === fullScene.nodes[40].id,
+        "Reader did not advance to the next 40 retained items",
+      );
+      assert.deepEqual(
+        await reader
+          .locator("[data-record-id]")
+          .evaluateAll((elements) =>
+            elements.map((element) => element.dataset.recordId),
+          ),
+        fullScene.nodes.slice(40, 80).map((node) => node.id),
+      );
+      await capture(page, result, "full-reader-page-two");
+      result.notes.push(
+        "Default entry fetched all 96 verified chunks; 8,086 retained items include 7,859 factual-map-eligible items, with 3,856 area-anchored and 4,003 unplaced. Held metadata is preserved separately. At most 60 representative original cross-area threads are drawn.",
+      );
+    },
+  );
+
+  await scenario(
+    "13-full-reader-only-search-provenance-and-held",
+    { query: "?mode=reading", budgetMs: 110000 },
+    async (page, result) => {
+      await assertFullLoad(page, result);
+      await assertReaderOnly(page, result);
+      const reader = await readerView(page, "items", 8086);
+      const search = page.getByRole("textbox", {
+        name: "Search retained records",
+      });
+      const node = fullScene.nodes[0];
+      await search.fill(node.id);
+      const searched = await assertCounts(page, { query: node.id }, fullScene);
+      await readerView(page, "items", searched.nodes.length);
+      await reader
+        .locator(`[data-record-id=${JSON.stringify(node.id)}]`)
+        .click();
+      await assertProvenance(page, node.item, fullRegistry);
+      assert.equal(
+        await inspector(page)
+          .locator(".original-item-link")
+          .getAttribute("href"),
+        `../#${node.item.route}`,
+      );
+      assert.equal(
+        await inspector(page)
+          .locator(".original-item-link")
+          .evaluate((element) => element.href),
+        `${origin}/india-corporate-intelligence/#${node.item.route}`,
+      );
+      await capture(
+        page,
+        result,
+        "searched-original-item-and-source-provenance",
+      );
+      await page.getByRole("button", { name: "Close reading panel" }).click();
+
+      const source = fullRegistry.sources.find(
+        (source) => source.id === node.item.sourceIds[0],
+      );
+      await search.fill(source.id);
+      await reader.getByRole("button", { name: /^Sources / }).click();
+      const sourceMatches = fullRegistry.sources.filter((row) =>
+        [row.id, row.title, row.publisher, row.summary, row.url]
+          .join(" ")
+          .normalize("NFKC")
+          .toLocaleLowerCase("en-IN")
+          .includes(source.id.toLocaleLowerCase("en-IN")),
+      );
+      await readerView(page, "sources", sourceMatches.length);
+      const card = reader.locator(
+        `[data-source-id=${JSON.stringify(source.id)}]`,
+      );
+      assert.equal(
+        await card.getByRole("link").getAttribute("href"),
+        source.url,
+      );
+      await card.locator("summary").click();
+      assert.ok((await card.innerText()).includes(source.id));
+      assert.ok((await card.innerText()).includes(source.locator));
+      await capture(page, result, "source-catalogue-retained-id-and-locator");
+
+      await search.fill("");
+      await reader.getByRole("button", { name: /^Relationships / }).click();
+      const unfiltered = await assertCounts(page, {}, fullScene);
+      await readerView(page, "relationships", unfiltered.edges.length);
+      const edge = unfiltered.edges[0];
+      await reader
+        .locator(`[data-record-id=${JSON.stringify(edge.id)}]`)
+        .click();
+      await assertProvenance(page, edge.relationship, fullRegistry);
+      await page.getByRole("button", { name: "Close reading panel" }).click();
+
+      const heldIds = new Set(fullRegistry.held.map((row) => row.id));
+      const held = fullScene.nodes.find(
+        (node) =>
+          node.kind === "record" &&
+          heldIds.has(node.id) &&
+          node.item.sourceIds.length > 0,
+      );
+      assert.ok(
+        held,
+        "No retained held response is available for the exclusion review",
+      );
+      await search.fill(held.id);
+      await reader
+        .getByRole("button", { name: /^Entities & records / })
+        .click();
+      const heldSearch = await assertCounts(
+        page,
+        { query: held.id },
+        fullScene,
+      );
+      await readerView(page, "items", heldSearch.nodes.length);
+      const heldCard = reader.locator(
+        `[data-record-id=${JSON.stringify(held.id)}]`,
+      );
+      assert.equal(await heldCard.getAttribute("data-held"), "true");
+      await heldCard.click();
+      await assertProvenance(page, held.item, fullRegistry);
+      await inspector(page).locator('[data-held-warning="true"]').waitFor();
+      assert.equal(
+        await inspector(page)
+          .getByRole("button", { name: "Find on felt", exact: true })
+          .isDisabled(),
+        true,
+      );
+      assert.ok(
+        !model
+          .factualScene(heldSearch)
+          .nodes.some((node) => node.id === held.id),
+      );
+      await capture(
+        page,
+        result,
+        "held-counter-context-excluded-from-factual-map",
+      );
+      await page.getByRole("button", { name: "Close reading panel" }).click();
+      await search.fill("");
+      await reader.getByRole("button", { name: /^Held review queue / }).click();
+      await readerView(page, "held", 316);
+      assert.equal(await reader.locator(".held-card").count(), 40);
+      await capture(page, result, "held-review-catalogue");
+      await assertReaderOnly(page, result);
+      result.notes.push(
+        "The reading-only route searched original item IDs, inspected original source URLs/IDs/locators and repository HashRouter destinations, retained relationships and held counter-context, without fetching deferred WebGL JavaScript or creating a WebGL context.",
+      );
+    },
+  );
+
+  let blockedRegistryUrl;
+  await scenario(
+    "14-full-chunk-failure-and-explicit-retry",
+    {
+      query: "?mode=reading",
+      skipReady: true,
+      budgetMs: 110000,
+      beforeNavigation: async (context, result) => {
+        blockedRegistryUrl = `${origin}${prefix}data/registry/${registryManifest.arrays[0].chunks[0].file}`;
+        result.expectedFailedRequests.push(blockedRegistryUrl);
+        result.blockedRegistryRequests = [];
+        await context.route(blockedRegistryUrl, (route) => {
+          result.blockedRegistryRequests.push(route.request().url());
+          return route.abort("failed");
+        });
+      },
+    },
+    async (page, result) => {
+      await page
+        .getByRole("heading", {
+          name: "Full registry is incomplete",
+          exact: true,
+        })
+        .waitFor({ timeout: 30000 });
+      assert.ok(result.blockedRegistryRequests.length > 0);
+      assert.equal(
+        await page.locator(".evidence-app").count(),
+        0,
+        "A partial registry was silently opened after a chunk failure",
+      );
+      assert.equal(
+        await page.locator('[data-registry-state="error"]').count(),
+        1,
+      );
+      assert.match(
+        await page.getByRole("alert").innerText(),
+        /Could not fetch registry data/,
+      );
+      assert.equal(
+        await page
+          .getByRole("link", { name: "Open preview subset instead" })
+          .getAttribute("href"),
+        `${prefix}?mode=reading&dataset=preview`,
+      );
+      await capture(page, result, "incomplete-registry-explicit-recovery");
+      await page.context().unroute(blockedRegistryUrl);
+      await page
+        .getByRole("button", { name: "Retry full registry", exact: true })
+        .click();
+      await assertFullLoad(page, result);
+      await readerView(page, "items", 8086);
+      await assertReaderOnly(page, result);
+      await capture(page, result, "complete-registry-after-retry");
+      result.notes.push(
+        "One declared registry chunk was deliberately unavailable. The interface refused a partial result, offered an explicit preview switch, and recovered the full registry only after retrying the now-available chunk.",
       );
     },
   );

@@ -11,12 +11,10 @@ import {
 } from "maplibre-gl";
 import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
 import type { PreviewData, SceneNode } from "./model";
-import {
-  getNodeAnchor,
-  WORLD_COUNTRIES,
-  TAMIL_NADU_BOUNDARY,
-  type GeoAnchor,
-} from "./geography";
+import { type GeoAnchor } from "./geography";
+import { loadMapBoundaries } from "./cartographyAssets";
+import type { GeographicCollection } from "./geography";
+import { planGeographicDisplay, type AreaGroup } from "./displayBudget";
 import type {
   CameraCommand,
   JourneyState,
@@ -196,6 +194,9 @@ export class EvidenceWorld {
   private nodeObjects = new Map<string, THREE.Group>();
   private curves = new Map<string, THREE.CatmullRomCurve3>();
   private selected = "";
+  private areaBoundaries: GeographicCollection | null = null;
+  private areaGroups = new Map<string, AreaGroup>();
+  private maxThreadRadius = 0;
   private ready = false;
   private reduced = false;
   private cities = true;
@@ -342,6 +343,17 @@ export class EvidenceWorld {
     };
     this.map.addLayer(layer);
     this.ready = true;
+    void loadMapBoundaries()
+      .then((boundaries) => {
+        if (this.disposed) return;
+        this.areaBoundaries = boundaries;
+        this.updateAreaBoundaries();
+      })
+      .catch(() =>
+        this.cb.onMapStatus?.(
+          "Some local area outlines could not load. Retained records and source-qualified area markers remain available.",
+        ),
+      );
     this.setData(this.data);
     this.setCities(this.cities);
     if (this.pendingCommand) {
@@ -383,7 +395,9 @@ export class EvidenceWorld {
   private onClick = (event: MapMouseEvent) => {
     if (!this.ready) return;
     let nearest: { id: string; distance: number } | null = null;
-    for (const [id, anchor] of this.anchors) {
+    for (const { anchor, records } of this.areaGroups.values()) {
+      const id =
+        records.find((n) => n.id === this.selected)?.id ?? records[0].id;
       const p = this.map.project([anchor.lng, anchor.lat]);
       const distance = Math.hypot(event.point.x - p.x, event.point.y - p.y);
       if (distance < 24 && (!nearest || distance < nearest.distance))
@@ -393,6 +407,7 @@ export class EvidenceWorld {
       this.cb.onSelect(nearest.id, "node");
       return;
     }
+    if (this.map.getZoom() >= THREAD_HIDE_ZOOM) return;
     for (const edge of this.data.edges) {
       const curve = this.curves.get(edge.id);
       if (!curve) continue;
@@ -430,24 +445,15 @@ export class EvidenceWorld {
   setData(data: PreviewData) {
     this.data = data;
     this.stop();
-    this.anchors = new Map(
-      data.nodes.flatMap((node) => {
-        const anchor = getNodeAnchor(node);
-        return anchor ? [[node.id, anchor] as const] : [];
-      }),
-    );
+    const display = planGeographicDisplay(data, this.selected);
+    this.anchors = display.anchors;
+    this.areaGroups = display.groups;
     if (!this.ready) return;
     disposeGroup(this.group);
-    disposeGroup(this.curveGroup);
     this.nodeObjects.clear();
-    this.curves.clear();
-    const grouped = new Map<string, SceneNode[]>();
-    for (const node of data.nodes) {
-      const a = this.anchors.get(node.id);
-      if (!a) continue;
-      const key = `${a.lng}:${a.lat}:${a.precision}`;
-      grouped.set(key, [...(grouped.get(key) ?? []), node]);
-    }
+    const grouped = new Map(
+      [...display.groups].map(([key, group]) => [key, group.records]),
+    );
     for (const records of grouped.values()) {
       const node = records.find((n) => n.id === this.selected) ?? records[0];
       const a = this.anchors.get(node.id)!;
@@ -490,7 +496,49 @@ export class EvidenceWorld {
       this.group.add(group);
       for (const record of records) this.nodeObjects.set(record.id, group);
     }
-    for (const edge of data.edges) {
+    this.rebuildThreads();
+    const source = this.map.getSource("evidence-locations") as GeoJSONSource;
+    source.setData({
+      type: "FeatureCollection",
+      features: [...grouped.values()].map((records) => {
+        const a = this.anchors.get(records[0].id)!;
+        return {
+          type: "Feature",
+          geometry: { type: "Point", coordinates: [a.lng, a.lat] },
+          properties: {
+            id: records[0].id,
+            count: records.length,
+            precision: a.precision,
+          },
+        };
+      }),
+    });
+    this.updateAreaBoundaries();
+    this.container.dataset.placedPins = String(this.anchors.size);
+    this.container.dataset.unplacedPins = String(
+      data.nodes.length - this.anchors.size,
+    );
+    this.map.triggerRepaint();
+    this.updateLabels(true);
+  }
+  private updateAreaBoundaries() {
+    if (!this.ready || !this.areaBoundaries) return;
+    const ids = new Set(
+      [...this.anchors.values()].map((a) => a.geometryFeatureId),
+    );
+    const features = this.areaBoundaries.features.filter((feature) =>
+      ids.has(String(feature.id)),
+    );
+    (this.map.getSource("evidence-areas") as GeoJSONSource).setData({
+      type: "FeatureCollection",
+      features: features as never[],
+    });
+  }
+  private rebuildThreads() {
+    const display = planGeographicDisplay(this.data, this.selected);
+    disposeGroup(this.curveGroup);
+    this.curves.clear();
+    for (const edge of display.rendered) {
       const a = this.anchors.get(edge.from),
         b = this.anchors.get(edge.to);
       if (!a || !b || Math.hypot(a.lng - b.lng, a.lat - b.lat) < 1e-8) continue;
@@ -515,45 +563,20 @@ export class EvidenceWorld {
       mesh.userData.edgeId = edge.id;
       this.curveGroup.add(mesh);
     }
-    const source = this.map.getSource("evidence-locations") as GeoJSONSource;
-    source.setData({
-      type: "FeatureCollection",
-      features: [...grouped.values()].map((records) => {
-        const a = this.anchors.get(records[0].id)!;
-        return {
-          type: "Feature",
-          geometry: { type: "Point", coordinates: [a.lng, a.lat] },
-          properties: {
-            id: records[0].id,
-            count: records.length,
-            precision: a.precision,
-          },
-        };
-      }),
-    });
-    const areaCodes = new Set(
-      [...this.anchors.values()].map((a) => a.areaCode),
+    this.maxThreadRadius = Math.max(
+      0,
+      ...display.rendered.map((e) => threadRadiusPixels(e.sourceCount)),
     );
-    const areas = [
-      ...WORLD_COUNTRIES.features.filter((f) =>
-        areaCodes.has(f.properties.iso2 ?? ""),
-      ),
-      ...TAMIL_NADU_BOUNDARY.features.filter(() => areaCodes.has("IN-TN")),
-    ];
-    (this.map.getSource("evidence-areas") as GeoJSONSource).setData({
-      type: "FeatureCollection",
-      features: areas as never[],
-    });
-    this.container.dataset.placedPins = String(this.anchors.size);
-    this.container.dataset.unplacedPins = String(
-      data.nodes.length - this.anchors.size,
-    );
-    this.map.triggerRepaint();
-    this.updateLabels(true);
+    this.container.dataset.eligibleThreads = String(display.candidates.length);
+    this.container.dataset.renderedThreads = String(display.rendered.length);
+    this.container.dataset.areaGroups = String(display.groups.size);
   }
   setSelected(id: string) {
+    const changed = this.selected !== id;
     this.selected = id;
-    for (const group of new Set(this.nodeObjects.values())) {
+    if (this.ready && changed && this.data.edges.some((e) => e.id === id))
+      this.rebuildThreads();
+    for (const group of this.group.children) {
       const pin = group.children[1] as THREE.Mesh;
       const material = pin.material as THREE.MeshStandardMaterial;
       const active = group.userData.ids.includes(id);
@@ -679,7 +702,7 @@ export class EvidenceWorld {
           elapsed: 0,
           duration: 11000,
           paused: false,
-          curve: this.curves.get(edge.id),
+          curve: this.curves.get(edge.id) ?? geographicCurve(from, to),
           startAnchor: from,
           endAnchor: to,
         };
@@ -757,9 +780,16 @@ export class EvidenceWorld {
       height = this.container.clientHeight;
     const occupied: { x: number; y: number }[] = [];
     const labels: LabelPosition[] = [];
-    const list = [...this.data.nodes].sort(
-      (a, b) => Number(b.id === this.selected) - Number(a.id === this.selected),
-    );
+    const list = [...this.areaGroups.values()]
+      .map(
+        (group) =>
+          group.records.find((node) => node.id === this.selected) ??
+          group.records[0],
+      )
+      .sort(
+        (a, b) =>
+          Number(b.id === this.selected) - Number(a.id === this.selected),
+      );
     for (const node of list) {
       const anchor = this.anchors.get(node.id);
       if (!anchor) continue;
@@ -808,7 +838,7 @@ export class EvidenceWorld {
       .copy(this.camera.projectionMatrix)
       .invert();
     const unit = 1 / (512 * 2 ** this.map.getZoom());
-    for (const group of new Set(this.nodeObjects.values())) {
+    for (const group of this.group.children) {
       group.scale.setScalar(unit);
       const card = group.children[2];
       card.visible = this.map.getZoom() < 8;
@@ -834,12 +864,7 @@ export class EvidenceWorld {
     this.container.dataset.drawCalls = String(this.renderer.info.render.calls);
     this.container.dataset.zoom = this.map.getZoom().toFixed(2);
     this.container.dataset.pitch = this.map.getPitch().toFixed(1);
-    this.container.dataset.threadRadiusPixels = String(
-      Math.max(
-        0,
-        ...this.data.edges.map((e) => threadRadiusPixels(e.sourceCount)),
-      ),
-    );
+    this.container.dataset.threadRadiusPixels = String(this.maxThreadRadius);
     this.container.dataset.visibleThreads = String(
       this.curveGroup.children.filter((mesh) => mesh.visible).length,
     );

@@ -1,6 +1,5 @@
 import type { StyleSpecification } from "maplibre-gl";
-import type { FeatureCollection } from "geojson";
-import { WORLD_COUNTRIES } from "./geography";
+import { WORLD_MAP_URL } from "./cartographyAssets";
 /** Worldwide vector outlines, never a fabricated city texture. No key or private data in URLs. */
 export const TILE_SOURCE = "https://tiles.openfreemap.org/planet";
 export const MAP_CREDITS =
@@ -12,7 +11,7 @@ export function feltMapStyle(): StyleSpecification {
       world: { type: "vector", url: TILE_SOURCE, attribution: MAP_CREDITS },
       "country-base": {
         type: "geojson",
-        data: WORLD_COUNTRIES as unknown as FeatureCollection,
+        data: WORLD_MAP_URL,
         attribution: "Natural Earth · public domain",
       },
     },

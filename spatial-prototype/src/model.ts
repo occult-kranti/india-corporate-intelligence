@@ -11,7 +11,7 @@ export interface SceneNode {
   item: InvestigationEntity | InvestigationRecord;
   title: string;
   position: [number, number, number];
-  /** Narrative layout zone; never a geolocation or a new evidence assertion. */
+  /** Narrative layout zone, or "unplaced" before projection; never a geolocation. */
   cluster: string;
 }
 export interface SceneEdge {
@@ -30,6 +30,8 @@ export interface SceneCluster {
 }
 export interface SceneFilters {
   query?: string;
+  /** Exact source-corpus namespace. Original cross-corpus endpoints stay available as context. */
+  namespace?: string;
   layers?: InvestigationLayer[];
   fromYear?: number;
   toYear?: number;
@@ -39,7 +41,7 @@ export interface SceneFilters {
 export interface PreviewData {
   nodes: SceneNode[];
   edges: SceneEdge[];
-  /** The complete preview registry stays available while the scene is filtered. */
+  /** The complete input registry stays available while the scene is filtered. */
   registry: InvestigationRegistry;
   clusters: SceneCluster[];
   layers: { value: InvestigationLayer; label: string }[];
@@ -129,6 +131,70 @@ export function buildPreview(): PreviewData {
 }
 export const getPreview = buildPreview;
 
+/** Adapt the complete registry without selecting, cloning or rewriting evidence.
+ * Positions are deliberately identical non-geographic placeholders. Geographic
+ * projection must read each item's retained geography; no label-based placement,
+ * narrative cluster, membership edge or inferred relationship is introduced here.
+ */
+export function buildEvidenceScene(input: InvestigationRegistry): PreviewData {
+  const nodes: SceneNode[] = [
+    ...input.entities.map(item => ({
+      id: item.id, kind: 'entity' as const, item, title: item.label,
+      position: [0, 0, 0] as [number, number, number], cluster: 'unplaced',
+    })),
+    ...input.records.map(item => ({
+      id: item.id, kind: 'record' as const, item, title: item.title,
+      position: [0, 0, 0] as [number, number, number], cluster: 'unplaced',
+    })),
+  ];
+  const edges = input.relationships.map(relationship => ({
+    id: relationship.id, relationship, from: relationship.from, to: relationship.to,
+    sourceCount: new Set(relationship.sourceIds).size,
+  }));
+  const years = [...input.records, ...input.relationships]
+    .flatMap(item => [eventYear(item.fromDate), eventYear(item.toDate)])
+    .filter((year): year is number => year !== null);
+  return {
+    nodes, edges, registry: input, clusters: [],
+    layers: LAYERS.map(layer => ({ ...layer })),
+    // [0, 0] is the empty-range sentinel, never a substituted event date.
+    yearRange: years.length ? [Math.min(...years), Math.max(...years)] : [0, 0],
+    caveat: `Complete source-preserving registry: ${input.entities.length} entities, ${input.relationships.length} directed relationships, ${input.records.length} records, ${input.sources.length} sources and ${input.held.length} held entries. Positions are non-geographic placeholders; only retained source geography can support map placement. Held and not-drawn evidence is excluded from factual marks but remains available in the reader. Relationships retain their original direction, status, tier and limitations; visibility is not a finding of wrongdoing.`,
+  };
+}
+
+// Registry inputs are immutable source snapshots. Cache derived IDs without
+// modifying their rows or keeping abandoned/retried registry snapshots alive.
+const heldIdsByRegistry = new WeakMap<InvestigationRegistry, Set<string>>();
+function heldIdsFor(input: InvestigationRegistry): Set<string> {
+  let ids = heldIdsByRegistry.get(input);
+  if (!ids) {
+    ids = new Set(input.held.map(item => item.id));
+    heldIdsByRegistry.set(input, ids);
+  }
+  return ids;
+}
+
+/** Constant-time lookup, including held IDs absent from scene evidence. */
+export function isHeldItem(input: InvestigationRegistry, id: string): boolean {
+  return heldIdsFor(input).has(id);
+}
+
+/** A drawable evidence subset, not an upgrade of any record's evidentiary tier.
+ * Preserve the complete registry (including held context) for inspection while
+ * excluding held/not-drawn marks and any edge whose endpoint cannot be drawn.
+ */
+export function factualScene(scene: PreviewData): PreviewData {
+  const heldIds = heldIdsFor(scene.registry);
+  const nodes = scene.nodes.filter(node => !heldIds.has(node.id)
+    && !('status' in node.item && node.item.status === 'not-drawn'));
+  const visibleIds = new Set(nodes.map(node => node.id));
+  const edges = scene.edges.filter(edge => !heldIds.has(edge.id)
+    && edge.relationship.status !== 'not-drawn'
+    && visibleIds.has(edge.from) && visibleIds.has(edge.to));
+  return { ...scene, nodes, edges };
+}
+
 /** Only exact, real calendar event dates are eligible; status/publication dates never substitute. */
 export function eventYear(value: string | null | undefined): number | null {
   if (!value || !/^\d{4}-\d{2}-\d{2}$/u.test(value)) return null;
@@ -158,7 +224,8 @@ export function filterScene(preview: PreviewData, filters: SceneFilters = {}): P
   const terms = normalized(filters.query ?? '').split(/\s+/u).filter(Boolean);
   const entities = new Map(preview.registry.entities.map(entity => [entity.id, entity]));
   const sources = new Map(preview.registry.sources.map(source => [source.id, source]));
-  const layerMatches = (item: EvidenceItem) => !filters.layers?.length || filters.layers.some(layer => item.layers.includes(layer));
+  const layerMatches = (item: EvidenceItem) => (!filters.namespace || item.namespace === filters.namespace)
+    && (!filters.layers?.length || filters.layers.some(layer => item.layers.includes(layer)));
   const queryMatches = (item: EvidenceItem) => {
     if (!terms.length) return true;
     const endpointIds = 'entityIds' in item ? item.entityIds : 'from' in item ? [item.from, item.to] : [];
@@ -168,15 +235,20 @@ export function filterScene(preview: PreviewData, filters: SceneFilters = {}): P
     return terms.every(term => text.includes(term));
   };
   const eligible = (item: InvestigationRecord | InvestigationRelationship) => layerMatches(item) && queryMatches(item) && matchesYearRange(item, filters);
-  const records = preview.registry.records.filter(eligible);
-  const relationships = preview.registry.relationships.filter(eligible);
+  // Only marks in the input scene may supply matching/temporal context. In
+  // particular, held records retained in the reader must never re-enter a
+  // factual scene indirectly by making their entity endpoints match a query.
+  const sceneRecords = preview.nodes.flatMap(node => node.kind === 'record' ? [node.item as InvestigationRecord] : []);
+  const sceneRelationships = preview.edges.map(edge => edge.relationship);
+  const records = sceneRecords.filter(eligible);
+  const relationships = sceneRelationships.filter(eligible);
   const referenced = new Set([
     ...records.flatMap(record => record.entityIds),
     ...relationships.flatMap(relationship => [relationship.from, relationship.to]),
   ]);
   const anyTemporalContext = new Set([
-    ...preview.registry.records.flatMap(record => record.entityIds),
-    ...preview.registry.relationships.flatMap(relationship => [relationship.from, relationship.to]),
+    ...sceneRecords.flatMap(record => record.entityIds),
+    ...sceneRelationships.flatMap(relationship => [relationship.from, relationship.to]),
   ]);
   const hasTemporalFilter = filters.fromYear !== undefined || filters.toYear !== undefined || filters.includeUndated === false;
   const eligibleRecordIds = new Set(records.map(record => record.id));

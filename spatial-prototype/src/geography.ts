@@ -1,7 +1,6 @@
 import areaData from "./assets/geography/evidence-area-anchors.json";
-import worldData from "./assets/geography/world-countries-50m.json";
-import tamilNaduData from "./assets/geography/tamil-nadu-wgs84.json";
 import geographySources from "./assets/geography/geography-sources.json";
+import nationalContextData from "./assets/geography/national-context-crosswalk.json";
 import type { SceneNode, PreviewData } from "./model";
 import type { InvestigationGeography } from "./domain";
 
@@ -18,6 +17,7 @@ export interface GeoAnchor {
   bounds?: [number, number, number, number];
   areaCode: string;
   geometrySourceId: string;
+  geometryFeatureId: string;
   geometrySourceUrl: string;
   /** Requested focus scale and hard evidence-driven zoom cap. Never infer a building. */
   focusZoom: number;
@@ -54,13 +54,10 @@ export interface GeographicCollection {
   type: "FeatureCollection";
   features: GeographicFeature[];
 }
-export const WORLD_COUNTRIES = worldData as GeographicCollection;
-export const TAMIL_NADU_BOUNDARY =
-  tamilNaduData as unknown as GeographicCollection;
 export const GEOGRAPHY_SOURCES = geographySources.sources;
 export const MERCATOR_MAX_LATITUDE = 85.0511287798066;
 export const GEOGRAPHIC_CAVEAT =
-  "One continuous Web Mercator world. Evidence markers represent only their documented country or state context, never verified headquarters, project sites or cash destinations. Area representatives overlap deliberately; nearby buildings have no inferred evidence connection. Unknown or multi-area evidence is not assigned a false point. Natural Earth country boundaries are generalized and use de facto control; disputed borders are not adjudicated.";
+  "One continuous Web Mercator world. Evidence markers represent only their documented country or state context, never verified headquarters, project sites or cash destinations. Area representatives overlap deliberately; nearby buildings have no inferred evidence connection. Unknown or multi-area evidence is not assigned a false point. Natural Earth country boundaries are generalized and use de facto control. India state boundaries retain upstream territorial claims and an unestablished boundary snapshot date; disputed borders are not adjudicated.";
 
 interface Area {
   code: string;
@@ -71,40 +68,69 @@ interface Area {
   bounds: [number, number, number, number];
   uncertaintyKm: number;
   geometrySourceId: string;
+  geometryFeatureId: string;
   centerMethod: string;
 }
 const areas = new Map((areaData as Area[]).map((area) => [area.code, area]));
-/** In this original India investigation namespace, "national-context" means India.
- * This is an explicit dataset-semantic crosswalk, not a name/HQ heuristic. No other
- * namespace or unknown geography inherits a country, and source objects stay intact.
+/** A bounded semantic crosswalk for reviewed source namespaces in the original
+ * India registry. Source paths, hashes and rationales are retained independently.
+ * This translates national case context, never a publisher, regulator or lender HQ.
+ * No prefix, name, missing geography or future namespace inherits a country.
  */
+export const NATIONAL_CONTEXT_PROVENANCE = nationalContextData;
 export const NATIONAL_CONTEXT_CROSSWALK: Readonly<Record<string, string>> =
-  Object.freeze({
-    "atlas-international-finance": "IN",
-  });
+  Object.freeze(
+    Object.fromEntries(
+      nationalContextData.entries.map((entry) => [
+        entry.namespace,
+        entry.countryCode,
+      ]),
+    ),
+  );
 
 function areaForGeography(
   geo: InvestigationGeography,
   namespace: string,
 ): string | null {
   if (geo.scope === "unknown" || geo.basis === "unknown") return null;
+  // Each contributing geography needs its own citations. A cited sibling may
+  // not silently rescue an uncited geography, even when the area codes agree.
+  if (!geo.sourceIds.length || geo.sourceIds.some((id) => !id.trim()))
+    return null;
   const countryCodes = [...new Set(geo.countryCodes ?? [])];
   const stateCodes = [...new Set(geo.stateCodes)];
-  // A locality, city or project name does not establish a coordinate. Keep the
-  // coarser explicitly retained state if available; never geocode a label.
   if (
-    stateCodes.length === 1 &&
-    stateCodes[0] === "TN" &&
-    (countryCodes.length === 0 ||
-      (countryCodes.length === 1 && countryCodes[0] === "IN"))
+    countryCodes.length > 1 ||
+    stateCodes.length > 1 ||
+    geo.scope === "multi-state"
   )
-    return "IN-TN";
-  if (stateCodes.length > 0) return null;
+    return null;
+  // Contradictory foreign-country / Indian-state qualifiers remain unresolved.
+  if (stateCodes.length && countryCodes.length && countryCodes[0] !== "IN")
+    return null;
+  if (stateCodes.length === 1 && !areas.has(`IN-${stateCodes[0]}`)) return null;
+  // Country scope/basis is a precision ceiling even when a state tag is retained.
+  if (geo.scope === "country" || geo.basis === "country-context")
+    return countryCodes.length === 1 && areas.has(countryCodes[0])
+      ? countryCodes[0]
+      : null;
+  // National scope cannot be strengthened by a state tag on the same source.
+  if (geo.scope === "national" || geo.basis === "national-context") {
+    if (geo.scope !== "national" || geo.basis !== "national-context")
+      return null;
+    if (countryCodes.length === 1)
+      return areas.has(countryCodes[0]) ? countryCodes[0] : null;
+    const code = NATIONAL_CONTEXT_CROSSWALK[namespace];
+    return code && areas.has(code) ? code : null;
+  }
+  // A city, locality or project name supplies no coordinate. Retain only an
+  // explicitly recorded modern India state code, without aliasing boundary eras.
+  if (stateCodes.length === 1) {
+    const code = `IN-${stateCodes[0]}`;
+    return areas.has(code) ? code : null;
+  }
   if (countryCodes.length === 1 && areas.has(countryCodes[0]))
     return countryCodes[0];
-  if (countryCodes.length > 1) return null;
-  if (geo.scope === "national" && geo.basis === "national-context")
-    return NATIONAL_CONTEXT_CROSSWALK[namespace] ?? null;
   return null;
 }
 
@@ -138,13 +164,14 @@ export function getNodeAnchor(node: SceneNode): GeoAnchor | null {
     lng: area.lng,
     lat: area.lat,
     precision: area.precision,
-    basis: `${[...new Set(geographies.map((geo) => geo.basis))].join(", ")}; source-bound ${area.precision} context; ${area.centerMethod}`,
-    label: `${area.name} ${area.precision} context · representative area center, not a verified site or address`,
+    basis: `${[...new Set(geographies.map((geo) => geo.basis))].join(", ")}; source-bound ${area.precision} context; ${geographySources.representativeMethod}`,
+    label: `${area.name} ${area.precision} context · representative area point, not a verified site or address`,
     sourceIds,
     uncertaintyKm: area.uncertaintyKm,
     bounds: [...area.bounds],
     areaCode: area.code,
     geometrySourceId: area.geometrySourceId,
+    geometryFeatureId: area.geometryFeatureId,
     geometrySourceUrl: geometrySourceUrl ?? "",
     focusZoom,
     maxEvidenceZoom: focusZoom,
@@ -156,10 +183,24 @@ export function getUnplacedReason(node: SceneNode): string {
   if (getNodeAnchor(node)) return "";
   if (
     node.item.geography.some(
-      (geo) => (geo.countryCodes?.length ?? 0) > 1 || geo.stateCodes.length > 1,
-    )
+      (geo) =>
+        new Set(geo.countryCodes ?? []).size > 1 ||
+        new Set(geo.stateCodes).size > 1 ||
+        geo.scope === "multi-state",
+    ) ||
+    new Set(
+      node.item.geography
+        .map((geo) => areaForGeography(geo, node.item.namespace))
+        .filter(Boolean),
+    ).size > 1
   )
     return "Multiple geographic areas are recorded; no single point or endpoint is asserted.";
+  if (
+    node.item.geography.some(
+      (geo) => !geo.sourceIds.length || geo.sourceIds.some((id) => !id.trim()),
+    )
+  )
+    return "A retained geography is missing its own source citation; no point is asserted.";
   return "No unambiguous source-supported coordinate or supported area context is retained. No location has been guessed.";
 }
 
@@ -199,11 +240,19 @@ export function getGeographicScene(
   const nodes: GeographicNode[] = [];
   const unplacedNodes: SceneNode[] = [];
   const unplacedReasons: Record<string, string> = {};
+  const sourceIds = new Set(
+    preview.registry.sources.map((source) => source.id),
+  );
   for (const node of preview.nodes) {
-    const anchor = getNodeAnchor(node);
+    const missingSource = node.item.geography.some((geo) =>
+      geo.sourceIds.some((id) => !sourceIds.has(id)),
+    );
+    const anchor = missingSource ? null : getNodeAnchor(node);
     if (!anchor) {
       unplacedNodes.push(node);
-      unplacedReasons[node.id] = getUnplacedReason(node);
+      unplacedReasons[node.id] = missingSource
+        ? "A geography citation does not resolve to a retained source; no point is asserted."
+        : getUnplacedReason(node);
       continue;
     }
     nodes.push({

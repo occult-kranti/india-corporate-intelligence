@@ -1,4 +1,13 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  lazy,
+  Suspense,
+  useCallback,
+  useDeferredValue,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   ArrowLeft,
   ArrowRight,
@@ -29,11 +38,17 @@ import {
   CalendarDays,
   Building2,
 } from "lucide-react";
-import SpatialWorld from "./SpatialWorld";
+const SpatialWorld = lazy(() => import("./SpatialWorld"));
+import RegistryReader from "./RegistryReader";
+import { originalRoute, safeSourceUrl } from "./navigation";
+import { planGeographicDisplay } from "./displayBudget";
 import {
   buildPreview,
+  buildEvidenceScene,
+  factualScene,
+  isHeldItem,
   filterScene,
-  registry,
+  registry as previewRegistry,
   type EvidenceItem,
   type SceneEdge,
 } from "./model";
@@ -45,7 +60,7 @@ import {
   type CasebookData,
   type CasebookSelection,
 } from "./casebookStore";
-import type { InvestigationLayer } from "./domain";
+import type { InvestigationLayer, InvestigationRegistry } from "./domain";
 import type { CameraCommand, JourneyState, SceneMetric } from "./scene-types";
 import {
   getNodeAnchor,
@@ -56,10 +71,6 @@ import {
 import { useNarration } from "./useNarration";
 import cityMetadata from "./assets/city-metadata.json";
 import { readProgress, updateProgress } from "./tutorial/model";
-const preview = buildPreview();
-const nodes = new Map(preview.nodes.map((n) => [n.id, n]));
-const edges = new Map(preview.edges.map((e) => [e.id, e]));
-const sources = new Map(registry.sources.map((s) => [s.id, s]));
 const readable = (word: string) => word.replace(/-/g, " ");
 const itemTitle = (item: EvidenceItem) =>
   "title" in item ? item.title : item.label;
@@ -113,13 +124,52 @@ const HELP = [
     text: "Narration starts only when you press Read this record. Only browser voices marked as local are used. No local voice means text only. Reduced motion replaces fly-throughs with immediate destinations.",
   },
 ];
-export default function App() {
+export default function App({
+  registry = previewRegistry,
+  dataset = "preview",
+}: {
+  registry?: InvestigationRegistry;
+  dataset?: "full" | "preview";
+}) {
+  const preview = useMemo(
+    () => (dataset === "full" ? buildEvidenceScene(registry) : buildPreview()),
+    [registry, dataset],
+  );
+  const nodes = useMemo(
+    () => new Map(preview.nodes.map((n) => [n.id, n])),
+    [preview],
+  );
+  const edges = useMemo(
+    () => new Map(preview.edges.map((e) => [e.id, e])),
+    [preview],
+  );
+  const sources = useMemo(
+    () => new Map(registry.sources.map((s) => [s.id, s])),
+    [registry],
+  );
+  const [namespace, setNamespace] = useState("");
+  const [areaFilter, setAreaFilter] = useState("");
+  const availableAreas = useMemo(
+    () =>
+      [
+        ...new Map(
+          factualScene(preview).nodes.flatMap((n) => {
+            const a = getNodeAnchor(n);
+            return a ? [[a.areaCode, a] as const] : [];
+          }),
+        ).values(),
+      ].sort((a, b) => a.label.localeCompare(b.label)),
+    [preview],
+  );
   const [query, setQuery] = useState("");
+  const deferredQuery = useDeferredValue(query);
   const [exploring, setExploring] = useState(false);
   const [activeLayers, setActiveLayers] = useState<InvestigationLayer[]>([]);
   const [year, setYear] = useState(preview.yearRange[1]);
   const [undated, setUndated] = useState(true);
-  const [reading, setReading] = useState(false);
+  const [reading, setReading] = useState(
+    () => new URLSearchParams(location.search).get("mode") === "reading",
+  );
   const [cities, setCities] = useState(true);
   const [cityInfo, setCityInfo] = useState(false);
   const [failure, setFailure] = useState("");
@@ -157,17 +207,34 @@ export default function App() {
   const lastFocus = useRef<HTMLElement | null>(null);
   const panelRef = useRef<HTMLElement>(null);
   const narration = useNarration();
-  const scene = useMemo(
+  const filteredScene = useMemo(
     () =>
       filterScene(preview, {
-        query,
+        query: deferredQuery,
+        namespace,
         layers: activeLayers,
         fromYear: preview.yearRange[0],
         toYear: year,
         includeUndated: undated,
       }),
-    [query, activeLayers, year, undated],
+    [preview, deferredQuery, namespace, activeLayers, year, undated],
   );
+  const scene = useMemo(() => {
+    if (!areaFilter) return filteredScene;
+    const nodes = filteredScene.nodes.filter((n) =>
+      areaFilter === "unplaced"
+        ? !getNodeAnchor(n)
+        : getNodeAnchor(n)?.areaCode === areaFilter,
+    );
+    const ids = new Set(nodes.map((n) => n.id));
+    return {
+      ...filteredScene,
+      nodes,
+      edges: filteredScene.edges.filter(
+        (e) => ids.has(e.from) && ids.has(e.to),
+      ),
+    };
+  }, [filteredScene, areaFilter]);
   const send = useCallback((type: CameraCommand["type"], id?: string) => {
     if (type !== "stop") setExploring(true);
     setCommand({ type, id, stamp: performance.now() });
@@ -196,10 +263,58 @@ export default function App() {
         (p) => p.kind === selection.kind && p.id === selection.id,
       )
     : undefined;
-  const geographicScene = useMemo(() => getGeographicScene(scene), [scene]);
-  const inspectionAnchor = inspectionNode
-    ? getNodeAnchor(inspectionNode)
-    : null;
+  const mapScene = useMemo(() => {
+    const accepted = filterScene(factualScene(preview), {
+      query: deferredQuery,
+      namespace,
+      layers: activeLayers,
+      fromYear: preview.yearRange[0],
+      toYear: year,
+      includeUndated: undated,
+    });
+    if (!areaFilter) return accepted;
+    const nodes = accepted.nodes.filter((n) =>
+      areaFilter === "unplaced"
+        ? !getNodeAnchor(n)
+        : getNodeAnchor(n)?.areaCode === areaFilter,
+    );
+    const ids = new Set(nodes.map((n) => n.id));
+    return {
+      ...accepted,
+      nodes,
+      edges: accepted.edges.filter((e) => ids.has(e.from) && ids.has(e.to)),
+    };
+  }, [
+    preview,
+    deferredQuery,
+    namespace,
+    activeLayers,
+    year,
+    undated,
+    areaFilter,
+  ]);
+  const display = useMemo(
+    () => planGeographicDisplay(mapScene, selected),
+    [mapScene, selected],
+  );
+  const geographicScene = useMemo(
+    () => getGeographicScene(mapScene),
+    [mapScene],
+  );
+  const mapNodeIds = useMemo(
+    () => new Set(mapScene.nodes.map((n) => n.id)),
+    [mapScene],
+  );
+  const canFollow = (edge?: SceneEdge) =>
+    !!edge &&
+    !failure &&
+    mapNodeIds.has(edge.from) &&
+    mapNodeIds.has(edge.to) &&
+    !!getNodeAnchor(nodes.get(edge.from)!) &&
+    !!getNodeAnchor(nodes.get(edge.to)!);
+  const inspectionHeld = !!item && isHeldItem(registry, item.id);
+  const inspectionAnchor =
+    inspectionNode && !inspectionHeld ? getNodeAnchor(inspectionNode) : null;
   const currentEdges = selected
     ? scene.edges.filter((e) => e.from === selected || e.to === selected)
     : [];
@@ -329,7 +444,10 @@ export default function App() {
   function follow(edge: SceneEdge) {
     setSelected(edge.id);
     if (!inspectorLocked) setInspector(edge.id);
-    send("follow", edge.id);
+    if (canFollow(edge)) {
+      setReading(false);
+      send("follow", edge.id);
+    }
   }
   function transcript() {
     if (!item) return "";
@@ -342,28 +460,45 @@ export default function App() {
   };
   return (
     <main
+      data-dataset={dataset}
+      data-loaded-entities={registry.entities.length}
+      data-loaded-records={registry.records.length}
+      data-loaded-relationships={registry.relationships.length}
+      data-loaded-sources={registry.sources.length}
+      data-held-count={registry.held.length}
+      data-filtered-items={scene.nodes.length}
+      data-factual-items={mapScene.nodes.length}
+      data-unplaced-items={geographicScene.unplacedNodes.length}
       className={`evidence-app ${reading || failure ? "reading-active" : ""} ${item ? "reader-open" : ""} ${exploring ? "is-exploring" : ""} ${failure ? "graphics-unavailable" : ""}`}
     >
       <a className="skip-link" href="#record-list">
         Skip to records
       </a>
       {!reading && !failure && (
-        <SpatialWorld
-          data={scene}
-          selected={selected}
-          command={command}
-          reducedMotion={reduced}
-          cities={cities}
-          onSelect={open}
-          onJourney={setJourney}
-          onMetric={setMetric}
-          onMapStatus={setMapStatus}
-          onInteraction={() => setExploring(true)}
-          onFailure={(reason) => {
-            setFailure(reason);
-            setReading(true);
-          }}
-        />
+        <Suspense
+          fallback={
+            <p className="map-loading glass" role="status">
+              Preparing the felt map… Reading remains available.
+            </p>
+          }
+        >
+          <SpatialWorld
+            data={mapScene}
+            selected={selected}
+            command={command}
+            reducedMotion={reduced}
+            cities={cities}
+            onSelect={open}
+            onJourney={setJourney}
+            onMetric={setMetric}
+            onMapStatus={setMapStatus}
+            onInteraction={() => setExploring(true)}
+            onFailure={(reason) => {
+              setFailure(reason);
+              setReading(true);
+            }}
+          />
+        </Suspense>
       )}
       <div className="room-vignette" aria-hidden="true" />
       <header className="masthead glass">
@@ -373,9 +508,18 @@ export default function App() {
         <div>
           <span className="eyebrow">FIELDWORK / PUBLIC RECORD</span>
           <h1>The felt atlas</h1>
-          <p>Spatial preview · retained source snapshot</p>
+          <p>
+            {dataset === "full"
+              ? "Complete original registry · retained snapshot"
+              : "Selected preview subset · 48 items"}
+          </p>
+          <a className="original-app-link" href="../#/investigate">
+            Original investigation pages ↗
+          </a>
         </div>
-        <span className="prototype-badge">STUDY 01</span>
+        <span className="prototype-badge">
+          {dataset === "full" ? "REVIEW" : "PREVIEW"}
+        </span>
       </header>
       <div className="top-tools">
         <label className="search glass">
@@ -429,13 +573,13 @@ export default function App() {
           className="quiet-action"
           onClick={() => {
             const edge =
-              scene.edges.find((e) => {
+              mapScene.edges.find((e) => {
                 const a = nodes.get(e.from),
                   b = nodes.get(e.to);
                 const ga = a ? getNodeAnchor(a) : null,
                   gb = b ? getNodeAnchor(b) : null;
                 return ga && gb && ga.areaCode !== gb.areaCode;
-              }) ?? scene.edges[0];
+              }) ?? mapScene.edges[0];
             if (edge) follow(edge);
           }}
         >
@@ -446,13 +590,32 @@ export default function App() {
       <aside className="scene-overview glass">
         <div>
           <span className="status-dot" />
-          SOURCE-BOUND PREVIEW
+          {dataset === "full"
+            ? "FULL ORIGINAL REGISTRY LOADED"
+            : "SOURCE-BOUND PREVIEW"}
         </div>
         <p>
-          {geographicScene.nodes.length} area-anchored records ·{" "}
-          {geographicScene.unplacedNodes.length} in reading tray
+          {scene.nodes.length.toLocaleString()} filtered items ·{" "}
+          {geographicScene.nodes.length.toLocaleString()} area-anchored ·{" "}
+          {geographicScene.unplacedNodes.length.toLocaleString()} unplaced
+          <br />
+          {registry.held.length} held review entries excluded from factual map
         </p>
-        <small>Snapshot {registry.updatedAt} · curated public corpus</small>
+        <small>
+          {registry.entities.length.toLocaleString()} entities ·{" "}
+          {registry.records.length.toLocaleString()} records ·{" "}
+          {registry.relationships.length.toLocaleString()} links ·{" "}
+          {registry.sources.length.toLocaleString()} sources
+          <br />
+          Snapshot {registry.updatedAt}
+        </small>
+        <small>
+          {display.groups.size} area groups · {display.rendered.length} of{" "}
+          {display.candidates.length} cross-area threads drawn
+        </small>
+        <button className="overview-read" onClick={() => setReading(true)}>
+          Search and read the registry
+        </button>
       </aside>
       {(reading || failure) && (
         <section
@@ -477,26 +640,21 @@ export default function App() {
               </details>
             </div>
           )}
-          <div className="record-grid" id="record-list">
-            {scene.nodes.map((node) => (
-              <button
-                key={node.id}
-                className={
-                  selected === node.id ? "reading-card active" : "reading-card"
-                }
-                onClick={() => open(node.id, "node")}
-              >
-                <span className="eyebrow">
-                  {node.kind} · {node.item.sourceIds.length} source references
-                </span>
-                <h3>{node.title}</h3>
-                <p>{node.item.summary}</p>
-                <span>
-                  Inspect evidence <ArrowRight size={15} />
-                </span>
-              </button>
-            ))}
-          </div>
+          {areaFilter && (
+            <p className="active-area">
+              Area lens:{" "}
+              {availableAreas.find((a) => a.areaCode === areaFilter)?.label ??
+                "Unplaced"}{" "}
+              <button onClick={() => setAreaFilter("")}>Clear area lens</button>
+            </p>
+          )}
+          <RegistryReader
+            scene={scene}
+            selected={selected}
+            query={deferredQuery}
+            namespace={namespace}
+            onSelect={open}
+          />
         </section>
       )}
       {!reading && !failure && (
@@ -505,7 +663,11 @@ export default function App() {
           id="record-list"
           aria-label="Keyboard record navigation"
         >
-          {scene.nodes.map((n) => (
+          <button onClick={() => setReading(true)}>
+            Open searchable keyboard reader for all{" "}
+            {scene.nodes.length.toLocaleString()} filtered items
+          </button>
+          {scene.nodes.slice(0, 40).map((n) => (
             <button key={n.id} onClick={() => open(n.id, "node")}>
               {n.title}
             </button>
@@ -518,14 +680,22 @@ export default function App() {
             {geographicScene.unplacedNodes.length} records without a single
             verified area
           </summary>
-          {geographicScene.unplacedNodes.map((n) => (
+          {geographicScene.unplacedNodes.slice(0, 30).map((n) => (
             <button key={n.id} onClick={() => open(n.id, "node")}>
               {n.title}
             </button>
           ))}
+          <button
+            onClick={() => {
+              setAreaFilter("unplaced");
+              setReading(true);
+            }}
+          >
+            Read and search all unplaced records
+          </button>
         </details>
       )}
-      {scene.nodes.length === 0 && (
+      {scene.nodes.length === 0 && !reading && !failure && (
         <div className="empty-state glass">
           <h2>No records in this lens</h2>
           <p>Try widening the time window or clearing a layer.</p>
@@ -533,6 +703,8 @@ export default function App() {
             onClick={() => {
               setQuery("");
               setActiveLayers([]);
+              setNamespace("");
+              setAreaFilter("");
               setYear(preview.yearRange[1]);
               setUndated(true);
             }}
@@ -556,7 +728,9 @@ export default function App() {
           <span>Status · retained in the source reader</span>
         </div>
         <p className="legend-note">
-          Source count describes support. It is not a guilt score.
+          Source count describes support. It is not a guilt score. Up to 60
+          representative original threads are drawn; every retained relationship
+          remains in the reader.
         </p>
         <details>
           <summary>Map & placement limits</summary>
@@ -615,7 +789,7 @@ export default function App() {
         </button>
         <button
           onClick={() => travelEdge && follow(travelEdge)}
-          disabled={!travelEdge || Boolean(failure)}
+          disabled={!canFollow(travelEdge)}
         >
           <Play size={16} />
           <span>Follow thread</span>
@@ -809,6 +983,39 @@ export default function App() {
             </button>
           </div>
           <p>4D = time. 5D = facet layers. Interface metaphors.</p>
+          <label className="subject-control">
+            Subject corpus
+            <select
+              aria-label="Subject corpus"
+              value={namespace}
+              onChange={(e) => setNamespace(e.target.value)}
+            >
+              <option value="">All retained subjects</option>
+              {[...new Set(registry.coverage.map((c) => c.namespace))].map(
+                (n) => (
+                  <option key={n} value={n}>
+                    {readable(n)}
+                  </option>
+                ),
+              )}
+            </select>
+          </label>
+          <label className="subject-control">
+            Documented area
+            <select
+              aria-label="Documented area"
+              value={areaFilter}
+              onChange={(e) => setAreaFilter(e.target.value)}
+            >
+              <option value="">All documented areas</option>
+              <option value="unplaced">Unplaced / ambiguous geography</option>
+              {availableAreas.map((a) => (
+                <option key={a.areaCode} value={a.areaCode}>
+                  {a.label} · {a.precision}
+                </option>
+              ))}
+            </select>
+          </label>
           <label className="year-control">
             <span>
               Evidence window{" "}
@@ -1013,7 +1220,16 @@ export default function App() {
               </span>
               <span>{new Set(item.sourceIds).size} distinct source IDs</span>
             </div>
+            {inspectionHeld && (
+              <p className="notice" data-held-warning="true">
+                Held for review. Retained as reading/counter-context only;
+                excluded from the factual map and its threads.
+              </p>
+            )}
             <p className="lead-summary">{item.summary}</p>
+            <a className="original-item-link" href={originalRoute(item.route)}>
+              Open this item’s original page <ExternalLink size={14} />
+            </a>
             {inspectionNode && (
               <section className="context-box">
                 <h3>Geographic precision</h3>
@@ -1037,7 +1253,7 @@ export default function App() {
                 <ArrowRight size={16} />
                 <span>{nodes.get(inspectionEdge.to)?.title}</span>
                 <button
-                  disabled={Boolean(failure)}
+                  disabled={!canFollow(inspectionEdge)}
                   onClick={() => follow(inspectionEdge)}
                 >
                   <Play size={14} />
@@ -1088,12 +1304,15 @@ export default function App() {
               <section className="context-box">
                 <h3>Linked responses and counter-context</h3>
                 {item.responseIds.map((id) => {
-                  const response = registry.records.find((r) => r.id === id);
+                  const response =
+                    nodes.get(id)?.item ?? edges.get(id)?.relationship;
                   return response ? (
                     <article key={id}>
-                      <h3>{response.title}</h3>
+                      <h3>{itemTitle(response)}</h3>
                       <p>{response.summary}</p>
-                      {response.response && <p>{response.response}</p>}
+                      {"response" in response && response.response && (
+                        <p>{response.response}</p>
+                      )}
                       <button
                         className="thread-button"
                         onClick={() => {
@@ -1124,6 +1343,55 @@ export default function App() {
                   </ul>
                 </section>
               )}
+            {"identityBasis" in item && (
+              <section className="context-box">
+                <h3>Recorded identity basis</h3>
+                <p>{item.identityBasis}</p>
+                <p>
+                  {item.resolved
+                    ? "Resolved in the original corpus"
+                    : "Identity remains unresolved"}
+                </p>
+              </section>
+            )}
+            {"falsifier" in item && item.falsifier && (
+              <section className="context-box">
+                <h3>What would change this assessment</h3>
+                <p>{item.falsifier}</p>
+              </section>
+            )}
+            {(("recordIds" in item && item.recordIds.length > 0) ||
+              ("entityIds" in item && item.entityIds.length > 0) ||
+              ("relationshipIds" in item &&
+                item.relationshipIds.length > 0)) && (
+              <section>
+                <h3>Linked retained evidence</h3>
+                {[
+                  ...new Set([
+                    ...("recordIds" in item ? item.recordIds : []),
+                    ...("entityIds" in item ? item.entityIds : []),
+                    ...("relationshipIds" in item ? item.relationshipIds : []),
+                  ]),
+                ].map((id) => {
+                  const linked =
+                    nodes.get(id)?.item ?? edges.get(id)?.relationship;
+                  return linked ? (
+                    <button
+                      className="thread-button"
+                      key={id}
+                      onClick={() => {
+                        setInspector(id);
+                        setSelected(id);
+                      }}
+                    >
+                      {itemTitle(linked)} <ArrowRight size={14} />
+                    </button>
+                  ) : (
+                    <p key={id}>Retained reference: {id}</p>
+                  );
+                })}
+              </section>
+            )}
             {item.limitations.length > 0 && (
               <section className="context-box">
                 <h3>What this does not establish</h3>
@@ -1146,7 +1414,7 @@ export default function App() {
                 return source ? (
                   <article className="source-card" key={id}>
                     <a
-                      href={source.url}
+                      href={safeSourceUrl(source.url) ?? undefined}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -1170,7 +1438,9 @@ export default function App() {
                     )}
                   </article>
                 ) : (
-                  <p key={id}>Source {id} is not available in this preview.</p>
+                  <p key={id}>
+                    Source {id} is unavailable in this retained snapshot.
+                  </p>
                 );
               })}
             </section>
@@ -1187,13 +1457,25 @@ export default function App() {
             {inspectionNode && (
               <section>
                 <h3>Records at the same documented area</h3>
+                {inspectionAnchor && (
+                  <button
+                    onClick={() => {
+                      setAreaFilter(inspectionAnchor.areaCode);
+                      setReading(true);
+                    }}
+                  >
+                    Browse all records in {inspectionAnchor.label}
+                  </button>
+                )}
                 {preview.nodes
                   .filter(
                     (n) =>
                       n.id !== inspectionNode.id &&
                       inspectionAnchor &&
+                      !isHeldItem(registry, n.id) &&
                       getNodeAnchor(n)?.areaCode === inspectionAnchor.areaCode,
                   )
+                  .slice(0, 20)
                   .map((n) => (
                     <button
                       className="thread-button"
@@ -1207,6 +1489,11 @@ export default function App() {
                       <ArrowRight size={14} />
                     </button>
                   ))}
+                <p className="small-copy">
+                  Up to 20 nearby context records are shown. Area proximity is
+                  not a relationship; use the complete searchable reader for the
+                  rest.
+                </p>
                 <h3 style={{ marginTop: 20 }}>Connected source threads</h3>
                 {preview.edges
                   .filter(
@@ -1235,6 +1522,10 @@ export default function App() {
                   ))}
               </section>
             )}
+            <details className="retained-metadata">
+              <summary>Complete retained object</summary>
+              <pre>{JSON.stringify(item, null, 2)}</pre>
+            </details>
             <section className="casebook-box">
               <h3>Your casebook</h3>
               <button

@@ -1,0 +1,202 @@
+{
+  "scope": "Only scope=national and basis=national-context in these exact reviewed India-registry namespaces. Explicit foreign/multiple country or state codes are never overwritten.",
+  "semanticEvidence": [
+    {
+      "path": "src/data/investigation.ts",
+      "sha256": "6eda72c543a14a1dccaceb80fbcd8b6b7c71eca0321054a5e86ee7067a482217"
+    },
+    {
+      "path": "src/data/atlasInvestigation.ts",
+      "sha256": "047c66549259fa2cef6af23854e2d698efead09368424e4ea1552047fdb0de7a"
+    },
+    {
+      "path": "src/components/investigation/AtlasCaseFeed.tsx",
+      "sha256": "2fdbd08084c322a7eaccc15e87adcd36535750100ce9e690fa9510668671fe1a"
+    }
+  ],
+  "semanticStatement": "AtlasCaseFeed.tsx labels the atlasInvestigation.ts national-scope count as Indian national context. investigation.ts imports these exact source slices and preserves geography qualifiers.",
+  "entries": [
+    {
+      "namespace": "allegations-policy",
+      "countryCode": "IN",
+      "sourcePath": "research/raw/allegations-map/policy.json",
+      "sourceSha256": "62bab54edd4ddeab5795a877871b64ee24303099b1b36ff99769c2ccc49eae70",
+      "rationale": "Explicit India institutional or investor-scheme context in the retained geography note."
+    },
+    {
+      "namespace": "atlas-institutions",
+      "countryCode": "IN",
+      "sourcePath": "research/raw/atlas-expansion/institutions.json",
+      "sourceSha256": "042d0307a1eeb29c7ac16f2be6d475ea3da2a5e719b9151c80afa5379b8bc1cb",
+      "rationale": "Explicit India public-interest context in the retained geography note, including foreign correspondents; no residence or payment destination."
+    },
+    {
+      "namespace": "atlas-international-finance",
+      "countryCode": "IN",
+      "sourcePath": "research/raw/atlas-expansion/international-finance.json",
+      "sourceSha256": "9d458ba19ee69aeeb462653b893a28ed83ac2bbac0eea942ff74477f3409ab11",
+      "rationale": "India sovereign borrowing, social-protection, IFC and IMF national case context; foreign country contexts remain explicit."
+    },
+    {
+      "namespace": "atlas-oversight",
+      "countryCode": "IN",
+      "sourcePath": "research/raw/atlas-expansion/oversight.json",
+      "sourceSha256": "0a89d865416b4b4edf99c7199c508a354cf3ba52c5f599d8d47c0dd160721849",
+      "rationale": "India audit and programme remit for the retained Uttarakhand, Telangana and Bihar cases; no lender address."
+    },
+    {
+      "namespace": "atlas-policy",
+      "countryCode": "IN",
+      "sourcePath": "research/raw/atlas-expansion/policy.json",
+      "sourceSha256": "f385975e13f837016720307a94bc03101a76f6577002e553e15f7c655d9004f9",
+      "rationale": "Indian national legislation, institutions and policy case context."
+    },
+    {
+      "namespace": "deep-corporate",
+      "countryCode": "IN",
+      "sourcePath": "research/raw/deep-investigation/corporate.json",
+      "sourceSha256": "44b745dc04a21af98ca1d94d3d255f2f674fad655e4e80d7e07538c03ec08eba",
+      "rationale": "Indian public-asset sales and policy case context, including foreign counterparties; no company address."
+    },
+    {
+      "namespace": "deep-governance",
+      "countryCode": "IN",
+      "sourcePath": "research/raw/deep-investigation/governance.json",
+      "sourceSha256": "b2b37ec7870d07cf6b4c9b4af9dec32c40856ab780fcd129fa13de8b284d7fed",
+      "rationale": "India solar-financing case context under the original national-scope adapter; foreign court/regulator jurisdiction and investor location are not asserted."
+    },
+    {
+      "namespace": "deep-procurement",
+      "countryCode": "IN",
+      "sourcePath": "research/raw/deep-investigation/procurement.json",
+      "sourceSha256": "69b6d4d1c679b4c3a76f54a0e212a82c379f6e5dc456cb7c00204f99423d3a18",
+      "rationale": "India public-project financing and procurement case context; no international lender or investor headquarters."
+    },
+    {
+      "namespace": "deep-services",
+      "countryCode": "IN",
+      "sourcePath": "research/raw/deep-investigation/services.json",
+      "sourceSha256": "72a95367aaa4d65b9b1ad78cb14f034e1345ca5fc9bc6a3177a10c0af6996280",
+      "rationale": "Indian national programmes, ministries, insolvency and court case context; mixed national/project records remain unplaced."
+    },
+    {
+      "namespace": "education",
+      "countryCode": "IN",
+      "sourcePath": "src/data/education-research.json",
+      "sourceSha256": "cb69b41dca2c1b53e86017d0fe5b4d9c7273d0b12f462787a25f8ed0bd4e15da",
+      "rationale": "India education register consumed by geoFor; IN school series become national and state arrays remain separate."
+    },
+    {
+      "namespace": "finance-research",
+      "countryCode": "IN",
+      "sourcePath": "research/raw/investigation/finance-research.json",
+      "sourceSha256": "9260b34a119e1b84798d05259e6643c3d88d4d3bf5823889f146362b7dea2035",
+      "rationale": "India national funds, RBI regulation and insolvency aggregates."
+    },
+    {
+      "namespace": "justice-research",
+      "countryCode": "IN",
+      "sourcePath": "research/raw/investigation/justice-research.json",
+      "sourceSha256": "c11e78dcfc33288bb100a1e7fafb3563e8d77181c5a33bfdba1233cabac92687",
+      "rationale": "Union of India institutions and nationwide Indian legal context; publication location is not project geography."
+    },
+    {
+      "namespace": "metro-defence",
+      "countryCode": "IN",
+      "sourcePath": "research/raw/metro-spending/defence.json",
+      "sourceSha256": "1198abdb655972989259dd0983cf625a2da5956f96d66da8bc0136b7b9481d30",
+      "rationale": "Indian national defence and central procurement programme context; not spending in the capital."
+    },
+    {
+      "namespace": "metro-delhi-security",
+      "countryCode": "IN",
+      "sourcePath": "research/raw/metro-spending/delhi-security.json",
+      "sourceSha256": "252ac65b0b8965ba846e23363a0e134612f0255fc6306150529d29299cfc5f53",
+      "rationale": "Indian national institutions and funding frameworks explicitly distinguished from Delhi allocation."
+    },
+    {
+      "namespace": "metro-mumbai-security",
+      "countryCode": "IN",
+      "sourcePath": "research/raw/metro-spending/mumbai-security.json",
+      "sourceSha256": "511d33962edb482345b8311726dd4d02b83a40320a34a1cec5b25f3223de3909",
+      "rationale": "Indian central procurement and shipyard payment context explicitly distinguished from Mumbai or Maharashtra allocation."
+    },
+    {
+      "namespace": "metro-public-finance",
+      "countryCode": "IN",
+      "sourcePath": "research/raw/metro-spending/public-finance.json",
+      "sourceSha256": "416ffecd76c03950a5f7b8fc4de5f68b562054b7264b4a4098d399c09a507b48",
+      "rationale": "India CPPP source collection context, not Delhi/Mumbai allocation."
+    },
+    {
+      "namespace": "metro-tender-scan",
+      "countryCode": "IN",
+      "sourcePath": "research/raw/metro-spending/tender-scan.json",
+      "sourceSha256": "867fed0836eb42997f24eaf3762783fbbd0734ec2235fd208dcd9e970e32b040",
+      "rationale": "India national buyer-name cohorts; parent-office names do not locate projects or spending."
+    },
+    {
+      "namespace": "money-trails-corporate",
+      "countryCode": "IN",
+      "sourcePath": "research/raw/money-trails/corporate/slice.json",
+      "sourceSha256": "0c2e9bdbbac26314ff9fff99f5073c4a1d617785ef777d73f310581fe25e0f1f",
+      "rationale": "Indian corporate/electoral-bond legal and financial context; no recipient residence or state allocation."
+    },
+    {
+      "namespace": "money-trails-djb",
+      "countryCode": "IN",
+      "sourcePath": "research/raw/money-trails/djb/slice.json",
+      "sourceSha256": "cf863667abed5cc8726728c0c4b1f2527137e9c2fcbccf06ce42dc9226df2bed",
+      "rationale": "Indian company/institutional annual-report context, with project payment location explicitly unasserted."
+    },
+    {
+      "namespace": "pmcares",
+      "countryCode": "IN",
+      "sourcePath": "src/data/pmcares.ts",
+      "sourceSha256": "17e0aacb2cf57abf8d5db93a40161d5e0a076423cf3f5abf0587c89661f009bd",
+      "rationale": "India PM CARES national fund statements via national(sourceIds); not state spending inferred from PMO address."
+    },
+    {
+      "namespace": "procurement-audit",
+      "countryCode": "IN",
+      "sourcePath": "src/data/procurement-audit.json",
+      "sourceSha256": "c9a9a23156785c91183c93c92ca2e20afb10148cef324162d4655709a10b6ec3",
+      "rationale": "India CPPP corpus-wide collection context; no supplier, asset or delivery geography."
+    },
+    {
+      "namespace": "procurement-trails",
+      "countryCode": "IN",
+      "sourcePath": "src/data/procurementTrails.ts",
+      "sourceSha256": "dfd748483003607a41d66401d3ee34c5dec4d15592c8da48215d82b3504a0485",
+      "rationale": "procurementTrailGeography uses central India CPPP buyer collection context, not supplier/work location."
+    },
+    {
+      "namespace": "public-works",
+      "countryCode": "IN",
+      "sourcePath": "src/data/public-works-research.json",
+      "sourceSha256": "5fd759134a35ee451397f518e81a8785d94d4a4d65c47c3df930b177465aaf72",
+      "rationale": "India public-works register consumed by geoFor; national jurisdiction does not become a project pin."
+    },
+    {
+      "namespace": "water",
+      "countryCode": "IN",
+      "sourcePath": "src/data/water-research.json",
+      "sourceSha256": "0fae20e9030a09d0369703ebe66b6813515e2226b226281058b555c06ec00cb1",
+      "rationale": "India water/food register consumed by geoFor; multi-state source rows remain unplaced."
+    },
+    {
+      "namespace": "welfare",
+      "countryCode": "IN",
+      "sourcePath": "src/data/welfare.generated.ts",
+      "sourceSha256": "079d70418a21c3b093f0abc4ee32c26cfc100d7ec4e7a19fa5f4146d1e568981",
+      "rationale": "Central Indian programme jurisdiction via national(sourceIds), distinct from delivery and a minister constituency."
+    },
+    {
+      "namespace": "welfare-research",
+      "countryCode": "IN",
+      "sourcePath": "research/raw/investigation/welfare-research.json",
+      "sourceSha256": "e4ff4ac6672e8966ab804f43edd79d72491e7b0245bddfe04c213f6849e103e6",
+      "rationale": "Indian national welfare programme/audit context, not inferred from a publisher address."
+    }
+  ]
+}
