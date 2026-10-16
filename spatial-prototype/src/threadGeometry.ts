@@ -1,6 +1,6 @@
 import * as THREE from "three";
 export const THREAD_REFERENCE_RADIUS = 0.001;
-export const THREAD_HIDE_ZOOM = 6;
+export const THREAD_OPACITY = 0.9;
 /** Capped display width only; source accuracy/independence is never inferred. */
 export function threadRadiusPixels(sourceCount: number) {
   return 0.85 + Math.min(5, Math.max(1, sourceCount)) * 0.25;

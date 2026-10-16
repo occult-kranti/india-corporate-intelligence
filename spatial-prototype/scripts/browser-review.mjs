@@ -2237,14 +2237,14 @@ try {
       );
       assert.ok(
         destination.focusZoom >= 6,
-        "The retained source-trail destination must exercise close-up thread suppression",
+        "The retained source-trail destination must exercise continuity beyond the former cutoff",
       );
       await until(
         async () =>
-          (await page
+          Number(await page
             .locator(".webgl-host")
-            .getAttribute("data-visible-threads")) === "0",
-        "Long-range threads remain visible at the close-up destination zoom",
+            .getAttribute("data-visible-threads")) > 0,
+        "Original threads disappeared at the close-up source-trail destination",
       );
       await assertCameraControlsClearOfReader(page);
       await assertSemanticDisplay(page, result, preview, trailEdge.id, "areas");

@@ -23,7 +23,7 @@ const {
   makeScreenThreadGeometry,
   threadProjectionScale,
   threadRadiusPixels,
-  THREAD_HIDE_ZOOM,
+  THREAD_OPACITY,
   CatmullRomCurve3,
   Vector3,
 } = await import(pathToFileURL(outfile).href);
@@ -38,7 +38,7 @@ test("geographic thread width stays bounded across overview and country zoom", (
       position = geometry.getAttribute("position"),
       centers = geometry.getAttribute("aTubeCenter");
     assert.equal(position.count, centers.count);
-    for (const zoom of [1.5, 3, 4, 5.9, 7]) {
+    for (const zoom of [0.6, 1.5, 3, 4, 5.9, 6, 7, 12, 16, 17, 18, 19]) {
       const scale = threadProjectionScale(zoom);
       assert.ok(scale.lift > 0 && scale.lift <= 1);
       for (let i = 0; i < position.count; i++) {
@@ -57,14 +57,17 @@ test("geographic thread width stays bounded across overview and country zoom", (
     }
     geometry.dispose();
   }
-  assert.equal(THREAD_HIDE_ZOOM, 6);
+  assert.equal(THREAD_OPACITY, 0.9);
 });
-test("camera destination forces label refresh and state-scale views hide long-range threads", async () => {
+test("camera destination refreshes labels and geographic threads have no zoom cutoff", async () => {
   const source = await readFile("src/scene.ts", "utf8");
   assert.match(
     source,
     /\.on\("moveend",\s*\(\) => this\.updateLabels\(true\)\)/,
   );
-  assert.match(source, /visible = this\.map\.getZoom\(\) < THREAD_HIDE_ZOOM/);
+  assert.doesNotMatch(source, /THREAD_HIDE_ZOOM/);
+  assert.match(source, /material\.opacity = THREAD_OPACITY/);
+  assert.match(source, /projectThreadSegments/);
+  assert.match(source, /threadSegmentDistance/);
   assert.match(source, /constrainThreadMaterial/);
 });

@@ -37,8 +37,9 @@ import {
   constrainThreadMaterial,
   threadProjectionScale,
   threadRadiusPixels,
-  THREAD_HIDE_ZOOM,
+  THREAD_OPACITY,
 } from "./threadGeometry";
+import { projectThreadSegments, threadSegmentDistance, THREAD_SEGMENTS, type ThreadPoint } from "./threadProjection";
 setWorkerUrl(workerUrl);
 export const CATEGORY_COLORS: Record<string, string> = {
   funding: "#d3a752",
@@ -467,27 +468,18 @@ export class EvidenceWorld {
       this.cb.onSelect(nearest.id, "node");
       return;
     }
-    if (this.map.getZoom() >= THREAD_HIDE_ZOOM) return;
-    for (const edge of this.data.edges) {
-      const curve = this.curves.get(edge.id);
-      if (!curve) continue;
-      const pts = curve.getPoints(25);
-      let found = false;
-      for (const p of pts) {
-        const ll = new MercatorCoordinate(p.x, p.y, 0).toLngLat();
-        const screen = this.map.project(ll);
-        if (
-          Math.hypot(event.point.x - screen.x, event.point.y - screen.y) < 9
-        ) {
-          found = true;
-          break;
-        }
-      }
-      if (found) {
-        this.cb.onSelect(edge.id, "edge");
-        return;
+    let threadHit: { id: string; distance: number } | null = null;
+    // The retained display map is selected-first; a tied crossing keeps that exact ID.
+    for (const [id, curve] of this.curves) {
+      const points = curve.getSpacedPoints(THREAD_SEGMENTS).map(p => [p.x, p.y, p.z] as ThreadPoint);
+      const segments = projectThreadSegments(points, this.camera.projectionMatrix.elements,
+        this.container.clientWidth, this.container.clientHeight, this.threadLiftUniform.value);
+      for (const segment of segments) {
+        const distance = threadSegmentDistance(event.point.x, event.point.y, segment);
+        if (distance < 9 && (!threadHit || distance < threadHit.distance)) threadHit = { id, distance };
       }
     }
+    if (threadHit) this.cb.onSelect(threadHit.id, "edge");
   };
   private pose(): Pose {
     const c = this.map.getCenter();
@@ -924,7 +916,7 @@ export class EvidenceWorld {
     }
     const edge = this.data.edges.find((e) => e.id === this.selected),
       curve = edge ? this.curves.get(edge.id) : null;
-    if (edge && curve && this.map.getZoom() < THREAD_HIDE_ZOOM) {
+    if (edge && curve) {
       const point = curve.getPoint(0.5),
         ll = new MercatorCoordinate(point.x, point.y).toLngLat(),
         p = this.map.project(ll);
@@ -979,15 +971,10 @@ export class EvidenceWorld {
     const projection = threadProjectionScale(this.map.getZoom());
     this.threadRadiusUniform.value = projection.radius;
     this.threadLiftUniform.value = projection.lift;
-    const opacity = Math.max(
-      0,
-      Math.min(0.95, (THREAD_HIDE_ZOOM - this.map.getZoom()) / 1.5),
-    );
     for (const mesh of this.curveGroup.children) {
-      (mesh as THREE.Mesh).visible = this.map.getZoom() < THREAD_HIDE_ZOOM;
-      const material = (mesh as THREE.Mesh)
-        .material as THREE.MeshStandardMaterial;
-      material.opacity = opacity;
+      (mesh as THREE.Mesh).visible = true;
+      const material = (mesh as THREE.Mesh).material as THREE.MeshStandardMaterial;
+      material.opacity = THREAD_OPACITY;
     }
     // Every geographic boundary resets Three's logical state AND its default-target viewport.
     // The case offscreen pass may have changed both, including after MapLibre resizes.
