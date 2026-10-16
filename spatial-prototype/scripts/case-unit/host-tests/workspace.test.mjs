@@ -156,3 +156,36 @@ test('workspace key handler leaves browser-modified zoom shortcuts untouched',as
   try{for(const event of [{key:'+',ctrlKey:true},{key:'-',metaKey:true},{key:'0',ctrlKey:true}]){const result=await h.key(event);assert.equal(result.defaultPrevented,undefined);assert.equal(result.stopped,undefined);}assert.equal(h.closed,0);}
   finally{h.destroy();}
 });
+
+// The real CI failure had a viewport-sized host with a decorative 1px border.
+// Its actual canvas started at (1,1), while the independently positioned case
+// board reached x=0. Keep the strict guard; decorative paint must not shrink GL.
+test('a border-inset real-canvas boundary rejects before attachment and exact content-box alignment permits explicit retry',async()=>{
+  let inset=1;
+  const graphics={isUsable:()=>true,map:{getCanvas:()=>({getBoundingClientRect:()=>({left:inset,top:inset,right:1440-inset,bottom:1000-inset,width:1440-2*inset,height:1000-2*inset})})}};
+  const h=await harness(graphics,{width:1440,height:1000});
+  try{
+    await h.click(index[0].label);
+    await h.act({type:'set-view',view:'scene'});
+    assert.equal(h.attached,0,'a board extending beyond the real canvas must not attach');
+    assert.equal(h.evidence().state.view,'list');
+    assert.match(h.text(h.tree),/larger desktop viewport/);
+    assert.equal(h.find(node=>'data-case-compact' in node.props).props['data-case-compact'],false,'the recorded failure was not a small viewport');
+    inset=0;
+    await h.act({type:'set-view',view:'scene'});
+    assert.equal(h.attached,1,'explicit retry attaches after the host content box and canvas align');
+    assert.equal(h.evidence().state.view,'scene');
+  }finally{h.destroy();}
+});
+
+test('geographic host decoration paints inside its box without consuming canvas area',()=>{
+  const css=fs.readFileSync(path.join(host,'src/styles.css'),'utf8');
+  const rules=[...css.matchAll(/(?:^|\n)\.webgl-host\s*\{([^}]+)\}/g)].map(match=>match[1]);
+  assert.equal(rules.length,1);
+  assert.doesNotMatch(rules[0],/(?:^|;)\s*(?:border(?:-(?:width|left|right|top|bottom))?|padding(?:-(?:left|right|top|bottom))?)\s*:/);
+  assert.match(rules[0],/outline:\s*1px solid #7f8a5660;/);
+  assert.match(rules[0],/outline-offset:\s*-1px;/);
+  const workspace=fs.readFileSync(source,'utf8');
+  assert.match(workspace,/box\.left >= canvas\.left - \.5 && box\.top >= canvas\.top - \.5/);
+  assert.match(workspace,/box\.right <= canvas\.right \+ \.5 && box\.bottom <= canvas\.bottom \+ \.5/);
+});

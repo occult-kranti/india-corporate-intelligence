@@ -245,17 +245,31 @@ test("workflow preserves gates, action versions, static preview, and always-run 
   let original;
   try { original = await readFile(originalPath, "utf8"); }
   catch (error) { if (error.code !== "ENOENT") throw error; }
+  const smokeStep = `      - name: Smoke real native case scene before the full browser review
+        working-directory: spatial-prototype
+        timeout-minutes: 4
+        run: |
+          mkdir -p browser-review/early-scene-smoke
+          node scripts/browser-review.mjs --early-scene-smoke 2>&1 | tee browser-review/early-scene-smoke/browser-run.log
+`;
+  assert.equal(workflow.split(smokeStep).length - 1, 1, "The exact additional native smoke gate must occur once");
+  const smoke = workflow.indexOf(smokeStep);
+  assert.ok(smoke > workflow.indexOf("      - name: Install Chromium in CI only\n"));
+  assert.equal(workflow.indexOf("      - name: Review atlas and both qualified readers at the repository subpath\n"), smoke + smokeStep.length,
+    "The unchanged complete review must immediately follow the native smoke gate");
+  const originalWorkflow = workflow.replace(smokeStep, "");
   const partition = workflow.indexOf("      - name: Partition complete browser evidence into bounded artifacts\n");
   const preview = workflow.indexOf("      - name: Preserve static preview build (no deployment)\n");
   assert.ok(partition > 0 && preview > partition);
   // Anchored to the verified f028888 workflow, including on, permissions,
   // timeout, every test/build/browser/summary step, and the static preview.
-  assert.equal(sha256(workflow.slice(0, partition)), "d12bc52ce16a58732075327a75246dda19d5d08904ff2fc57968179a413c41d6");
+  // Remove only the exact added gate above; no other workflow edits are normalized.
+  assert.equal(sha256(originalWorkflow.slice(0, partition - smokeStep.length)), "d12bc52ce16a58732075327a75246dda19d5d08904ff2fc57968179a413c41d6");
   assert.equal(sha256(workflow.slice(preview)), "565561d495b225dafbc94a491af681d3f0656bb75cf0d69e841f4f61be233eaa");
   if (original) {
     const upload = original.indexOf("      - name: Preserve screenshots and diagnostics\n");
     const originalPreview = original.indexOf("      - name: Preserve static preview build (no deployment)\n");
-    assert.equal(workflow.slice(0, partition), original.slice(0, upload));
+    assert.equal(originalWorkflow.slice(0, partition - smokeStep.length), original.slice(0, upload));
     assert.equal(workflow.slice(preview), original.slice(originalPreview));
   }
   const block = workflow.slice(partition, preview);

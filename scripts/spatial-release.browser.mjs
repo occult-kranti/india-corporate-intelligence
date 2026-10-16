@@ -284,7 +284,9 @@ async function atlasActivityNavigation(page, result, mode, phase = 'initial') {
     const sample = node => {
       if (!node) return null;
       const box = node.getBoundingClientRect(); const style = getComputedStyle(node);
-      return { ...box.toJSON(), visible: style.display !== 'none' && style.visibility === 'visible' && Number(style.opacity) > 0 };
+      const hit = [0.1, 0.5, 0.9].every(x => [0.1, 0.5, 0.9].every(y =>
+        node.contains(document.elementFromPoint(box.left + box.width * x, box.top + box.height * y))));
+      return { ...box.toJSON(), hit, visible: style.display !== 'none' && style.visibility === 'visible' && Number(style.opacity) > 0 };
     };
     const link = document.querySelector('.atlas-workspace-links a[href="../research-activity/"]');
     const box = link?.getBoundingClientRect();
@@ -292,6 +294,7 @@ async function atlasActivityNavigation(page, result, mode, phase = 'initial') {
     return { viewport: { width: innerWidth, height: innerHeight }, header: sample(document.querySelector('.masthead')), link: sample(link), linkHit: Boolean(link && (link === hit || link.contains(hit))), status: sample(document.querySelector('.scene-overview')), reading: sample(document.querySelector('.reading-surface')),
       clearance: getComputedStyle(document.querySelector('.evidence-app')).getPropertyValue('--atlas-header-clearance'),
       intro: sample(document.querySelector('.room-caption')), dock: sample(document.querySelector('.bottom-dock')), camera: sample(document.querySelector('.camera-tools')),
+      legend: sample(document.querySelector('.legend')), buildingToggle: sample(document.querySelector('.city-toggle')),
       overlays: ['.evidence-inspector', '.city-info', '.map-status', '.journey-bar', '.lens-panel', '.audio-panel'].map(selector => ({ selector, frame: sample(document.querySelector(selector)) })) };
   });
   // Keep the actual failing boxes in report.json, including an overlap failure.
@@ -309,6 +312,14 @@ async function atlasActivityNavigation(page, result, mode, phase = 'initial') {
   }
   assert.ok(surface.height > 0 && surface.bottom <= frame.dock.top, `The ${mode} surface must retain usable height above the bottom dock`);
   if (frame.camera?.visible) assert.ok(!intersects(surface, frame.camera), `The ${mode} surface must leave the camera strip unobscured`);
+  for (const [name, control] of [['legend', frame.legend], ['buildings toggle', frame.buildingToggle]]) {
+    if (!control?.visible) continue;
+    assert.ok(!intersects(surface, control), `The ${mode} surface must not overlap the ${name}`);
+    assert.ok(!intersects(frame.header, control) && !intersects(frame.dock, control), `The ${name} must leave the header and dock unobscured`);
+    if (frame.camera?.visible) assert.ok(!intersects(frame.camera, control), `The ${name} must leave the camera strip unobscured`);
+    assert.ok(control.width > 0 && control.height > 0 && control.left >= 0 && control.top >= 0 && control.right <= frame.viewport.width && control.bottom <= frame.viewport.height && control.hit, `The ${name} must fit within the viewport and be hit-testable`);
+  }
+  assert.ok(surface.hit, `The visible ${mode} surface must be hit-testable throughout its scrollport`);
 }
 
 async function exerciseAtlasHeaderClearance(page, result, viewport) {
@@ -321,11 +332,13 @@ async function exerciseAtlasHeaderClearance(page, result, viewport) {
   await page.getByRole('button', { name: 'Explore', exact: true }).click();
   await atlasActivityNavigation(page, result, 'status', 'wrapped-navigation-text');
   await capture(page, result, 'atlas-wrapped-header-status');
+  await exerciseAtlasStatusAction(page, result, 'wrapped-header');
   await nav.evaluate((node, style) => { if (style === null) node.removeAttribute('style'); else node.setAttribute('style', style); }, previous);
   // 720×500 is a 200% effective viewport relative to 1440×1000, not browser zoom.
   await page.setViewportSize({ width: 720, height: 500 });
   await atlasActivityNavigation(page, result, 'status', '200-percent-effective-viewport');
   await capture(page, result, 'atlas-200-percent-effective-viewport-status');
+  await exerciseAtlasStatusAction(page, result, '200-percent-effective-viewport');
   await page.getByRole('button', { name: 'Reading', exact: true }).click();
   await atlasActivityNavigation(page, result, 'reading', '200-percent-effective-viewport');
   const reader = page.locator('.reading-surface');
@@ -334,8 +347,76 @@ async function exerciseAtlasHeaderClearance(page, result, viewport) {
   assert.ok(scroll.content > scroll.height && scroll.top > 0, 'The reader must remain scrollable in the reduced effective viewport');
   await reader.evaluate(node => { node.scrollTop = 0; });
   await capture(page, result, 'atlas-200-percent-effective-viewport-reading');
+  await exerciseAtlasReaderAction(page, result);
   await page.setViewportSize(viewport);
   await atlasActivityNavigation(page, result, 'reading', 'viewport-restored');
+}
+
+async function captureAtlasAction(page, result, target, phase, keyboard = false) {
+  const frame = await target.evaluate(node => {
+    const parent = node.closest('.reading-surface, .scene-overview, .legend');
+    const box = node.getBoundingClientRect(), surface = parent.getBoundingClientRect();
+    const hit = [0.15, 0.5, 0.85].every(x => node.contains(document.elementFromPoint(box.left + box.width * x, box.top + box.height / 2)));
+    return { text: node.textContent.trim(), target: box.toJSON(), surface: surface.toJSON(), hit, scrollTop: parent.scrollTop,
+      active: document.activeElement?.outerHTML.slice(0, 400), focused: node.closest('button, a, summary') === document.activeElement };
+  });
+  const text = await target.evaluate(readTextFrame);
+  (result.atlasActionReachability ??= []).push({ phase, keyboard, ...frame, textFrame: text });
+  assert.ok(frame.target.width > 0 && frame.target.height > 0 && frame.target.left >= frame.surface.left && frame.target.right <= frame.surface.right && frame.target.top >= frame.surface.top && frame.target.bottom <= frame.surface.bottom, `${phase}: the actual action must fit inside its scrollport`);
+  assert.ok(frame.hit && textFrameIsReadable(text), `${phase}: every action text line must be visible and hit-testable`);
+  if (keyboard) assert.ok(frame.focused, `${phase}: keyboard focus must remain on the action`);
+  await capture(page, result, `atlas-${phase}`);
+  return frame;
+}
+
+async function exerciseAtlasStatusAction(page, result, phase) {
+  const status = page.locator('.scene-overview');
+  const action = status.locator('.overview-read');
+  await action.evaluate(node => node.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'instant' }));
+  await atlasActivityNavigation(page, result, 'status', `${phase}-status-scrolled`);
+  await captureAtlasAction(page, result, action, `${phase}-status-action`);
+  const legend = page.locator('.legend');
+  if (await legend.isVisible()) {
+    const summary = legend.locator('summary');
+    await summary.click();
+    assert.equal(await legend.locator('details').getAttribute('open'), '');
+    await atlasActivityNavigation(page, result, 'status', `${phase}-legend-expanded`);
+    await captureAtlasAction(page, result, summary, `${phase}-expanded-legend`);
+    await summary.click();
+    await legend.evaluate(node => { node.scrollTop = 0; });
+  }
+  await status.evaluate(node => { node.scrollTop = 0; });
+}
+
+async function exerciseAtlasReaderAction(page, result) {
+  const reader = page.locator('.reading-surface');
+  const selector = '.reading-surface .record-grid > button.reading-card:first-child';
+  const card = page.locator(selector);
+  const action = card.locator('span').last();
+  await action.evaluate(node => node.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'instant' }));
+  const pointerFrame = await captureAtlasAction(page, result, action, '200-percent-effective-viewport-inspect-action');
+  assert.ok(pointerFrame.scrollTop > 0, 'The inspect-action capture must show actual reader scrolling');
+  // Start at the final reader tab, then use actual keyboard navigation into the
+  // first record and scroll with arrow keys until its Inspect evidence action fits.
+  await reader.evaluate(node => { node.scrollTop = 0; });
+  await reader.locator('.reader-tabs button').last().focus();
+  await page.keyboard.press('Tab');
+  await focused(page, selector);
+  let steps = 0;
+  while (!textFrameIsReadable(await action.evaluate(readTextFrame)) && steps < 24) {
+    await page.keyboard.press('ArrowDown');
+    await delay(100);
+    steps += 1;
+  }
+  (result.atlasReaderKeyboard ??= []).push({ phase: '200-percent-effective-viewport', steps, recordId: await card.getAttribute('data-record-id') });
+  await focused(page, selector);
+  const keyboardFrame = await captureAtlasAction(page, result, action, '200-percent-effective-viewport-keyboard-inspect', true);
+  assert.ok(keyboardFrame.scrollTop > 0, 'The keyboard capture must show the actual scrolled reader action');
+  await page.keyboard.press('Enter');
+  await page.getByRole('complementary', { name: 'Evidence reading panel', exact: true }).waitFor();
+  assert.equal(await page.locator('.evidence-inspector .inspector-content h2').textContent(), await card.locator('h3').textContent(), 'Enter on the keyboard-reached record must open the matching evidence');
+  await page.getByRole('button', { name: 'Close reading panel', exact: true }).click();
+  await reader.evaluate(node => { node.scrollTop = 0; });
 }
 
 async function exerciseActivityKeyboard(page, result) {

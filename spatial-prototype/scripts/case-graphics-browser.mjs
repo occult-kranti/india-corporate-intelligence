@@ -8,7 +8,7 @@ import { join } from 'node:path';
 import {
   loadCaseExpectation, caseWorkspace, caseSurface, caseRail, caseSourceDialog,
   openCaseWorkspace, chooseCase, showCaseScene, showCompleteCaseReader,
-  assertCompleteCaseReader, assertCaseFrame,
+  assertCompleteCaseReader, assertCaseFrame, caseWorkspaceDiagnostics,
 } from './case-workspace-browser.mjs';
 
 export const THREE_RENDERER_OBSERVER_SOURCE_SHA256 = '35cea4871231c3fddc3517dcd03fc876bdb8f9e73f1a77042b35e3de0498c4cd';
@@ -22,6 +22,18 @@ export const GRAPHICS_SCENARIOS = Object.freeze([
   '45-owned-render-exception-blocks-poisoned-renderer',
   '46-thirty-cycle-native-resource-handle-plateau',
 ]);
+export const GRAPHICS_SMOKE_SCENARIOS = Object.freeze([GRAPHICS_SCENARIOS[0]]);
+/** The full review remains the default. Only the named CI smoke may narrow it. */
+export function parseCaseGraphicsReviewMode(args) {
+  assert.ok(Array.isArray(args), 'Browser review arguments must be an array');
+  if (args.length === 0) return 'full';
+  assert.deepEqual(args, ['--early-scene-smoke'], 'Only the explicit --early-scene-smoke review argument is supported');
+  return 'early-scene-smoke';
+}
+export function selectCaseGraphicsScenarios(mode = 'full') {
+  assert.ok(mode === 'full' || mode === 'early-scene-smoke', 'Unknown case graphics review mode');
+  return mode === 'full' ? GRAPHICS_SCENARIOS : GRAPHICS_SMOKE_SCENARIOS;
+}
 export const RESOURCE_KINDS = Object.freeze(['Buffer', 'Texture', 'Framebuffer', 'Renderbuffer', 'Program', 'Shader', 'VertexArray', 'Query', 'Sampler', 'TransformFeedback', 'Sync']);
 const Q = JSON.stringify;
 const edgeButton = (page, id) => caseWorkspace(page).locator(`.ocv2-evidence [data-edge-id=${Q(id)}] button`);
@@ -356,7 +368,11 @@ function assertHostBoundaries(data, afterSequence = 0) {
 async function nativeLayout(page, result, phase, until, options = {}) {
   const before = options.afterPass ?? (await probe(page)).allPasses;
   if (options.invalidate !== false) await page.evaluate(() => window.dispatchEvent(new Event('resize')));
-  await until(async () => (await probe(page)).allPasses >= before + 2, `${phase}: did not observe fresh native scene/composite boundaries`);
+  await until(async () => {
+    const data = await probe(page);
+    return data.allPasses >= before + 2 && (options.afterSequence === undefined || ['scene', 'composite'].every(type =>
+      data.contexts.flatMap(context => context.passes).some(pass => pass.id > options.afterSequence && pass.type === type && pass.draws.some(draw => draw.nativeSucceeded))));
+  }, `${phase}: did not observe fresh native scene/composite boundaries`);
   const data = await probe(page), context = data.contexts.at(-1);
   const geometry = await caseSurface(page).evaluate(surface => {
     const canvas = document.querySelector('.webgl-host canvas');
@@ -432,18 +448,20 @@ async function recreateAndVerify(page, file, selection, until, assertSpatial) {
   return { before: old, after: await page.evaluate(() => window.__caseGraphicsProbe.identities()) };
 }
 
-export async function runCaseGraphicsBrowserCases({ root, output, scenario, capture, assertFullLoad, assertSpatial, assertCountryBase, until, report, temporary }) {
+export async function runCaseGraphicsBrowserCases({ root, output, scenario, capture, assertFullLoad, assertSpatial, assertCountryBase, until, report, temporary }, { mode = 'full' } = {}) {
   assert.equal(process.env.GITHUB_ACTIONS, 'true', 'Actual browser execution is restricted to authorized GitHub CI');
   assert.equal(process.env.SPATIAL_BROWSER_REVIEW, 'github-actions', 'Actual browser execution is restricted to the existing guarded harness');
+  const selectedScenarios = selectCaseGraphicsScenarios(mode);
   const sourcePath = join(root, 'node_modules/three/src/renderers/WebGLRenderer.js'), source = await readFile(sourcePath, 'utf8');
   assert.equal(createHash('sha256').update(source).digest('hex'), THREE_RENDERER_OBSERVER_SOURCE_SHA256, 'Installed Three renderer source changed; re-review the observation contract');
   assert.match(source, /__THREE_DEVTOOLS__\.dispatchEvent\( new CustomEvent\( 'observe', \{ detail: this \} \) \)/, 'Installed Three constructor observation contract changed');
   const { catalog, reference } = await loadCaseExpectation(root, temporary), files = catalog.cases;
   const { simple, dense } = selectCaseGraphicsFixtures(files);
-  const coverage = { actualBrowserExecution: true, environment: 'Authorized GitHub CI actual WebGL2, Chromium/ANGLE SwiftShader software renderer',
+  const coverage = { reviewMode: mode, requiredScenarios: selectedScenarios, actualBrowserExecution: true, environment: 'Authorized GitHub CI actual WebGL2, Chromium/ANGLE SwiftShader software renderer',
     sourceReference: reference, threeConstructorObserver: { source: 'node_modules/three/src/renderers/WebGLRenderer.js', sha256: createHash('sha256').update(source).digest('hex'), event: 'observe', access: 'read-only' },
     limitations: ['Native resource handles and deletion requests do not measure GPU-memory residency.', 'Instrumented CPU boundary timings and browser animation-frame intervals are not production/device FPS or GPU execution time.', 'Screenshot capture is evidence for subsequent assistant visual review, not automatic visual admission.'], scenarios: [] };
   async function run(name, options, work) {
+    if (!selectedScenarios.includes(name)) return;
     let context, current;
     await scenario(name, { query: '', blockTiles: true, budgetMs: 120000, ...options,
       beforeNavigation: async (value, result) => { context = value; current = result; await value.addInitScript(installCaseGraphicsProbe, { kinds: RESOURCE_KINDS }); },
@@ -453,6 +471,8 @@ export async function runCaseGraphicsBrowserCases({ root, output, scenario, capt
         try { const data = await probe(page); current.caseGraphics = { contexts: data.contexts.length, renderers: data.renderers.length, passes: data.allPasses, probeErrors: data.errors, evidence: `${name}.native-webgl.json` };
           await writeFile(join(output, `${name}.native-webgl.json`), JSON.stringify(data, null, 2) + '\n');
         } catch (error) { current.caseGraphicsDiagnosticError = String(error); current.status = 'failed'; current.error = `${current.error ?? ''}\nFailed preserving native WebGL evidence: ${error}`; process.exitCode = 1; }
+        try { current.caseWorkspaceDiagnostics = await caseWorkspaceDiagnostics(page); }
+        catch (error) { current.caseWorkspaceDiagnosticError = String(error); }
       } }, async (page, result) => {
       await assertFullLoad(page, result); await assertSpatial(page); await assertCountryBase(page);
       await page.evaluate(() => document.fonts.ready.then(() => undefined));
@@ -501,6 +521,55 @@ export async function runCaseGraphicsBrowserCases({ root, output, scenario, capt
     await caseWorkspace(page).getByRole('button', { name: 'Low quality on', exact: true }).click();
     await page.setViewportSize({ width: 1280, height: 900 }); const resized = await nativeLayout(page, result, 'resized', until);
     assert.notDeepEqual(resized.actualDrawingBuffer, base.actualDrawingBuffer); assert.equal(resized.quality, 1);
+    // Observe real growth before any synthetic resize or user retry. A conservative
+    // capture-phase fallback may retain the reader while MapLibre resizes its canvas.
+    const identitiesBeforeGrowth = await page.evaluate(() => window.__caseGraphicsProbe.identities());
+    const workspaceBeforeGrowth = await caseWorkspace(page).elementHandle();
+    const growthBefore = await probe(page), growthStart = growthBefore.allPasses;
+    const growthSequence = Math.max(0, ...growthBefore.contexts.flatMap(context => context.passes.map(pass => pass.id)));
+    await page.setViewportSize({ width: 1600, height: 1100 });
+    await until(async () => page.locator('.webgl-host canvas').evaluate((canvas, previous) => {
+      const rect = canvas.getBoundingClientRect();
+      return rect.width > previous.canvas.width && rect.height > previous.canvas.height &&
+        canvas.width > previous.actualDrawingBuffer[0] && canvas.height > previous.actualDrawingBuffer[1];
+    }, resized), 'Desktop growth did not resize the actual host canvas and drawing buffer');
+    await frames(page, 3);
+    const modeAfterGrowth = await caseWorkspace(page).getAttribute('data-case-view');
+    assert.ok(['scene', 'list'].includes(modeAfterGrowth), 'Desktop growth lost the active case workspace');
+    assert.equal(await workspaceBeforeGrowth.evaluate(element => element.isConnected && element === document.querySelector('[data-case-workspace]')), true, 'Desktop growth replaced the semantic workspace');
+    assert.equal(await caseWorkspace(page).getAttribute('data-case-id'), dense.id);
+    assert.equal(await caseWorkspace(page).getAttribute('data-case-selection'), selection);
+    result.caseResizeGrowth = { viewport: { width: 1600, height: 1100 }, modeAfterGrowth,
+      workspace: await caseWorkspace(page).evaluate(element => ({ ...element.dataset })),
+      explicitSceneReentry: true, selection, retainedSourceIds: dense.sources.map(source => source.id) };
+    let grown;
+    if (modeAfterGrowth === 'scene') {
+      grown = await nativeLayout(page, result, 'desktop-grown', until, { invalidate: false, afterPass: growthStart, afterSequence: growthSequence });
+      await assertCaseFrame(page, dense, until, result, 'desktop-grown');
+      await capture(page, result, `real-device-scale-${dpr}-desktop-grown`);
+      await showCompleteCaseReader(page, until);
+    } else {
+      assert.equal(await caseSurface(page).count(), 0, 'Desktop growth reader fallback retained an invalid physical scene');
+      await capture(page, result, `real-device-scale-${dpr}-desktop-grown-reader-fallback`);
+    }
+    result.caseResizeGrowth.completeReader = await assertCompleteCaseReader(page, dense);
+    assert.equal(await controls(page).getByRole('button', { name: 'Back within case', exact: true }).isEnabled(), true, 'Desktop growth lost semantic history');
+    const reentryBefore = await probe(page), reentryStart = reentryBefore.allPasses;
+    const reentrySequence = Math.max(0, ...reentryBefore.contexts.flatMap(context => context.passes.map(pass => pass.id)));
+    await showCaseScene(page, until, result, 'desktop-grown-reentry');
+    const reentered = await nativeLayout(page, result, 'desktop-grown-reentry', until, { invalidate: false, afterPass: reentryStart, afterSequence: reentrySequence });
+    assert.ok(reentered.board.width > resized.board.width && reentered.board.height > resized.board.height, 'Desktop growth did not enlarge both physical board dimensions');
+    assert.ok(reentered.actualDrawingBuffer.every((value, axis) => value > resized.actualDrawingBuffer[axis]), 'Desktop growth did not enlarge the actual native drawing buffer');
+    if (grown) {
+      assert.deepEqual(reentered.actualDrawingBuffer, grown.actualDrawingBuffer);
+      assert.deepEqual(reentered.actualViewport, grown.actualViewport);
+      assert.deepEqual(reentered.target, grown.target);
+    }
+    assert.equal(await workspaceBeforeGrowth.evaluate(element => element.isConnected && element === document.querySelector('[data-case-workspace]')), true, 'Scene re-entry replaced the semantic workspace');
+    assert.equal(await caseWorkspace(page).getAttribute('data-case-selection'), selection);
+    assert.deepEqual(await page.evaluate(() => window.__caseGraphicsProbe.identities()), identitiesBeforeGrowth, 'Desktop growth or scene re-entry replaced the shared renderer/context/canvas');
+    await assertCaseFrame(page, dense, until, result, 'desktop-grown-reentry');
+    await capture(page, result, `real-device-scale-${dpr}-desktop-grown-reentry`);
     const beforeMove = await nativeLayout(page, result, 'before-position-only', until);
     const movementStart = (await probe(page)).allPasses;
     await caseSurface(page).evaluate(element => { element.parentElement.style.transform = 'translateX(7px)'; });
@@ -511,7 +580,7 @@ export async function runCaseGraphicsBrowserCases({ root, output, scenario, capt
     const restoreStart = (await probe(page)).allPasses;
     await caseSurface(page).evaluate(element => { element.parentElement.style.removeProperty('transform'); }); await nativeLayout(page, result, 'position-restored', until, { invalidate: false, afterPass: restoreStart });
     assert.equal(await caseWorkspace(page).getAttribute('data-case-selection'), selection); await capture(page, result, `real-device-scale-${dpr}-resize-and-quality`);
-    result.notes.push(`Actual Chromium deviceScaleFactor=${dpr}; native drawing-buffer viewport/scissor, capped offscreen dimensions, quality changes and CSS position-only movement were observed. No emulated production metrics substitute for native GL calls.`);
+    result.notes.push(`Actual Chromium deviceScaleFactor=${dpr}; native drawing-buffer viewport/scissor, capped offscreen dimensions, quality changes, desktop shrink/growth, complete-reader-to-scene re-entry and CSS position-only movement were observed. No emulated production metrics substitute for native GL calls.`);
   });
 
   await run(GRAPHICS_SCENARIOS[3], {}, async (page, result) => {
@@ -609,6 +678,8 @@ export async function runCaseGraphicsBrowserCases({ root, output, scenario, capt
     result.notes.push('Three warm-up cycles are disclosed separately; all thirty measured cycles open/close, select, change quality and detach/reattach the case layer. Every observed native resource kind must return to or below the warmed baseline, case-owned live handles must be zero, and renderer/context identities cannot grow. These are create/delete-handle observations, not GPU-memory residency.');
   });
   coverage.scenarios = report.scenarios.filter(row => GRAPHICS_SCENARIOS.includes(row.name)).map(row => ({ name: row.name, status: row.status, error: row.error ?? null, nativeEvidence: row.caseGraphics?.evidence ?? null }));
+  coverage.selectedBrowserAcceptancePassed = coverage.scenarios.length === selectedScenarios.length && coverage.scenarios.every(row => selectedScenarios.includes(row.name) && row.status === 'passed' && row.nativeEvidence);
   coverage.browserAcceptancePassed = coverage.scenarios.length === GRAPHICS_SCENARIOS.length && coverage.scenarios.every(row => row.status === 'passed' && row.nativeEvidence);
   await writeFile(join(output, 'case-graphics-coverage-index.json'), JSON.stringify(coverage, null, 2) + '\n');
+  assert.ok(coverage.selectedBrowserAcceptancePassed, `Required ${mode} native graphics scenarios did not all pass with preserved evidence`);
 }

@@ -38,6 +38,9 @@
 .cw-role-label {background:#173c2eeb;color:#fff1ce;font-size:.75rem;}
 .cw-labels [data-selected=true] {outline:2px solid #f5cd75;font-weight:bold;}
 .cw-rail {background:#f0e7d1;color:#183a2b;padding:clamp(1rem,2vw,1.75rem);min-height:0;}
+.cw-rail:focus-visible {outline-offset:-4px;}
+/* Claim captures and scroll targets start with their claim kind/number, not only h3. */
+.cw-rail .ocd-evidence-content {scroll-margin-block-start:1.25rem;}
 .cw-rail>section {margin-bottom:1.25rem;}
 .cw-rail nav {display:flex;flex-wrap:wrap;gap:.5rem;}
 .cw-rail li {margin-block:.6rem;}

@@ -1577,7 +1577,8 @@ svg {
   bottom: 108px;
 }
 .webgl-host {
-  border: 1px solid #7f8a5660;
+  outline: 1px solid #7f8a5660;
+  outline-offset: -1px;
   box-shadow: inset 0 0 70px #001c1a66;
 }
 @media (max-width: 800px) {
@@ -1899,6 +1900,29 @@ svg {
 @media (max-width: 800px) {
   .scene-overview, .is-exploring .scene-overview {
     max-width: min(320px, calc(100% - 90px));
+  }
+}
+
+/* The two left-hand panels share the space below the measured introduction.
+   Each scrolls independently; expanding the legend cannot cover the registry.
+   Keep the existing 130px dock/attribution reservation at the bottom. */
+.scene-overview, .legend { scroll-padding-block: 12px; }
+.scene-overview button, .legend summary { scroll-margin-block: 12px; }
+@media (min-width: 801px) {
+  .scene-overview, .is-exploring .scene-overview {
+    max-height: max(0px, calc((100% - var(--atlas-overview-top) - 130px) / 2 - 12px));
+  }
+  .legend {
+    bottom: 130px;
+    max-height: max(0px, calc((100% - var(--atlas-overview-top) - 130px) / 2));
+    overflow: auto;
+  }
+}
+@media (max-width: 800px) {
+  /* The buildings control occupies 36px above its existing 123px bottom inset. */
+  .city-toggle { height: 36px; }
+  .scene-overview, .is-exploring .scene-overview {
+    max-height: max(0px, calc(100% - var(--atlas-overview-top) - 123px - 36px - 12px));
   }
 }
 

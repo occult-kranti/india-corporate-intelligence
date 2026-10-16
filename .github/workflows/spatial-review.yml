@@ -54,6 +54,12 @@ jobs:
       - name: Install Chromium in CI only
         working-directory: spatial-prototype
         run: npx --no-install playwright install --with-deps chromium
+      - name: Smoke real native case scene before the full browser review
+        working-directory: spatial-prototype
+        timeout-minutes: 4
+        run: |
+          mkdir -p browser-review/early-scene-smoke
+          node scripts/browser-review.mjs --early-scene-smoke 2>&1 | tee browser-review/early-scene-smoke/browser-run.log
       - name: Review atlas and both qualified readers at the repository subpath
         working-directory: spatial-prototype
         run: node scripts/browser-review.mjs 2>&1 | tee browser-review/browser-run.log

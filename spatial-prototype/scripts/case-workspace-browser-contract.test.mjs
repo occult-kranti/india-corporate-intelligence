@@ -67,8 +67,36 @@ test('evidence checks cover full source closure, hidden qualifiers, claims and s
   assert.match(script, /response\.body\(\)/);
   assert.match(script, /encodedBodySize, row\.bodyBytes/);
   assert.match(script, /new Set\(code\)\.size, code\.length/);
-  assert.match(script, /data-case-capture-band/);
+  assert.match(script, /caseCaptureAlignmentSamples/);
   assert.doesNotMatch(script, /\.screenshot\(/, 'All captures should use the parent page-capture helper; locator screenshots can silently reposition the reader');
+});
+
+test('claim captures include the kind/number, title and first assertion without changing evidence DOM', () => {
+  assert.match(script, /content\.querySelector\(':scope > \.ocd-eyebrow'\)/);
+  assert.match(script, /claimKindAndNumber: rect\(anchor\), heading: rect\(element\), firstAssertion: rect\(element\.nextElementSibling\)/);
+  assert.match(script, /Math\.max\(s\.top, h\.bottom, 0\)/);
+  assert.match(script, /validateCaseCaptureAlignment\(before\)/);
+  assert.match(script, /validateCaseCaptureAlignment\(after\)/);
+  assert.match(script, /Math\.abs\(after\.scrollTop - before\.scrollTop\) <= 1/);
+  assert.match(script, /caseReaderLayoutSamples/);
+  assert.match(script, /sample\.header\.bottom <= sample\.scroll\.top \+ 0\.5/);
+});
+
+test('CI exercises keyboard source actions after independent case-reader scrolling', () => {
+  assert.match(script, /\['top', 0\], \['middle', 0\.5\], \['bottom', 1\]/);
+  assert.match(script, /Case reader PageDown lost focus/);
+  assert.match(script, /Source summary is not keyboard-reachable from the scrolled case reader/);
+  assert.match(script, /await assertActionVisible\(opener, 'claim-source-opener'\)/);
+  assert.match(script, /openClaimSourcesByKeyboard\(page, claim, result, phase\)/);
+  assert.match(script, /openClaimSourcesByKeyboard\(page, file\.claims\[0\], result, 'compact-first-reader'\)/);
+});
+
+test('scene readiness retains physical frame predicates and saves geometry before and after requests and failures', () => {
+  for (const stage of ['before-request', 'after-request', 'ready', 'failure']) assert.ok(script.includes(`await record('${stage}')`));
+  for (const attribute of ['data-case-frame-nodes', 'data-case-scene-draws', 'data-case-composite-draws'])
+    assert.ok(script.includes(`Number(await caseSurface(page).getAttribute('${attribute}')) > 0`));
+  for (const field of ['board: rect(board)', 'canvas: rect(canvas)', 'workspace: rect(workspace)', 'caseSceneReadinessSamples', 'Case scene readiness diagnostics:'])
+    assert.ok(script.includes(field));
 });
 
 

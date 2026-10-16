@@ -86,14 +86,47 @@ export async function chooseCase(page, fileOrProfileId, until) {
   `Complete reader did not load for ${profileId}`);
   return caseWorkspace(page);
 }
-export async function showCaseScene(page, until) {
-  await viewControls(page).getByRole('button', { name: 'Case scene', exact: true }).click();
-  await until(async () => await caseWorkspace(page).getAttribute('data-case-view') === 'scene' &&
-    Number(await caseSurface(page).getAttribute('data-case-frame-nodes')) > 0 &&
-    Number(await caseSurface(page).getAttribute('data-case-scene-draws')) > 0 &&
-    Number(await caseSurface(page).getAttribute('data-case-composite-draws')) > 0,
-  'Case scene did not report a physical scene and composite draw', 30000);
-  return caseSurface(page);
+/** Actual DOM geometry and state, including failures before a physical frame exists. */
+export async function caseWorkspaceDiagnostics(page) {
+  return page.evaluate(() => {
+    const workspace = document.querySelector('[data-case-workspace]');
+    const board = workspace?.querySelector('[data-case-surface]');
+    const canvas = document.querySelector('.webgl-host canvas');
+    const rect = element => element?.getBoundingClientRect().toJSON() ?? null;
+    return { viewport: { width: innerWidth, height: innerHeight, devicePixelRatio },
+      workspace: rect(workspace), board: rect(board), canvas: rect(canvas),
+      mode: workspace?.dataset.caseView ?? null, compact: workspace?.dataset.caseCompact ?? null,
+      caseId: workspace?.dataset.caseId ?? null, selection: workspace?.dataset.caseSelection ?? null,
+      motion: workspace?.dataset.caseMotion ?? null,
+      notices: [...(workspace?.querySelectorAll('.cw-notice,[role="status"]') ?? [])].map(element => element.textContent.trim()).filter(Boolean),
+      counters: { frameNodes: Number(board?.dataset.caseFrameNodes ?? 0), frameRoles: Number(board?.dataset.caseFrameRoles ?? 0),
+        sceneDraws: Number(board?.dataset.caseSceneDraws ?? 0), compositeDraws: Number(board?.dataset.caseCompositeDraws ?? 0),
+        targetWidth: Number(board?.dataset.caseTargetWidth ?? 0), targetHeight: Number(board?.dataset.caseTargetHeight ?? 0) } };
+  });
+}
+export async function showCaseScene(page, until, result, phase = 'case-scene') {
+  const samples = [];
+  const record = async stage => {
+    const sample = { phase, stage, ...await caseWorkspaceDiagnostics(page) };
+    samples.push(sample);
+    if (result) (result.caseSceneReadinessSamples ??= []).push(sample);
+  };
+  await record('before-request');
+  try {
+    await viewControls(page).getByRole('button', { name: 'Case scene', exact: true }).click();
+    await record('after-request');
+    await until(async () => await caseWorkspace(page).getAttribute('data-case-view') === 'scene' &&
+      Number(await caseSurface(page).getAttribute('data-case-frame-nodes')) > 0 &&
+      Number(await caseSurface(page).getAttribute('data-case-scene-draws')) > 0 &&
+      Number(await caseSurface(page).getAttribute('data-case-composite-draws')) > 0,
+    'Case scene did not report a physical scene and composite draw', 30000);
+    await record('ready');
+    return caseSurface(page);
+  } catch (error) {
+    await record('failure');
+    error.message += `\nCase scene readiness diagnostics: ${JSON.stringify(samples)}`;
+    throw error;
+  }
 }
 export async function showCompleteCaseReader(page, until) {
   await viewControls(page).getByRole('button', { name: 'Complete reader', exact: true }).click();
@@ -230,25 +263,89 @@ async function assertNoAdmission(page, baseline) {
   assert.deepEqual(await geographySnapshot(page), baseline, 'Case-only work changed global geography, selection or registry counts');
   assert.equal(await caseWorkspace(page).locator('.relationship-route,[data-path-eligible="true"],[data-public-graph-eligible="true"]').count(), 0);
 }
-async function positionBand(page, target, scroll = caseRail(page)) {
+export function validateCaseReaderLayout(sample) {
+  const within = (inner, outer) => inner.left >= outer.left - 0.5 && inner.top >= outer.top - 0.5 &&
+    inner.right <= outer.right + 0.5 && inner.bottom <= outer.bottom + 0.5;
+  assert.ok(within(sample.workspace, { left: 0, top: 0, right: sample.viewport.width, bottom: sample.viewport.height }), 'Case workspace exceeds the effective viewport');
+  assert.ok(within(sample.header, sample.workspace) && within(sample.scroll, sample.workspace), 'Case header or reader escapes the workspace');
+  assert.ok(sample.header.bottom <= sample.scroll.top + 0.5, 'Workspace header overlaps case content');
+  assert.ok(sample.scroll.height >= 120, 'Case reader has no usable independent scroll region');
+  assert.ok(sample.controls.length >= 1 && sample.controls.every(control => within(control.rect, sample.header) && control.hit), 'Workspace header controls are clipped or obscured');
+  assert.ok(sample.scrollWidth <= sample.clientWidth + 1, 'Case reader horizontally overflows');
+  assert.equal(sample.outerScrollTop, 0, 'Workspace shell must not scroll underneath its header');
+  assert.ok(['auto', 'scroll'].includes(sample.overflowY), 'Case evidence must scroll independently');
+  assert.equal(sample.focusable, true, 'Case reader must support keyboard scrolling');
+  assert.ok(sample.label?.trim(), 'Case reader needs an accessible name');
+}
+export async function measureCaseReaderLayout(page, result, phase) {
+  const sample = await caseWorkspace(page).evaluate(workspace => {
+    const header = workspace.querySelector('.cw-header'), scroll = workspace.querySelector('[data-reader-scroll="workspace-evidence"]');
+    const rect = element => element.getBoundingClientRect().toJSON();
+    return { workspace: rect(workspace), header: rect(header), scroll: rect(scroll),
+      viewport: { width: innerWidth, height: innerHeight }, scrollTop: scroll.scrollTop,
+      scrollHeight: scroll.scrollHeight, clientHeight: scroll.clientHeight, scrollWidth: scroll.scrollWidth, clientWidth: scroll.clientWidth,
+      outerScrollTop: workspace.scrollTop, overflowY: getComputedStyle(scroll).overflowY,
+      focusable: scroll.tabIndex === 0, label: scroll.getAttribute('aria-label'),
+      controls: [...header.querySelectorAll('button')].map(button => {
+        const box = rect(button), hit = document.elementFromPoint(box.x + box.width / 2, box.y + box.height / 2);
+        return { label: button.textContent.trim(), rect: box, hit: hit === button || button.contains(hit) };
+      }) };
+  });
+  if (result) (result.caseReaderLayoutSamples ??= []).push({ phase, ...sample });
+  validateCaseReaderLayout(sample);
+  return sample;
+}
+export function validateCaseCaptureAlignment(sample) {
+  const { visible, anchor, gap } = sample;
+  assert.ok(anchor.top >= visible.top + gap - 1 && anchor.top < visible.bottom - 32, 'Case capture target is outside its unobscured reading band');
+  // A long source/qualification block may continue below the viewport. A claim
+  // introduction must show its complete kind/number, title and first assertion.
+  for (const [name, rect] of Object.entries(sample.introduction ?? {})) {
+    assert.ok(rect.top >= visible.top + gap - 1 && rect.bottom <= visible.bottom - 1 &&
+      rect.left >= visible.left - 0.5 && rect.right <= visible.right + 0.5,
+    `Case ${name} is clipped at the capture target`);
+  }
+}
+async function measureCaseCapture(target) {
+  return target.evaluate(element => {
+    const scroll = element.closest('[data-reader-scroll]');
+    const header = element.closest('[data-case-workspace]').querySelector('.cw-header');
+    const content = element.parentElement;
+    const claimHeading = element.matches('.ocd-evidence-content > h3');
+    const anchor = claimHeading ? content.querySelector(':scope > .ocd-eyebrow') : element;
+    const rect = item => item.getBoundingClientRect().toJSON();
+    const s = rect(scroll), h = rect(header);
+    return { target: rect(element), anchor: rect(anchor), scrollTop: scroll.scrollTop,
+      gap: Math.max(20, parseFloat(getComputedStyle(claimHeading ? content : element).scrollMarginTop) || 0),
+      visible: { top: Math.max(s.top, h.bottom, 0), bottom: Math.min(s.bottom, innerHeight), left: Math.max(s.left, 0), right: Math.min(s.right, innerWidth) },
+      introduction: claimHeading ? { claimKindAndNumber: rect(anchor), heading: rect(element), firstAssertion: rect(element.nextElementSibling) } : null };
+  });
+}
+async function positionBand(page, target) {
   await target.evaluate(element => {
     const scroller = element.closest('[data-reader-scroll]');
     if (!scroller) throw new Error('Capture target has no independently scrolling reader');
-    scroller.scrollTop += element.getBoundingClientRect().top - scroller.getBoundingClientRect().top - 20;
+    const content = element.parentElement, claimHeading = element.matches('.ocd-evidence-content > h3');
+    const anchor = claimHeading ? content.querySelector(':scope > .ocd-eyebrow') : element;
+    const header = element.closest('[data-case-workspace]').querySelector('.cw-header');
+    const top = Math.max(scroller.getBoundingClientRect().top, header.getBoundingClientRect().bottom, 0);
+    const gap = Math.max(20, parseFloat(getComputedStyle(claimHeading ? content : element).scrollMarginTop) || 0);
+    scroller.scrollTop += anchor.getBoundingClientRect().top - top - gap;
   });
-  await page.waitForFunction(({ targetSelector, scrollSelector }) => {
-    const target = document.querySelector(targetSelector), scroll = document.querySelector(scrollSelector);
-    if (!target || !scroll) return false;
-    const t = target.getBoundingClientRect(), s = scroll.getBoundingClientRect();
-    return t.top >= s.top - 1 && t.top < s.bottom - 32;
-  }, { targetSelector: await target.evaluate(element => { element.dataset.caseCaptureBand = 'current'; return '[data-case-capture-band="current"]'; }),
-    scrollSelector: await scroll.evaluate(element => `[data-reader-scroll=${JSON.stringify(element.getAttribute('data-reader-scroll'))}]`) });
-  await target.evaluate(element => { delete element.dataset.caseCaptureBand; });
+  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
 }
-async function captureBand(page, result, capture, coverage, file, label, target, scroll) {
-  await positionBand(page, target, scroll);
+async function captureBand(page, result, capture, coverage, file, label, target) {
+  await positionBand(page, target);
+  await measureCaseReaderLayout(page, result, `${file.id}:${label}`);
+  const before = await measureCaseCapture(target);
+  (result.caseCaptureAlignmentSamples ??= []).push({ caseId: file.id, band: label, stage: 'before-capture', ...before });
+  validateCaseCaptureAlignment(before);
   await capture(page, result, `${safeName(file.id)}-${label}`);
-  coverage.captures.push({ caseId: file.id, band: label, file: result.screenshots.at(-1) });
+  const after = await measureCaseCapture(target);
+  result.caseCaptureAlignmentSamples.push({ caseId: file.id, band: label, stage: 'after-capture', ...after });
+  validateCaseCaptureAlignment(after);
+  assert.ok(Math.abs(after.scrollTop - before.scrollTop) <= 1, 'Screenshot capture repositioned the case reader');
+  coverage.captures.push({ caseId: file.id, band: label, file: result.screenshots.at(-1), alignment: after });
 }
 async function openClaimSources(page, claim) {
   const controls = caseRail(page).getByRole('region', { name: 'Source dialog controls' });
@@ -257,6 +354,51 @@ async function openClaimSources(page, claim) {
   const opener = details.getByRole('button', { name: `Claim ${claim.number}: ${claim.proposedLabel}`, exact: true });
   await opener.click(); await caseSourceDialog(page).waitFor({ state: 'visible' });
   assert.equal(await caseSourceDialog(page).evaluate(element => element.open && element.matches(':modal')), true, 'Sources must use a native modal dialog');
+  return opener;
+}
+async function openClaimSourcesByKeyboard(page, claim, result, phase) {
+  const scroll = caseRail(page);
+  const max = await scroll.evaluate(element => element.scrollHeight - element.clientHeight);
+  assert.ok(max > 100, 'Complete case evidence must actually overflow its reader');
+  for (const [name, fraction] of [['top', 0], ['middle', 0.5], ['bottom', 1]]) {
+    await scroll.evaluate((element, top) => { element.scrollTop = top; }, max * fraction);
+    await measureCaseReaderLayout(page, result, `${phase}:${name}`);
+  }
+  await scroll.evaluate(element => { element.scrollTop = 0; element.focus({ preventScroll: true }); });
+  await page.keyboard.press('PageDown');
+  await page.waitForFunction(() => document.querySelector('[data-reader-scroll="workspace-evidence"]')?.scrollTop > 0, null, { timeout: 5000 });
+  assert.equal(await scroll.evaluate(element => document.activeElement === element), true, 'Case reader PageDown lost focus');
+  const outline = await scroll.evaluate(element => ({ width: parseFloat(getComputedStyle(element).outlineWidth), style: getComputedStyle(element).outlineStyle, offset: parseFloat(getComputedStyle(element).outlineOffset) }));
+  assert.ok(outline.width >= 2 && outline.style !== 'none' && outline.offset <= -outline.width, 'Case keyboard scroll outline must remain inside the visible rail');
+  await measureCaseReaderLayout(page, result, `${phase}:keyboard-page-down`);
+  await scroll.evaluate(element => { element.scrollTop = element.scrollHeight; element.focus({ preventScroll: true }); });
+  const details = scroll.getByRole('region', { name: 'Source dialog controls' }).locator('details');
+  const summary = details.locator('summary');
+  // From the scrolled rail's own tab stop, the browser must bring its first source
+  // controls back into view. No click or programmatic focus on the action masks it.
+  for (let step = 0; step < 4 && !await summary.evaluate(element => document.activeElement === element); step++)
+    await page.keyboard.press('Tab');
+  assert.equal(await summary.evaluate(element => document.activeElement === element), true, 'Source summary is not keyboard-reachable from the scrolled case reader');
+  async function assertActionVisible(action, label) {
+    const sample = await action.evaluate(element => {
+      const scroll = element.closest('[data-reader-scroll]'), rect = item => item.getBoundingClientRect().toJSON();
+      const box = rect(element), bounds = rect(scroll), hit = document.elementFromPoint(box.x + box.width / 2, box.y + box.height / 2);
+      return { action: rect(element), scroll: bounds, focused: document.activeElement === element, hit: hit === element || element.contains(hit) };
+    });
+    (result.caseReaderKeyboardSamples ??= []).push({ phase, label, ...sample });
+    assert.ok(sample.focused && sample.hit && sample.action.top >= sample.scroll.top - 0.5 && sample.action.bottom <= sample.scroll.bottom + 0.5,
+      `${phase}: ${label} is clipped or obscured after keyboard scrolling`);
+  }
+  await assertActionVisible(summary, 'source-summary');
+  if (await details.getAttribute('open') === null) await page.keyboard.press('Enter');
+  const opener = details.getByRole('button', { name: `Claim ${claim.number}: ${claim.proposedLabel}`, exact: true });
+  const count = await details.getByRole('button').count();
+  for (let step = 0; step < count && !await opener.evaluate(element => document.activeElement === element); step++)
+    await page.keyboard.press('Tab');
+  await assertActionVisible(opener, 'claim-source-opener');
+  await page.keyboard.press('Enter');
+  await caseSourceDialog(page).waitFor({ state: 'visible' });
+  assert.equal(await caseSourceDialog(page).evaluate(element => element.open && element.matches(':modal')), true, 'Keyboard sources must open a native modal dialog');
   return opener;
 }
 async function closeClaimSources(page, opener, until) {
@@ -431,7 +573,7 @@ export async function runCaseWorkspaceBrowserCases({ root, dist, output, scenari
       resources.stage(index === 0 ? 'first-complete-reader' : 'subsequent-case-switches');
       await chooseCase(page, file, until);
       resources.stage(index === 0 ? 'first-case-scene' : 'subsequent-case-scenes');
-      await showCaseScene(page, until); await assertCaseFrame(page, file, until, result, 'initial');
+      await showCaseScene(page, until, result); await assertCaseFrame(page, file, until, result, 'initial');
       assert.equal(await canvas.evaluate(element => element.isConnected && element === document.querySelector('.webgl-host canvas')), true, 'A case replaced the incumbent canvas');
       assert.equal(await page.locator('canvas').count(), 1, 'Case scene created an extra canvas');
       assert.deepEqual(await page.evaluate(() => window.__spatialReviewGraphics.contexts), graphics.contexts, 'Case scene allocated another WebGL context');
@@ -468,7 +610,7 @@ export async function runCaseWorkspaceBrowserCases({ root, dist, output, scenari
     const claim = [...file.claims].sort((a, b) => (b.v2?.recursiveDependencyClaimIds.length ?? 0) - (a.v2?.recursiveDependencyClaimIds.length ?? 0))[0];
     await openCaseWorkspace(page, until); await chooseCase(page, file, until);
     const baseline = await geographySnapshot(page);
-    await showCaseScene(page, until);
+    await showCaseScene(page, until, result);
     assert.equal(await caseWorkspace(page).getAttribute('data-case-motion'), 'false');
     const edge = file.edges[0];
     await evidence(page).locator(`[data-edge-id=${quoted(edge.id)}] button`).click();
@@ -504,7 +646,7 @@ export async function runCaseWorkspaceBrowserCases({ root, dist, output, scenari
         await assertCompleteCaseReader(page, file);
         await captureBand(page, result, capture, coverage, file, `${phase}-complete-reader`, caseArticle(page, file.claims[0].claimId).locator(':scope > .ocd-evidence-content > h3'));
       }
-      const opener = await openClaimSources(page, claim), dialog = caseSourceDialog(page);
+      const opener = await openClaimSourcesByKeyboard(page, claim, result, phase), dialog = caseSourceDialog(page);
       assertClaimEvidence(await readEvidenceDOM(dialog.locator('[data-reader-scroll] > .ocd-evidence-content')), claim, file);
       await measureReaderLayout(dialog, result, `${phase}:source-open`);
       await exerciseReaderScroll(page, dialog, result, `${phase}:source-scroll`);
@@ -522,7 +664,7 @@ export async function runCaseWorkspaceBrowserCases({ root, dist, output, scenari
     }
     await page.setViewportSize({ width: 1440, height: 1000 });
     await until(async () => await caseWorkspace(page).getAttribute('data-case-compact') === 'false', 'Desktop compact fallback did not clear');
-    await showCaseScene(page, until);
+    await showCaseScene(page, until, result);
     await page.setViewportSize({ width: 640, height: 450 });
     await until(async () => await caseWorkspace(page).getAttribute('data-case-view') === 'list' && await caseSurface(page).count() === 0, 'Live scene did not fall back to the complete reader after a compact resize');
     await assertCompleteCaseReader(page, file);
@@ -615,6 +757,9 @@ export async function runCaseWorkspaceBrowserCases({ root, dist, output, scenari
     await assertCompleteCaseReader(page, file); await assertReaderOnly(page, result);
     assert.equal(await caseWorkspace(page).getAttribute('data-case-compact'), 'true');
     assert.deepEqual(requested(result, assets.scene), []);
+    const sourceOpener = await openClaimSourcesByKeyboard(page, file.claims[0], result, 'compact-first-reader');
+    await measureReaderLayout(caseSourceDialog(page), result, 'compact-first-reader:keyboard-source-open');
+    await closeClaimSources(page, sourceOpener, until);
     await captureBand(page, result, capture, coverage, file, 'compact-320-first-open-readable', caseArticle(page, file.claims[0].claimId).locator(':scope > .ocd-evidence-content > h3'));
     coverage.resources.push({ scenario: result.name, ...await resources.finish() });
     result.notes.push('First-open completion, first-paint frames, actual JS/CSS transfer/body bytes and supported Long Tasks are measured on CI at 320×844 with touch/reduced-motion emulation. These values are not mobile-device performance measurements.');
