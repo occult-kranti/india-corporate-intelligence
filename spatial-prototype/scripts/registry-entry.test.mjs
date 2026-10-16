@@ -6,7 +6,8 @@ import { join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { createRequire } from 'node:module';
 import { createElement } from 'react';
-import { renderToStaticMarkup } from 'react-dom/server';
+import { renderToStaticMarkup, renderToPipeableStream } from 'react-dom/server';
+import { PassThrough } from 'node:stream';
 import { build } from 'esbuild';
 
 const require = createRequire(import.meta.url);
@@ -35,6 +36,24 @@ function deferred() {
   return { promise, resolve, reject };
 }
 const render = props => renderToStaticMarkup(createElement(RegistryEntryView, { href, onRetry: () => {}, ...props }));
+// Dynamic imports perform filesystem I/O; a fixed number of event-loop ticks is
+// not a completion signal across Node versions and CI load. React's streaming
+// all-ready callback resolves only after the Suspense boundary actually settles.
+function renderResolved(props) {
+  return new Promise((resolve, reject) => {
+    const output = new PassThrough();
+    let html = '';
+    output.setEncoding('utf8');
+    output.on('data', chunk => { html += chunk; });
+    output.on('end', () => resolve(html));
+    output.on('error', reject);
+    const stream = renderToPipeableStream(createElement(RegistryEntryView, { href, onRetry: () => {}, ...props }), {
+      onAllReady() { stream.pipe(output); },
+      onError(error) { reject(error); },
+    });
+  });
+}
+
 
 test('full is the default; only an explicit dataset=preview query opts into the subset', () => {
   for (const query of ['', '?dataset=full', '?dataset=unknown', '?dataset=PREVIEW', '?other=preview']) assert.equal(requestedDataset(query), 'full');
@@ -79,18 +98,14 @@ test('preview is labeled during lazy-loading and passes its dataset flag to the 
   assert.match(html, /PREVIEW DATASET/);
   assert.match(html, /36 entities · 12 records · 33 relationships · 24 sources/);
   assert.match(html, /data-registry-dataset="preview"/);
-  await tick();
-  await tick();
-  html = render(props);
+  html = await renderResolved(props);
   assert.match(html, /data-test-app="preview"/);
   assert.doesNotMatch(html, /data-test-app="full"/);
   assert.doesNotMatch(html, /<aside|registry-preview-app/, 'the mounted App owns its masthead dataset labeling');
 });
 
 test('only the resolved complete registry is passed to lazy App as dataset=full', async () => {
-  render({ dataset: 'full', state: { phase: 'ready', registry } });
-  await tick();
-  const html = render({ dataset: 'full', state: { phase: 'ready', registry } });
+  const html = await renderResolved({ dataset: 'full', state: { phase: 'ready', registry } });
   assert.match(html, /data-registry-state="ready"/);
   assert.match(html, /data-test-app="full"/);
   assert.match(html, /data-record-count="1"/);
