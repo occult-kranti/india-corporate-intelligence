@@ -9,6 +9,7 @@ import { pathToFileURL } from 'node:url';
 import { build } from 'esbuild';
 import { measureReaderLayout, exerciseReaderScroll } from './reader-layout-review.mjs';
 import { assertCaseLabelReadability } from './case-label-readability.mjs';
+import { createCaseLabelCoverage } from './case-label-coverage.mjs';
 
 export const ACCEPTED_CASE_TRANSPORT_SHA256 = '2ca8ae35ef4a02c252e8a1109bb98afd86d7c104b010e90e981a95891a32476c';
 export const ACCEPTED_CASE_ADAPTER_SHA256 = 'bcd69ea3201b236d60eb39cfc4f28dba330359c6131e948e9a2e90decff152ea';
@@ -332,7 +333,7 @@ export async function assertCompleteCaseReader(page, file) {
   return { id: file.id, profileId: file.profileId, claims: file.claims.map(claim => claim.claimId), sourceReferences: file.claims.reduce((total, claim) => total + claim.sourceIds.length, 0), nodes: file.nodes.length, edges: file.edges.length, readerOnly: file.readerFactIds.length };
 }
 
-export async function assertCaseFrame(page, file, until, result, phase = 'frame') {
+export async function assertCaseFrame(page, file, until, result, phase = 'frame', labelCoverage = null) {
   await until(async () => Number(await caseSurface(page).getAttribute('data-case-frame-nodes')) === file.nodes.length &&
     Number(await caseSurface(page).getAttribute('data-case-scene-draws')) > 0 && Number(await caseSurface(page).getAttribute('data-case-composite-draws')) > 0 &&
     await caseWorkspace(page).getAttribute('data-case-motion') === 'false', `${file.id}: frame did not settle after physical draws`, 15000);
@@ -362,7 +363,9 @@ export async function assertCaseFrame(page, file, until, result, phase = 'frame'
     assert.equal(await evidence(page).locator(`[data-node-id=${quoted(selection)}] button`).getAttribute('aria-pressed'), 'true');
   }
   if (result) (result.caseFrameSamples ??= []).push({ caseId: file.id, phase, selection, ...sample });
-  await assertCaseLabelReadability(page, file, result ?? {}, { phase, fit: phase === 'initial' });
+  const checkLabels = () => assertCaseLabelReadability(page, file, result ?? {}, { phase, fit: phase === 'initial' });
+  if (labelCoverage) await labelCoverage.observe(file.id, phase, checkLabels);
+  else await checkLabels();
   return sample;
 }
 
@@ -730,6 +733,12 @@ export async function runCaseWorkspaceBrowserCases({ root, dist, output, scenari
 
   await scenario('37-all-case-scenes-shared-canvas-exact-selection', { query: '', blockTiles: true, budgetMs: 240000 }, async (page, result) => {
     const resources = accountResources(page, result, dist, origin, prefix);
+    const labelCoverage = createCaseLabelCoverage(files.map(file => file.id), async failure => {
+      await capture(page, result, `${safeName(failure.caseId)}-${failure.phase}-label-geometry-failure`);
+      return result.screenshots.at(-1);
+    });
+    result.caseLabelCoverage = { observations: labelCoverage.observations, failures: labelCoverage.failures };
+    const completedLabelCases = [];
     await assertFullLoad(page, result); await assertSpatial(page); await assertCountryBase(page);
     await page.evaluate(() => document.fonts.ready.then(() => undefined));
     const baseline = await geographySnapshot(page), canvas = await page.locator('.webgl-host canvas').elementHandle();
@@ -747,7 +756,7 @@ export async function runCaseWorkspaceBrowserCases({ root, dist, output, scenari
       resources.stage(index === 0 ? 'first-complete-reader' : 'subsequent-case-switches');
       await chooseCase(page, file, until);
       resources.stage(index === 0 ? 'first-case-scene' : 'subsequent-case-scenes');
-      await showCaseScene(page, until, result); await assertCaseFrame(page, file, until, result, 'initial');
+      await showCaseScene(page, until, result); await assertCaseFrame(page, file, until, result, 'initial', labelCoverage);
       await assertCaseChromeActive(page, result, chrome, `${file.id}:scene-active`);
       assert.equal(await canvas.evaluate(element => element.isConnected && element === document.querySelector('.webgl-host canvas')), true, 'A case replaced the incumbent canvas');
       assert.equal(await page.locator('canvas').count(), 1, 'Case scene created an extra canvas');
@@ -759,10 +768,19 @@ export async function runCaseWorkspaceBrowserCases({ root, dist, output, scenari
       const edge = file.edges[0], node = file.nodes.find(item => item.id === edge.from);
       await evidence(page).locator(`[data-node-id=${quoted(node.id)}] button`).click();
       await until(async () => await caseWorkspace(page).getAttribute('data-case-selection') === node.id, 'Exact node selection did not reach the workspace');
-      await assertCaseFrame(page, file, until, result, 'selected-node');
+      await assertCaseFrame(page, file, until, result, 'selected-node', labelCoverage);
+      if (file.id === 'case:usa-koch') {
+        const policy = JSON.parse(await caseWorkspace(page).getAttribute('data-case-readable-label-report'));
+        const peripheralIds = ['case:usa-koch:node:gmu', 'case:usa-koch:node:ihs'];
+        assert.equal(policy.status, 'ready');
+        for (const id of peripheralIds) assert.ok(policy.deferredNodes.some(item => item.id === id && item.reason === 'outside-view'), `${id}: near-edge label must have an explicit off-view explanation`);
+        assert.ok(!policy.deferredNodes.some(item => item.id === node.id), 'Selected Koch node was deferred');
+        result.nearEdgeReadableLabelPolicy = { caseId: file.id, selection: node.id, ...policy };
+      }
+
       await evidence(page).locator(`[data-edge-id=${quoted(edge.id)}] button`).click();
       await until(async () => await caseWorkspace(page).getAttribute('data-case-selection') === edge.id, 'Exact relation selection did not reach the workspace');
-      await assertCaseFrame(page, file, until, result, 'selected-edge');
+      await assertCaseFrame(page, file, until, result, 'selected-edge', labelCoverage);
       for (const factId of file.readerFactIds) assert.equal(await caseArticle(page, factId).count(), 1, 'A reader-only fact disappeared in scene mode');
       if (file.claims.length >= 4) {
         await caseRail(page).evaluate(element => { element.scrollTop = 0; });
@@ -777,20 +795,21 @@ export async function runCaseWorkspaceBrowserCases({ root, dist, output, scenari
         assertClaimEvidence(await readEvidenceDOM(dialog.locator('[data-reader-scroll] > .ocd-evidence-content')), claim, file);
         await dialog.getByRole('button', { name: 'Close sources', exact: true }).click();
         await until(async () => !await dialog.isVisible() && await caseWorkspace(page).getAttribute('data-case-selection') === edge.id && await opener.evaluate(element => document.activeElement === element), `${file.id}: dense label source inspection lost exact selection or opener`);
-        await assertCaseFrame(page, file, until, result, 'selected-edge-after-source-dialog');
+        await assertCaseFrame(page, file, until, result, 'selected-edge-after-source-dialog', labelCoverage);
       }
       if (file.id === 'case:usa-musk') {
         await page.emulateMedia({ forcedColors: 'active' });
         assert.equal(await page.evaluate(() => matchMedia('(forced-colors: active)').matches), true);
         await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
-        await assertCaseFrame(page, file, until, result, 'selected-edge-forced-colors');
+        await assertCaseFrame(page, file, until, result, 'selected-edge-forced-colors', labelCoverage);
         await capture(page, result, `${safeName(file.id)}-selected-labels-forced-colors`);
         coverage.captures.push({ caseId: file.id, band: 'selected-labels-forced-colors', file: result.screenshots.at(-1) });
         await page.emulateMedia({ forcedColors: 'none' });
         await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
-        await assertCaseFrame(page, file, until, result, 'selected-edge-restored-colors');
+        await assertCaseFrame(page, file, until, result, 'selected-edge-restored-colors', labelCoverage);
       }
       await assertNoAdmission(page, baseline);
+      completedLabelCases.push(file.id);
       coverage.sceneCases.push({ id: file.id, selectedNodeId: node.id, selectedEdgeId: edge.id, readerOnlyFactIds: [...file.readerFactIds] });
     }
     assert.ok(await page.evaluate(() => window.__spatialReviewGraphics.drawCalls) > graphics.draws, 'No real shared-context drawing was observed');
@@ -801,6 +820,7 @@ export async function runCaseWorkspaceBrowserCases({ root, dist, output, scenari
     const resourceRecord = await resources.finish();
     for (const name of Object.values(assets).flat()) assert.ok(resourceRecord.resources.some(row => basename(new URL(row.url).pathname) === name), `Missing all-view resource accounting: ${name}`);
     coverage.resources.push({ scenario: result.name, ...resourceRecord });
+    result.caseLabelCoverage.summary = labelCoverage.finish(completedLabelCases);
     result.notes.push('All 19 cases completed real scene/composite draws using the same live canvas/context. Projected labels and exact selected node/edge IDs were checked against retained records. Global geographic pose, registry counts and admission flags stayed unchanged. GL fault, resource-lifecycle and context-loss probes belong to cases 40+.');
   });
 
@@ -872,6 +892,50 @@ export async function runCaseWorkspaceBrowserCases({ root, dist, output, scenari
     await page.setViewportSize({ width: 640, height: 450 });
     await until(async () => await caseWorkspace(page).getAttribute('data-case-view') === 'list' && await caseSurface(page).count() === 0, 'Live scene did not fall back to the complete reader after a compact resize');
     await assertCompleteCaseReader(page, file);
+    // Above the compact breakpoint, use actual settled geometry to distinguish
+    // readable scene coverage from explicit complete-reader fallback.
+    const shortFile = files.find(item => item.profileId === 'profile:usa-musk');
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await until(async () => await caseWorkspace(page).getAttribute('data-case-compact') === 'false', 'Readable-policy desktop baseline remained compact');
+    await chooseCase(page, shortFile, until);
+    await showCaseScene(page, until, result, 'readable-policy-default');
+    await assertCaseFrame(page, shortFile, until, result, 'initial');
+    const shortEdge = shortFile.edges[0];
+    await evidence(page).locator(`[data-edge-id=${quoted(shortEdge.id)}] button`).click();
+    await assertCaseFrame(page, shortFile, until, result, 'readable-policy-selected');
+    await caseWorkspace(page).getByRole('button', { name: 'Fit case', exact: true }).click();
+    await assertCaseFrame(page, shortFile, until, result, 'initial');
+    assert.equal(await caseWorkspace(page).getAttribute('data-case-selection'), shortEdge.id, 'Fit changed exact selection');
+    await caseSurface(page).focus();
+    await page.setViewportSize({ width: 901, height: 651 });
+    await until(async () => {
+      const report = JSON.parse(await caseWorkspace(page).getAttribute('data-case-readable-label-report') ?? 'null');
+      return await caseWorkspace(page).getAttribute('data-case-view') === 'list' && report?.status === 'insufficient';
+    }, 'Supported short board did not report measured readable-label insufficiency', 15000);
+    const shortReport = JSON.parse(await caseWorkspace(page).getAttribute('data-case-readable-label-report'));
+    assert.equal(await caseWorkspace(page).getAttribute('data-case-compact'), 'false', '901×651 was incorrectly treated as compact');
+    assert.equal(shortReport.requireAll, true);
+    assert.ok(shortReport.board.width >= 240 && shortReport.board.height >= 180, 'Short board was not a viable scene surface');
+    assert.ok(shortReport.board.width < 901 && shortReport.board.height < 651, 'Fallback lacks actual measured board bounds');
+    assert.ok(shortReport.failures.length > 0 && shortReport.failures.some(item => ['collision', 'outside-view', 'no-role-placement'].includes(item.reason)), 'Fallback lacks a measured mandatory geometry failure');
+    assert.deepEqual(shortReport.deferredNodes, []); assert.deepEqual(shortReport.deferredRoles, []);
+    assert.equal(await caseSurface(page).count(), 0);
+    assert.equal(await caseWorkspace(page).getAttribute('data-case-selection'), shortEdge.id);
+    assert.equal(await caseWorkspace(page).locator('.cw-header h1').evaluate(element => document.activeElement === element), true, 'Removed board focus was not restored inside the workspace');
+    includesText(await caseRail(page).innerText(), 'cannot fit the required full labels at a readable width', 'short-board fallback');
+    await assertCompleteCaseReader(page, shortFile);
+    result.readableLabelShortBoard = { viewport: { width: 901, height: 651 }, outcome: 'complete-reader-fallback', sceneCoverage: false, selection: shortEdge.id, report: shortReport };
+    await capture(page, result, 'supported-short-board-explicit-readable-label-fallback');
+    const shortClaim = shortFile.claims.find(item => item.claimId === shortEdge.claimId);
+    const shortOpener = await openClaimSourcesByKeyboard(page, shortClaim, result, 'readable-short-board');
+    assertClaimEvidence(await readEvidenceDOM(caseSourceDialog(page).locator('[data-reader-scroll] > .ocd-evidence-content')), shortClaim, shortFile);
+    await closeClaimSources(page, shortOpener, until);
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await showCaseScene(page, until, result, 'readable-policy-reentry');
+    await assertCaseFrame(page, shortFile, until, result, 'readable-policy-reentry');
+    assert.equal(await caseWorkspace(page).getAttribute('data-case-selection'), shortEdge.id, 'Readable-policy retry lost retained selection');
+    await assertNoAdmission(page, baseline);
+    await capture(page, result, 'readable-label-default-desktop-reentry-with-retained-selection');
     await page.keyboard.press('Escape');
     await until(async () => await caseWorkspace(page).count() === 0, 'Workspace Escape did not close');
     assert.equal(await page.getByRole('button', { name: 'Selected case files', exact: true }).evaluate(element => document.activeElement === element), true, 'Workspace failed to return focus to its atlas launcher');

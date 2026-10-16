@@ -5,6 +5,7 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { compactLifecycleObservation, caseLifecycleObservationInitSource } from './case-lifecycle-observation.mjs';
 import {
   loadCaseExpectation, caseWorkspace, caseSurface, caseRail, caseSourceDialog,
   openCaseWorkspace, chooseCase, showCaseScene, showCompleteCaseReader,
@@ -334,7 +335,10 @@ export function selectCaseGraphicsFixtures(files) {
   return { simple, dense };
 }
 
-const probe = page => page.evaluate(() => window.__caseGraphicsProbe.read());
+const lifecycleObservationPages = new WeakSet();
+const fullProbe = page => page.evaluate(() => window.__caseGraphicsProbe.read());
+const probe = page => lifecycleObservationPages.has(page)
+  ? page.evaluate(() => window.__caseGraphicsProbe.readLifecycle()) : fullProbe(page);
 const configure = (page, options) => page.evaluate(options => window.__caseGraphicsProbe.configure(options), options);
 const frames = (page, count = 8) => page.evaluate(count => window.__caseGraphicsProbe.frames(count), count);
 const geography = page => page.locator('.webgl-host').evaluate(element => Object.fromEntries(['centerLng','centerLat','zoom','pitch','bearing','selectedEdge'].map(key => [key, element.dataset[key] ?? null])));
@@ -353,8 +357,8 @@ export function assertCapturedGeographicPose(observation, opening, message) {
 }
 const activeLeaseBaselines = new WeakMap();
 const retiredLeaseBaselines = new WeakMap();
-const leaseSnapshot = page => page.evaluate(() => ({ active: document.querySelector('.webgl-host')?.dataset.geographicWorkspaceActive,
-  workspaceCount: document.querySelectorAll('[data-case-workspace]').length, data: window.__caseGraphicsProbe.read() }));
+const leaseSnapshot = page => page.evaluate(compact => ({ active: document.querySelector('.webgl-host')?.dataset.geographicWorkspaceActive,
+  workspaceCount: document.querySelectorAll('[data-case-workspace]').length, data: compact ? window.__caseGraphicsProbe.readLifecycle() : window.__caseGraphicsProbe.read() }), lifecycleObservationPages.has(page));
 export function liveGraphicsIdentity(data) {
   const context = data.contexts.at(-1), renderer = data.renderers.find(row => row.contextId === context?.id);
   assert.ok(context && renderer, 'Current observed geographic graphics identity is missing');
@@ -466,6 +470,40 @@ export function assertTerminalNativeState(data) {
   assertRestoration(data);
   for (const context of data.contexts.filter(row => row.poisoned)) assert.equal(context.postPoisonThreeDraws, 0, 'A retired poisoned renderer drew during final Close/recovery');
 }
+/** Compare the two oracles on one browser-captured instant, not sequential reads.
+ * Full checkpoints are preserved before this comparison so a mismatch retains
+ * the underlying native observations. No projection can manufacture acceptance. */
+export function assertLifecycleObservationParity(pair, { activeBaseline = null, retiredBaselines = [], recovery = null } = {}) {
+  const { full, compact, active, workspaceCount } = pair;
+  assert.deepEqual(compact, compactLifecycleObservation(full), 'Serialized lifecycle projection differs from the portable projection');
+  const counters = data => ({ ...data, contexts: data.contexts.map(({ passes, draws, ...rest }) => rest) });
+  assert.deepEqual(counters(compact), counters(full), 'Lifecycle projection changed native identities, handles, counters, timings, faults or poison state');
+  assert.deepEqual(liveGraphicsIdentity(compact), liveGraphicsIdentity(full));
+  for (let index = 0; index < full.contexts.length; index++) {
+    const previous = full.contexts[index], current = compact.contexts[index];
+    assert.equal(current.passes.length, previous.passes.length, 'Lifecycle projection dropped a retained restoration predicate');
+    const predicates = context => context.passes.map(({ id, contextId, rendererId, type, entryObserved, terminalRestoreObserved, changes, logicalChanges }) =>
+      ({ id, contextId, rendererId, type, entryObserved, terminalRestoreObserved, changes, logicalChanges }));
+    assert.deepEqual(predicates(current), predicates(previous));
+    for (const type of ['scene', 'composite']) assert.deepEqual(current.passes.findLast(pass => pass.type === type), previous.passes.findLast(pass => pass.type === type), 'Latest native layout evidence changed');
+    assert.deepEqual(current.draws, previous.draws.filter(draw => draw.three && draw.casePass === null), 'Lifecycle projection dropped a geographic draw attempt');
+  }
+  assertTerminalNativeState(full); assertTerminalNativeState(compact);
+  for (const baseline of retiredBaselines) assert.deepEqual(assertRetiredLeaseSuppression(compact, baseline), assertRetiredLeaseSuppression(full, baseline));
+  if (activeBaseline) assert.deepEqual(assertActiveLeaseDrawSuppression({ active, workspaceCount, data: compact }, activeBaseline), assertActiveLeaseDrawSuppression({ active, workspaceCount, data: full }, activeBaseline));
+  let recoveryDraws = null;
+  if (recovery) {
+    assert.equal(active, 'false'); assert.equal(workspaceCount, 0);
+    assert.deepEqual(liveGraphicsIdentity(full), recovery.identity);
+    recoveryDraws = assertHostBoundaries(full, recovery.watermark, recovery.identity);
+    assert.equal(assertHostBoundaries(compact, recovery.watermark, recovery.identity), recoveryDraws);
+    const previous = { hostDraws: recovery.hostDrawsBefore, hostBoundaryViolationCount: recovery.boundaryViolationsBefore, hostLeaseViolationCount: recovery.activeLeaseViolationsBefore };
+    for (const data of [full, compact]) assertRecoveryCounters(previous, data.contexts.find(context => context.id === recovery.identity.contextId));
+  }
+  return { sequence: full.sequence, allPasses: full.allPasses, identity: liveGraphicsIdentity(full), recoveryDraws,
+    fullJSONBytes: Buffer.byteLength(JSON.stringify(full)), compactJSONBytes: Buffer.byteLength(JSON.stringify(compact)) };
+}
+
 export function assertHostBoundaries(data, afterSequence = 0, identity = liveGraphicsIdentity(data)) {
   const draws = data.contexts.filter(context => context.id === identity.contextId).flatMap(context => context.draws).filter(draw => draw.sequence > afterSequence && draw.three && draw.casePass === null && draw.rendererId === identity.rendererId);
   assert.ok(draws.some(draw => isGeographicRecoveryDraw(draw, afterSequence, identity)), 'No later geographic Three draw was observed after actual lease release');
@@ -577,11 +615,15 @@ export async function runCaseGraphicsBrowserCases({ root, output, scenario, capt
     if (!selectedScenarios.includes(name)) return;
     let context, current;
     await scenario(name, { query: '', blockTiles: true, budgetMs: 120000, ...options,
-      beforeNavigation: async (value, result) => { context = value; current = result; await value.addInitScript(installCaseGraphicsProbe, { kinds: RESOURCE_KINDS }); },
+      beforeNavigation: async (value, result) => {
+        context = value; current = result;
+        const native = `(${installCaseGraphicsProbe.toString()})(${JSON.stringify({ kinds: RESOURCE_KINDS })});`;
+        await value.addInitScript({ content: native + (name === GRAPHICS_SCENARIOS[7] ? '\n' + caseLifecycleObservationInitSource() : '') });
+      },
       afterScenario: async () => {
         const page = context?.pages().find(page => !page.isClosed());
         if (!page) { if (current) current.caseGraphicsDiagnosticError = 'Browser page unavailable before native-probe evidence preservation'; return; }
-        try { const data = await probe(page); current.caseGraphics = { contexts: data.contexts.length, renderers: data.renderers.length, passes: data.allPasses, probeErrors: data.errors, evidence: `${name}.native-webgl.json` };
+        try { const data = await fullProbe(page); current.caseGraphics = { contexts: data.contexts.length, renderers: data.renderers.length, passes: data.allPasses, probeErrors: data.errors, evidence: `${name}.native-webgl.json` };
           await writeFile(join(output, `${name}.native-webgl.json`), JSON.stringify(data, null, 2) + '\n');
         } catch (error) { current.caseGraphicsDiagnosticError = String(error); current.status = 'failed'; current.error = `${current.error ?? ''}\nFailed preserving native WebGL evidence: ${error}`; process.exitCode = 1; }
         try { current.caseWorkspaceDiagnostics = await caseWorkspaceDiagnostics(page); }
@@ -594,7 +636,7 @@ export async function runCaseGraphicsBrowserCases({ root, output, scenario, capt
       await work(page, result);
       if (await caseWorkspace(page).count()) await closeWorkspace(page, until, result, 'scenario-final-close');
       await assertSpatial(page);
-      const terminal = await probe(page);
+      const terminal = await fullProbe(page);
       assertTerminalNativeState(terminal); checkRetiredLeases(page, terminal);
       result.caseTerminalNativeState = { sequence: terminal.sequence, contexts: terminal.contexts.map(context => ({ id: context.id, poisoned: Boolean(context.poisoned), postPoisonThreeDraws: context.postPoisonThreeDraws, pendingPass: context.pendingPass, restorationErrors: context.restorationErrors })) };
     });
@@ -811,21 +853,43 @@ export async function runCaseGraphicsBrowserCases({ root, output, scenario, capt
   });
 
   await run(GRAPHICS_SCENARIOS[7], { reducedMotion: true, budgetMs: 240000 }, async (page, result) => {
+    lifecycleObservationPages.add(page);
+    async function checkpoint(phase, recovery = null) {
+      const pair = await page.evaluate(() => ({ active: document.querySelector('.webgl-host')?.dataset.geographicWorkspaceActive,
+        workspaceCount: document.querySelectorAll('[data-case-workspace]').length, ...window.__caseGraphicsProbe.readLifecyclePair() }));
+      const stem = `${GRAPHICS_SCENARIOS[7]}--${phase}`;
+      const entry = { phase, sequence: pair.full.sequence, rawEvidence: `${stem}.native-webgl.json`, compactEvidence: `${stem}.compact-observation.json`, status: 'pending' };
+      (result.caseResourceObservationChecks ??= []).push(entry);
+      // The raw data is saved before assertions, and never routed through probe().
+      await writeFile(join(output, entry.rawEvidence), JSON.stringify(pair.full, null, 2) + '\n');
+      await writeFile(join(output, entry.compactEvidence), JSON.stringify({ active: pair.active, workspaceCount: pair.workspaceCount, data: pair.compact, recovery }, null, 2) + '\n');
+      const comparison = assertLifecycleObservationParity(pair, { activeBaseline: activeLeaseBaselines.get(page) ?? null,
+        retiredBaselines: retiredLeaseBaselines.get(page) ?? [], recovery });
+      Object.assign(entry, comparison, { status: 'passed' });
+      return pair.full;
+    }
+    try {
     async function cycle(number, warmup) {
       const before = await probe(page), start = performance.now();
       await openGraphicsWorkspace(page, until, result); await chooseCase(page, dense, until); await showCaseScene(page, until);
       await edgeButton(page, dense.edges[0].id).click(); await assertCaseFrame(page, dense, until);
       await caseWorkspace(page).getByRole('button', { name: 'Low quality off', exact: true }).click(); await nativeLayout(page, result, `${warmup ? 'warmup' : 'cycle'}-${number}-low`, until);
       await showCompleteCaseReader(page, until); await showCaseScene(page, until); await assertCaseFrame(page, dense, until);
-      if (!warmup && [1, 15, 30].includes(number)) await capture(page, result, `native-lifecycle-cycle-${number}`);
+      if (!warmup && [1, 15, 30].includes(number)) {
+        await capture(page, result, `native-lifecycle-cycle-${number}`);
+        await checkpoint(`cycle-${number}-before-close`);
+      }
       await closeWorkspace(page, until, result);
       await until(async () => (await probe(page)).contexts.every(context => context.caseLive === 0), `Cycle ${number}: case-owned native handles did not receive deletion requests`);
       await frames(page, 3); const after = await probe(page), current = after.contexts[0]; assertRestoration(after);
+      if (!warmup && [1, 15, 30].includes(number)) await checkpoint(`cycle-${number}-closed`, result.caseGeographicRecovery.at(-1));
       return { cycle: number, contextIds: after.contexts.map(row => row.id), rendererIds: after.renderers.map(row => row.id), live: current.live, caseLive: current.caseLive,
         scenePasses: current.scenePasses - before.contexts[0].scenePasses, compositePasses: current.compositePasses - before.contexts[0].compositePasses, wallMs: performance.now() - start };
     }
     result.caseResourceWarmups = []; for (let index = 1; index <= 3; index++) result.caseResourceWarmups.push(await cycle(index, true));
-    const baseline = result.caseResourceWarmups.at(-1); result.caseResourceCycles = [];
+    const baseline = result.caseResourceWarmups.at(-1);
+    await checkpoint('warmed-baseline', result.caseGeographicRecovery.at(-1));
+    result.caseResourceCycles = [];
     for (let index = 1; index <= 30; index++) result.caseResourceCycles.push(await cycle(index, false));
     assertHandlePlateau(baseline, result.caseResourceCycles);
     await openGraphicsWorkspace(page, until, result); await chooseCase(page, dense, until); await showCaseScene(page, until);
@@ -838,8 +902,13 @@ export async function runCaseGraphicsBrowserCases({ root, output, scenario, capt
       actualCompositeFrameIntervals: timingSummary(renderedStarts.slice(1).map((value, index) => value - renderedStarts[index])),
       browserAnimationFrameIntervals: timingSummary(frameDeltas), sceneBoundaryCPU: timingSummary(data.contexts[0].passTimes.filter(row => row.type === 'scene').map(row => row.durationMs)),
       compositeBoundaryCPU: timingSummary(data.contexts[0].passTimes.filter(row => row.type === 'composite').map(row => row.durationMs)), measuredCycleWallTime: timingSummary(result.caseResourceCycles.map(row => row.wallMs)) };
+    await checkpoint('timing-active');
     await closeWorkspace(page, until, result); assert.equal((await probe(page)).contexts[0].caseLive, 0);
-    result.notes.push('Three warm-up cycles are disclosed separately; all thirty measured cycles open/close, select, change quality and detach/reattach the case layer. Every observed native resource kind must return to or below the warmed baseline, case-owned live handles must be zero, and renderer/context identities cannot grow. These are create/delete-handle observations, not GPU-memory residency.');
+    await checkpoint('timing-closed', result.caseGeographicRecovery.at(-1));
+    assert.equal(result.caseResourceObservationChecks.length, 9);
+    assert.ok(result.caseResourceObservationChecks.every(row => row.status === 'passed'));
+    result.notes.push('Three warm-up cycles are disclosed separately; all thirty measured cycles open/close, select, change quality and detach/reattach the case layer. Every observed native resource kind must return to or below the warmed baseline, case-owned live handles must be zero, and renderer/context identities cannot grow. These are create/delete-handle observations, not GPU-memory residency. Compact transport observations retain the unchanged native oracles; warmed, cycle 1/15/30 and timing/recovery raw checkpoints independently compare full and compact data from the same instant.');
+    } finally { lifecycleObservationPages.delete(page); }
   });
   coverage.scenarios = report.scenarios.filter(row => GRAPHICS_SCENARIOS.includes(row.name)).map(row => ({ name: row.name, status: row.status, error: row.error ?? null, nativeEvidence: row.caseGraphics?.evidence ?? null }));
   coverage.selectedBrowserAcceptancePassed = coverage.scenarios.length === selectedScenarios.length && coverage.scenarios.every(row => selectedScenarios.includes(row.name) && row.status === 'passed' && row.nativeEvidence);

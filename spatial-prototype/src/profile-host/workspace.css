@@ -35,7 +35,8 @@
 .cw-labels {position:absolute;inset:0;pointer-events:none;overflow:hidden;}
 .cw-label-leaders {position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;}
 .cw-label-leaders line {stroke:#d6c899;stroke-width:1;stroke-dasharray:2 2;visibility:hidden;}
-/* A moved absolute plaque must not change its shrink-to-fit width. */
+/* Absolute plaques need position-independent natural widths before wrapping. */
+.cw-labels .cw-node-label {width:max-content;}
 .cw-labels .cw-role-label {width:max-content;}
 .cw-node-label,.cw-role-label {position:absolute;transform:translate(-50%,-50%);padding:.2rem .35rem;max-width:min(13rem,42%);text-align:center;line-height:1.25;overflow-wrap:anywhere;box-shadow:0 1px 3px #071f1840;}
 .cw-node-label {background:#eee3c8;color:#183a2b;font-size:.85rem;border-radius:2px;}

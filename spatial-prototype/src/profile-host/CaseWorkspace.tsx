@@ -4,7 +4,7 @@ import type { CameraPose, CaseSceneState, SceneAction } from '../case-scene/stat
 import type { CaseFrame } from '../case-scene/CaseSceneLayer';
 import type { CaseGraphicsHost, CaseSession } from './graphics-contract';
 import cases from './case-index.json';
-import { observeRoleLabels } from './role-label-layout';
+import { observeReadableCaseLabels, isAllLabelPose, type ReadableLabelReport } from './readable-label-layout';
 import './workspace.css';
 
 type Reader = typeof import('./reader-runtime');
@@ -38,17 +38,44 @@ export default function CaseWorkspace({ graphics, reducedMotion, onClose, onRecr
   const [state, setState] = useState<CaseSceneState | null>(null);
   const [chooser, setChooser] = useState(true), [loadingCase, setLoadingCase] = useState<string | null>(null);
   const [notice, setNotice] = useState(''), [sceneRequested, setSceneRequested] = useState(false);
+  const frameContext = useRef<{ frame: CaseFrame; state: CaseSceneState; width: number; height: number } | null>(null);
   const [frame, setFrame] = useState<CaseFrame | null>(null), [panZoom, setPanZoom] = useState(false);
   const [paused, setPaused] = useState<CameraPose | null>(null), [ambiguous, setAmbiguous] = useState<string[]>([]);
   const [claimId, setClaimId] = useState<string | null>(null);
   const [compact, setCompact] = useState(compactViewport), [sceneFailed, setSceneFailed] = useState(false);
   const [quality, setQuality] = useState<1 | 0.65>(1);
+  const [labelReport, setLabelReport] = useState<ReadableLabelReport | null>(null);
   const closeRef = useRef<() => void>(() => {}), sourceCloseRef = useRef<() => boolean>(() => false);
   const scene = !chooser && state?.view === 'scene';
 
   useLayoutEffect(() => {
-    if (labels.current && frame) return observeRoleLabels(labels.current);
-  }, [frame, state?.navigation.nodeId, state?.navigation.edgeId]);
+    if (!labels.current || !frame || !active || !state) return;
+    const file = active.controller.file, selection = state.navigation.edgeId ?? state.navigation.factId ?? state.navigation.nodeId ?? '';
+    const edge = file.edges.find(item => item.id === state.navigation.edgeId);
+    return observeReadableCaseLabels(labels.current, {
+      allNodeIds: file.nodes.map(node => node.id),
+      allRoleIds: frame.roles.map(role => role.id),
+      requiredNodeIds: edge ? [edge.from, edge.to] : state.navigation.nodeId ? [state.navigation.nodeId] : [],
+      requiredRoleIds: edge ? [edge.id] : [],
+      requireAll: isAllLabelPose(state.camera, active.controller.model.bounds),
+      isSettled: () => {
+        const box = surface.current?.getBoundingClientRect(), context = frameContext.current;
+        return !closing.current && !paused && active.controller.state === state && context?.frame === frame && context.state === state && Boolean(box)
+          && Math.abs(box!.width - context.width) <= .25 && Math.abs(box!.height - context.height) <= .25
+          && root.current?.dataset.caseMotion === 'false' && root.current?.dataset.caseSelection === selection;
+      },
+      onReport: report => {
+        setLabelReport(report);
+        if (report.status === 'insufficient') {
+          // Transfer focus only from the scene region that is about to be removed.
+          // Header/reader focus and an open native source dialog keep ownership.
+          if (!dialog.current?.open && surface.current?.closest('.cw-scene')?.contains(document.activeElement)) heading.current?.focus({ preventScroll: true });
+          act({ type: 'set-view', view: 'list' });
+          setNotice('The available case board cannot fit the required full labels at a readable width. The complete reader is shown with your selection and sources retained. Use a larger view, then choose Case scene again.');
+        }
+      },
+    });
+  }, [frame, state, paused]);
 
   function closeSources(): boolean {
     if (!dialog.current?.open && !claimId) return false;
@@ -176,8 +203,12 @@ export default function CaseWorkspace({ graphics, reducedMotion, onClose, onRecr
       if (cancelled || closing.current || !surface.current) return;
       attached = module.attachCaseScene({
         graphics, controller, surface: surface.current, opener: null,
-        onState: next => { if (!cancelled && !closing.current) { setState(next); setPaused(null); setAmbiguous([]); } },
-        onFrame: next => { if (!cancelled && !failed && !closing.current) setFrame(next); },
+        onState: next => { if (!cancelled && !closing.current) { setState(next); setPaused(null); setAmbiguous([]); if (next.view === 'scene') setLabelReport(null); } },
+        onFrame: next => { if (!cancelled && !failed && !closing.current) {
+          const box = surface.current?.getBoundingClientRect();
+          frameContext.current = box ? { frame: next, state: controller.state, width: box.width, height: box.height } : null;
+          setLabelReport(null); setFrame(next);
+        } },
         onMetrics: metrics => {
           if (cancelled || failed || !surface.current) return;
           Object.assign(surface.current.dataset, {
@@ -217,7 +248,7 @@ export default function CaseWorkspace({ graphics, reducedMotion, onClose, onRecr
       const next = { reader, controller };
       owner.current = next;
       setActive(next); setState(initial); setSceneRequested(false); setChooser(false);
-      setClaimId(null); setFrame(null); setPaused(null); setAmbiguous([]); setPanZoom(false);
+      setClaimId(null); setFrame(null); setPaused(null); setAmbiguous([]); setPanZoom(false); setLabelReport(null);
     } catch {
       if (token === request.current && !closing.current) setNotice('The reviewed reader could not load. Choose the case again to retry.');
     } finally {
@@ -240,7 +271,7 @@ export default function CaseWorkspace({ graphics, reducedMotion, onClose, onRecr
         setState(controller.dispatch({ type: 'graphics-lost' }, wall()));
         return;
       }
-      setNotice(''); setSceneFailed(false); setSceneRequested(true);
+      setNotice(''); setSceneFailed(false); setSceneRequested(true); setLabelReport(null);
     } else if (action.type === 'set-view') { setSceneRequested(false); setFrame(null); }
     if (session.current) session.current.dispatch(action);
     else setState(controller.dispatch(action, wall()));
@@ -261,6 +292,7 @@ export default function CaseWorkspace({ graphics, reducedMotion, onClose, onRecr
 
   return <section ref={root} className="cw-workspace" role="dialog" aria-modal="true" aria-labelledby={title} tabIndex={-1}
     data-case-workspace="" data-case-compact={compact} data-case-quality={quality} data-case-view={chooser ? 'chooser' : state?.view} data-case-selection={state?.navigation.edgeId ?? state?.navigation.factId ?? state?.navigation.nodeId ?? ''} data-case-motion={Boolean(state?.motion)}
+    data-case-readable-label-report={labelReport ? JSON.stringify(labelReport) : undefined}
     data-view={scene ? 'scene' : 'list'} data-case-id={file?.id} data-public-graph-eligible="false" data-path-eligible="false">
     <header className="cw-header">
       <div><p className="cw-kicker">Reviewed case workspace</p><h1 id={title} ref={heading} tabIndex={-1}>{chooser ? 'Choose a reviewed case' : file?.label}</h1></div>
@@ -303,7 +335,7 @@ export default function CaseWorkspace({ graphics, reducedMotion, onClose, onRecr
         </div>
         <div ref={surface} data-case-surface="" data-case-frame-nodes={frame?.nodes.length ?? 0} data-case-frame-roles={frame?.roles.length ?? 0} className="cw-surface" tabIndex={0} role="group" aria-label={`${file.label}: nongeographic case board`} aria-describedby={help}>
           {!frame && <p className="cw-scene-loading" role="status">Loading the case scene. Complete source evidence is available in the reader.</p>}
-          <div ref={labels} className="cw-labels" aria-hidden="true" data-case-visible-node-ids={JSON.stringify(frame?.nodes.filter(node => node.visible).map(node => node.id) ?? [])} data-case-visible-role-ids={JSON.stringify(frame?.roles.filter(role => role.visible).map(role => role.id) ?? [])}>
+          <div ref={labels} className="cw-labels" aria-hidden="true" data-case-all-node-ids={JSON.stringify(frame?.nodes.map(node => node.id) ?? [])} data-case-all-role-ids={JSON.stringify(frame?.roles.map(role => role.id) ?? [])} data-case-visible-node-ids={JSON.stringify(frame?.nodes.filter(node => node.visible).map(node => node.id) ?? [])} data-case-visible-role-ids={JSON.stringify(frame?.roles.filter(role => role.visible).map(role => role.id) ?? [])}>
             <svg className="cw-label-leaders" aria-hidden="true">{frame?.roles.filter(role => role.visible).map(role => <line key={role.id} data-case-label-leader={role.id} x1={role.x} y1={role.y} x2={role.x} y2={role.y}/>)}</svg>
             {frame?.nodes.filter(node => node.visible).map(node => <span key={node.id} className="cw-node-label" data-case-node-id={node.id} data-case-label-x={node.x} data-case-label-y={node.y} data-selected={state.navigation.nodeId === node.id} style={{ left: node.x, top: node.y }}>{node.label}</span>)}
             {frame?.roles.filter(role => role.visible).map(role => <span key={role.id} className="cw-role-label" data-case-edge-id={role.id} data-case-label-x={role.x} data-case-label-y={role.y} data-selected={state.navigation.edgeId === role.id} style={{ left: role.x, top: role.y }}>{role.label}</span>)}
@@ -312,6 +344,13 @@ export default function CaseWorkspace({ graphics, reducedMotion, onClose, onRecr
       </section>}
       <div className="cw-rail cw-scroll" data-reader-scroll="workspace-evidence" data-reader-body="" tabIndex={0} aria-label="Complete case evidence and sources">
         {notice && <p className="cw-notice" role="status">{notice}</p>}
+        {scene && !state.motion && !paused && labelReport?.status === 'ready' && labelReport.deferredNodes.length + labelReport.deferredRoles.length > 0 && <p className="cw-notice" role="status" data-case-label-notice=""
+          data-case-deferred-node-count={labelReport.deferredNodes.length} data-case-deferred-role-count={labelReport.deferredRoles.length}>
+          {labelReport.deferredNodes.length} node labels and {labelReport.deferredRoles.length} relation labels are listed in the complete reader instead of this view:
+          {' '}{[...labelReport.deferredNodes, ...labelReport.deferredRoles].filter(item => item.reason === 'outside-view').length} outside this view;
+          {' '}{[...labelReport.deferredNodes, ...labelReport.deferredRoles].filter(item => item.reason === 'crowded').length} deferred to prevent overlap.
+          {' '}Use Fit case to show all nodes, or Complete reader for every full name and source. The All case nodes controls below still select each exact node.
+        </p>}
         {!graphics?.isUsable() && <p>The reader works without WebGL. <button type="button" onClick={recreate}>Recreate graphics</button></p>}
         {sceneFailed && graphics?.isUsable() && <button type="button" onClick={recreate}>Recreate graphics</button>}
         {ambiguous.length > 0 && <section aria-label="Overlapping case relations"><h2>Choose an exact relation</h2><ul>{ambiguous.map(id => {

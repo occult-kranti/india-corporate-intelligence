@@ -77,7 +77,7 @@ test('all-fit clipping fails; deliberate partial-camera clipping is recorded sep
 });
 test('full-label runtime bindings and production helper size remain bounded', async () => {
   const source = fs.readFileSync(path.join(sourceRoot, 'src/profile-host/CaseWorkspace.tsx'), 'utf8');
-  assert.match(source, /observeRoleLabels\(labels.current\)/);
+  assert.match(source, /observeReadableCaseLabels\(labels.current, \{/);
   assert.match(source, /\{node.label\}/); assert.match(source, /\{role.label\}/); assert.match(source, /data-case-label-leader=\{role.id\}/);
   const outputs = [];
   for (const entry of ['node-label-width.ts', 'role-label-layout.ts']) {
@@ -86,6 +86,8 @@ test('full-label runtime bindings and production helper size remain bounded', as
   }
   assert.ok(outputs.reduce((sum, item) => sum + item.gzipBytes, 0) < 3500);
   assert.equal(outputs.length, 2);
+  const policy = await build({ entryPoints: [path.join(sourceRoot, 'src/profile-host/readable-label-layout.ts')], bundle: true, minify: true, write: false, format: 'esm', platform: 'browser' });
+  assert.ok(gzipSync(policy.outputFiles[0].contents).length < 3000, 'Readable policy including existing bounded helpers exceeds its separate 3KB gzip budget');
 });
 
 test('PostCSS preserves the original forced-colors component selectors/declarations', () => {

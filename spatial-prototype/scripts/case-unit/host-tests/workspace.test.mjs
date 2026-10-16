@@ -61,13 +61,14 @@ test('every accepted case renders all core claim qualifications and reader-only 
 // the workspace's own asynchronous/lifecycle logic with the approved reader runtime.
 async function harness(graphics,viewport={width:1280,height:900}){
   const hooks=[];let cursor=0,dirty=false,tree,effects=[],closed=0,recreated=0,attached=0,disposed=0,sessionOptions,lastQuality=1;
+  const animationFrames=new Map();let animationFrameId=0;
   const listeners=new Map();const oldDocument=globalThis.document,oldElement=globalThis.HTMLElement,oldWindow=globalThis.window;
   class Element{get ownerDocument(){return document;}isConnected=true;open=false;dataset={};style={};focus(){document.activeElement=this;}contains(target){return allNodes().some(node=>node.element===target);}getClientRects(){return [{}];}getBoundingClientRect(){return {left:0,top:150,right:600,bottom:450,width:600,height:300};}closest(){return null;}querySelector(){return allNodes().find(node=>node.type==='button')?.element;}querySelectorAll(selector){if(selector==='[data-case-label-leader]')return allNodes().filter(node=>'data-case-label-leader' in node.props).map(node=>node.element);if(selector==='.cw-node-label'||selector==='.cw-role-label')return allNodes().filter(node=>node.props.className?.split(' ').includes(selector.slice(1))).map(node=>node.element);return allNodes().filter(node=>['button','summary'].includes(node.type)||node.props.tabIndex===0).map(node=>node.element);}showModal(){this.open=true;}close(){this.open=false;}}
   const externalOpener=new Element();
   globalThis.HTMLElement=Element;
-  globalThis.window={innerWidth:viewport.width,innerHeight:viewport.height,addEventListener(type,fn){listeners.set(`window:${type}`,fn);},removeEventListener(type){listeners.delete(`window:${type}`);}};
+  globalThis.window={requestAnimationFrame(fn){const id=++animationFrameId;animationFrames.set(id,fn);return id;},cancelAnimationFrame(id){animationFrames.delete(id);},innerWidth:viewport.width,innerHeight:viewport.height,addEventListener(type,fn){listeners.set(`window:${type}`,fn);},removeEventListener(type){listeners.delete(`window:${type}`);}};
   if(graphics&&!graphics.map)graphics.map={getCanvas:()=>({getBoundingClientRect:()=>({left:0,top:0,right:window.innerWidth,bottom:window.innerHeight,width:window.innerWidth,height:window.innerHeight})})};
-  globalThis.document={activeElement:externalOpener,body:{style:{overflow:''}},querySelectorAll(selector){assert.equal(selector,'.evidence-app .city-attribution > a,.evidence-app .maplibregl-ctrl-attrib-inner');return [];},addEventListener(type,fn){listeners.set(type,fn);},removeEventListener(type){listeners.delete(type);}};
+  globalThis.document={defaultView:window,activeElement:externalOpener,body:{style:{overflow:''}},querySelectorAll(selector){assert.equal(selector,'.evidence-app .city-attribution > a,.evidence-app .maplibregl-ctrl-attrib-inner');return [];},addEventListener(type,fn){listeners.set(type,fn);},removeEventListener(type){listeners.delete(type);}};
   const elementByRef=new Map();const react={
     useId(){const i=cursor++;return hooks[i]??(hooks[i]=`id-${i}`);},
     useRef(initial){const i=cursor++;return hooks[i]??(hooks[i]={current:initial});},
@@ -88,13 +89,16 @@ async function harness(graphics,viewport={width:1280,height:900}){
   let props={graphics,reducedMotion:false,onClose(){closed++;},onRecreateGraphics(){recreated++;}};
   function allNodes(){const nodes=[];function visit(node){if(!node||typeof node!=='object')return;if(Array.isArray(node)){node.forEach(visit);return;}if(node.props){nodes.push(node);visit(node.props.children);}}visit(tree);return nodes;}
   function text(node){if(node==null||typeof node==='boolean')return '';if(Array.isArray(node))return node.map(text).join('');return typeof node==='object'?text(node.props?.children):String(node);}
-  function render(){cursor=0;effects=[];dirty=false;tree=Component(props);const activeRefs=new Set();for(const node of allNodes()){if(typeof node.type==='string'){const ref=node.props.ref;if(ref){activeRefs.add(ref);if(!elementByRef.has(ref))elementByRef.set(ref,new Element());ref.current=elementByRef.get(ref);node.element=ref.current;}else node.element=new Element();}}for(const [ref] of elementByRef)if(!activeRefs.has(ref))ref.current=null;for(const effect of effects)effect();}
+  function render(){cursor=0;effects=[];dirty=false;tree=Component(props);const activeRefs=new Set();for(const node of allNodes()){if(typeof node.type==='string'){const ref=node.props.ref;if(ref){activeRefs.add(ref);if(!elementByRef.has(ref))elementByRef.set(ref,new Element());ref.current=elementByRef.get(ref);node.element=ref.current;}else node.element=new Element();for(const [key,value]of Object.entries(node.props))if(key.startsWith('data-'))node.element.dataset[key.slice(5).replace(/-([a-z])/g,(_,letter)=>letter.toUpperCase())]=String(value);}}for(const [ref] of elementByRef)if(!activeRefs.has(ref))ref.current=null;for(const effect of effects)effect();}
   async function flush(){for(let i=0;i<20;i++){if(dirty||!tree)render();await Promise.resolve();}assert.equal(dirty,false,'hook harness must settle');}
   function find(predicate){const result=allNodes().find(predicate);assert.ok(result,'expected host element');return result;}
   async function click(label){const node=find(node=>node.type==='button'&&text(node).startsWith(label));assert.ok(!node.props.disabled,`${label} is enabled`);node.element.focus();node.props.onClick();await flush();return node;}
   function evidence(){return find(node=>typeof node.type==='function'&&node.type.name==='CaseSceneEvidence').props;}
   await flush();
-  return {find,text,click,flush,evidence,get props(){return props;},get tree(){return tree;},get closed(){return closed;},get recreated(){return recreated;},get attached(){return attached;},get disposed(){return disposed;},get quality(){return lastQuality;},get sessionOptions(){return sessionOptions;},async patch(value){props={...props,...value};dirty=true;await flush();},async act(action){evidence().onAction(action);await flush();},async resize(width,height){window.innerWidth=width;window.innerHeight=height;listeners.get('window:resize')?.();await flush();},async focusIn(target){listeners.get('focusin')({target});await flush();},async key(event){const result={...event,preventDefault(){this.defaultPrevented=true;},stopPropagation(){this.stopped=true;}};listeners.get('keydown')(result);await flush();return result;},async escape(){listeners.get('keydown')({key:'Escape',preventDefault(){},stopPropagation(){}});await flush();},destroy(){for(const hook of hooks)hook?.cleanup?.();globalThis.document=oldDocument;globalThis.HTMLElement=oldElement;globalThis.window=oldWindow;}};
+  // These lifecycle tests do not simulate browser paint. Advance finite rAF jobs
+  // only explicitly; dedicated policy tests exercise real measurements separately.
+  async function paint(){const jobs=[...animationFrames.values()];animationFrames.clear();for(const job of jobs)job();await flush();}
+  return {find,text,click,flush,paint,evidence,get props(){return props;},get tree(){return tree;},get closed(){return closed;},get recreated(){return recreated;},get attached(){return attached;},get disposed(){return disposed;},get quality(){return lastQuality;},get sessionOptions(){return sessionOptions;},async patch(value){props={...props,...value};dirty=true;await flush();},async act(action){evidence().onAction(action);await flush();},async resize(width,height){window.innerWidth=width;window.innerHeight=height;listeners.get('window:resize')?.();await flush();},async focusIn(target){listeners.get('focusin')({target});await flush();},async key(event){const result={...event,preventDefault(){this.defaultPrevented=true;},stopPropagation(){this.stopped=true;}};listeners.get('keydown')(result);await flush();return result;},async escape(){listeners.get('keydown')({key:'Escape',preventDefault(){},stopPropagation(){}});await flush();},destroy(){for(const hook of hooks)hook?.cleanup?.();globalThis.document=oldDocument;globalThis.HTMLElement=oldElement;globalThis.window=oldWindow;}};
 }
 
 test('explicit choice is list-first; missing graphics preserves selection and exposes recreation',async()=>{
@@ -227,5 +231,66 @@ test('source dialog owns Tab boundaries while interior native navigation is left
     close.focus();await h.escape();
     assert.equal(dialog.open,false);assert.equal(h.closed,0);assert.equal(document.activeElement,opener,'source Escape restores the original opener');
     await h.escape();assert.equal(h.closed,1,'a later Escape can close the workspace');
+  }finally{h.destroy();}
+});
+
+
+test('settled missing-label fallback transfers only removed-surface focus and preserves selection and sources',async()=>{
+  for(const focusOwner of ['surface','camera','header','rail','source-dialog']){
+    const h=await harness({isUsable:()=>true},{width:1440,height:1000});
+    try{
+      await h.click(index[0].label);const edge=h.evidence().caseFile.edges[0];
+      await h.act({type:'select-edge',id:edge.id});
+      await h.patch({reducedMotion:true});
+      await h.act({type:'set-view',view:'scene'});
+      const surface=h.find(node=>'data-case-surface' in node.props).element;
+      // The attachment stub intentionally emitted no plaques. The real observer
+      // must report those mandatory source IDs as missing, never accept coverage.
+      const camera=h.find(node=>node.type==='button'&&h.text(node)==='Fit case').element;
+      surface.closest=()=>({contains:target=>target===surface||target===camera});
+      let focused;
+      if(focusOwner==='source-dialog'){await h.click('Inspect selected claim');focused=h.find(node=>node.type==='button'&&h.text(node)==='Close sources').element;focused.focus();}
+      else{focused=focusOwner==='surface'?surface:focusOwner==='camera'?camera:focusOwner==='rail'?h.find(node=>node.props['data-reader-scroll']==='workspace-evidence').element:h.find(node=>node.type==='h1').element;focused.focus();}
+      await h.paint();await h.paint();
+      assert.equal(h.evidence().state.view,'list');assert.equal(h.evidence().state.navigation.edgeId,edge.id);assert.equal(h.disposed,1);
+      assert.match(h.text(h.tree),/cannot fit the required full labels at a readable width/);
+      const report=JSON.parse(h.find(node=>'data-case-workspace' in node.props).props['data-case-readable-label-report']);
+      assert.equal(report.status,'insufficient');assert.ok(report.failures.some(item=>item.reason==='missing'));
+      if(focusOwner==='surface'||focusOwner==='camera')assert.equal(document.activeElement,h.find(node=>node.type==='h1').element);
+      else assert.equal(document.activeElement,focused);
+      if(focusOwner==='source-dialog')assert.equal(h.find(node=>'data-case-source-dialog' in node.props).element.open,true);
+    }finally{h.destroy();}
+  }
+});
+
+
+test('a queued frame from state A cannot report insufficiency against later state B',async()=>{
+  const h=await harness({isUsable:()=>true},{width:1440,height:1000});
+  try{
+    await h.click(index[0].label);await h.patch({reducedMotion:true});await h.act({type:'set-view',view:'scene'});
+    const a=h.sessionOptions.controller.state;
+    h.sessionOptions.onFrame({nodes:[],roles:[],presentation:h.sessionOptions.controller.presentation});
+    h.evidence().onAction({type:'camera',patch:{center:[a.camera.center[0]+1,a.camera.center[1]]}});
+    await h.flush();await h.paint();await h.paint();
+    assert.notEqual(h.sessionOptions.controller.state,a);
+    assert.equal(h.evidence().state.view,'scene');
+    assert.equal(h.find(node=>'data-case-workspace' in node.props).props['data-case-readable-label-report'],undefined);
+    assert.equal(h.disposed,0);
+  }finally{h.destroy();}
+});
+
+
+test('paused travel does not trigger a missing-label fallback and Resume and Close still work',async()=>{
+  const h=await harness({isUsable:()=>true},{width:1440,height:1000});
+  try{
+    await h.click(index[0].label);await h.act({type:'set-view',view:'scene'});
+    await h.act({type:'select-edge',id:h.evidence().caseFile.edges[0].id});assert.ok(h.evidence().state.motion);
+    await h.click('Pause travel');assert.equal(h.evidence().state.motion,null);
+    h.sessionOptions.onFrame({nodes:[],roles:[],presentation:h.sessionOptions.controller.presentation});
+    await h.flush();await h.paint();await h.paint();
+    assert.equal(h.evidence().state.view,'scene');assert.equal(h.disposed,0);
+    assert.equal(h.find(node=>'data-case-workspace' in node.props).props['data-case-readable-label-report'],undefined);
+    await h.click('Resume travel');assert.ok(h.evidence().state.motion);
+    await h.click('Close workspace');await h.paint();await h.paint();assert.equal(h.closed,1);assert.equal(h.disposed,1);
   }finally{h.destroy();}
 });
