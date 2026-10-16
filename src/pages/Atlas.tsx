@@ -78,9 +78,8 @@ export default function Atlas() {
         <PageTitle>The Money-Trail Atlas</PageTitle>
         <Standfirst>
           {ATLAS_META.subject}. Every edge is a sourced claim with an evidence tier. Facts are superseded,
-          never deleted. Denials are first-class. The most important object here is{' '}
-          <strong>M10, the documented void</strong> — the anti-motif showing that the largest beneficiaries
-          in this graph carry no traceable political donations at all.
+          never deleted. Denials are first-class. The former M10 donation-absence interpretation
+          is held for source-scope review. Missing graph links do not establish zero donations.
         </Standfirst>
         <Byline>
           {ATLAS_META.scope} · compiled {ATLAS_META.compiled} · {NODES.length} entities · {EDGES.length}{' '}

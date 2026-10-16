@@ -87,15 +87,15 @@ test("full corpus world summaries have exact distinct membership and area counts
   assert.equal(world.mode, "world");
   assert.deepEqual(world.counts, {
     placedMembers: 3856,
-    unplacedMembers: 4003,
+    unplacedMembers: 4001,
     areaGroups: 42,
     countryStacks: 6,
     displayedGroups: 6,
     selectedAreaDetails: 0,
-    candidateEdges: 765,
+    candidateEdges: 764,
     eligibleEdges: 4,
     renderedEdges: 3,
-    suppressedSameCountryEdges: 761,
+    suppressedSameCountryEdges: 760,
     omittedEligibleEdges: 1,
   });
   assert.deepEqual(
@@ -362,7 +362,7 @@ test("world threads remain original directed edges, with no routing to summary a
   );
   assert.match(
     world.threadSummary,
-    /3 displayed of 765 cross-area relationships/,
+    /3 displayed of 764 cross-area relationships/,
   );
   assert.match(world.threadSummary, /Displayed subset only/);
   assert.match(
@@ -376,7 +376,7 @@ test("world selection keeps a deduplicated cross-country edge without changing i
   assert.ok(omitted);
   const focused = planSemanticDisplay(factual, omitted.id, 1.5, base);
   assert.equal(focused.rendered[0], omitted);
-  assert.equal(focused.counts.candidateEdges, 765);
+  assert.equal(focused.counts.candidateEdges, 764);
   assert.equal(focused.counts.eligibleEdges, 4);
   assert.equal(focused.counts.renderedEdges, 3);
   assert.equal(focused.counts.placedMembers, world.counts.placedMembers);
@@ -483,7 +483,7 @@ test("held and not-drawn data never enter summaries, selected overlays or thread
 
 test("unplaced and ambiguous evidence is never assigned to a country stack", () => {
   const unplaced = factual.nodes.filter((node) => !base.anchors.has(node.id));
-  assert.equal(unplaced.length, 4003);
+  assert.equal(unplaced.length, 4001);
   const result = planSemanticDisplay(
     { ...factual, nodes: unplaced, edges: [] },
     unplaced[0].id,
@@ -493,7 +493,7 @@ test("unplaced and ambiguous evidence is never assigned to a country stack", () 
   assert.equal(result.countryStacks.size, 0);
   assert.equal(result.anchors.size, 0);
   assert.equal(result.counts.placedMembers, 0);
-  assert.equal(result.counts.unplacedMembers, 4003);
+  assert.equal(result.counts.unplacedMembers, 4001);
   assert.equal(result.counts.selectedAreaDetails, 0);
 });
 

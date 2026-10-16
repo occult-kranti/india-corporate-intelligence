@@ -1866,3 +1866,20 @@ svg {
   .scene-overview, .is-exploring .scene-overview { top: 174px; }
   .reading-surface { top: 174px; }
 }
+
+.reader-collections {
+  margin: 18px 0;
+  padding: 18px 20px;
+  border: 1px solid rgba(202, 183, 143, .45);
+  border-radius: 6px;
+  background: #173b2e;
+  color: #f1ead9;
+}
+.reader-collections h2 { margin: 0 0 8px; font-size: 19px; }
+.reader-collections p { max-width: 78ch; line-height: 1.55; }
+.reader-collections ul { margin: 12px 0 0; padding-left: 20px; }
+.reader-collections li + li { margin-top: 14px; }
+.reader-collections li p { margin: 5px 0; font-size: 13px; color: #d4dfd4; }
+.reader-collections a { color: #f2d99f; text-decoration: underline; text-underline-offset: 3px; }
+.reader-collections a:focus-visible { outline: 3px solid #f2d99f; outline-offset: 5px; }
+.reader-collections a span { font-size: 12px; }

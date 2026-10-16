@@ -323,8 +323,8 @@ export const TEMPLATES: MotifTemplate[] = [
   },
   {
     id: 'T5',
-    name: 'The documented void',
-    tier: 'documented',
+    name: 'Donation coverage gaps',
+    tier: 'analytic',
     startsAt: (n) => isCompanyLike(n),
     startLabel: 'companies, shells and groups',
     steps: [{ preds: ['award'], dir: 'in', label: 'received an award' }],
@@ -332,12 +332,12 @@ export const TEMPLATES: MotifTemplate[] = [
       preds: ['bond', 'trust', 'direct'],
       dir: 'out',
       landsOn: isPartyLike,
-      label: 'and has NO traceable political donation of any kind',
+      label: 'and has no displayed donation edge in this graph',
     },
-    note: 'Award recipients with NO traceable political donation at all. This is a computed ABSENCE — the engine matches entities by what is missing from them, not by what is present.',
+    note: 'Award recipients without displayed donation links in this collection. Missing graph links are coverage gaps, not evidence of zero donations.',
     innocentReading:
-      'If benefit reliably followed payment, the largest beneficiaries would be the heaviest donors. Several are not in the donation data at all. Benefit ≠ payment — and this is the finding that the flows on their own cannot support.',
-    upgradeIf: 'Nothing upgrades a void. It is falsified only by finding the donations.',
-    killIf: 'Traceable donations from these beneficiaries surface in the ECI alphanumeric file or in s.182 disclosures.',
+      'This collection is incomplete. A missing or held relationship cannot establish that donations did not occur, nor imply hidden payments. The Adani universal-absence claim is held for source-scope correction.',
+    upgradeIf: 'Review the relevant donor entities, channels and periods against original filings before making any donation-history claim.',
+    killIf: 'A sourced donation edge changes this graph-coverage result; it does not by itself establish an all-channel donation history.',
   },
 ];

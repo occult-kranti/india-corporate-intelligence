@@ -7,12 +7,8 @@ import { BASE_RATES } from '../graph/baseRates';
 import type { GEdge, Predicate } from '../graph/schema';
 
 /**
- * Money to parties.
- *
- * Built from the case-study subgraph, which is the only part of the platform that
- * carries donation edges — and every one of them is sourced. The page leads with
- * the documented void rather than the flows, because the void is the finding that
- * the flows on their own cannot support.
+ * Retained political-money claims and explicit collection-coverage limits.
+ * Exact source-scope holds are excluded from the displayed money graph.
  */
 
 const MONEY_PREDS: Predicate[] = ['bond', 'trust', 'direct', 'pmin', 'pmout', 'csr'];
@@ -67,9 +63,8 @@ export default function PoliticalView() {
         <Kicker>Money to parties and funds</Kicker>
         <PageTitle>The flows, and what they are worth</PageTitle>
         <Standfirst>
-          Every traceable political-money edge in the platform, with its source. The important thing on
-          this page is not the flows — it is the void beneath them: the largest beneficiaries in the graph
-          show no traceable political donations at all.
+          Retained political-money claims in this graph, with their sources. Missing edges describe
+          collection coverage only. They do not establish zero donations or hidden payments.
         </Standfirst>
         <Byline>
           {flows.length} money edges · {sourced} carrying a source URL · figures in ₹ crore as published
@@ -96,19 +91,24 @@ export default function PoliticalView() {
       <StatGrid
         items={[
           { value: `₹${Math.round(totalTraced).toLocaleString('en-IN')} cr`, label: 'total traced across all money edges in the case study' },
-          { value: String(beneficiaries.length), label: 'award recipients with NO traceable donation edge', tone: 'accent' },
+          { value: String(beneficiaries.length), label: 'award recipients without a displayed donation edge', tone: 'accent' },
           { value: '82.45%', label: 'ruling-party share of electoral-trust money, FY2024-25 — the base rate any donation edge must beat', tone: 'muted' },
           { value: `${sourced}/${flows.length}`, label: 'money edges carrying a source URL', tone: 'sage' },
         ]}
       />
 
-      <Section title="The documented void" note="The anti-motif — and the integrity check on this whole exercise">
+      <Section title="Donation coverage gaps" note="Missing graph links are not findings of donation absence">
         <Callout label="Benefit ≠ payment" tone="warn">
           <p>
-            If benefit reliably followed payment, the largest beneficiaries in this graph would be its
-            heaviest donors. They are not in the donation data at all. That is a finding, and it is
-            rendered as loudly as any flow — a graph that can only show what exists systematically
-            overstates the case.
+            These award recipients have no currently displayed donation edge in this collection.
+            This is not a comprehensive donor audit. The Adani zero-donation claim has been held:
+            its source reports only a name absence in bond data released in March 2024, not a
+            BJP-specific payment relationship or an all-channel donation total.
+          </p>
+          <p>
+            A separate source-scope review also holds the inherited Adani-specific Section 182
+            disclosure claim. Its cited report discusses 30 Sensex companies and FY19–FY23;
+            it does not establish an Adani FY20–FY25 filing survey, concealment or non-compliance.
           </p>
           <ul className="space-y-1.5 mt-2">
             {beneficiaries.map((n) => (

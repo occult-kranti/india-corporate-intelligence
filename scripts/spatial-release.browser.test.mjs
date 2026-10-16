@@ -138,3 +138,11 @@ test('activity navigation and four simple groups are additive CI requirements', 
     assert.match(workflow, /node scripts\/spatial-release.browser.mjs/);
   }
 });
+
+test('combined release requires both original and served/offline global correction scopes',()=>{
+  for(const required of ['exact-source-corrections-across-original-and-global','original-political-two-qualified-scope-holds','fieldwork-offline.html','HELD SOURCE SCOPE','Denies wrongdoing','report.scenarios.length === 7'])assert.ok(source.includes(required),required);
+  assert.match(source,/for \(const offline of \[false,true\]\)/);
+  assert.match(source,/#\/political\?iw_view=dossier/);
+  assert.match(source,/page\.locator\('\.iw-dossier-content'\)/);
+  assert.match(source,/The flows, and what they are worth/);
+});

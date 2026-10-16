@@ -51,10 +51,10 @@ export default function HistoricalReviewGate({ base, href }: { base: Investigati
   if (closed) return null;
   return <>
     <aside hidden={state.phase === 'ready'} aria-label="Optional historical review" style={{position:'fixed',bottom:18,right:18,left:18,margin:'auto',maxWidth:620,padding:20,zIndex:60,background:'#102e25',color:'#f2e9d5',border:'2px solid #d4b276',borderRadius:8}}>
-      <strong>Historical review only · 2025-12-31 · PUBLIC_GRAPH_BLOCKED</strong>
-      <p>The base atlas is unchanged. Open nine qualified issuer-reported claims in a separate review reader. No new factual map marks or payment/control conclusions are enabled.</p>
+      <strong>Optional historical reader · 2025-12-31</strong>
+      <p>Open nine qualified issuer-reported claims after exact reader-admission verification. Graph/paths: PUBLIC_GRAPH_BLOCKED. The base atlas stays unchanged; no new factual map marks or payment/control conclusions are enabled.</p>
       {state.phase === 'error' ? <p role="alert">{state.message}</p> : null}
-      {state.phase === 'loading' ? <p role="status">Verifying the exact base snapshot and reviewed payload…</p> : null}
+      {state.phase === 'loading' ? <p role="status">Verifying the exact base snapshot, reviewed payload and reader admission…</p> : null}
       <button ref={openButton} type="button" disabled={state.phase === 'loading'} onClick={() => {
         if (inFlight.current) return;
         inFlight.current = true;

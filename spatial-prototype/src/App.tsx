@@ -1,3 +1,5 @@
+import { buildCasebookPacket } from "./casebookWithCorrections";
+import { sourceCorrection, presentationCorrection, sourceCitationCorrection, presentationTitle, presentationSummary, presentationTier } from "./sourceCorrections";
 import {
   lazy,
   Suspense,
@@ -50,14 +52,12 @@ import {
   isHeldItem,
   filterScene,
   registry as previewRegistry,
-  type EvidenceItem,
   type SceneEdge,
 } from "./model";
 import {
   CASEBOOK_KEY,
   emptyCasebook,
   parseCasebook,
-  buildCasebookPacket,
   type CasebookData,
   type CasebookSelection,
 } from "./casebookStore";
@@ -80,8 +80,7 @@ import cityMetadata from "./assets/city-metadata.json";
 import { GuidedTutorial } from "./guidance/GuidedTutorial";
 import atlasGuide from "./guidance/atlas-guide.json";
 const readable = (word: string) => word.replace(/-/g, " ");
-const itemTitle = (item: EvidenceItem) =>
-  "title" in item ? item.title : item.label;
+const itemTitle = presentationTitle;
 function readBook() {
   try {
     const raw = localStorage.getItem(CASEBOOK_KEY);
@@ -300,6 +299,8 @@ export default function App({
     !!getNodeAnchor(nodes.get(edge.from)!) &&
     !!getNodeAnchor(nodes.get(edge.to)!);
   const inspectionHeld = !!item && isHeldItem(registry, item.id);
+  const inspectionCorrection = item ? presentationCorrection(item.id) : null;
+  const correctedRecordCount = scene.nodes.filter(node => !!sourceCorrection(node.id)).length;
   const readerOnlyCount = scene.nodes.filter(
     (node) =>
       isHeldItem(registry, node.id) ||
@@ -575,8 +576,7 @@ export default function App({
           <br />
           {geographicScene.nodes.length.toLocaleString()} area-anchored ·{" "}
           {geographicScene.unplacedNodes.length.toLocaleString()} unplaced ·{" "}
-          {readerOnlyCount.toLocaleString()} retained held/not-drawn records are
-          reader-only.
+          {readerOnlyCount.toLocaleString()} records are reader-only: retained held/not-drawn context{correctedRecordCount ? ` plus ${correctedRecordCount} source-correction records` : ""}.
           <br />
           Separate review queue: {registry.held.length} held entries, including
           retained counter-context records. No held entries draw factual marks.
@@ -661,6 +661,7 @@ export default function App({
             </p>
           )}
           <RegistryReader
+            dataset={dataset}
             scene={scene}
             selected={selected}
             query={deferredQuery}
@@ -1183,7 +1184,9 @@ export default function App({
           <div className="inspector-top">
             <span>
               <MapPin size={13} />{" "}
-              {inspectionEdge ? "SOURCED RELATIONSHIP" : "PINNED PUBLIC RECORD"}
+              {inspectionHeld && inspectionCorrection
+                ? "SUPERSEDED CLAIM / SOURCE REVIEW"
+                : inspectionEdge ? "SOURCED RELATIONSHIP" : "PINNED PUBLIC RECORD"}
             </span>
             <div>
               <button
@@ -1210,7 +1213,7 @@ export default function App({
             <h2>{itemTitle(item)}</h2>
             <div className="evidence-tags">
               <span>
-                {"tier" in item ? readable(item.tier) : "Source-bound identity"}
+                {readable(presentationTier(item))}
               </span>
               <span>{new Set(item.sourceIds).size} distinct source IDs</span>
             </div>
@@ -1220,7 +1223,14 @@ export default function App({
                 excluded from the factual map and its threads.
               </p>
             )}
-            <p className="lead-summary">{item.summary}</p>
+            {inspectionCorrection && <section className="notice" data-source-correction={inspectionCorrection.id} aria-label="Source-scope correction">
+              <h3>Source-scope correction · {inspectionCorrection.reviewedAt}</h3>
+              <p>{inspectionCorrection.reason}</p>
+              <p>{inspectionCorrection.interpretationNotice}</p>
+              <ul>{inspectionCorrection.findings.map(finding => <li key={finding}>{finding}</li>)}</ul>
+              <p>{inspectionCorrection.relatedClaimStatus}</p>
+            </section>}
+            <p className="lead-summary">{presentationSummary(item)}</p>
             <a className="original-item-link" href={originalRoute(item.route)}>
               Open this item’s original page <ExternalLink size={14} />
             </a>
@@ -1241,7 +1251,7 @@ export default function App({
                 )}
               </section>
             )}
-            {inspectionEdge && !mapEdgeIds.has(inspectionEdge.id) && (
+            {inspectionEdge && !inspectionHeld && !mapEdgeIds.has(inspectionEdge.id) && (
               <p className="small-copy">
                 This relationship remains readable outside the current map lens.
                 Adjust the filters to follow it.
@@ -1255,7 +1265,7 @@ export default function App({
                   filters to locate it.
                 </p>
               )}
-            {inspectionEdge && (
+            {inspectionEdge && !inspectionCorrection && (
               <div className="relationship-route">
                 <span>{nodes.get(inspectionEdge.from)?.title}</span>
                 <ArrowRight size={16} />
@@ -1272,8 +1282,8 @@ export default function App({
             {"tier" in item && (
               <dl className="metadata-grid">
                 <div>
-                  <dt>Recorded status</dt>
-                  <dd>{readable(item.status)}</dd>
+                  <dt>{inspectionCorrection ? "Superseded original status" : "Recorded status"}</dt>
+                  <dd>{readable(item.status)}{inspectionCorrection ? " · now source-correction hold" : ""}</dd>
                 </div>
                 <div>
                   <dt>Status as of</dt>
@@ -1317,7 +1327,7 @@ export default function App({
                   return response ? (
                     <article key={id}>
                       <h3>{itemTitle(response)}</h3>
-                      <p>{response.summary}</p>
+                      <p>{presentationSummary(response)}</p>
                       {"response" in response && response.response && (
                         <p>{response.response}</p>
                       )}
@@ -1426,7 +1436,7 @@ export default function App({
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      {source.title}
+                      {sourceCitationCorrection(source.id)?.sourceTitle ?? source.title}
                       <ExternalLink size={13} />
                     </a>
                     <p>
@@ -1434,6 +1444,7 @@ export default function App({
                       {source.publishedAt ?? "Publication date unknown"}
                     </p>
                     <small>{source.locator}</small>
+                    {sourceCitationCorrection(source.id) ? <p className="notice">{sourceCitationCorrection(source.id)?.sourceDateNotice}</p> : null}
                     {source.limitations.length > 0 && (
                       <details>
                         <summary>Source limitations</summary>
@@ -1519,10 +1530,10 @@ export default function App({
                       }}
                     >
                       <span>
-                        {edge.relationship.label}
+                        {presentationTitle(edge.relationship)}
                         <small>
                           {edge.sourceCount} distinct source IDs ·{" "}
-                          {edge.relationship.tier}
+                          {presentationTier(edge.relationship)}
                         </small>
                       </span>
                       <ArrowRight size={16} />
@@ -1531,7 +1542,7 @@ export default function App({
               </section>
             )}
             <details className="retained-metadata">
-              <summary>Complete retained object</summary>
+              <summary>{inspectionCorrection ? "Superseded raw object · audit only, not accepted evidence" : "Complete retained object"}</summary>
               <pre>{JSON.stringify(item, null, 2)}</pre>
             </details>
             <section className="casebook-box">

@@ -38,12 +38,12 @@ export function HistoricalReviewView({ overlay, href, onClose }: {
   const entities = new Map([...overlay.additions.entities, overlay.reusedEntity].map(entity => [entity.id, entity]));
   const overview = reviewOriginalDestination(overlay.additions.records[0]);
   const irb = reviewOriginalDestination(overlay.reusedEntity);
-  return <section className="historical-review-content" data-historical-review="review-only" data-public-graph="blocked">
+  return <section className="historical-review-content" data-historical-review="reader-admitted" data-reader-admission={overlay.readerAdmission.readerStatus} data-public-graph="blocked" data-public-paths="blocked">
     <header>
-      <p className="historical-kicker">HISTORICAL REVIEW ONLY · PUBLIC_GRAPH_BLOCKED</p>
+      <p className="historical-kicker">HISTORICAL READER ADMITTED · GRAPH/PATHS: PUBLIC_GRAPH_BLOCKED</p>
       <h1 id="historical-review-title">Issuer-reported ownership at 2025-12-31</h1>
       <a href={withoutHistoricalReview(href)} onClick={onClose}>Close historical review and return to the base atlas</a>
-      <p>Nine reviewed historical claims from three source documents in two issuer families. Same-issuer materials are dependent, not independent corroboration. No current ownership or independent registry certification is established.</p>
+      <p>Nine reviewed historical claims from three source documents in two issuer families, admitted only to this opt-in reader by the exact-ID decision {overlay.readerAdmission.admissionId}. Same-issuer materials are dependent, not independent corroboration. No current ownership or independent registry certification is established.</p>
       <p><strong>The base graph remains unchanged: 2,469 entities · 5,617 records · 4,203 relationships · 3,314 sources.</strong> This separate inspection overlay adds 9 entities, 9 records, 9 relationships and 3 sources only to its review reader (2,478 / 5,626 / 4,212 / 3,317). No historical addition is rendered as a factual map mark or path.</p>
       <p><strong>No payment flow, award influence, wrongdoing or propagated control is established.</strong> Ownership percentages are interests, not financial amounts. Only Rafael’s reported control of Rijn is included; it does not propagate through Rijn’s minority Ferrovial stake.</p>
       <p>Snapshot date is not a validity interval. Validity endpoints remain unknown; document dates and reporting periods are shown separately. This reader is intentionally independent of the base atlas’s event-year filter.</p>
@@ -65,7 +65,7 @@ export function HistoricalReviewView({ overlay, href, onClose }: {
       {overlay.additions.relationships.map(edge => {
         const record = overlay.additions.records.find(row => row.id === edge.recordIds[0])!;
         return <article className="historical-claim" key={edge.id} data-review-relationship={edge.id} data-review-record={record.id}>
-          <p className="historical-kicker">{record.originalId} · 2025-12-31 · issuer-reported · self-reported · PUBLIC_GRAPH_BLOCKED</p>
+          <p className="historical-kicker">{record.originalId} · 2025-12-31 · issuer-reported · self-reported · reader admitted · Graph/paths: PUBLIC_GRAPH_BLOCKED</p>
           <h3>{entities.get(edge.from)!.label} → {entities.get(edge.to)!.label}</h3>
           <p><strong>{edge.label}</strong></p>
           <p>{edge.summary}</p>
@@ -82,10 +82,10 @@ export function HistoricalReviewView({ overlay, href, onClose }: {
         </article>;
       })}
     </section>
-    <section aria-label="Publication holds">
-      <h2>Publication stays blocked</h2>
-      <p>All nine source holds are retained. Separate exact-ID guards exclude every new entity, record and relationship from the factual scene. The excluded packet claims and other frozen-packet relationships have not been imported.</p>
-      <p>Passing machine tests or opening this overlay does not approve publication. Actual rendering and integration review are still required.</p>
+    <section aria-label="Retained packet holds and graph exclusions">
+      <h2>Reader admission and retained graph/path holds</h2>
+      <p>This reader has separate exact-ID admission. All nine source-packet holds below remain verbatim historical provenance, including their original review-pending wording. That wording has not been cleared or rewritten; the derived reader decision above is separate.</p>
+      <p>Graph/paths remain PUBLIC_GRAPH_BLOCKED. Separate exact-ID guards exclude every new entity, record and relationship from the factual scene. The excluded packet claims and other frozen-packet relationships have not been imported. Reader admission and passing machine tests never admit factual graph marks or paths.</p>
       <ul>{overlay.additions.held.map(hold => {
         const target = overlay.holdTargets.find(row => row.holdId === hold.id)!;
         return <li key={hold.id}>{hold.id}: {hold.reason}<br />

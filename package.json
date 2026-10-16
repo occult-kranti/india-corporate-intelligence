@@ -30,7 +30,7 @@
     "test:public-works:browser": "node scripts/public-works/browser.mjs",
     "test:public-works:model": "node scripts/education/model-corpus.mjs src/data/public-works-research.json research/public-works/model-corpus.json && python3 scripts/public-works/model-rank.py --verify",
     "validate:investigation": "node scripts/investigation/validate.mjs",
-    "test:investigation": "node --test scripts/investigation/investigation.test.mjs scripts/investigation/graph.test.mjs scripts/investigation/casebook.test.mjs scripts/pages/dossier-navigation.test.mjs",
+    "test:investigation": "node --test scripts/investigation/investigation.test.mjs scripts/investigation/graph.test.mjs scripts/investigation/casebook.test.mjs scripts/pages/dossier-navigation.test.mjs scripts/adani-scope-correction.test.mjs",
     "test:investigation:model": "node scripts/investigation/model-corpus.mjs --verify && python3 scripts/investigation/model-rank.py --verify && python3 scripts/investigation/model-rank.test.py",
     "test:investigation:browser": "node scripts/investigation/browser.mjs && node scripts/investigation/graph-browser.mjs && node scripts/investigation/workspace-browser.mjs",
     "test:dossier:history": "node scripts/pages/dossier-history.browser.mjs",

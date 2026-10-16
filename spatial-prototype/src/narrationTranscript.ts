@@ -1,18 +1,21 @@
+import { presentationCorrection, presentationTitle, presentationSummary } from "./sourceCorrections";
 import type { EvidenceItem } from "./model";
 /** The same qualifications heard aloud must remain visible in the source reader. */
 export function buildNarrationTranscript(
   item: EvidenceItem,
   held = false,
 ): string {
-  const title = "title" in item ? item.title : item.label;
+  const title = presentationTitle(item);
+  const correction = presentationCorrection(item.id);
   const parts = [
     held
       ? "Held for review. Reading and counter-context only; excluded from the factual map."
       : "",
     title,
-    item.summary,
+    presentationSummary(item),
+    correction ? `Source-scope correction: ${correction.reason} ${correction.interpretationNotice}` : "",
   ];
-  if ("tier" in item)
+  if ("tier" in item && !correction)
     parts.push(
       `Evidence tier: ${item.tier}. Recorded status: ${item.status}. Status as of: ${item.statusAsOf ?? "not established"}. Date basis: ${item.dateBasis}.`,
     );

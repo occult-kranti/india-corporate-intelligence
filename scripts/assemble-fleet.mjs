@@ -42,6 +42,7 @@
  */
 
 import { readFileSync, writeFileSync, existsSync, readdirSync, mkdirSync } from 'node:fs';
+import { loadEffectiveGraph } from './lib/load-effective-graph.mjs';
 import { join, dirname, relative, resolve, isAbsolute, posix } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import {
@@ -229,20 +230,14 @@ function readers(sink, where, lenient = false) {
   return r;
 }
 
-/** Atlas ids from src/graph/data.ts, by the same literal grab validate.mjs uses. */
+/** Atlas endpoint identities come from the same effective exports as validation. */
 function readAtlasIds(root, sink) {
   const file = join(root, 'src/graph/data.ts');
   if (!existsSync(file)) return new Set();
-  const m = readFileSync(file, 'utf8').match(/export const NODES\b[^=]*=\s*(\[[\s\S]*?\n\];)/m);
-  if (!m) {
-    sink.error('src/graph/data.ts', 'could not find the NODES literal — atlas ids cannot be resolved');
-    return new Set();
-  }
   try {
-    const nodes = Function(`"use strict"; return (${m[1].replace(/;$/, '')});`)();
-    return new Set(nodes.map((n) => n.id));
+    return new Set(loadEffectiveGraph(file).nodes.map(n => n.id));
   } catch (e) {
-    sink.error('src/graph/data.ts', `could not parse NODES: ${e.message}`);
+    sink.error('src/graph/data.ts', `could not evaluate effective NODES: ${e.message}`);
     return new Set();
   }
 }

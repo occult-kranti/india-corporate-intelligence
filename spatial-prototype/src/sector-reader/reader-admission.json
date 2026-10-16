@@ -1,0 +1,381 @@
+{
+  "schemaVersion": 1,
+  "admissionId": "sector-2026-10-reader-v1",
+  "surface": "explicit-opt-in-sector-reader",
+  "readerStatus": "READER_ADMITTED",
+  "graphStatus": "PUBLIC_GRAPH_BLOCKED",
+  "publicGraphEligible": false,
+  "publicPathEligible": false,
+  "aggregationPermitted": false,
+  "payloadSha256": {
+    "base": "048f89ffd008a498212ff2ac71d4413aef09b138a50ab77f336a23fec4722064",
+    "projection": "83f4f8f016ea0e734095c43c2e1c46b2d1f080747265fef846cccc1f11d85a44"
+  },
+  "packetIds": [
+    "europe-china-ownership",
+    "welfare-food-finance",
+    "energy-mineral-finance",
+    "rss-report-review"
+  ],
+  "claims": [
+    {
+      "id": "EC-E01",
+      "packet": "europe-china-ownership",
+      "sourceIds": [
+        "europe-china-ownership:EC-S01"
+      ],
+      "criticismResponseIds": []
+    },
+    {
+      "id": "EC-E02",
+      "packet": "europe-china-ownership",
+      "sourceIds": [
+        "europe-china-ownership:EC-S01"
+      ],
+      "criticismResponseIds": []
+    },
+    {
+      "id": "EC-E03",
+      "packet": "europe-china-ownership",
+      "sourceIds": [
+        "europe-china-ownership:EC-S01"
+      ],
+      "criticismResponseIds": []
+    },
+    {
+      "id": "wff-01",
+      "packet": "welfare-food-finance",
+      "sourceIds": [
+        "welfare-food-finance:pad",
+        "welfare-food-finance:isr01"
+      ],
+      "criticismResponseIds": [
+        "wff-criticism-1",
+        "wff-criticism-2",
+        "wff-criticism-3",
+        "wff-criticism-4"
+      ]
+    },
+    {
+      "id": "wff-02",
+      "packet": "welfare-food-finance",
+      "sourceIds": [
+        "welfare-food-finance:isr01",
+        "welfare-food-finance:icr"
+      ],
+      "criticismResponseIds": [
+        "wff-criticism-1",
+        "wff-criticism-2",
+        "wff-criticism-3",
+        "wff-criticism-4"
+      ]
+    },
+    {
+      "id": "wff-03",
+      "packet": "welfare-food-finance",
+      "sourceIds": [
+        "welfare-food-finance:isr01",
+        "welfare-food-finance:icr"
+      ],
+      "criticismResponseIds": [
+        "wff-criticism-1",
+        "wff-criticism-2",
+        "wff-criticism-3",
+        "wff-criticism-4"
+      ]
+    },
+    {
+      "id": "EMF-001",
+      "packet": "energy-mineral-finance",
+      "sourceIds": [
+        "energy-mineral-finance:ffb-note-purchase-agreement.html",
+        "energy-mineral-finance:omnibus-2025.html",
+        "energy-mineral-finance:draw-announcement.html",
+        "energy-mineral-finance:annual-2025.html"
+      ],
+      "criticismResponseIds": [
+        "emf-environment",
+        "emf-recourse"
+      ]
+    },
+    {
+      "id": "EMF-002",
+      "packet": "energy-mineral-finance",
+      "sourceIds": [
+        "energy-mineral-finance:annual-2025.html",
+        "energy-mineral-finance:structure.jpg"
+      ],
+      "criticismResponseIds": [
+        "emf-environment",
+        "emf-recourse"
+      ]
+    },
+    {
+      "id": "EMF-003",
+      "packet": "energy-mineral-finance",
+      "sourceIds": [
+        "energy-mineral-finance:investment-agreement.html",
+        "energy-mineral-finance:annual-2025.html"
+      ],
+      "criticismResponseIds": [
+        "emf-environment",
+        "emf-recourse"
+      ]
+    },
+    {
+      "id": "RSS-2026-001",
+      "packet": "rss-report-review",
+      "sourceIds": [
+        "rss-report-review:report"
+      ],
+      "criticismResponseIds": []
+    },
+    {
+      "id": "RSS-2026-002",
+      "packet": "rss-report-review",
+      "sourceIds": [
+        "rss-report-review:report"
+      ],
+      "criticismResponseIds": []
+    },
+    {
+      "id": "RSS-2026-003",
+      "packet": "rss-report-review",
+      "sourceIds": [
+        "rss-report-review:report"
+      ],
+      "criticismResponseIds": []
+    },
+    {
+      "id": "RSS-2026-004",
+      "packet": "rss-report-review",
+      "sourceIds": [
+        "rss-report-review:report"
+      ],
+      "criticismResponseIds": []
+    },
+    {
+      "id": "RSS-2026-005",
+      "packet": "rss-report-review",
+      "sourceIds": [
+        "rss-report-review:report"
+      ],
+      "criticismResponseIds": []
+    },
+    {
+      "id": "RSS-2026-006",
+      "packet": "rss-report-review",
+      "sourceIds": [
+        "rss-report-review:report"
+      ],
+      "criticismResponseIds": []
+    },
+    {
+      "id": "RSS-2026-007",
+      "packet": "rss-report-review",
+      "sourceIds": [
+        "rss-report-review:report"
+      ],
+      "criticismResponseIds": []
+    },
+    {
+      "id": "RSS-2026-008",
+      "packet": "rss-report-review",
+      "sourceIds": [
+        "rss-report-review:report"
+      ],
+      "criticismResponseIds": []
+    },
+    {
+      "id": "RSS-2026-009",
+      "packet": "rss-report-review",
+      "sourceIds": [
+        "rss-report-review:report"
+      ],
+      "criticismResponseIds": []
+    },
+    {
+      "id": "RSS-2026-010",
+      "packet": "rss-report-review",
+      "sourceIds": [
+        "rss-report-review:report"
+      ],
+      "criticismResponseIds": []
+    },
+    {
+      "id": "RSS-2026-011",
+      "packet": "rss-report-review",
+      "sourceIds": [
+        "rss-report-review:report"
+      ],
+      "criticismResponseIds": []
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "europe-china-ownership:EC-S01",
+      "retainedContentSha256": "95b0652da8294527d150a56a9de293627b53e73b4a4c21202c153ea6eb4e9134"
+    },
+    {
+      "sourceId": "europe-china-ownership:EC-S02",
+      "retainedContentSha256": "2d0de701f33c2b1ae0130748cc17f6d2bf6ca8005c4f2d33e3a96718b0467153"
+    },
+    {
+      "sourceId": "welfare-food-finance:pad",
+      "retainedContentSha256": "584f21020041068e0c1babbb16486dc0e796f80be1907f5c5fa1919b35b7d090"
+    },
+    {
+      "sourceId": "welfare-food-finance:isr01",
+      "retainedContentSha256": "4bc18edd5e800303f481aef963db56ad007742e5dce1187c7fd351511806c468"
+    },
+    {
+      "sourceId": "welfare-food-finance:icr",
+      "retainedContentSha256": "06097046a5d14fe1134c8680b21424614bf2aa083bee333dc303a354e3d329c0"
+    },
+    {
+      "sourceId": "welfare-food-finance:ieg",
+      "retainedContentSha256": "ef4c9f6967529d57a16dde16512f7870a0a34fe6b34e8135f481efb058998378"
+    },
+    {
+      "sourceId": "energy-mineral-finance:annual-2025.html",
+      "retainedContentSha256": "b54044137610173a7978f9cedc89b2b512365ef292e5c4148f77f5df4c40ee8d"
+    },
+    {
+      "sourceId": "energy-mineral-finance:omnibus-2025.html",
+      "retainedContentSha256": "7f1d30929459b3923cd69707aa10e912ebe97d16c47daea85a0f1f3b2b81298d"
+    },
+    {
+      "sourceId": "energy-mineral-finance:affiliate-support-2024.html",
+      "retainedContentSha256": "c2d20f511e3294ea8f3b027ccbfa312c73939b404ec24acbfd3f4e903ae491ba"
+    },
+    {
+      "sourceId": "energy-mineral-finance:ffb-note-purchase-agreement.html",
+      "retainedContentSha256": "c7c47b1e743853eccd54de57a833897dca9c3e28a735b41b1156d31facc80ce9"
+    },
+    {
+      "sourceId": "energy-mineral-finance:doe-rod.pdf",
+      "retainedContentSha256": "b0af9b389308cef340b803d5b3003329c1c801346d29781d52319d5ab9aa7095"
+    },
+    {
+      "sourceId": "energy-mineral-finance:court-2023.pdf",
+      "retainedContentSha256": "2d5218690c48280229cf5ca28ca234cba7c7a93ad1f65446892829a6b147c022"
+    },
+    {
+      "sourceId": "energy-mineral-finance:draw-announcement.html",
+      "retainedContentSha256": "1ff1567c670fb5f9a48843e4aa6e11b0c0b79f153ea719ff63a96814bf7e6f15"
+    },
+    {
+      "sourceId": "energy-mineral-finance:closing-announcement.html",
+      "retainedContentSha256": "60d3b7436969fb21a7e5a5bdc24d23175fe48ea7f97459d7a6573a20ba5f32a8"
+    },
+    {
+      "sourceId": "energy-mineral-finance:structure.jpg",
+      "retainedContentSha256": "2ae8907449871f3da3f62aabe31c2709cb117da867bfa66283c83cc983a5794f"
+    },
+    {
+      "sourceId": "energy-mineral-finance:investment-agreement.html",
+      "retainedContentSha256": "814a12b6a0fe1cc3aa17725c7c2c8ea8e52a0bfb107e3ee5b598afd0ce2bd0af"
+    },
+    {
+      "sourceId": "energy-mineral-finance:conditional-commitment.html",
+      "retainedContentSha256": "8f4301396651b87e50d66f2aa02d90375a749b0bfcd874755dd163e810e8066a"
+    },
+    {
+      "sourceId": "rss-report-review:report",
+      "retainedContentSha256": "037d6fe801bc43d3d6abe2221316735845881e65513960fbb174e2209dc0d823"
+    }
+  ],
+  "criticismResponses": [
+    {
+      "id": "wff-criticism-1",
+      "packet": "welfare-food-finance",
+      "sourceIds": [
+        "welfare-food-finance:icr"
+      ]
+    },
+    {
+      "id": "wff-criticism-2",
+      "packet": "welfare-food-finance",
+      "sourceIds": [
+        "welfare-food-finance:icr"
+      ]
+    },
+    {
+      "id": "wff-criticism-3",
+      "packet": "welfare-food-finance",
+      "sourceIds": [
+        "welfare-food-finance:ieg"
+      ]
+    },
+    {
+      "id": "wff-criticism-4",
+      "packet": "welfare-food-finance",
+      "sourceIds": [
+        "welfare-food-finance:icr"
+      ]
+    },
+    {
+      "id": "emf-environment",
+      "packet": "energy-mineral-finance",
+      "sourceIds": [
+        "energy-mineral-finance:doe-rod.pdf",
+        "energy-mineral-finance:court-2023.pdf"
+      ]
+    },
+    {
+      "id": "emf-recourse",
+      "packet": "energy-mineral-finance",
+      "sourceIds": [
+        "energy-mineral-finance:omnibus-2025.html"
+      ]
+    }
+  ],
+  "financialContext": [
+    {
+      "packet": "welfare-food-finance",
+      "sourceIds": [
+        "welfare-food-finance:icr"
+      ]
+    },
+    {
+      "packet": "welfare-food-finance",
+      "sourceIds": [
+        "welfare-food-finance:isr01"
+      ]
+    },
+    {
+      "packet": "welfare-food-finance",
+      "sourceIds": [
+        "welfare-food-finance:icr",
+        "welfare-food-finance:ieg"
+      ]
+    },
+    {
+      "packet": "energy-mineral-finance",
+      "sourceIds": [
+        "energy-mineral-finance:annual-2025.html"
+      ]
+    },
+    {
+      "packet": "energy-mineral-finance",
+      "sourceIds": [
+        "energy-mineral-finance:annual-2025.html"
+      ]
+    },
+    {
+      "packet": "energy-mineral-finance",
+      "sourceIds": [
+        "energy-mineral-finance:ffb-note-purchase-agreement.html",
+        "energy-mineral-finance:conditional-commitment.html",
+        "energy-mineral-finance:closing-announcement.html",
+        "energy-mineral-finance:draw-announcement.html"
+      ]
+    },
+    {
+      "packet": "rss-report-review",
+      "sourceIds": [
+        "rss-report-review:report"
+      ]
+    }
+  ]
+}

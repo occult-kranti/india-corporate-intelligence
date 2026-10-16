@@ -354,3 +354,18 @@ test('CLI requires one known mode and allows an explicit root without exposing p
     assert.throws(() => stripSpatialNavigation(text), /reviewed activity link|immediately precede/);
   }
  });
+
+test('only the two reviewed source refactors have exact new pins; original corpus pins stay immutable', async () => {
+  const {REVIEWED_SOURCE_REVISIONS} = await import('./spatial-release-validate.mjs');
+  assert.deepEqual(Object.keys(REVIEWED_SOURCE_REVISIONS).sort(),['package.json','src/data/investigation.ts']);
+  assert.equal(BASE_FILES['src/data/investigation.ts'],'4aee0a6730e9d5c094aa37027d0efaa5e51e8e12');
+  assert.equal(BASE_FILES['package.json'],'8f1f91cb50c1cd5e8f3b3018cfe2b4d684f58a55');
+  for(const [file,revision] of Object.entries(REVIEWED_SOURCE_REVISIONS)){
+    assert.equal(gitBlobSha(await readFile(file)),revision.gitBlob,file);
+    assert.ok(revision.reason.length>40);
+  }
+  const source=await readFile('scripts/spatial-release-validate.mjs','utf8');
+  assert.match(source,/return original\.buildRetainedInvestigationRegistry\(\)/);
+  assert.doesNotMatch(source,/return original\.getInvestigationRegistry\(\)/);
+  assert.equal(REVIEWED_REGISTRY.snapshotSha256,'048f89ffd008a498212ff2ac71d4413aef09b138a50ab77f336a23fec4722064');
+});

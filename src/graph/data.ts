@@ -17,7 +17,7 @@
 
 import type { GNode, GEdge, Motif } from './schema';
 
-export const NODES: GNode[] = [
+const RETAINED_NODES: GNode[] = [
   { id:"joshi", label:"Pralhad Joshi", sub:"Union Minister", ty:"person", fam:"state", st:"ka", sz:3, al:["Prahlad Joshi","Pralhad Venkatesh Joshi"], d:["Coal & Mines 2019–24; Food/PD + MNRE since Jun 2024; addl Education Jul 2026. No ED/CBI/court case names him personally [documented — none found].","Asset growth ₹0.78cr→₹21.1cr (2004–24) sits at his re-elected-MP peer mean; retracted as an indicator."], srcs:[["Affidavit (MyNeta)","https://www.myneta.info/LokSabha2024/candidate.php?candidate_id=3567"]] },
   { id:"coal", label:"Coal & Mines Ministry", sub:"Joshi 2019–24", ty:"ministry", fam:"state", st:"dl", sz:3, d:["Ran 9 commercial-auction tranches (107+ blocks). Decision nodes: Nominated Authority + Empowered Committee of Secretaries — not the minister's signature."], srcs:[["Ministry portal","https://www.coal.nic.in/nominated-authority/auction-allotment"]] },
   { id:"food", label:"Food / FCI", sub:"Joshi 2024–", ty:"ministry", fam:"state", st:"dl", sz:3, d:["Parent of FCI (silos, OMSS, rice-ethanol, sugar quotas). Silo concentration traces to a 2022 PPPAC decision, pre-Joshi."], srcs:[["DH — charge","https://www.deccanherald.com/amp/story/elections%2Findia%2Flok-sabha-elections-2024-pralhad-joshi-takes-charge-of-union-food-and-consumer-affairs-ministry-3061718"]] },
@@ -86,7 +86,7 @@ export const NODES: GNode[] = [
   { id:"pppac", label:"PPPAC decision 13 May 2022", sub:"mechanism", ty:"mechanism", fam:"instrument", st:null, sz:2, d:["Dropped FCI's proposed one-project-per-bidder anti-monopoly cap after NITI Aayog objected ('let market forces prevail'); qualification narrowed to financial capacity — mechanically producing the Adani+Leap duopoly."], srcs:[["TNM","https://www.thenewsminute.com/news/how-the-govt-rolled-out-the-red-carpet-for-adanis-fci-monopoly"]] },
 ];
 
-export const EDGES: GEdge[] = [
+const RETAINED_EDGES: GEdge[] = [
   { s:"joshi", t:"coal", pred:"role", tier:"documented", lab:"minister 2019–24", d:"Held Coal, Mines & Parliamentary Affairs.", srcs:[["PIB","https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=1573010"]] },
   { s:"joshi", t:"food", pred:"role", tier:"documented", lab:"minister 2024–", d:"Consumer Affairs, Food & PD.", srcs:[["DH","https://www.deccanherald.com/amp/story/elections%2Findia%2Flok-sabha-elections-2024-pralhad-joshi-takes-charge-of-union-food-and-consumer-affairs-ministry-3061718"]] },
   { s:"joshi", t:"mnre", pred:"role", tier:"documented", lab:"minister 2024–", d:"New & Renewable Energy.", srcs:[["Wiki","https://en.wikipedia.org/wiki/Pralhad_Joshi"]] },
@@ -202,7 +202,26 @@ export const EDGES: GEdge[] = [
   { id:"atlas:sec-proposal-correction-2026-10-14", s:"doj", t:"gadani", pred:"supersede", tier:"documented", lab:"SEC May 2026: proposed consent judgments", d:"Correction checked 14 Oct 2026: SEC Litigation Release 26554 says proposed consent judgments were filed on 14 May 2026, subject to court approval, without admitting or denying the allegations. The proposed penalties were $6 million for Gautam Adani and $12 million for Sagar Adani. That release does not establish entry of final judgments or payment. A later signed judgment or docket must be obtained to verify subsequent disposition. The earlier edge incorrectly treated the proposal as an entered judgment and is retained as superseded.", from:"2026-10-14", srcs:[["SEC LR 26554 — proposed judgments, 14 May 2026","https://www.sec.gov/enforcement-litigation/litigation-releases/lr-26554"]] },
 ];
 
-export const MOTIFS: Motif[] = [
+// Reviewed display boundary, 16 October 2026. Retained literals above are audit evidence,
+// not accepted facts. Only this exact source/claim is held; other Adani edges survive.
+const DONATION_SCOPE_URL = "https://www.oneindia.com/india/adani-reliance-tata-missing-from-electoral-bonds-list-who-are-the-top-donors-3774513.html";
+const DONATION_SCOPE_SUMMARY = "A 15 March 2024 report said Adani Group’s name was absent from the electoral-bond data released at that time. It does not establish total political donations, a BJP-specific funding relationship, or payments through other channels.";
+const heldDonationEdge = (e: GEdge) => e.s === 'adani' && e.t === 'bjp' && e.pred === 'direct'
+  && e.lab === "₹0 — documented void"
+  && e.d === "No disclosed political donation anywhere FY13–25. A verified ABSENCE — reads as either no quid pro quo OR untraceable payment; the graph asserts neither."
+  && e.srcs?.some(([, url]) => url === DONATION_SCOPE_URL);
+const heldDisclosureEdge = (e: GEdge) => e.s === 'sec182' && e.t === 'adani' && e.pred === 'law'
+  && e.lab === "disclosure gap"
+  && e.d === "No non-zero §182 political line found across FY20–25; consistent with a genuine nil OR concealment — indistinguishable on the face of a report."
+  && e.srcs?.some(([, url]) => url === "https://www.business-standard.com/markets/news/only-8-sensex-firms-disclosed-making-political-contribution-in-last-5-years-124032201044_1.html");
+export const HELD_DISCLOSURE_CORRECTION = {
+  id: "adani-section182-source-scope-audit-2026-10-16", status: "held-source-scope-mismatch",
+  label: "Adani-specific disclosure claim unverified", summary: "The inherited citation does not establish a company-by-company Adani political-contribution disclosure review for FY20–FY25. This claim is held pending suitable entity- and year-specific evidence; no conclusion about donation amounts or concealment is supported.",
+  reason: "Material entity-population and period mismatch; unsupported insinuation remains in a distinct legacy claim.", originalEdges: RETAINED_EDGES.filter(heldDisclosureEdge),
+};
+export const EDGES: GEdge[] = RETAINED_EDGES.filter(e => !heldDonationEdge(e) && !heldDisclosureEdge(e));
+
+const RETAINED_MOTIFS: Motif[] = [
   {
     id: "M1",
     name: "Raid → donate → win",
@@ -232,7 +251,7 @@ export const MOTIFS: Motif[] = [
     pattern: "(company)-[bond]->(party) THEN (company)<-[award|law]-(ministry) THEN (company)-[bond]->(party)  WITHIN 90d",
     note: "The former Aurobindo example does not establish this 90-day pattern: it combined November 2022 and November 2023 donations, and misidentified the PLI authority as MNRE. PIB announced Penicillin G approval through Lyfius on 22 January 2021. The wrong award edge is withdrawn; the later list-date narrative remains an unverified chronology question, not an established match.",
     innocentReading: "Bond purchases occur in scheduled windows. An updated applicant list can repeat an earlier approval, so proximity to its publication does not demonstrate a newly granted benefit or influence.",
-    census: { members: EDGES.filter(edge => edge.m?.includes('M3')).length, population: EDGES.length, label: "retained context edges tagged M3, not verified 90-day pattern matches or a national base rate" },
+    census: { members: RETAINED_EDGES.filter(edge => edge.m?.includes('M3')).length, population: RETAINED_EDGES.length, label: "retained context edges tagged M3, not verified 90-day pattern matches or a national base rate" },
     upgradeIf: "Obtain dated original approval/amendment records and purchaser/redemption transactions for the exact legal entity; then test the stated interval against comparable firms and scheduled purchase windows.",
     killIf: "The relevant approval predates the proposed window, the entity differs, or the three events fail the stated 90-day interval.",
   },
@@ -276,7 +295,7 @@ export const MOTIFS: Motif[] = [
     pattern: "(donor)-[reported contribution]->(fund); compare published statements with verified implementation records; do not infer a donor-to-recipient transaction",
     note: "Six audited Receipts and Payments statements are published through FY2024-25, as checked 6 Oct 2026. The latest closing balance is ₹8,452.07cr. Receipts include interest and implementing-agency refunds, so they are not all donations. The published columns reconcile; referenced notes and separate audit reports remain missing from the linked files. The former accounts-dark-since-FY23 claim is superseded. An absent vaccine-development caption does not establish non-payment through an implementing agency.",
     innocentReading: "Emergency fundraising, retained balances and agency refunds can reflect programme timing and ordinary accounting. A reported donation does not establish procurement consideration or an improper exchange. Record gaps require explanation and supporting documents, not an assumption of misconduct.",
-    census: { members: EDGES.filter(edge => edge.m?.includes('M7')).length, population: EDGES.length, label: "retained edges in the current Atlas subgraph — a computed within-graph census, NOT a base rate against the national population" },
+    census: { members: RETAINED_EDGES.filter(edge => edge.m?.includes('M7')).length, population: RETAINED_EDGES.length, label: "retained edges in the current Atlas subgraph — a computed within-graph census, NOT a base rate against the national population" },
     upgradeIf: "Source-matched implementation, payment and recipient records establish an unreconciled discrepancy after accounting stages, periods, refunds and the responsible body's reply are considered.",
     killIf: "The matched underlying records and explanations resolve the specific discrepancy; published-statement arithmetic already reconciles and does not itself establish misuse.",
   },
@@ -333,3 +352,19 @@ export const ATLAS_META = {
   standing:
     "Maps public records and published claims. Asserts no guilt. No node adjudicates a quid pro quo. Denials are rendered as prominently as the claims they answer.",
 } as const;
+
+export const HELD_DONATION_CORRECTION = {
+  id: "adani-zero-donation-scope-correction-2026-10-16", status: 'held-source-scope-correction',
+  label: "Electoral-bond name absence reported; wider donation history unverified", summary: DONATION_SCOPE_SUMMARY,
+  reason: "Citation supports a narrow reported name-absence observation, not the retained universal zero-donation claim.",
+  originalEdges: RETAINED_EDGES.filter(heldDonationEdge),
+  originalMotifs: RETAINED_MOTIFS.filter(m => m.id === 'M10'),
+};
+export const NODES: GNode[] = RETAINED_NODES.map(n => n.id === 'adani'
+  && n.srcs?.some(([, url]) => url === DONATION_SCOPE_URL)
+  ? { ...n, d: n.d?.flatMap(text => text === "ZERO disclosed political donations anywhere FY13–FY25 — the 'documented void' [documented absence]. Denies wrongdoing." ? [DONATION_SCOPE_SUMMARY, 'Denies wrongdoing.'] : [text]) } : n);
+// M10's universal-absence interpretation depends on the held claim; preserve it for audit only.
+export const MOTIFS: Motif[] = RETAINED_MOTIFS.filter(m => m.id !== 'M10');
+
+// Snapshot/reference builders MUST use these audit exports, never the corrected display exports.
+export { RETAINED_NODES as RAW_ATLAS_NODES, RETAINED_EDGES as RAW_ATLAS_EDGES, RETAINED_MOTIFS as RAW_ATLAS_MOTIFS };

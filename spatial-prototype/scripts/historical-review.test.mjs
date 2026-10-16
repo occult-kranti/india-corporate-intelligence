@@ -18,6 +18,7 @@ const temporary = await mkdtemp(join(tmpdir(), 'fieldwork-historical-review-'));
 after(() => rm(temporary, { recursive: true, force: true }));
 const additionsText = await readFile('src/historical-review/proposed-additions.json', 'utf8');
 const provenanceText = await readFile('src/historical-review/source-provenance.json', 'utf8');
+const admissionText = await readFile('src/historical-review/reader-admission.json', 'utf8');
 const original = await loadOriginalRegistry();
 const hash = value => createHash('sha256').update(typeof value === 'string' ? value : JSON.stringify(value)).digest('hex');
 const before = hash(original);
@@ -34,7 +35,8 @@ async function bundle(entry, name, extra = {}) {
 }
 const adapter = (await bundle('src/historical-review/adapter.ts', 'adapter')).module;
 const { HISTORICAL_NAMESPACE: ns, HISTORICAL_REVIEW_VALUE: optIn, PUBLIC_GRAPH_STATUS: blocked,
-  buildHistoricalReviewOverlay: compose, registryForSurface } = adapter;
+  buildHistoricalReviewOverlay: composePinned, registryForSurface } = adapter;
+const compose = (base, additions, provenance, optIn) => composePinned(base, additions, provenance, optIn, admissionText);
 const model = (await bundle('src/model.ts', 'model')).module;
 const overlay = await compose(original, additionsText, provenanceText, optIn);
 const panel = (await bundle('src/historical-review/ReviewPanel.tsx', 'panel', {loader:{'.css':'empty'}})).module;
@@ -174,7 +176,7 @@ test('all nine claims render expanded historical dates, issuer attribution, exac
     'no quantified','Does not establish control of Ferrovial','No payment flow',
     'Historical incorporation country: CA','Historical incorporation country: MU','Historical incorporation country: IN',
     '2026-03-06','2026-07-30','First publication','Unverified','Page / section locator',
-    '2,469 entities','5,617 records','actual','Target relationship:']) {
+    '2,469 entities','5,617 records','Target relationship:']) {
     assert.ok(html.toLowerCase().includes(term.toLowerCase()),term);
   }
   assert.ok(!html.includes('<details'), 'required qualifications must not be collapsed');
@@ -241,12 +243,12 @@ function renderResolved(Component,props) { return new Promise((resolve,reject)=>
   const stream=renderToPipeableStream(createElement(Component,props),{onAllReady(){stream.pipe(output);},onError:reject});
 });}
 
-test('integrated entry keeps the full base input and explicit build/query opt-in; no automatic data load', async () => {
-  for(const enabled of [false,true]) {
+test('next-release default entry requires exact query and fresh Open independent of the former build flag', async () => {
+  for(const enabled of [undefined,false,true]) {
     const {module}=await buildEntry(enabled);
     const rendered=await renderResolved(module.RegistryEntryView,{dataset:'full',state:{phase:'ready',registry:original},onRetry(){},href});
     assert.match(rendered,/data-base-entities="2469"/);assert.match(rendered,/data-base-records="5617"/);
-    assert.equal(rendered.includes('Open historical review reader'),enabled);
+    assert.equal(rendered.includes('Open historical review reader'),true);
     assert.doesNotMatch(rendered,/data-review-relationship=/);
     const plain=await renderResolved(module.RegistryEntryView,{dataset:'full',state:{phase:'ready',registry:original},onRetry(){},href:href.replace('&review=historical-2025','')});
     assert.doesNotMatch(plain,/Open historical review reader|data-review-relationship=/);
@@ -361,4 +363,89 @@ test('retained retrieval timestamp stays exact and day-only fallback never claim
   assert.equal(hash(additionsText), adapter.PINNED_ADDITIONS_SHA256);
   assert.equal(hash(provenanceText), adapter.PINNED_PROVENANCE_SHA256);
   assert.equal(hash(original), before);
+});
+
+
+test('separate exact-ID admission pins only nine record/edge pairs and three retained sources', () => {
+  const admission = JSON.parse(admissionText);
+  assert.equal(hash(admissionText), '7588611618969a681ff5d23dbd009cb23a9ac5d6bb625585b80395919e5d1d53');
+  assert.deepEqual(overlay.readerAdmission, admission);
+  assert.equal(admission.readerStatus, 'READER_ADMITTED');
+  assert.equal(admission.graphStatus, blocked);
+  assert.equal(admission.publicGraphEligible, false);
+  assert.equal(admission.publicPathEligible, false);
+  assert.equal(overlay.publicPathEligible, false);
+  assert.deepEqual(admission.payloadSha256, { base: before, additions: hash(additionsText), provenance: hash(provenanceText) });
+  assert.deepEqual(admission.claims.map(row => row.recordId), overlay.additions.records.map(row => row.id));
+  assert.deepEqual(admission.claims.map(row => row.relationshipId), overlay.additions.relationships.map(row => row.id));
+  assert.deepEqual(admission.sources, overlay.provenance.map(row => ({sourceId:row.sourceId,retainedContentSha256:row.sha256})));
+  for (const claim of admission.claims) {
+    assert.deepEqual(claim.sourceIds, overlay.additions.relationships.find(edge => edge.id === claim.relationshipId).sourceIds);
+  }
+  assert.equal(Object.isFrozen(overlay.readerAdmission), true);
+  assert.equal(Object.isFrozen(overlay.readerAdmission.claims[0]), true);
+});
+
+test('missing, unknown, incomplete, expanded or policy-edited reader admissions fail closed', async () => {
+  for (const invalid of [undefined, null, '', '{}', admissionText + ' ']) {
+    await assert.rejects(composePinned(original, additionsText, provenanceText, optIn, invalid), /reader admission is unavailable or incomplete/);
+  }
+  for (const mutate of [
+    data => data.readerStatus = 'approved',
+    data => data.admissionId = 'future-unreviewed-release',
+    data => data.publicGraphEligible = true,
+    data => data.publicPathEligible = true,
+    data => data.graphStatus = 'PUBLIC_GRAPH_ADMITTED',
+    data => data.claims.pop(),
+    data => data.claims.push(data.claims[0]),
+    data => data.claims[0].recordId = 'unknown',
+    data => data.claims[0].relationshipId = 'unknown',
+    data => data.claims[0].sourceIds = [],
+    data => data.sources.pop(),
+    data => data.sources[0].retainedContentSha256 = 'unknown',
+    data => data.payloadSha256.base = 'unknown',
+    data => data.futureApproval = true,
+  ]) {
+    const changed = JSON.parse(admissionText); mutate(changed);
+    await assert.rejects(composePinned(original, additionsText, provenanceText, optIn, JSON.stringify(changed)), /reader admission is unavailable or incomplete/);
+  }
+  assert.equal(hash(original), before);
+});
+
+test('reader wording distinguishes derived admission from unchanged packet holds and graph/path refusal', () => {
+  assert.match(html, /data-reader-admission="READER_ADMITTED"/);
+  assert.match(html, /data-public-graph="blocked" data-public-paths="blocked"/);
+  assert.match(html, /Reader admission and retained graph\/path holds/);
+  assert.match(html, /verbatim historical provenance/);
+  assert.doesNotMatch(html, /<h2>Publication stays blocked<\/h2>|Actual rendering and integration review are still required/);
+  const retained = JSON.parse(additionsText);
+  assert.deepEqual(overlay.additions.held, retained.held);
+  assert.deepEqual(overlay.additions.records, retained.records);
+  assert.deepEqual(overlay.additions.relationships, retained.relationships);
+  assert.ok(overlay.additions.records.every(row => row.status === blocked));
+  assert.ok(overlay.guardHolds.every(row => row.reason.includes('reader admission never clears graph/path holds')));
+  assert.throws(() => registryForSurface(overlay, 'paths'), /unknown data admission surface/);
+});
+
+test('admission bytes remain with the lazy payload loader, outside default entry and prompt imports', async () => {
+  const entry = await readFile('src/RegistryEntry.tsx', 'utf8');
+  const prompt = await readFile('src/historical-review/ReviewGate.tsx', 'utf8');
+  const loader = await readFile('src/historical-review/loadHistoricalReview.ts', 'utf8');
+  assert.doesNotMatch(entry, /reader-admission\.json|loadHistoricalReview|VITE_HISTORICAL_REVIEW/);
+  assert.doesNotMatch(prompt, /reader-admission\.json|proposed-additions\.json|source-provenance\.json/);
+  assert.match(loader, /import admissionText from '\.\/reader-admission\.json\?raw'/);
+  assert.match(loader, /HISTORICAL_REVIEW_VALUE, admissionText/);
+  assert.doesNotMatch(prompt, /localStorage|sessionStorage/);
+});
+
+test('the staged CI harness requires default-build reader coverage and retains its no-local-browser guard', async () => {
+  const source = await readFile('scripts/browser-review.mjs', 'utf8');
+  assert.match(source, /process\.env\.GITHUB_ACTIONS !== "true"/);
+  assert.match(source, /No local browser was launched/);
+  assert.match(source, /const expectHistoricalReview = true/);
+  assert.match(source, /disabled-mode review is obsolete/);
+  assert.match(source, /src\/historical-review\/reader-admission\.json/);
+  assert.match(source, /data-reader-admission="READER_ADMITTED"/);
+  assert.match(source, /Retained packet holds and graph exclusions/);
+  assert.doesNotMatch(source, /async function notApplicable|\[data-historical-review="review-only"\]|default build rejects even the exact opt-in query/);
 });

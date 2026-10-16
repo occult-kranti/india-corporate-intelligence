@@ -6,6 +6,9 @@ import type { RegistryLoadProgress } from './registryLoader';
 
 const App = lazy(() => import('./App'));
 const HistoricalReviewGate = lazy(() => import('./historical-review/ReviewGate'));
+const SectorReaderGate = lazy(() => import('./sector-reader/SectorReaderGate'));
+import { sectorReviewRequested } from './sector-reader/adapter';
+import SectorReaderBoundary from './sector-reader/SectorReaderBoundary';
 import { historicalReviewRequested } from './historical-review/adapter';
 import HistoricalReviewBoundary from './historical-review/ReviewBoundary';
 type Dataset = 'full' | 'preview';
@@ -108,8 +111,11 @@ export function RegistryEntryView({ dataset, state, onRetry, href }: {
 
   if (state.phase === 'ready') return <div data-registry-dataset="full" data-registry-state="ready">
     <AppBoundary><Suspense fallback={<OpeningApp dataset="full" />}><App registry={state.registry} dataset="full" /></Suspense></AppBoundary>
-    {historicalReviewRequested(new URL(href).search, import.meta.env?.VITE_HISTORICAL_REVIEW === 'true', dataset) ?
+    {/* Next-release reader entry only. Exact manifest verification still follows a fresh Open. */}
+    {historicalReviewRequested(new URL(href).search, true, dataset) ?
       <HistoricalReviewBoundary href={href}><Suspense fallback={null}><HistoricalReviewGate base={state.registry} href={href} /></Suspense></HistoricalReviewBoundary> : null}
+    {sectorReviewRequested(new URL(href).search, true, dataset) ?
+      <SectorReaderBoundary href={href}><Suspense fallback={null}><SectorReaderGate base={state.registry} href={href} /></Suspense></SectorReaderBoundary> : null}
   </div>;
 
   const progress = state.phase === 'loading' ? state.progress : null;

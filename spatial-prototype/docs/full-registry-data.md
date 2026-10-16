@@ -93,4 +93,6 @@ All **316 held entries** remain exactly in `registry.held`. None is introduced i
 
 Consumers must preserve their readable review/counter-evidence role and must not promote held IDs or `status: "not-drawn"` records into factual spatial nodes/edges. Likewise, loading more original rows does not authorize new coordinates, inferred institutional addresses, or geographic links. The loader changes transport only; scene eligibility and evidence display remain explicit responsibilities of the existing adapter.
 
+The next reader release also applies two exact-ID [source-scope correction overlays](source-scope-corrections.md). They remove two mirrored records and two relationships from factual eligibility, without changing this snapshot, its 316-entry queue or its hashes. The dedicated `buildRetainedInvestigationRegistry()` audit export is used by packaging and parity checks; normal original-route consumers use the qualified runtime registry.
+
 This data package alone is not visual-review approval. Exact-head browser CI and inspection of the full-registry screenshots remain release gates; no local browser, publication, merge or deployment is part of this packaging work.

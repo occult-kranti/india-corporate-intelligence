@@ -3,6 +3,8 @@ import type {
   InvestigationRegistry, InvestigationRelationship, InvestigationSource,
 } from '../domain';
 import { originalRoute, safeSourceUrl } from '../navigation';
+import { verifyHistoricalReaderAdmission, READER_ADMISSION_STATUS } from './readerAdmission';
+import type { HistoricalReaderAdmission } from './readerAdmission';
 
 export const HISTORICAL_NAMESPACE = 'olympus-reviewed-2025';
 export const HISTORICAL_SNAPSHOT = '2025-12-31';
@@ -37,8 +39,12 @@ export interface HistoricalHoldTarget {
   status: typeof PUBLIC_GRAPH_STATUS;
 }
 export interface HistoricalReviewOverlay {
+  /** Separate reader-only decision. Retained packet statuses are never rewritten. */
+  readerAdmission: HistoricalReaderAdmission;
+  /** This legacy status describes graph/path admission, not reader admission. */
   status: typeof PUBLIC_GRAPH_STATUS;
   publicGraphEligible: false;
+  publicPathEligible: false;
   snapshot: typeof HISTORICAL_SNAPSHOT;
   /** Always the exact baseline object, never the additions or combined reader. */
   graphRegistry: InvestigationRegistry;
@@ -97,6 +103,7 @@ export async function buildHistoricalReviewOverlay(
   additionsText: string,
   provenanceText: string,
   optIn: typeof HISTORICAL_REVIEW_VALUE,
+  admissionText: string,
 ): Promise<HistoricalReviewOverlay> {
   if (optIn !== HISTORICAL_REVIEW_VALUE) fail('explicit historical review opt-in is required');
   if (await sha256(additionsText) !== PINNED_ADDITIONS_SHA256) fail('reviewed additions SHA-256 mismatch');
@@ -107,6 +114,9 @@ export async function buildHistoricalReviewOverlay(
   if (await sha256(JSON.stringify(base)) !== PINNED_BASE_SHA256) fail('full baseline SHA-256 mismatch; do not repin without review');
   const additions = JSON.parse(additionsText) as HistoricalAdditions;
   const provenance = JSON.parse(provenanceText) as SourceProvenance[];
+  const readerAdmission = await verifyHistoricalReaderAdmission(admissionText, {
+    base: PINNED_BASE_SHA256, additions: PINNED_ADDITIONS_SHA256, provenance: PINNED_PROVENANCE_SHA256,
+  }, additions, provenance, sha256);
   exactIds(additions.entities, entityIds.map(value => id('entity', value)), 'entity');
   exactIds(additions.relationships, suffixes.map(value => id('relationship', `OF-E-${value}`)), 'relationship');
   exactIds(additions.records, suffixes.map(value => id('record', `OF-C-${value}`)), 'record');
@@ -165,7 +175,7 @@ export async function buildHistoricalReviewOverlay(
   // Add separate derived guards; do not rewrite the source hold records or statuses.
   const guardHolds: InvestigationHeldRecord[] = [...additions.entities, ...additions.relationships, ...additions.records].map(row => ({
     id: row.id, namespace: HISTORICAL_NAMESPACE, kind: 'review-only-exact-id-guard',
-    reason: 'PUBLIC_GRAPH_BLOCKED: historical review-only evidence. Excluded from factual map marks and paths pending next-head rendering and integration review.',
+    reason: 'PUBLIC_GRAPH_BLOCKED: historical reader admission only. Excluded from factual map marks and paths; reader admission never clears graph/path holds.',
     sourceIds: row.sourceIds, route: row.route,
   }));
   const holdTargets: HistoricalHoldTarget[] = additions.held.map((hold, index) => {
@@ -174,7 +184,7 @@ export async function buildHistoricalReviewOverlay(
     return { holdId: hold.id, relationshipIds: [edge.id], recordIds: edge.recordIds,
       entityIds: [edge.from, edge.to], status: PUBLIC_GRAPH_STATUS };
   });
-  freeze(additions); freeze(provenance); freeze(guardHolds); freeze(holdTargets);
+  freeze(additions); freeze(provenance); freeze(guardHolds); freeze(holdTargets); freeze(readerAdmission);
   const readerRegistry: InvestigationRegistry = {
     ...base,
     entities: [...base.entities, ...additions.entities],
@@ -183,7 +193,7 @@ export async function buildHistoricalReviewOverlay(
     sources: [...base.sources, ...additions.sources],
     held: [...base.held, ...additions.held, ...guardHolds],
     coverage: [...base.coverage, {
-      namespace: HISTORICAL_NAMESPACE, label: 'Historical review only · 2025-12-31 · PUBLIC_GRAPH_BLOCKED', route: '/investigate',
+      namespace: HISTORICAL_NAMESPACE, label: 'Historical reader admitted · 2025-12-31 · Graph/paths: PUBLIC_GRAPH_BLOCKED', route: '/investigate',
       entities: 9, relationships: 9, records: 9, sources: 3, held: additions.held.length + guardHolds.length,
       limitations: ['Issuer-reported; no current ownership, payment-flow, wrongdoing or propagated-control finding.'],
     }],
@@ -191,7 +201,7 @@ export async function buildHistoricalReviewOverlay(
   // Freeze only newly allocated containers. Original arrays/objects remain untouched.
   for (const key of [...keys, 'coverage'] as const) Object.freeze(readerRegistry[key]);
   Object.freeze(readerRegistry);
-  const overlay = Object.freeze({ status: PUBLIC_GRAPH_STATUS, publicGraphEligible: false as const, snapshot: HISTORICAL_SNAPSHOT,
+  const overlay = Object.freeze({ readerAdmission, status: PUBLIC_GRAPH_STATUS, publicGraphEligible: false as const, publicPathEligible: false as const, snapshot: HISTORICAL_SNAPSHOT,
     graphRegistry: base, readerRegistry, additions, provenance, reusedEntity, guardHolds, holdTargets });
   admittedBases.set(overlay, base);
   return overlay;
@@ -203,7 +213,8 @@ export async function buildHistoricalReviewOverlay(
 export function registryForSurface(overlay: HistoricalReviewOverlay, surface: 'factual' | 'historical-review'): InvestigationRegistry {
   const admittedBase = admittedBases.get(overlay);
   if (!admittedBase) fail('unverified overlay cannot cross the data admission boundary');
-  if (overlay.status !== PUBLIC_GRAPH_STATUS || overlay.publicGraphEligible !== false) fail('unrecognized overlay publication policy');
+  if (overlay.status !== PUBLIC_GRAPH_STATUS || overlay.publicGraphEligible !== false || overlay.publicPathEligible !== false ||
+    overlay.readerAdmission.readerStatus !== READER_ADMISSION_STATUS) fail('unrecognized overlay admission policy');
   if (surface === 'factual') return admittedBase;
   if (surface === 'historical-review') return overlay.readerRegistry;
   return fail('unknown data admission surface');

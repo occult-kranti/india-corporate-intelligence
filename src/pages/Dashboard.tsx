@@ -228,7 +228,7 @@ export default function Dashboard() {
             ['/cabinet', 'Union cabinet', '69 ministers, portfolios with dates, and the map of regulatory reach.'],
             ['/conglomerates', 'Conglomerates', 'Ten groups, 64 listed entities — with the two Ambani groups kept structurally apart.'],
             ['/network', 'Connection graph', 'Everything merged, filterable by evidence tier, with a path finder that reports its baseline.'],
-            ['/atlas', 'Money-trail atlas', 'The depth case study, including the documented void — the integrity check on the whole exercise.'],
+            ['/atlas', 'Money-trail atlas', 'The depth case study, with source trails and explicit limits on missing donation links.'],
             ['/method', 'How this is built', 'The four invariants, the agent roster, and a live integrity check.'],
           ].map(([to, title, blurb]) => (
             <Link key={to} to={to}><div><h3>{title}</h3><p>{blurb}</p></div><ArrowUpRight size={18} aria-hidden="true" /></Link>
