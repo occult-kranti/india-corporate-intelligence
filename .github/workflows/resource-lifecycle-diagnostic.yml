@@ -1,0 +1,315 @@
+name: Pinned scenario 46 CPU attribution (diagnostic only)
+
+on:
+  push:
+    branches: [diagnostic/pr15-resource-attribution]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: resource-lifecycle-diagnostic-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  sequential-pinned-diagnostic:
+    name: Baseline then frozen candidate on one runner
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: bash
+    env:
+      CI: "true"
+      SPATIAL_BROWSER_REVIEW: github-actions
+      SPATIAL_EXPECT_HISTORICAL_REVIEW: "true"
+      SPATIAL_HARNESS_SHA: ${{ github.sha }}
+    steps:
+      - name: Check out exact diagnostic harness
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Check out immutable baseline runtime
+        uses: actions/checkout@v4
+        with:
+          ref: 85702ec5f553415e009a37e89d7333c96c952c66
+          path: pinned-baseline
+          persist-credentials: false
+      - name: Check out immutable PR15 runtime
+        uses: actions/checkout@v4
+        with:
+          ref: 6ea92299d21ac5ab92686b714420d363de08fa99
+          path: pinned-candidate
+          persist-credentials: false
+      - name: Use Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: |
+            spatial-prototype/package-lock.json
+            pinned-baseline/spatial-prototype/package-lock.json
+            pinned-candidate/spatial-prototype/package-lock.json
+      - name: Install harness dependencies
+        working-directory: spatial-prototype
+        run: npm ci
+      - name: Verify diagnostic contracts without launching a browser
+        working-directory: spatial-prototype
+        run: node --test scripts/resource-lifecycle-diagnostic.test.mjs scripts/resource-lifecycle-profile.test.mjs scripts/early-scene-smoke.test.mjs scripts/case-lifecycle-observation.test.mjs
+      - name: Copy identical harness only into both frozen runtime checkouts
+        id: harness
+        run: |
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import { copyFile, readFile } from 'node:fs/promises';
+          import { execFileSync } from 'node:child_process';
+          import { RESOURCE_HARNESS_FILES, BASELINE_RUNTIME_SHA, CANDIDATE_RUNTIME_SHA } from './spatial-prototype/scripts/resource-lifecycle-environment.mjs';
+          for (const [directory, sha] of [['pinned-baseline', BASELINE_RUNTIME_SHA], ['pinned-candidate', CANDIDATE_RUNTIME_SHA]]) {
+            assert.equal(execFileSync('git', ['-C', directory, 'rev-parse', 'HEAD'], { encoding: 'utf8' }).trim(), sha);
+            for (const name of RESOURCE_HARNESS_FILES) {
+              const source = `spatial-prototype/scripts/${name}`, target = `${directory}/${source}`;
+              await copyFile(source, target);
+              assert.deepEqual(await readFile(target), await readFile(source));
+            }
+            execFileSync('git', ['-C', directory, 'diff', '--exit-code', '--', 'spatial-prototype/src', 'spatial-prototype/public', 'spatial-prototype/package.json', 'spatial-prototype/package-lock.json', 'spatial-prototype/vite.config.ts', 'spatial-prototype/tsconfig.json']);
+          }
+          NODE
+      - name: Install and build pinned baseline with standard commands
+        id: baseline_build
+        if: always() && steps.harness.outcome == 'success'
+        working-directory: pinned-baseline/spatial-prototype
+        run: |
+          mkdir -p browser-review/resource-lifecycle-diagnostic
+          npm ci 2>&1 | tee browser-review/resource-lifecycle-diagnostic/install.log
+          npm run build 2>&1 | tee browser-review/resource-lifecycle-diagnostic/build.log
+          npx --no-install playwright install --with-deps chromium
+      - name: Profile unchanged scenario 46 on pinned baseline
+        id: baseline_profile
+        if: always() && steps.baseline_build.outcome == 'success'
+        timeout-minutes: 9
+        working-directory: pinned-baseline/spatial-prototype
+        env:
+          SPATIAL_HEAD_SHA: 85702ec5f553415e009a37e89d7333c96c952c66
+          SPATIAL_RUNTIME_ROLE: baseline
+        run: |
+          test "$(git rev-parse HEAD)" = "$SPATIAL_HEAD_SHA"
+          node scripts/resource-lifecycle-environment.mjs before
+          set +e
+          node --cpu-prof --cpu-prof-interval=1000 --cpu-prof-dir=browser-review/resource-lifecycle-diagnostic --cpu-prof-name=driver.cpuprofile scripts/browser-review.mjs --resource-lifecycle-diagnostic 2>&1 | tee browser-review/resource-lifecycle-diagnostic/browser-run.log
+          pipeline=( "${PIPESTATUS[@]}" )
+          status="${pipeline[0]}"
+          set -e
+          if [ "${pipeline[1]}" -ne 0 ]; then status=1; fi
+          printf '%s\n' "$status" > browser-review/resource-lifecycle-diagnostic/process-exit-code.txt
+          node scripts/resource-lifecycle-environment.mjs after
+          test -s browser-review/resource-lifecycle-diagnostic/driver.cpuprofile
+          exit "$status"
+      - name: Verify pinned baseline runtime remained unchanged
+        if: always() && steps.harness.outcome == 'success'
+        working-directory: pinned-baseline
+        run: git diff --exit-code -- spatial-prototype/src spatial-prototype/public spatial-prototype/package.json spatial-prototype/package-lock.json spatial-prototype/vite.config.ts spatial-prototype/tsconfig.json
+      - name: Partition baseline evidence into separately bounded artifacts
+        id: baseline_parts
+        if: always() && steps.harness.outcome == 'success'
+        working-directory: pinned-baseline/spatial-prototype
+        run: node scripts/partition-browser-artifacts.mjs
+      - name: Preserve baseline evidence part 01
+        if: always() && steps.baseline_parts.outcome == 'success' && steps.baseline_parts.outputs.part_01 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: resource-lifecycle-baseline-${{ github.run_id }}-${{ github.run_attempt }}-part-01
+          path: pinned-baseline/spatial-prototype/browser-artifact-parts/01/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve baseline evidence part 02
+        if: always() && steps.baseline_parts.outcome == 'success' && steps.baseline_parts.outputs.part_02 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: resource-lifecycle-baseline-${{ github.run_id }}-${{ github.run_attempt }}-part-02
+          path: pinned-baseline/spatial-prototype/browser-artifact-parts/02/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve baseline evidence part 03
+        if: always() && steps.baseline_parts.outcome == 'success' && steps.baseline_parts.outputs.part_03 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: resource-lifecycle-baseline-${{ github.run_id }}-${{ github.run_attempt }}-part-03
+          path: pinned-baseline/spatial-prototype/browser-artifact-parts/03/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve baseline evidence part 04
+        if: always() && steps.baseline_parts.outcome == 'success' && steps.baseline_parts.outputs.part_04 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: resource-lifecycle-baseline-${{ github.run_id }}-${{ github.run_attempt }}-part-04
+          path: pinned-baseline/spatial-prototype/browser-artifact-parts/04/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve baseline evidence part 05
+        if: always() && steps.baseline_parts.outcome == 'success' && steps.baseline_parts.outputs.part_05 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: resource-lifecycle-baseline-${{ github.run_id }}-${{ github.run_attempt }}-part-05
+          path: pinned-baseline/spatial-prototype/browser-artifact-parts/05/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve baseline evidence part 06
+        if: always() && steps.baseline_parts.outcome == 'success' && steps.baseline_parts.outputs.part_06 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: resource-lifecycle-baseline-${{ github.run_id }}-${{ github.run_attempt }}-part-06
+          path: pinned-baseline/spatial-prototype/browser-artifact-parts/06/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve baseline evidence part 07
+        if: always() && steps.baseline_parts.outcome == 'success' && steps.baseline_parts.outputs.part_07 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: resource-lifecycle-baseline-${{ github.run_id }}-${{ github.run_attempt }}-part-07
+          path: pinned-baseline/spatial-prototype/browser-artifact-parts/07/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve baseline evidence part 08
+        if: always() && steps.baseline_parts.outcome == 'success' && steps.baseline_parts.outputs.part_08 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: resource-lifecycle-baseline-${{ github.run_id }}-${{ github.run_attempt }}-part-08
+          path: pinned-baseline/spatial-prototype/browser-artifact-parts/08/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Install and build pinned candidate with standard commands
+        id: candidate_build
+        if: always() && steps.harness.outcome == 'success'
+        working-directory: pinned-candidate/spatial-prototype
+        run: |
+          mkdir -p browser-review/resource-lifecycle-diagnostic
+          npm ci 2>&1 | tee browser-review/resource-lifecycle-diagnostic/install.log
+          npm run build 2>&1 | tee browser-review/resource-lifecycle-diagnostic/build.log
+          npx --no-install playwright install --with-deps chromium
+      - name: Profile unchanged scenario 46 on pinned candidate
+        id: candidate_profile
+        if: always() && steps.candidate_build.outcome == 'success'
+        timeout-minutes: 9
+        working-directory: pinned-candidate/spatial-prototype
+        env:
+          SPATIAL_HEAD_SHA: 6ea92299d21ac5ab92686b714420d363de08fa99
+          SPATIAL_RUNTIME_ROLE: candidate
+        run: |
+          test "$(git rev-parse HEAD)" = "$SPATIAL_HEAD_SHA"
+          node scripts/resource-lifecycle-environment.mjs before
+          set +e
+          node --cpu-prof --cpu-prof-interval=1000 --cpu-prof-dir=browser-review/resource-lifecycle-diagnostic --cpu-prof-name=driver.cpuprofile scripts/browser-review.mjs --resource-lifecycle-diagnostic 2>&1 | tee browser-review/resource-lifecycle-diagnostic/browser-run.log
+          pipeline=( "${PIPESTATUS[@]}" )
+          status="${pipeline[0]}"
+          set -e
+          if [ "${pipeline[1]}" -ne 0 ]; then status=1; fi
+          printf '%s\n' "$status" > browser-review/resource-lifecycle-diagnostic/process-exit-code.txt
+          node scripts/resource-lifecycle-environment.mjs after
+          test -s browser-review/resource-lifecycle-diagnostic/driver.cpuprofile
+          exit "$status"
+      - name: Verify pinned candidate runtime remained unchanged
+        if: always() && steps.harness.outcome == 'success'
+        working-directory: pinned-candidate
+        run: git diff --exit-code -- spatial-prototype/src spatial-prototype/public spatial-prototype/package.json spatial-prototype/package-lock.json spatial-prototype/vite.config.ts spatial-prototype/tsconfig.json
+      - name: Partition candidate evidence into separately bounded artifacts
+        id: candidate_parts
+        if: always() && steps.harness.outcome == 'success'
+        working-directory: pinned-candidate/spatial-prototype
+        run: node scripts/partition-browser-artifacts.mjs
+      - name: Preserve candidate evidence part 01
+        if: always() && steps.candidate_parts.outcome == 'success' && steps.candidate_parts.outputs.part_01 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: resource-lifecycle-candidate-${{ github.run_id }}-${{ github.run_attempt }}-part-01
+          path: pinned-candidate/spatial-prototype/browser-artifact-parts/01/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve candidate evidence part 02
+        if: always() && steps.candidate_parts.outcome == 'success' && steps.candidate_parts.outputs.part_02 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: resource-lifecycle-candidate-${{ github.run_id }}-${{ github.run_attempt }}-part-02
+          path: pinned-candidate/spatial-prototype/browser-artifact-parts/02/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve candidate evidence part 03
+        if: always() && steps.candidate_parts.outcome == 'success' && steps.candidate_parts.outputs.part_03 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: resource-lifecycle-candidate-${{ github.run_id }}-${{ github.run_attempt }}-part-03
+          path: pinned-candidate/spatial-prototype/browser-artifact-parts/03/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve candidate evidence part 04
+        if: always() && steps.candidate_parts.outcome == 'success' && steps.candidate_parts.outputs.part_04 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: resource-lifecycle-candidate-${{ github.run_id }}-${{ github.run_attempt }}-part-04
+          path: pinned-candidate/spatial-prototype/browser-artifact-parts/04/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve candidate evidence part 05
+        if: always() && steps.candidate_parts.outcome == 'success' && steps.candidate_parts.outputs.part_05 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: resource-lifecycle-candidate-${{ github.run_id }}-${{ github.run_attempt }}-part-05
+          path: pinned-candidate/spatial-prototype/browser-artifact-parts/05/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve candidate evidence part 06
+        if: always() && steps.candidate_parts.outcome == 'success' && steps.candidate_parts.outputs.part_06 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: resource-lifecycle-candidate-${{ github.run_id }}-${{ github.run_attempt }}-part-06
+          path: pinned-candidate/spatial-prototype/browser-artifact-parts/06/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve candidate evidence part 07
+        if: always() && steps.candidate_parts.outcome == 'success' && steps.candidate_parts.outputs.part_07 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: resource-lifecycle-candidate-${{ github.run_id }}-${{ github.run_attempt }}-part-07
+          path: pinned-candidate/spatial-prototype/browser-artifact-parts/07/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve candidate evidence part 08
+        if: always() && steps.candidate_parts.outcome == 'success' && steps.candidate_parts.outputs.part_08 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: resource-lifecycle-candidate-${{ github.run_id }}-${{ github.run_attempt }}-part-08
+          path: pinned-candidate/spatial-prototype/browser-artifact-parts/08/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Publish separate diagnostic outcomes without acceptance claims
+        if: always()
+        env:
+          BASELINE_OUTCOME: ${{ steps.baseline_profile.outcome }}
+          CANDIDATE_OUTCOME: ${{ steps.candidate_profile.outcome }}
+        run: |
+          echo 'Scenario 46 CPU attribution only. Neither outcome establishes full-suite acceptance or resolves the full-suite timeout.' >> "$GITHUB_STEP_SUMMARY"
+          printf 'Baseline step: %s; frozen candidate step: %s\n' "$BASELINE_OUTCOME" "$CANDIDATE_OUTCOME" >> "$GITHUB_STEP_SUMMARY"
+          echo 'Both use the same copied harness, 1000 µs Node/CDP CPU sampling, unchanged native observation, full trace, and the original 300-second scenario budget. Sequential order, load and instrumentation are confounders.' >> "$GITHUB_STEP_SUMMARY"
+          for role in baseline candidate; do
+            summary="pinned-$role/spatial-prototype/browser-review/resource-lifecycle-diagnostic/summary.md"
+            if [ -f "$summary" ]; then cat "$summary" >> "$GITHUB_STEP_SUMMARY"; fi
+          done
+# Independent read-only diagnostics. Existing full/default, early smoke, release,
+# CI and deployment workflows remain untouched and mandatory for acceptance.

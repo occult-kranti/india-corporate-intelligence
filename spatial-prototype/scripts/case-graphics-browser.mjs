@@ -25,16 +25,18 @@ export const GRAPHICS_SCENARIOS = Object.freeze([
   '46-thirty-cycle-native-resource-handle-plateau',
 ]);
 export const GRAPHICS_SMOKE_SCENARIOS = Object.freeze([GRAPHICS_SCENARIOS[0]]);
-/** The full review remains the default. Only the named CI smoke may narrow it. */
+export const RESOURCE_DIAGNOSTIC_SCENARIOS = Object.freeze([GRAPHICS_SCENARIOS[7]]);
+/** Full remains the default; named focused modes never establish full acceptance. */
 export function parseCaseGraphicsReviewMode(args) {
   assert.ok(Array.isArray(args), 'Browser review arguments must be an array');
   if (args.length === 0) return 'full';
-  assert.deepEqual(args, ['--early-scene-smoke'], 'Only the explicit --early-scene-smoke review argument is supported');
-  return 'early-scene-smoke';
+  if (args.length === 1 && args[0] === '--early-scene-smoke') return 'early-scene-smoke';
+  assert.deepEqual(args, ['--resource-lifecycle-diagnostic'], 'Only explicit --early-scene-smoke or --resource-lifecycle-diagnostic review arguments are supported');
+  return 'resource-lifecycle-diagnostic';
 }
 export function selectCaseGraphicsScenarios(mode = 'full') {
-  assert.ok(mode === 'full' || mode === 'early-scene-smoke', 'Unknown case graphics review mode');
-  return mode === 'full' ? GRAPHICS_SCENARIOS : GRAPHICS_SMOKE_SCENARIOS;
+  assert.ok(['full', 'early-scene-smoke', 'resource-lifecycle-diagnostic'].includes(mode), 'Unknown case graphics review mode');
+  return mode === 'full' ? GRAPHICS_SCENARIOS : mode === 'early-scene-smoke' ? GRAPHICS_SMOKE_SCENARIOS : RESOURCE_DIAGNOSTIC_SCENARIOS;
 }
 export const RESOURCE_KINDS = Object.freeze(['Buffer', 'Texture', 'Framebuffer', 'Renderbuffer', 'Program', 'Shader', 'VertexArray', 'Query', 'Sampler', 'TransformFeedback', 'Sync']);
 const Q = JSON.stringify;

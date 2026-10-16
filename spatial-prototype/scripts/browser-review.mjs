@@ -34,6 +34,8 @@ import { expectedHistoricalReview } from "./browser-review-mode.mjs";
 import { runSourceCorrectionBrowserCases } from "./source-correction-browser.mjs";
 import { runCaseWorkspaceBrowserCases } from "./case-workspace-browser.mjs";
 import { parseCaseGraphicsReviewMode, runCaseGraphicsBrowserCases } from "./case-graphics-browser.mjs";
+import { createResourceLifecycleProfile } from "./resource-lifecycle-profile.mjs";
+import { BASELINE_RUNTIME_SHA, CANDIDATE_RUNTIME_SHA } from "./resource-lifecycle-environment.mjs";
 
 if (
   process.env.GITHUB_ACTIONS !== "true" ||
@@ -47,12 +49,14 @@ if (
 // This explicit CI-only preflight never substitutes for the default full review.
 const reviewMode = parseCaseGraphicsReviewMode(process.argv.slice(2));
 const earlySceneSmoke = reviewMode === "early-scene-smoke";
+const resourceLifecycleDiagnostic = reviewMode === "resource-lifecycle-diagnostic";
 
 // The next-release default build has the reader gate; positive coverage cannot be skipped.
 const expectHistoricalReview = expectedHistoricalReview(process.env.SPATIAL_EXPECT_HISTORICAL_REVIEW);
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const dist = await realpath(join(root, "dist"));
-const output = earlySceneSmoke ? join(root, "browser-review", "early-scene-smoke") : join(root, "browser-review");
+const output = resourceLifecycleDiagnostic ? join(root, "browser-review", "resource-lifecycle-diagnostic")
+  : earlySceneSmoke ? join(root, "browser-review", "early-scene-smoke") : join(root, "browser-review");
 const prefix = "/india-corporate-intelligence/spatial/";
 const viewport = { width: 1440, height: 1000 };
 await mkdir(output, { recursive: true });
@@ -60,6 +64,12 @@ const temporary = await mkdtemp(join(tmpdir(), "spatial-browser-review-"));
 const report = {
   startedAt: new Date().toISOString(),
   reviewMode,
+  ...(resourceLifecycleDiagnostic ? { diagnosticOnly: true, fullSuiteAcceptance: false,
+    harnessCommit: process.env.SPATIAL_HARNESS_SHA ?? null,
+    runtimeRole: process.env.SPATIAL_RUNTIME_ROLE ?? null,
+    nodeProcessWindow: { performanceTimeOriginMs: performance.timeOrigin,
+      harnessStartedAt: new Date().toISOString(), harnessStartedMonotonicMs: performance.now(),
+      scope: "Node --cpu-prof covers process startup through exit, including cleanup; late/cleanup samples are diagnostic only" } } : {}),
   commit: process.env.GITHUB_SHA ?? null,
   headCommit: process.env.SPATIAL_HEAD_SHA ?? null,
   expectedHistoricalReview: expectHistoricalReview,
@@ -1332,6 +1342,11 @@ async function scenario(name, options, work) {
   let context;
   let page;
   let deadline;
+  const cpuProfile = resourceLifecycleDiagnostic
+    ? createResourceLifecycleProfile({ output, result, revision: {
+        runtimeCommit: process.env.SPATIAL_HEAD_SHA, harnessCommit: process.env.SPATIAL_HARNESS_SHA,
+        runtimeRole: process.env.SPATIAL_RUNTIME_ROLE,
+      } }) : null;
   try {
     context = await browser.newContext({
       viewport: options.viewport ?? viewport,
@@ -1429,6 +1444,7 @@ async function scenario(name, options, work) {
       }),
     );
     page.on("request", (request) => result.requests.push(request.url()));
+    if (cpuProfile) await cpuProfile.start(context, page);
     await Promise.race([
       (async () => {
         const response = await page.goto(
@@ -1469,12 +1485,17 @@ async function scenario(name, options, work) {
       })(),
       new Promise((_, reject) => {
         deadline = setTimeout(
-          () =>
+          () => {
+            if (resourceLifecycleDiagnostic) result.resourceDiagnosticDeadline = {
+              at: new Date().toISOString(), monotonicMs: performance.now(), budgetMs: options.budgetMs ?? 80000,
+              note: "Original Promise.race work is not cancelled; post-deadline samples are diagnostic only",
+            };
             reject(
               new Error(
                 `Scenario exceeded its ${options.budgetMs ?? 80000} ms review budget`,
               ),
-            ),
+            );
+          },
           options.budgetMs ?? 80000,
         );
       }),
@@ -1486,6 +1507,17 @@ async function scenario(name, options, work) {
     process.exitCode = 1;
   } finally {
     clearTimeout(deadline);
+    // Preserve CPU evidence first, including the unchanged scenario deadline path.
+    // This is outside scenario 46 and never changes its actions or native oracles.
+    if (cpuProfile) {
+      try { result.cpuProfile = await cpuProfile.stop(); }
+      catch (error) {
+        result.cpuProfileError = String(error);
+        result.status = "failed";
+        result.error = `${result.error ?? ""}\nCPU diagnostic preservation failed: ${error}`;
+        process.exitCode = 1;
+      }
+    }
     if (options.afterScenario) await options.afterScenario();
     if (page && !page.isClosed()) {
       try {
@@ -1583,13 +1615,18 @@ try {
   assert.match(candidateHead ?? "", /^[0-9a-f]{40}$/);
   assert.equal(
     checkedOutCommit,
-    process.env.GITHUB_SHA,
+    resourceLifecycleDiagnostic ? process.env.SPATIAL_HEAD_SHA : process.env.GITHUB_SHA,
     "Review checkout does not match the workflow revision",
   );
   assert.ok(
     checkedOutCommit === candidateHead || parents.includes(candidateHead),
     "Checkout is neither the exact candidate nor its integration merge",
   );
+  if (resourceLifecycleDiagnostic) {
+    assert.ok(["baseline", "candidate"].includes(process.env.SPATIAL_RUNTIME_ROLE));
+    assert.equal(checkedOutCommit, process.env.SPATIAL_RUNTIME_ROLE === "baseline" ? BASELINE_RUNTIME_SHA : CANDIDATE_RUNTIME_SHA);
+    assert.match(process.env.SPATIAL_HARNESS_SHA ?? "", /^[0-9a-f]{40}$/);
+  }
   report.revision = {
     checkedOutCommit,
     candidateHead,
@@ -1962,7 +1999,9 @@ try {
   });
   report.browserVersion = browser.version();
 
-  if (earlySceneSmoke) {
+  if (resourceLifecycleDiagnostic) {
+    await runCaseGraphicsBrowserCases({ root, output, scenario, capture, assertFullLoad, assertSpatial, assertCountryBase, until, report, temporary }, { mode: reviewMode });
+  } else if (earlySceneSmoke) {
     await runCaseGraphicsBrowserCases({ root, output, scenario, capture, assertFullLoad, assertSpatial, assertCountryBase, until, report, temporary }, { mode: reviewMode });
   } else {
   // Full review starts here. Keep every existing scenario mandatory in default mode.
@@ -3982,20 +4021,24 @@ try {
     });
   await rm(temporary, { recursive: true, force: true });
   report.finishedAt = new Date().toISOString();
+  if (resourceLifecycleDiagnostic) report.nodeProcessWindow.harnessFinishedMonotonicMs = performance.now();
   report.status = process.exitCode ? "failed" : "passed";
   await writeFile(
     join(output, "diagnostics.json"),
     `${JSON.stringify(report, null, 2)}\n`,
   );
   const summary = [
-    earlySceneSmoke ? "# Spatial prototype early native scene smoke" : "# Spatial prototype browser review",
+    resourceLifecycleDiagnostic ? "# Scenario 46 resource lifecycle diagnostic only"
+      : earlySceneSmoke ? "# Spatial prototype early native scene smoke" : "# Spatial prototype browser review",
     "",
     `Result: **${report.status}**`,
     `Review mode: ${reviewMode}`,
     `Preview path: ${prefix}`,
     `Review label: ${report.reviewLabel}`,
     `Expected historical mode: default build, exact query plus fresh Open`,
-    earlySceneSmoke
+    resourceLifecycleDiagnostic
+      ? "Diagnostic only: unchanged scenario 46 in a fresh Chromium process with CPU sampling. Never full-suite acceptance, release approval, or evidence that the full-suite timeout is solved."
+      : earlySceneSmoke
       ? "Bounded case 40 preflight only. The complete legacy, nineteen-case workspace and all native graphics reviews remain mandatory in the following full-review step."
       : "All positive and negative historical reader cases are mandatory for this next-release candidate.",
     `Checked out: ${report.revision?.checkedOutCommit ?? "unverified"}`,

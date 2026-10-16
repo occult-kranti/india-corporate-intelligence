@@ -44,7 +44,7 @@ test('smoke retains CI-only launch guard and every original default review scena
   assert.match(main, /No local browser was launched/);
   assert.match(main, /const earlySceneSmoke = reviewMode === "early-scene-smoke";/);
   assert.match(main, /if \(earlySceneSmoke\) \{\s+await runCaseGraphicsBrowserCases\([^\n]+\{ mode: reviewMode \}\);\s+\} else \{/);
-  assert.match(main, /const output = earlySceneSmoke \? join\(root, "browser-review", "early-scene-smoke"\) : join\(root, "browser-review"\);/);
+  assert.match(main, /: earlySceneSmoke \? join\(root, "browser-review", "early-scene-smoke"\) : join\(root, "browser-review"\);/);
   assert.match(main, /report\.status = process\.exitCode \? "failed" : "passed"/);
   const start = main.indexOf('  await scenario("01-overview-and-source-trail"');
   const last = '  await runCaseGraphicsBrowserCases(caseReviewContext);';
