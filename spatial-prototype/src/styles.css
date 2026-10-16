@@ -859,7 +859,8 @@ svg {
   inset: 128px 130px 130px 340px;
   overflow: auto;
   overscroll-behavior: contain;
-  padding: 20px 15px;
+  scroll-padding-block: 20px;
+  padding: 20px 15px 40px;
   z-index: 2;
 }
 .reading-title {
@@ -883,6 +884,7 @@ svg {
   gap: 15px;
 }
 .reading-card {
+  scroll-margin-block: 20px;
   display: block;
   text-align: left;
   padding: 22px;
@@ -1506,4 +1508,95 @@ svg {
     padding: 17px;
   }
 }
-.webgl-host .maplibregl-ctrl-attrib{font:8px 'DM Sans',sans-serif;background:#123324df;color:#c6d0b8;max-width:440px}.webgl-host .maplibregl-ctrl-bottom-right{bottom:31px;right:14px}.webgl-host .maplibregl-ctrl-attrib a{color:#c6d0b8}.map-status{position:absolute;left:50%;transform:translateX(-50%);top:145px;max-width:420px;padding:9px 12px;color:#e6cf9d;font-size:10px;z-index:5}.unplaced-tray{position:absolute;left:25px;top:490px;width:282px;padding:12px 14px;font-size:9px;z-index:4;color:#c4ceb6}.unplaced-tray summary{cursor:pointer;line-height:1.6}.unplaced-tray button{display:block;width:100%;text-align:left;padding:8px;margin-top:7px;font-size:9px;line-height:1.5}.city-destinations{display:flex;flex-wrap:wrap;gap:7px}.city-destinations button{font-size:10px}.city-attribution{bottom:108px}.webgl-host{border:1px solid #7f8a5660;box-shadow:inset 0 0 70px #001c1a66}@media(max-width:800px){.unplaced-tray{left:12px;top:143px;width:205px;font-size:8px}.unplaced-tray[open]{max-height:200px;overflow:auto}.webgl-host .maplibregl-ctrl-bottom-right{bottom:8px;right:5px}.webgl-host .maplibregl-ctrl-attrib{font-size:6px;max-width:230px}.map-status{top:138px;max-width:280px;font-size:9px}.city-attribution{bottom:103px}}
+.webgl-host .maplibregl-ctrl-attrib {
+  font:
+    8px "DM Sans",
+    sans-serif;
+  background: #123324df;
+  color: #c6d0b8;
+  max-width: 440px;
+}
+.webgl-host .maplibregl-ctrl-bottom-right {
+  bottom: 31px;
+  right: 14px;
+}
+.webgl-host .maplibregl-ctrl-attrib a {
+  color: #c6d0b8;
+}
+.map-status {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 145px;
+  max-width: 420px;
+  padding: 9px 12px;
+  color: #e6cf9d;
+  font-size: 10px;
+  z-index: 5;
+}
+.unplaced-tray {
+  position: absolute;
+  left: 25px;
+  top: 490px;
+  width: 282px;
+  padding: 12px 14px;
+  font-size: 9px;
+  z-index: 4;
+  color: #c4ceb6;
+}
+.unplaced-tray summary {
+  cursor: pointer;
+  line-height: 1.6;
+}
+.unplaced-tray button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 8px;
+  margin-top: 7px;
+  font-size: 9px;
+  line-height: 1.5;
+}
+.city-destinations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.city-destinations button {
+  font-size: 10px;
+}
+.city-attribution {
+  bottom: 108px;
+}
+.webgl-host {
+  border: 1px solid #7f8a5660;
+  box-shadow: inset 0 0 70px #001c1a66;
+}
+@media (max-width: 800px) {
+  .unplaced-tray {
+    left: 12px;
+    top: 143px;
+    width: 205px;
+    font-size: 8px;
+  }
+  .unplaced-tray[open] {
+    max-height: 200px;
+    overflow: auto;
+  }
+  .webgl-host .maplibregl-ctrl-bottom-right {
+    bottom: 8px;
+    right: 5px;
+  }
+  .webgl-host .maplibregl-ctrl-attrib {
+    font-size: 6px;
+    max-width: 230px;
+  }
+  .map-status {
+    top: 138px;
+    max-width: 280px;
+    font-size: 9px;
+  }
+  .city-attribution {
+    bottom: 103px;
+  }
+}

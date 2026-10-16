@@ -547,7 +547,7 @@ export default function App() {
         </div>
         <div>
           <i className="thread-swatch dashed" />
-          <span>Pattern · retained evidence status</span>
+          <span>Status · retained in the source reader</span>
         </div>
         <p className="legend-note">
           Source count describes support. It is not a guilt score.

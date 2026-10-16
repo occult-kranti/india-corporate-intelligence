@@ -244,9 +244,10 @@ async function assertProvenance(page, item) {
     normalized(item.summary),
   );
   assert.ok(
-    (await panel.locator(".evidence-tags").innerText()).includes(
-      `${new Set(item.sourceIds).size} distinct source IDs`,
-    ),
+    normalized(await panel.locator(".evidence-tags").innerText())
+      .toLowerCase()
+      .includes(`${new Set(item.sourceIds).size} distinct source ids`),
+    "Visible source count differs from the retained distinct source IDs",
   );
   assert.ok((await panel.innerText()).includes(model.registry.updatedAt));
   const sourceIds = [

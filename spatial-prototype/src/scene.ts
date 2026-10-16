@@ -24,6 +24,7 @@ import type {
   SceneMetric,
 } from "./scene-types";
 import { feltMapStyle } from "./geoStyle";
+import { WORLD_CAMERA_BOUNDS } from "./mapBounds";
 import { easedProgress } from "./cameraMath";
 setWorkerUrl(workerUrl);
 export const CATEGORY_COLORS: Record<string, string> = {
@@ -223,10 +224,7 @@ export class EvidenceWorld {
       minZoom: 0.6,
       maxPitch: 70,
       renderWorldCopies: false,
-      maxBounds: [
-        [-180, -85.0511],
-        [180, 85.0511],
-      ],
+      maxBounds: WORLD_CAMERA_BOUNDS,
       canvasContextAttributes: { antialias: true, preserveDrawingBuffer: true },
       attributionControl: { compact: true },
       pixelRatio: Math.min(window.devicePixelRatio, 1.5),
