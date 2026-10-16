@@ -14,7 +14,7 @@ import { ATLAS_EDGE, CASE_EDGE, CROSSING_CENTER, REQUIRED_ZOOMS, BASELINE_COMMIT
   requireAuthorizedCI, parseMode, mercator, panDelta, clipSegment, assertRasterEvidence, recordCheck,
   installThreadZoomProbe, dragOffsets, findClearGesture, navigationSnapshot, atlasCenterReached, ATLAS_CENTER_ERROR_PX,
   analyzePathRaster, assertPathEvidence, assertExactSourceLinks, decodeScreenshotPng, loadAtlasSourceReference, writeRasterReport,
-  ATLAS_COINCIDENT_ORIGINALS, matchCoincidentOriginalPath, traceAtlasContributions } from './thread-zoom-browser.mjs';
+  ATLAS_COINCIDENT_ORIGINALS, matchCoincidentOriginalPath, traceAtlasContributions, hasFreshSettledFrame } from './thread-zoom-browser.mjs';
 
 const path = fileURLToPath(new URL('./thread-zoom-browser.mjs', import.meta.url));
 const source = await readFile(path, 'utf8');
@@ -427,4 +427,20 @@ test('the four accepted retained edges produce exactly coincident original scene
     target??=descriptor;const match=matchCoincidentOriginalPath(target,descriptor);assert.ok(match);assert.equal(match.maxControlPointError,0);directions.push(match.direction);
   }
   assert.deepEqual(directions,['forward','reverse','forward','reverse']);
+});
+
+
+test('fresh-frame readiness rejects coalesced wrong-size, stale and incomplete observations without consulting pixels',()=>{
+ const viewport={width:800,height:500},good={currentPoseKey:'final800',canvas:viewport,frame:{token:3,complete:true,poseKey:'final800'}};
+ assert.equal(hasFreshSettledFrame(good,2,viewport),true);
+ for(const value of [{...good,frame:{...good.frame,token:2}},{...good,frame:{...good.frame,complete:false}},{...good,frame:{...good.frame,poseKey:'intermediate801'}},{...good,canvas:{width:801,height:500}},{...good,frame:null}])assert.equal(hasFreshSettledFrame(value,2,viewport),false);
+ assert.equal(hasFreshSettledFrame({...good,frame:{...good.frame,finalCanvas:{error:'raster still must fail later'}}},2,viewport),true);
+ assert.equal(hasFreshSettledFrame({...good,frame:{...good.frame,token:NaN}},2,viewport),false);
+});
+test('oblique resize waits for each actual viewport frame and keeps three final-frame raster gate',()=>{
+ const capture=source.slice(source.indexOf('async function captureAtlas('),source.indexOf('async function inspectAtlasClick('));
+ assert.match(capture,/await resizeAndObserve\(\{ \.\.\.viewport, width: viewport\.width \+ 1 \}\);\s*await resizeAndObserve\(viewport\);/);
+ assert.match(capture,/frame completion|Frame completion/);assert.match(capture,/hasFreshSettledFrame\(after,afterToken,viewport\)/);assert.match(capture,/8000/);
+ assert.match(source,/frames\.length>=3/);assert.match(source,/frame\.complete&&frame\.poseKey===row\.finalPoseKey/);
+ const progress=installThreadZoomProbe.toString().split('progress(name,kind)')[1].split('snapshot,')[0];assert.doesNotMatch(progress,/raster|coverage|changedPixels|contribution/);
 });

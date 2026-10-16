@@ -697,6 +697,10 @@ export function installThreadZoomProbe({ atlasEdge, caseEdge, atlasSourceCount =
     arm(name, kind, sampleCenter=null) { state.active = { name, kind, sampleCenter }; state.captures[name] = { ...snapshot(kind), draws: [], contributions: [], observationOrdinal: 0, frames: [] }; },
     finish(name, kind) { const capture=state.captures[name], fresh=snapshot(kind); state.active=null; Object.assign(capture,fresh,{finalPoseKey:poseKey(fresh)}); return capture; },
     stop() { state.active = null; },
+    progress(name,kind) {
+      const current=snapshot(kind),frame=state.captures[name]?.frames.at(-1);
+      return {currentPoseKey:poseKey(current),canvas:current.canvas,frame:frame?{token:frame.token,complete:frame.complete,poseKey:frame.poseKey}:null};
+    },
     snapshot,
     report() { return JSON.parse(JSON.stringify({ ...state, active: null })); },
   });
@@ -836,21 +840,37 @@ async function screenshot(page, directory, name, requireCanvas = true) {
   if (requireCanvas) assert.ok(canvas && canvas.x >= 0 && canvas.y >= 0 && canvas.x + canvas.width <= pixels.width + 1 && canvas.y + canvas.height <= pixels.height + 1, 'Screenshot must include the real canvas bounds');
   return { filename, viewport: page.viewportSize(), canvas, pixels, bytes: png.length };
 }
+export function hasFreshSettledFrame(progress,afterToken,viewport) {
+  const frame=progress?.frame;
+  return Number.isFinite(frame?.token)&&frame.token>afterToken&&frame.complete===true&&
+    frame.poseKey===progress.currentPoseKey&&progress.canvas?.width===viewport.width&&progress.canvas?.height===viewport.height;
+}
 async function captureAtlas(page, output, name, orient = true) {
   await page.evaluate(name => window.__threadZoomProbe.arm(name, 'atlas'), name);
+  const readiness=[];
+  async function resizeAndObserve(viewport) {
+    const before=await page.evaluate(name=>window.__threadZoomProbe.progress(name,'atlas'),name),afterToken=before.frame?.token??-1;
+    await page.setViewportSize(viewport);
+    let after;
+    await until(async()=>{after=await page.evaluate(name=>window.__threadZoomProbe.progress(name,'atlas'),name);return hasFreshSettledFrame(after,afterToken,viewport);},`No fresh complete frame after resize for ${name}`,8000);
+    readiness.push({requestedViewport:viewport,before,after,selectionBasis:'Frame completion, exact current pose, viewport and fresh native frame token only; no pixel result'});
+  }
   // Three separate normal host redraws establish subsequent settled frames. The
   // original target camera is never assigned or injected by the observer.
   for(let check=0;check<3;check++) {
     if (orient) await page.getByRole('button', { name: 'Top-down orientation', exact: true }).click();
     else {
-      const viewport = page.viewportSize(); await page.setViewportSize({ ...viewport, width: viewport.width + 1 });
-      await page.setViewportSize(viewport);
+      const viewport = page.viewportSize();
+      // Resize events may coalesce: observe the complete intermediate frame before
+      // restoring the final viewport, then require its own fresh complete frame.
+      await resizeAndObserve({ ...viewport, width: viewport.width + 1 });
+      await resizeAndObserve(viewport);
     }
     await delay(160);
   }
   const image = await screenshot(page, output, name);
   const capture = await page.evaluate(name => window.__threadZoomProbe.finish(name, 'atlas'), name);
-  const row={ ...capture, screenshot: image };await verifyScreenshotCrossing(row,output,page);return row;
+  const row={ ...capture, screenshot: image, captureReadiness:readiness };await verifyScreenshotCrossing(row,output,page);return row;
 }
 async function inspectAtlasClick(page, point) {
   assert.equal(await page.evaluate(({ x, y }) => document.elementFromPoint(x, y) === document.querySelector('.webgl-host canvas'), point), true, 'Crossing click must hit the real map canvas, never a DOM label');
