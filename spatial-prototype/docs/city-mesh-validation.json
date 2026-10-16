@@ -1,0 +1,44 @@
+[
+  {
+    "cityId": "delhi",
+    "meshes": 7,
+    "triangles": 1816,
+    "bytes": 137716,
+    "maxRoofAreaRelativeError": 1.928106700738271e-7,
+    "tests": [
+      "finite vertices",
+      "roof area equals footprint area minus holes within 0.1%",
+      "no degenerate triangles",
+      "GLB header and scene count roundtrip",
+      "local metre axes preserved"
+    ]
+  },
+  {
+    "cityId": "mumbai",
+    "meshes": 7,
+    "triangles": 660,
+    "bytes": 54580,
+    "maxRoofAreaRelativeError": 7.131763380082712e-8,
+    "tests": [
+      "finite vertices",
+      "roof area equals footprint area minus holes within 0.1%",
+      "no degenerate triangles",
+      "GLB header and scene count roundtrip",
+      "local metre axes preserved"
+    ]
+  },
+  {
+    "cityId": "london",
+    "meshes": 11,
+    "triangles": 6924,
+    "bytes": 508960,
+    "maxRoofAreaRelativeError": 2.7497987438784867e-7,
+    "tests": [
+      "finite vertices",
+      "roof area equals footprint area minus holes within 0.1%",
+      "no degenerate triangles",
+      "GLB header and scene count roundtrip",
+      "local metre axes preserved"
+    ]
+  }
+]

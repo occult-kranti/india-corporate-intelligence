@@ -1,0 +1,109 @@
+{
+  "sources": [
+    {
+      "id": "natural-earth-50m-countries",
+      "title": "Natural Earth 1:50m Admin 0 Countries",
+      "url": "https://www.naturalearthdata.com/downloads/50m-cultural-vectors/50m-admin-0-countries-2/",
+      "dataUrl": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_admin_0_countries.geojson",
+      "license": "Public domain",
+      "licenseUrl": "https://www.naturalearthdata.com/about/terms-of-use/",
+      "retrievedAt": "2026-10-15",
+      "sha256": "3e458fc036ad0a66411f2c1e6cac49c5d7bfb81cb1123bc513b22511a2b7fdeb",
+      "featureCount": 242,
+      "transformation": "Geometry coordinates preserved exactly; unused statistical/name properties removed. No boundary simplification or artificial islands.",
+      "limitations": [
+        "Generalized 1:50 million cartographic geometry, not surveyed site boundaries.",
+        "Natural Earth uses de facto territorial boundaries; display does not adjudicate disputed sovereignty.",
+        "Mercator rendering must clamp polar latitude and avoid wrapping copies when displaying one continuous world."
+      ]
+    },
+    {
+      "id": "lgd-bharatmaps-tamil-nadu",
+      "title": "Tamil Nadu retained WGS84 administrative geometry",
+      "source": "LGD / BharatMaps, via ramSeraph and DataMeet",
+      "sourceUrl": "https://github.com/ramSeraph/indian_admin_boundaries/releases/download/states/LGD_States.geojsonl.7z",
+      "upstreamGovernmentService": "https://mapservice.gov.in/gismapservice/rest/services/BharatMapService/Admin_Boundary_GramPanchayat/MapServer/0",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://github.com/ramSeraph/indianopenmaps/blob/main/DATA_LICENSE.md",
+      "sourceSha256": "1b8a2f0bd908c10dc1229d2a7c5bcd3d433bb3fa013865163b21f4f61780e911",
+      "retrievedAt": "2026-10-06",
+      "boundaryVintage": "Upstream snapshot date not established; 36-unit post-2020 administrative roster verified.",
+      "projection": "WGS84 longitude/latitude (EPSG:4326), from original LGD geometry.",
+      "transformation": "Topology-preserving geographic simplification at 0.001 degrees; all polygon components retained. Illustrative state boundaries, not surveyed parcel edges.",
+      "boundaryScope": "Preserves upstream LGD/BharatMaps boundary claims, including disputed areas. Illustrative administrative coverage; not a survey or adjudication of territorial status. No historical record is reassigned using this geometry.",
+      "sha256": "7ae52226dde1e67884903819d48579305d100615bdad54712bbe5991332fe76d",
+      "extraction": "Only the original TN feature retained, unchanged. Original dataset provenance preserved."
+    },
+    {
+      "id": "lgd-bharatmaps-india-states",
+      "title": "India 36-unit retained WGS84 administrative geometry",
+      "source": "LGD / BharatMaps, via ramSeraph and DataMeet",
+      "sourceUrl": "https://github.com/ramSeraph/indian_admin_boundaries/releases/download/states/LGD_States.geojsonl.7z",
+      "upstreamGovernmentService": "https://mapservice.gov.in/gismapservice/rest/services/BharatMapService/Admin_Boundary_GramPanchayat/MapServer/0",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://github.com/ramSeraph/indianopenmaps/blob/main/DATA_LICENSE.md",
+      "sourceSha256": "1b8a2f0bd908c10dc1229d2a7c5bcd3d433bb3fa013865163b21f4f61780e911",
+      "retrievedAt": "2026-10-06",
+      "boundaryVintage": "Upstream snapshot date not established; 36-unit post-2020 administrative roster verified.",
+      "projection": "WGS84 longitude/latitude (EPSG:4326), from original LGD geometry.",
+      "transformation": "Topology-preserving geographic simplification at 0.001 degrees; all polygon components retained. Illustrative state boundaries, not surveyed parcel edges.",
+      "boundaryScope": "Preserves upstream LGD/BharatMaps boundary claims, including disputed areas. Illustrative administrative coverage; not a survey or adjudication of territorial status. No historical record is reassigned using this geometry.",
+      "sha256": "7ae52226dde1e67884903819d48579305d100615bdad54712bbe5991332fe76d",
+      "featureCount": 36,
+      "extraction": "All original 36 state/UT features and source provenance retained unchanged; no state aliases, boundary repair or historical reallocation."
+    }
+  ],
+  "representativeMethodId": "surface-scanline-v1",
+  "representativeMethod": "Validated point on surface: midpoint of the widest interior horizontal segment near the vertical midpoint of the largest planar-area polygon component; holes excluded, longitude/latitude coordinates, deterministic tie-breaking. Display representative only, not a verified site or address.",
+  "coverage": {
+    "worldFeatures": 242,
+    "supportedCountryAnchors": 233,
+    "stateAnchors": 36,
+    "unsupportedWorldFeatures": [
+      {
+        "id": "TWN",
+        "sourceCode": "CN-TW"
+      },
+      {
+        "id": "SOL",
+        "sourceCode": "-99"
+      },
+      {
+        "id": "NOR",
+        "sourceCode": "-99"
+      },
+      {
+        "id": "KOS",
+        "sourceCode": "-99"
+      },
+      {
+        "id": "FRA",
+        "sourceCode": "-99"
+      },
+      {
+        "id": "CYN",
+        "sourceCode": "-99"
+      },
+      {
+        "id": "IOA",
+        "sourceCode": "-99"
+      },
+      {
+        "id": "ATC",
+        "sourceCode": "-99"
+      },
+      {
+        "id": "KAS",
+        "sourceCode": "-99"
+      }
+    ],
+    "limitation": "Only unique two-letter codes explicitly retained in the verified world extraction are supported. Non-ISO or ambiguous source codes remain render-only; no country name is geocoded or reassigned."
+  },
+  "artifactSha256": {
+    "world-countries-50m.json": "a97bd58679079eae2bd0c86ec122537dde9c0958bd812eb07c5e60fe13ab690c",
+    "india-states-wgs84.json": "7ae52226dde1e67884903819d48579305d100615bdad54712bbe5991332fe76d",
+    "tamil-nadu-wgs84.json": "db1ee93f7db296d585b2b50cde54cfc48c6170e13ff29949bea7e6f3016922e6",
+    "evidence-area-anchors.json": "bc8083432bdfafa0a565d2cc8772a7cb9b1a00d9b9a3075e3a493359857d345f",
+    "national-context-crosswalk.json": "61abe3af302c96fc9b821d45ce3a5d68fb21021078c870828a12ec3984ec7d8a"
+  }
+}
