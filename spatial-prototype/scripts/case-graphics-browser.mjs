@@ -9,6 +9,7 @@ import {
   loadCaseExpectation, caseWorkspace, caseSurface, caseRail, caseSourceDialog,
   openCaseWorkspace, chooseCase, showCaseScene, showCompleteCaseReader,
   assertCompleteCaseReader, assertCaseFrame, caseWorkspaceDiagnostics,
+  captureCaseChromeBaseline, assertCaseChromeActive, assertCaseChromeRestored,
 } from './case-workspace-browser.mjs';
 
 export const THREE_RENDERER_OBSERVER_SOURCE_SHA256 = '35cea4871231c3fddc3517dcd03fc876bdb8f9e73f1a77042b35e3de0498c4cd';
@@ -112,7 +113,7 @@ export function installCaseGraphicsProbe({ kinds, caseAssetPattern = '/attachSce
     const param = key => call('getParameter', typeof key === 'string' ? gl[key] : key);
     const row = { gl, canvas, native, id: id(gl), canvasId: id(canvas), kind, active: null, passes: [], draws: [], programs: new Map(), shaders: new Map(),
       counts: Object.fromEntries(kinds.map(name => [name, { created: 0, deleted: 0, live: new Set() }])), resources: new Map(),
-      totalDraws: 0, caseDraws: 0, hostDraws: 0, scenePasses: 0, compositePasses: 0, passTimes: [], poisoned: null, postPoisonThreeDraws: 0,
+      totalDraws: 0, caseDraws: 0, hostDraws: 0, hostBoundaryViolationCount: 0, hostBoundaryViolations: [], hostLeaseViolationCount: 0, hostLeaseViolations: [], scenePasses: 0, compositePasses: 0, passTimes: [], poisoned: null, postPoisonThreeDraws: 0,
       restorationErrors: [], faultEvents: [] };
     contexts.push(row); shared.contexts.push({ id: row.id, canvasId: row.canvasId, kind, version: param('VERSION'), renderer: param('RENDERER') });
     canvas.addEventListener('webglcontextlost', event => shared.lost.push({ contextId: row.id, at: clock(), nativeLost: call('isContextLost'), trusted: event.isTrusted }));
@@ -272,10 +273,16 @@ export function installCaseGraphicsProbe({ kinds, caseAssetPattern = '/attachSce
       gl[name] = function (...args) {
         const program = param('CURRENT_PROGRAM'), info = classify(program), pass = row.active;
         const event = { sequence: ++sequence, at: clock(), method: name, args, contextId: row.id, rendererId: renderers.find(item => item.getContext() === gl) ? id(renderers.find(item => item.getContext() === gl)) : null,
-          programId: id(program), shaderKind: info.kind, three: info.three, casePass: pass?.id ?? null, drawFramebuffer: id(param('DRAW_FRAMEBUFFER_BINDING')), readFramebuffer: id(param('READ_FRAMEBUFFER_BINDING')),
+          programId: id(program), shaderKind: info.kind, three: info.three, casePass: pass?.id ?? null, geographicWorkspaceActive: document.querySelector('.webgl-host')?.dataset.geographicWorkspaceActive === 'true', semanticWorkspaceCount: document.querySelectorAll('[data-case-workspace]').length, drawFramebuffer: id(param('DRAW_FRAMEBUFFER_BINDING')), readFramebuffer: id(param('READ_FRAMEBUFFER_BINDING')),
           viewport: Array.from(param('VIEWPORT')), scissor: Array.from(param('SCISSOR_BOX')), scissorTest: call('isEnabled', gl.SCISSOR_TEST), buffer: [gl.drawingBufferWidth, gl.drawingBufferHeight], nativeSucceeded: false };
         if (pass) { pass.type ??= info.kind === 'composite' ? 'composite' : 'scene'; row.caseDraws++; }
-        else if (info.three) row.hostDraws++;
+        else if (info.three) {
+          row.hostDraws++;
+          if (event.geographicWorkspaceActive || event.semanticWorkspaceCount > 0) { row.hostLeaseViolationCount++; keep(row.hostLeaseViolations, { ...event, reason: 'Geographic draw during active semantic workspace/lease' }, 100); }
+          if (event.drawFramebuffer !== null || event.scissorTest || JSON.stringify(event.viewport) !== JSON.stringify([0, 0, ...event.buffer])) {
+            row.hostBoundaryViolationCount++; keep(row.hostBoundaryViolations, { ...event, reason: 'Geographic default-target viewport/scissor boundary' }, 100);
+          }
+        }
         if (row.poisoned && info.three) { row.postPoisonThreeDraws++; keep(shared.events, { ...event, violation: 'Three draw attempted on poisoned renderer' }); }
         if (shared.fault?.type === 'render' && !shared.fault.fired && pass && info.kind === 'felt') {
           shared.fault.fired = true; row.poisoned = { at: clock(), sequence: event.sequence, contextId: row.id, rendererId: event.rendererId };
@@ -300,7 +307,7 @@ export function installCaseGraphicsProbe({ kinds, caseAssetPattern = '/attachSce
     row.export = () => ({ id: row.id, canvasId: row.canvasId, live: Object.fromEntries(kinds.map(type => [type, row.counts[type].live.size])),
       created: Object.fromEntries(kinds.map(type => [type, row.counts[type].created])), deleted: Object.fromEntries(kinds.map(type => [type, row.counts[type].deleted])),
       caseLive: [...row.resources.values()].filter(resource => resource.caseOwned && !resource.deleted).length,
-      totalDraws: row.totalDraws, caseDraws: row.caseDraws, hostDraws: row.hostDraws, scenePasses: row.scenePasses, compositePasses: row.compositePasses,
+      totalDraws: row.totalDraws, caseDraws: row.caseDraws, hostDraws: row.hostDraws, hostBoundaryViolationCount: row.hostBoundaryViolationCount, hostBoundaryViolations: row.hostBoundaryViolations, hostLeaseViolationCount: row.hostLeaseViolationCount, hostLeaseViolations: row.hostLeaseViolations, scenePasses: row.scenePasses, compositePasses: row.compositePasses,
       passes: row.passes, draws: row.draws, passTimes: row.passTimes, restorationErrors: row.restorationErrors, faultEvents: row.faultEvents,
       poisoned: row.poisoned, postPoisonThreeDraws: row.postPoisonThreeDraws, pendingPass: row.active ? { id: row.active.id, type: row.active.type } : null });
     return row;
@@ -312,7 +319,7 @@ export function installCaseGraphicsProbe({ kinds, caseAssetPattern = '/attachSce
   };
   window.__caseGraphicsProbe = {
     configure(options) { for (const [key, value] of Object.entries(options)) { if (!['challenge','fault','pixelReads'].includes(key)) throw new Error(`Unknown probe option ${key}`); shared[key] = value; } },
-    read() { return { ...shared, contexts: contexts.map(row => ({ ...shared.contexts.find(info => info.id === row.id), ...row.export() })), renderers: [...shared.renderers], canvasCount: document.querySelectorAll('canvas').length }; },
+    read() { return { ...shared, sequence, contexts: contexts.map(row => ({ ...shared.contexts.find(info => info.id === row.id), ...row.export() })), renderers: [...shared.renderers], canvasCount: document.querySelectorAll('canvas').length }; },
     identities() { return { contextIds: contexts.map(row => row.id), rendererIds: renderers.map(id), canvasIds: contexts.map(row => row.canvasId) }; },
     loseContext() { const row = contexts.find(item => item.canvas.isConnected); if (!row) throw new Error('No live context to lose'); const extension = row.native.getExtension('WEBGL_lose_context'); if (!extension) throw new Error('Required WEBGL_lose_context capability unavailable'); extension.loseContext(); return row.id; },
     async frames(count, driveCase = false) { if (!Number.isInteger(count) || count < 2 || count > 180) throw new Error('Invalid bounded frame sample'); const times = []; for (let i = 0; i < count; i++) { times.push(await new Promise(resolve => requestAnimationFrame(resolve))); if (driveCase) { const surface = document.querySelector('[data-case-surface]'); if (!surface) throw new Error('Active frame sample lost its case surface'); surface.dispatchEvent(new KeyboardEvent('keydown', { key: 'Home', bubbles: true, cancelable: true })); } } const deltas = times.slice(1).map((value, i) => value - times[i]); keep(shared.frameTimes, deltas, 100); return deltas; },
@@ -331,9 +338,96 @@ const probe = page => page.evaluate(() => window.__caseGraphicsProbe.read());
 const configure = (page, options) => page.evaluate(options => window.__caseGraphicsProbe.configure(options), options);
 const frames = (page, count = 8) => page.evaluate(count => window.__caseGraphicsProbe.frames(count), count);
 const geography = page => page.locator('.webgl-host').evaluate(element => Object.fromEntries(['centerLng','centerLat','zoom','pitch','bearing','selectedEdge'].map(key => [key, element.dataset[key] ?? null])));
-async function closeWorkspace(page, until) {
+const activeLeaseBaselines = new WeakMap();
+const retiredLeaseBaselines = new WeakMap();
+const leaseSnapshot = page => page.evaluate(() => ({ active: document.querySelector('.webgl-host')?.dataset.geographicWorkspaceActive,
+  workspaceCount: document.querySelectorAll('[data-case-workspace]').length, data: window.__caseGraphicsProbe.read() }));
+export function liveGraphicsIdentity(data) {
+  const context = data.contexts.at(-1), renderer = data.renderers.find(row => row.contextId === context?.id);
+  assert.ok(context && renderer, 'Current observed geographic graphics identity is missing');
+  assert.equal(renderer.canvasId, context.canvasId); assert.equal(data.canvasCount, 1);
+  return { contextId: context.id, rendererId: renderer.id, canvasId: context.canvasId };
+}
+export function assertActiveLeaseDrawSuppression(snapshot, baseline) {
+  assert.equal(snapshot.active, 'true', 'Geographic lease must remain active until workspace Close');
+  assert.equal(snapshot.workspaceCount, 1, 'Exactly one semantic workspace must own the lease');
+  assert.deepEqual(liveGraphicsIdentity(snapshot.data), baseline.identity, 'Graphics replacement requires a new explicit lease observation baseline');
+  const context = snapshot.data.contexts.find(row => row.id === baseline.identity.contextId);
+  assert.equal(context.hostDraws, baseline.hostDraws, 'A geographic Three draw escaped active workspace suppression');
+  return { identity: baseline.identity, hostDraws: context.hostDraws, baselineSequence: baseline.sequence, sequence: snapshot.data.sequence };
+}
+export function assertRetiredLeaseSuppression(data, baseline) {
+  const context = data.contexts.find(row => row.id === baseline.identity.contextId);
+  assert.ok(context, 'Retired graphics context observation disappeared');
+  assert.equal(context.hostDraws, baseline.hostDraws, 'Retired renderer escaped its workspace suppression');
+  assert.equal(context.hostLeaseViolationCount, baseline.hostLeaseViolationCount, 'Retired renderer has an active-lease draw violation');
+  return { identity: baseline.identity, hostDraws: context.hostDraws, activeLeaseViolations: context.hostLeaseViolationCount };
+}
+function checkRetiredLeases(page, data) {
+  return (retiredLeaseBaselines.get(page) ?? []).map(baseline => assertRetiredLeaseSuppression(data, baseline));
+}
+async function rememberActiveLease(page, until, result, phase) {
+  let snapshot;
+  await until(async () => { snapshot = await leaseSnapshot(page); return snapshot.active === 'true' && snapshot.workspaceCount === 1; }, 'Workspace did not acquire the geographic suppression lease');
+  const identity = liveGraphicsIdentity(snapshot.data), context = snapshot.data.contexts.find(row => row.id === identity.contextId);
+  const previous = activeLeaseBaselines.get(page);
+  if (previous) {
+    assert.notEqual(identity.contextId, previous.identity.contextId, 'A retained context cannot silently reset its active suppression baseline');
+    const retired = assertRetiredLeaseSuppression(snapshot.data, previous);
+    retiredLeaseBaselines.set(page, [...(retiredLeaseBaselines.get(page) ?? []), previous]);
+    (result.caseRetiredGeographicLeases ??= []).push({ phase, ...retired });
+  }
+  checkRetiredLeases(page, snapshot.data);
+  const baseline = { identity, hostDraws: context.hostDraws, hostLeaseViolationCount: context.hostLeaseViolationCount, sequence: snapshot.data.sequence };
+  activeLeaseBaselines.set(page, baseline);
+  (result.caseGeographicLeases ??= []).push({ phase, ...baseline });
+  return baseline;
+}
+async function openGraphicsWorkspace(page, until, result) {
+  await openCaseWorkspace(page, until);
+  await rememberActiveLease(page, until, result, 'workspace-open');
+}
+async function assertActiveSuppression(page, result, phase) {
+  const baseline = activeLeaseBaselines.get(page); assert.ok(baseline, 'Missing active lease observation baseline');
+  const snapshot = await leaseSnapshot(page);
+  checkRetiredLeases(page, snapshot.data);
+  const observed = assertActiveLeaseDrawSuppression(snapshot, baseline);
+  (result.caseGeographicSuppression ??= []).push({ phase, ...observed }); return observed;
+}
+export function assertRecoveryCounters(previous, current) {
+  assert.ok(Number.isInteger(previous.hostBoundaryViolationCount) && Number.isInteger(current.hostBoundaryViolationCount), 'Missing cumulative geographic boundary observation');
+  assert.equal(current.hostBoundaryViolationCount, previous.hostBoundaryViolationCount, 'A geographic draw violated its boundary after Close, including any evicted draw');
+  assert.ok(Number.isInteger(previous.hostLeaseViolationCount) && Number.isInteger(current.hostLeaseViolationCount), 'Missing cumulative active-lease draw observation');
+  assert.equal(current.hostLeaseViolationCount, previous.hostLeaseViolationCount, 'A geographic draw escaped during the before-Close action gap, including an evicted draw');
+  assert.ok(current.hostDraws > previous.hostDraws, 'Geographic draw counter did not advance after Close');
+}
+export function isGeographicRecoveryDraw(draw, watermark, identity) {
+  return draw.sequence > watermark && draw.three && draw.shaderKind === 'three' && draw.casePass === null && draw.nativeSucceeded
+    && draw.contextId === identity.contextId && draw.rendererId === identity.rendererId
+    && draw.geographicWorkspaceActive === false && draw.semanticWorkspaceCount === 0;
+}
+async function requireGeographicRecovery(page, until, result, before, phase) {
+  const identity = liveGraphicsIdentity(before.data), watermark = before.data.sequence;
+  assert.ok(Number.isInteger(watermark), 'Recovery requires the native monotonic sequence watermark');
+  await until(async () => { const snapshot = await leaseSnapshot(page); return snapshot.active === 'false' && snapshot.workspaceCount === 0; }, 'Workspace Close did not release the geographic lease');
+  await until(async () => { const data = await probe(page); return data.contexts.some(context => context.id === identity.contextId && context.draws.some(draw => isGeographicRecoveryDraw(draw, watermark, identity))); }, 'No fresh geographic Three draw after actual workspace Close');
+  const after = await leaseSnapshot(page);
+  const retired = checkRetiredLeases(page, after.data);
+  assert.deepEqual(liveGraphicsIdentity(after.data), identity, 'Geographic recovery silently replaced the captured renderer/context/canvas');
+  const draws = assertHostBoundaries(after.data, watermark, identity);
+  const context = after.data.contexts.find(row => row.id === identity.contextId);
+  const previous = before.data.contexts.find(row => row.id === identity.contextId);
+  assertRecoveryCounters(previous, context);
+  (result.caseGeographicRecovery ??= []).push({ phase, identity, watermark, afterSequence: after.data.sequence, draws, hostDrawsBefore: previous.hostDraws, hostDrawsAfter: context.hostDraws, boundaryViolationsBefore: previous.hostBoundaryViolationCount, boundaryViolationsAfter: context.hostBoundaryViolationCount, activeLeaseViolationsBefore: previous.hostLeaseViolationCount, activeLeaseViolationsAfter: context.hostLeaseViolationCount, retiredLeases: retired, lease: after.active });
+  activeLeaseBaselines.delete(page); return after.data;
+}
+async function closeWorkspace(page, until, result, phase = 'workspace-close') {
+  await assertActiveSuppression(page, result, `${phase}-before-close`);
+  const before = await leaseSnapshot(page);
+  assertActiveLeaseDrawSuppression(before, activeLeaseBaselines.get(page)); checkRetiredLeases(page, before.data);
   await caseWorkspace(page).getByRole('button', { name: 'Close workspace', exact: true }).click();
   await until(async () => await caseWorkspace(page).count() === 0, 'Workspace did not close');
+  return requireGeographicRecovery(page, until, result, before, phase);
 }
 async function openSources(page, claim) {
   const details = caseRail(page).locator('.cw-sources details');
@@ -355,10 +449,16 @@ function assertRestoration(data, { allowNoPass = false } = {}) {
     assert.deepEqual(pass.changes, []); assert.deepEqual(pass.logicalChanges, []);
   }
 }
-function assertHostBoundaries(data, afterSequence = 0) {
-  const draws = data.contexts.flatMap(context => context.draws).filter(draw => draw.sequence > afterSequence && draw.three && draw.casePass === null);
-  assert.ok(draws.length > 0, 'No later geographic Three draw was observed');
+export function assertTerminalNativeState(data) {
+  assertRestoration(data);
+  for (const context of data.contexts.filter(row => row.poisoned)) assert.equal(context.postPoisonThreeDraws, 0, 'A retired poisoned renderer drew during final Close/recovery');
+}
+export function assertHostBoundaries(data, afterSequence = 0, identity = liveGraphicsIdentity(data)) {
+  const draws = data.contexts.filter(context => context.id === identity.contextId).flatMap(context => context.draws).filter(draw => draw.sequence > afterSequence && draw.three && draw.casePass === null && draw.rendererId === identity.rendererId);
+  assert.ok(draws.some(draw => isGeographicRecoveryDraw(draw, afterSequence, identity)), 'No later geographic Three draw was observed after actual lease release');
   for (const draw of draws) {
+    assert.ok(isGeographicRecoveryDraw(draw, afterSequence, identity), 'A purported recovery draw occurred during the lease or came from a case shader');
+    assert.equal(draw.nativeSucceeded, true, 'Geographic recovery requires an actual successful native draw');
     assert.equal(draw.drawFramebuffer, null, 'Geographic Three re-entry retained an offscreen target');
     assert.deepEqual(draw.viewport, [0, 0, ...draw.buffer], 'Geographic Three viewport differs from current drawing buffer');
     assert.equal(draw.scissorTest, false, 'Geographic Three re-entry retained case scissoring');
@@ -389,7 +489,7 @@ async function nativeLayout(page, result, phase, until, options = {}) {
   for (const sceneDraw of scene.draws.filter(draw => draw.nativeSucceeded)) {
     assert.notEqual(sceneDraw.drawFramebuffer, null); assert.deepEqual(sceneDraw.viewport, [0, 0, ...geometry.target]);
   }
-  assertRestoration(data); assertHostBoundaries(data, scene.id);
+  assertRestoration(data); await assertActiveSuppression(page, result, phase);
   const sample = { phase, ...geometry, actualDrawingBuffer: draw.buffer, expectedRect, actualViewport: draw.viewport, actualScissor: draw.scissor, scenePass: scene.id, compositePass: composite.id };
   (result.caseGraphicsLayouts ??= []).push(sample); return sample;
 }
@@ -429,14 +529,14 @@ async function assertRetainedFailure(page, file, selection, until) {
   assert.equal(await controls(page).getByRole('button', { name: 'Back within case', exact: true }).isEnabled(), true, 'Graphics failure lost semantic history');
   await caseWorkspace(page).getByRole('button', { name: 'Recreate graphics', exact: true }).waitFor();
 }
-async function recreateAndVerify(page, file, selection, until, assertSpatial) {
+async function recreateAndVerify(page, file, selection, until, result) {
   const old = await page.evaluate(() => window.__caseGraphicsProbe.identities()), root = await caseWorkspace(page).elementHandle();
   await caseWorkspace(page).getByRole('button', { name: 'Recreate graphics', exact: true }).click();
-  await assertSpatial(page);
   await until(async () => (await probe(page)).renderers.length === old.rendererIds.length + 1, 'Explicit recreation did not allocate a complete replacement renderer');
   const now = await probe(page);
   assert.equal(now.contexts.length, old.contextIds.length + 1, 'Explicit recreation reused the failed native context');
   assert.equal(now.canvasCount, 1, 'Old graphics canvas was retained after full recreation');
+  await rememberActiveLease(page, until, result, 'explicit-graphics-recreation');
   assert.equal(await root.evaluate(element => element.isConnected && element === document.querySelector('[data-case-workspace]')), true, 'Graphics recreation replaced the semantic workspace');
   assert.equal(await caseWorkspace(page).getAttribute('data-case-selection'), selection); await assertCompleteCaseReader(page, file);
   await showCaseScene(page, until); await assertCaseFrame(page, file, until);
@@ -479,12 +579,18 @@ export async function runCaseGraphicsBrowserCases({ root, output, scenario, capt
       const identity = await probe(page); assert.equal(identity.contexts.length, 1); assert.equal(identity.renderers.length, 1);
       assert.equal(identity.contexts[0].id, identity.renderers[0].contextId); assert.equal(identity.contexts[0].canvasId, identity.renderers[0].canvasId);
       await work(page, result);
+      if (await caseWorkspace(page).count()) await closeWorkspace(page, until, result, 'scenario-final-close');
+      await assertSpatial(page);
+      const terminal = await probe(page);
+      assertTerminalNativeState(terminal); checkRetiredLeases(page, terminal);
+      result.caseTerminalNativeState = { sequence: terminal.sequence, contexts: terminal.contexts.map(context => ({ id: context.id, poisoned: Boolean(context.poisoned), postPoisonThreeDraws: context.postPoisonThreeDraws, pendingPass: context.pendingPass, restorationErrors: context.restorationErrors })) };
     });
   }
 
   await run(GRAPHICS_SCENARIOS[0], { reducedMotion: true }, async (page, result) => {
     const initial = await page.evaluate(() => window.__caseGraphicsProbe.identities());
-    await openCaseWorkspace(page, until); await chooseCase(page, simple, until);
+    const chrome = await captureCaseChromeBaseline(page, result);
+    await openGraphicsWorkspace(page, until, result); await chooseCase(page, simple, until);
     await configure(page, { challenge: 'scene', pixelReads: true }); await showCaseScene(page, until);
     const frame = await assertCaseFrame(page, simple, until, result, 'native-arrow-proof');
     let data = await probe(page); assertRestoration(data);
@@ -502,15 +608,21 @@ export async function runCaseGraphicsBrowserCases({ root, output, scenario, capt
     data = await probe(page); assertRestoration(data);
     assert.equal(data.contexts[0].passes.find(pass => pass.challenge === 'composite')?.type, 'composite');
     assert.ok(data.contexts[0].passes.some(pass => pass.type === 'composite' && pass.draws.some(draw => draw.shaderKind === 'composite' && draw.nativeSucceeded)), 'No real composite draw');
-    assertHostBoundaries(data, scene.id);
+    await assertActiveSuppression(page, result, 'challenged-case-boundaries');
     assert.deepEqual(await page.evaluate(() => window.__caseGraphicsProbe.identities()), initial, 'Case did not reuse the exact observed renderer/context/canvas');
-    await nativeLayout(page, result, 'shared-boundary', until); await capture(page, result, 'native-offscreen-composite-arrow-proof');
+    await nativeLayout(page, result, 'shared-boundary', until);
+    await assertCaseChromeActive(page, result, chrome, 'native-scene-active');
+    await capture(page, result, 'native-offscreen-composite-arrow-proof');
+    await closeWorkspace(page, until, result, 'case40-native-reentry');
+    await assertCaseChromeRestored(page, result, chrome, 'case40-native-reentry');
+    await chrome.retained.dispose();
+    await capture(page, result, 'native-geographic-reentry-after-close');
     result.notes.push('Exact same Three constructor object, canvas and native WebGL2 context observed. Independent native entry/exit snapshots test foreign draw/read FBOs, multiple draw buffers, textures/samplers, VAO/buffers and fixed-function state; actual arrow vertices, direction and interior pixels are checked against the retained source role.');
   });
 
   for (const [index, dpr] of [[1, 1], [2, 2]]) await run(GRAPHICS_SCENARIOS[index], { reducedMotion: true, deviceScaleFactor: dpr }, async (page, result) => {
     assert.equal(await page.evaluate(() => devicePixelRatio), dpr, 'Harness did not apply requested real browser deviceScaleFactor');
-    await openCaseWorkspace(page, until); await chooseCase(page, dense, until); await showCaseScene(page, until);
+    await openGraphicsWorkspace(page, until, result); await chooseCase(page, dense, until); await showCaseScene(page, until);
     const base = await nativeLayout(page, result, 'default', until); assert.equal(base.quality, 1);
     await edgeButton(page, dense.edges[0].id).click(); await assertCaseFrame(page, dense, until);
     const selection = await caseWorkspace(page).getAttribute('data-case-selection');
@@ -587,9 +699,12 @@ export async function runCaseGraphicsBrowserCases({ root, output, scenario, capt
     await page.getByRole('button', { name: 'Start a source trail', exact: true }).click();
     const journey = page.getByRole('region', { name: 'Camera journey' });
     await until(async () => await journey.count() === 1 && Number(await journey.locator('progress').getAttribute('value')) > 0, 'Geographic travel did not begin');
-    await openCaseWorkspace(page, until); await frames(page, 3); const stopped = await geography(page);
+    await openGraphicsWorkspace(page, until, result); await frames(page, 3); const stopped = await geography(page);
     assert.equal(await journey.count(), 0, 'Workspace entry did not cancel geographic travel');
     await chooseCase(page, dense, until); await showCaseScene(page, until); await assertCaseFrame(page, dense, until);
+    await assertActiveSuppression(page, result, 'before-interrupted-flight-close');
+    const interruptedClose = await leaseSnapshot(page);
+    assertActiveLeaseDrawSuppression(interruptedClose, activeLeaseBaselines.get(page)); checkRetiredLeases(page, interruptedClose.data);
     result.interruptedCaseTravel = await page.evaluate(edgeId => new Promise((resolve, reject) => {
       const root = document.querySelector('[data-case-workspace]'), select = root.querySelector(`[data-edge-id=${JSON.stringify(edgeId)}] button`);
       const close = [...root.querySelectorAll('button')].find(button => button.textContent === 'Close workspace');
@@ -598,20 +713,21 @@ export async function runCaseGraphicsBrowserCases({ root, output, scenario, capt
       observer.observe(root, { attributes: true, attributeFilter: ['data-case-motion'] }); select.click();
     }), dense.edges[0].id);
     await until(async () => await caseWorkspace(page).count() === 0, 'Close during active case travel failed');
+    await requireGeographicRecovery(page, until, result, interruptedClose, 'interrupted-flight-close');
     await frames(page, 24); assert.deepEqual(await geography(page), stopped, 'Close failed to restore the captured geographic pose or resumed an interrupted journey');
     assert.equal(await journey.count(), 0); assert.equal(await page.getByRole('button', { name: 'Selected case files', exact: true }).evaluate(element => document.activeElement === element), true);
-    await openCaseWorkspace(page, until); await chooseCase(page, dense, until); await showCaseScene(page, until); await assertCaseFrame(page, dense, until);
+    await openGraphicsWorkspace(page, until, result); await chooseCase(page, dense, until); await showCaseScene(page, until); await assertCaseFrame(page, dense, until);
     assert.equal(await caseWorkspace(page).getAttribute('data-case-motion'), 'false');
     await edgeButton(page, dense.edges[0].id).click(); await assertCaseFrame(page, dense, until);
     const selection = await caseWorkspace(page).getAttribute('data-case-selection');
     await page.evaluate(() => window.__caseGraphicsProbe.loseContext()); await assertRetainedFailure(page, dense, selection, until);
-    result.explicitRecreation = await recreateAndVerify(page, dense, selection, until, assertSpatial);
-    await closeWorkspace(page, until); await frames(page, 24); assert.deepEqual(await geography(page), stopped, 'Full graphics recreation lost the original non-HOME geography snapshot');
+    result.explicitRecreation = await recreateAndVerify(page, dense, selection, until, result);
+    await closeWorkspace(page, until, result); await frames(page, 24); assert.deepEqual(await geography(page), stopped, 'Full graphics recreation lost the original non-HOME geography snapshot');
     assert.equal(await journey.count(), 0); await capture(page, result, 'interrupted-travel-restored-after-full-recreation');
   });
 
   await run(GRAPHICS_SCENARIOS[4], { reducedMotion: true }, async (page, result) => {
-    await openCaseWorkspace(page, until); await chooseCase(page, dense, until); await showCaseScene(page, until);
+    await openGraphicsWorkspace(page, until, result); await chooseCase(page, dense, until); await showCaseScene(page, until);
     await edgeButton(page, dense.edges[0].id).click(); await assertCaseFrame(page, dense, until);
     const selection = await caseWorkspace(page).getAttribute('data-case-selection'), root = await caseWorkspace(page).elementHandle();
     await openSources(page, dense.claims.find(claim => claim.claimId === dense.edges[0].claimId));
@@ -623,12 +739,12 @@ export async function runCaseGraphicsBrowserCases({ root, output, scenario, capt
     assert.equal(await caseSourceDialog(page).evaluate(element => element.open && element.matches(':modal')), true, 'Graphics teardown lost the independent source dialog');
     await frames(page, 12); assert.deepEqual(await page.evaluate(() => window.__caseGraphicsProbe.identities()), old, 'Context loss silently recreated graphics without an explicit action');
     await capture(page, result, 'native-context-loss-source-dialog-survives'); await page.keyboard.press('Escape');
-    await assertRetainedFailure(page, dense, selection, until); result.explicitRecreation = await recreateAndVerify(page, dense, selection, until, assertSpatial);
+    await assertRetainedFailure(page, dense, selection, until); result.explicitRecreation = await recreateAndVerify(page, dense, selection, until, result);
     result.notes.push('The loss is generated by the native WEBGL_lose_context extension, with native isContextLost and a trusted canvas event required. An unsupported extension fails this gate. Source dialog, complete reader, exact selection and history survive; a new context/renderer appears only after Recreate graphics.');
   });
 
   for (const [index, fault] of [[5, 'shader'], [6, 'render']]) await run(GRAPHICS_SCENARIOS[index], { reducedMotion: true }, async (page, result) => {
-    await openCaseWorkspace(page, until); await chooseCase(page, simple, until); await edgeButton(page, simple.edges[0].id).click();
+    await openGraphicsWorkspace(page, until, result); await chooseCase(page, simple, until); await edgeButton(page, simple.edges[0].id).click();
     const selection = await caseWorkspace(page).getAttribute('data-case-selection'), before = await probe(page);
     await configure(page, { fault: { type: fault, fired: false } });
     await controls(page).getByRole('button', { name: 'Case scene', exact: true }).click();
@@ -638,23 +754,45 @@ export async function runCaseGraphicsBrowserCases({ root, output, scenario, capt
     assert.equal(context.faultEvents.length, 1, 'Fault injection escaped its one owned case pass');
     assert.equal(data.renderers.length, before.renderers.length, 'Failure automatically recreated the renderer');
     if (fault === 'render') { assert.ok(context.poisoned); assert.equal(context.postPoisonThreeDraws, 0, 'Same-frame or later Three drawing continued after a shared-renderer exception'); }
-    else { assert.equal(context.poisoned, null); assertHostBoundaries(data, context.faultEvents[0].pass); assert.equal(await page.locator('.webgl-host').getAttribute('data-graphics-fatal'), null, 'Contained shader failure incorrectly poisoned the shared renderer'); }
+    else { assert.equal(context.poisoned, null); await assertActiveSuppression(page, result, 'contained-shader-reader'); assert.equal(await page.locator('.webgl-host').getAttribute('data-graphics-fatal'), null, 'Contained shader failure incorrectly poisoned the shared renderer'); }
     await openSources(page, simple.claims[0]); await capture(page, result, `${fault}-failure-complete-source-reader`); await page.keyboard.press('Escape');
-    result.explicitRecreation = await recreateAndVerify(page, simple, selection, until, assertSpatial);
+    if (fault === 'shader') {
+      // Phase A proves the shader-failed ORIGINAL renderer can resume geography.
+      // Close intentionally ends this semantic workspace; phase B is newly seeded.
+      const originalIdentity = liveGraphicsIdentity(data);
+      await closeWorkspace(page, until, result, 'shader-original-renderer-recovery');
+      assert.deepEqual(liveGraphicsIdentity(await probe(page)), originalIdentity);
+      await capture(page, result, 'shader-original-renderer-geography-recovered');
+      await openGraphicsWorkspace(page, until, result); await chooseCase(page, simple, until); await edgeButton(page, simple.edges[0].id).click();
+      const secondBefore = await probe(page), secondContext = secondBefore.contexts.find(row => row.id === originalIdentity.contextId);
+      assert.equal(await caseWorkspace(page).getAttribute('data-case-selection'), selection);
+      result.shaderFaultEpisodes = [{ phase: 'A-original-renderer-containment', contextId: context.id, faultCount: context.faultEvents.length, semanticWorkspace: 'closed after retained reader proof' },
+        { phase: 'B-explicit-recreation', contextId: secondContext.id, faultCountBefore: secondContext.faultEvents.length, semanticWorkspace: 'new workspace; selection/history explicitly re-established' }];
+      await configure(page, { fault: { type: 'shader', fired: false } });
+      await controls(page).getByRole('button', { name: 'Case scene', exact: true }).click();
+      await until(async () => (await probe(page)).contexts.find(row => row.id === originalIdentity.contextId).faultEvents.length > secondContext.faultEvents.length, 'Second explicitly recorded shader episode did not fire');
+      await assertRetainedFailure(page, simple, selection, until);
+      const secondAfter = await probe(page), second = secondAfter.contexts.find(row => row.id === originalIdentity.contextId);
+      assert.equal(second.faultEvents.length, secondContext.faultEvents.length + 1, 'Second shader episode must inject exactly one owned fault');
+      assert.equal(second.poisoned, null); assertRestoration(secondAfter); await assertActiveSuppression(page, result, 'second-contained-shader-reader');
+      result.shaderFaultEpisodes[1].faultCountAfter = second.faultEvents.length;
+      await openSources(page, simple.claims[0]); await capture(page, result, 'shader-second-episode-retained-reader-before-recreation'); await page.keyboard.press('Escape');
+    }
+    result.explicitRecreation = await recreateAndVerify(page, simple, selection, until, result);
     const after = await probe(page); assertRestoration(after);
     for (const previous of after.contexts.filter(context => context.poisoned)) assert.equal(previous.postPoisonThreeDraws, 0);
-    result.notes.push(fault === 'render' ? 'A one-shot exception interrupts only the native draw of the owned case felt program. Every subsequent same-context Three draw attempt is retained, including the current MapLibre frame. Zero are allowed before or after explicit complete renderer/context replacement.' : 'A one-shot actual shader-source compile error affects only the owned case felt fragment. Reader/history survive; independent host draws retain the correct default-target viewport. Full recreation is explicitly requested and selection is preserved.');
+    result.notes.push(fault === 'render' ? 'A one-shot exception interrupts only the native draw of the owned case felt program. Every subsequent same-context Three draw attempt is retained, including the current MapLibre frame. Zero are allowed before or after explicit complete renderer/context replacement.' : 'A one-shot actual shader-source compile error affects only the owned case felt fragment. Phase A retains reader/history and proves fresh geographic draws on the original renderer only after Close. Phase B opens a new workspace and explicitly re-establishes selection/history before a second declared one-shot shader fault; full recreation preserves that second workspace. Both geographic recoveries require the current default-target viewport.');
   });
 
   await run(GRAPHICS_SCENARIOS[7], { reducedMotion: true, budgetMs: 240000 }, async (page, result) => {
     async function cycle(number, warmup) {
       const before = await probe(page), start = performance.now();
-      await openCaseWorkspace(page, until); await chooseCase(page, dense, until); await showCaseScene(page, until);
+      await openGraphicsWorkspace(page, until, result); await chooseCase(page, dense, until); await showCaseScene(page, until);
       await edgeButton(page, dense.edges[0].id).click(); await assertCaseFrame(page, dense, until);
       await caseWorkspace(page).getByRole('button', { name: 'Low quality off', exact: true }).click(); await nativeLayout(page, result, `${warmup ? 'warmup' : 'cycle'}-${number}-low`, until);
       await showCompleteCaseReader(page, until); await showCaseScene(page, until); await assertCaseFrame(page, dense, until);
       if (!warmup && [1, 15, 30].includes(number)) await capture(page, result, `native-lifecycle-cycle-${number}`);
-      await closeWorkspace(page, until);
+      await closeWorkspace(page, until, result);
       await until(async () => (await probe(page)).contexts.every(context => context.caseLive === 0), `Cycle ${number}: case-owned native handles did not receive deletion requests`);
       await frames(page, 3); const after = await probe(page), current = after.contexts[0]; assertRestoration(after);
       return { cycle: number, contextIds: after.contexts.map(row => row.id), rendererIds: after.renderers.map(row => row.id), live: current.live, caseLive: current.caseLive,
@@ -664,7 +802,7 @@ export async function runCaseGraphicsBrowserCases({ root, output, scenario, capt
     const baseline = result.caseResourceWarmups.at(-1); result.caseResourceCycles = [];
     for (let index = 1; index <= 30; index++) result.caseResourceCycles.push(await cycle(index, false));
     assertHandlePlateau(baseline, result.caseResourceCycles);
-    await openCaseWorkspace(page, until); await chooseCase(page, dense, until); await showCaseScene(page, until);
+    await openGraphicsWorkspace(page, until, result); await chooseCase(page, dense, until); await showCaseScene(page, until);
     const timingStart = await page.evaluate(() => performance.now());
     const frameDeltas = await page.evaluate(() => window.__caseGraphicsProbe.frames(120, true));
     const data = await probe(page), renderedStarts = data.contexts[0].passTimes.filter(row => row.type === 'composite' && row.startedAt >= timingStart).map(row => row.startedAt);
@@ -674,7 +812,7 @@ export async function runCaseGraphicsBrowserCases({ root, output, scenario, capt
       actualCompositeFrameIntervals: timingSummary(renderedStarts.slice(1).map((value, index) => value - renderedStarts[index])),
       browserAnimationFrameIntervals: timingSummary(frameDeltas), sceneBoundaryCPU: timingSummary(data.contexts[0].passTimes.filter(row => row.type === 'scene').map(row => row.durationMs)),
       compositeBoundaryCPU: timingSummary(data.contexts[0].passTimes.filter(row => row.type === 'composite').map(row => row.durationMs)), measuredCycleWallTime: timingSummary(result.caseResourceCycles.map(row => row.wallMs)) };
-    await closeWorkspace(page, until); assert.equal((await probe(page)).contexts[0].caseLive, 0);
+    await closeWorkspace(page, until, result); assert.equal((await probe(page)).contexts[0].caseLive, 0);
     result.notes.push('Three warm-up cycles are disclosed separately; all thirty measured cycles open/close, select, change quality and detach/reattach the case layer. Every observed native resource kind must return to or below the warmed baseline, case-owned live handles must be zero, and renderer/context identities cannot grow. These are create/delete-handle observations, not GPU-memory residency.');
   });
   coverage.scenarios = report.scenarios.filter(row => GRAPHICS_SCENARIOS.includes(row.name)).map(row => ({ name: row.name, status: row.status, error: row.error ?? null, nativeEvidence: row.caseGraphics?.evidence ?? null }));

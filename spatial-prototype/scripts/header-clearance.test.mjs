@@ -217,6 +217,9 @@ test('actual-action guard rejects card-top-only, obscured and unfocused evidence
 
 test('combined CI captures actual inspect actions and follows keyboard focus through Enter to matching evidence', async () => {
   const source = await readFile('../scripts/spatial-release.browser.mjs', 'utf8');
+  for (const capture of ['atlas-200-percent-effective-viewport-opened-evidence', 'atlas-200-percent-effective-viewport-opened-source']) assert.ok(source.includes(capture));
+  assert.match(source, /assert\.ok\(textFrameIsReadable\(sourceFrame\), 'The opened record source link must be readable and unobscured/);
+  assert.ok(source.indexOf("'atlas-200-percent-effective-viewport-opened-source'") < source.indexOf("await page.getByRole('button', { name: 'Close reading panel', exact: true }).click();"));
   for (const check of ['legend: sample(', 'buildingToggle: sample(', 'exerciseAtlasStatusAction(page, result', '200-percent-effective-viewport-inspect-action', '200-percent-effective-viewport-keyboard-inspect', "await page.keyboard.press('ArrowDown')", "await page.keyboard.press('Enter')", 'pointerFrame.scrollTop > 0', 'keyboardFrame.scrollTop > 0', 'Enter on the keyboard-reached record must open the matching evidence', 'atlasActionReachability', 'atlasReaderKeyboard']) assert.ok(source.includes(check), check);
   assert.match(source, /await reader\.locator\('\.reader-tabs button'\)\.last\(\)\.focus\(\);\s*await page\.keyboard\.press\('Tab'\);\s*await focused\(page, selector\)/);
   assert.match(source, /steps < 24/);

@@ -56,10 +56,10 @@ test('smoke retains CI-only launch guard and every original default review scena
   assert.match(main.slice(end), /^\n  \} \/\/ End full review; the CI smoke is an additional gate, never full acceptance\./);
 });
 
-test('smoke reuses all original case 40 native assertions and cannot claim full acceptance', () => {
+test('smoke pins reviewed case 40 native assertions with correctly phased geographic recovery', () => {
   const start = graphics.indexOf('  await run(GRAPHICS_SCENARIOS[0]');
   const end = graphics.indexOf('  for (const [index, dpr]', start);
-  assert.equal(sha256(graphics.slice(start, end)), '4d4e574872757d05c66685553a7c5532a546912afb5981feee4a20fff23a84e5');
+  assert.equal(sha256(graphics.slice(start, end)), '94f21dbbcbe2666720c9efc17e69b1fc1c11f0f28451702ed4e0d1fc809ce913');
   assert.match(graphics, /\{ mode = 'full' \} = \{\}/);
   assert.match(graphics, /const selectedScenarios = selectCaseGraphicsScenarios\(mode\)/);
   assert.match(graphics, /async function run\(name, options, work\) \{\s+if \(!selectedScenarios\.includes\(name\)\) return;/);

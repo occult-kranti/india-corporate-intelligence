@@ -1950,3 +1950,49 @@ svg {
 
 .atlas-workspace-links .selected-cases-launcher { font-size: 10px; min-height: 24px; }
 @media(max-width:600px) { .atlas-workspace-links .selected-cases-launcher { font-size: 9px; } }
+
+
+/* The selected-case workspace is a sibling modal above the shared map canvas.
+   Hide only inactive atlas DOM chrome; visibility keeps its mounted layout,
+   header measurements and the shared canvas size unchanged until Close. */
+.evidence-app[inert][aria-hidden="true"] > :not(.spatial-stage):not(.city-attribution),
+.evidence-app[inert][aria-hidden="true"] > .spatial-stage > .world-labels,
+.evidence-app[inert][aria-hidden="true"] > .city-attribution > button {
+  visibility: hidden;
+}
+
+/* Keep original provider/ODbL credits displayed inside the transparent board.
+   These remain inert credits during the modal, not usable map controls. The
+   opaque chooser/reader covers them when no scene is displayed. No text, URL,
+   details-open state or canvas/host bounds are changed; Close restores all. */
+.evidence-app[inert][aria-hidden="true"] > .city-attribution {
+  left: 14px;
+  bottom: 40px;
+  transform: none;
+}
+.evidence-app[inert][aria-hidden="true"] .webgl-host .maplibregl-ctrl-bottom-right {
+  left: 14px;
+  right: auto;
+  bottom: 8px;
+}
+.evidence-app[inert][aria-hidden="true"] .webgl-host .maplibregl-ctrl-attrib {
+  float: none;
+  margin: 0;
+  padding: 2px 6px;
+  min-height: 0;
+  max-width: min(440px, calc(50vw - 28px));
+  font-size: 8px;
+  line-height: 12px;
+  background: #123324df;
+  color: #c6d0b8;
+  border-radius: 3px;
+}
+.evidence-app[inert][aria-hidden="true"] .webgl-host .maplibregl-ctrl-attrib::details-content {
+  content-visibility: visible;
+}
+.evidence-app[inert][aria-hidden="true"] .webgl-host .maplibregl-ctrl-attrib-inner {
+  display: block;
+}
+.evidence-app[inert][aria-hidden="true"] .webgl-host .maplibregl-ctrl-attrib-button {
+  display: none;
+}

@@ -415,6 +415,15 @@ async function exerciseAtlasReaderAction(page, result) {
   await page.keyboard.press('Enter');
   await page.getByRole('complementary', { name: 'Evidence reading panel', exact: true }).waitFor();
   assert.equal(await page.locator('.evidence-inspector .inspector-content h2').textContent(), await card.locator('h3').textContent(), 'Enter on the keyboard-reached record must open the matching evidence');
+  await capture(page, result, 'atlas-200-percent-effective-viewport-opened-evidence');
+  const source = page.locator('.evidence-inspector .source-card a[href]').first();
+  await source.scrollIntoViewIfNeeded();
+  const sourceFrame = await source.evaluate(readTextFrame);
+  assert.ok(textFrameIsReadable(sourceFrame), 'The opened record source link must be readable and unobscured in the reduced viewport');
+  const sourceUrl = await source.getAttribute('href');
+  assert.ok(/^https?:\/\//.test(sourceUrl), 'The opened record retains an HTTP(S) source destination');
+  (result.atlasOpenedSourceReachability ??= []).push({ phase: '200-percent-effective-viewport', sourceUrl, sourceFrame });
+  await capture(page, result, 'atlas-200-percent-effective-viewport-opened-source');
   await page.getByRole('button', { name: 'Close reading panel', exact: true }).click();
   await reader.evaluate(node => { node.scrollTop = 0; });
 }

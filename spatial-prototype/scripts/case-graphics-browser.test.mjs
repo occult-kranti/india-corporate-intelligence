@@ -8,7 +8,7 @@ import { tmpdir } from 'node:os';
 import { loadCaseExpectation } from './case-workspace-browser.mjs';
 import { fileURLToPath } from 'node:url';
 import { resolve, dirname, join } from 'node:path';
-import { THREE_RENDERER_OBSERVER_SOURCE_SHA256, selectCaseGraphicsFixtures, arrowEvidence, GRAPHICS_SCENARIOS, RESOURCE_KINDS, expectedPhysicalRect, expectedTarget, timingSummary, assertHandlePlateau, installCaseGraphicsProbe, runCaseGraphicsBrowserCases } from './case-graphics-browser.mjs';
+import { THREE_RENDERER_OBSERVER_SOURCE_SHA256, selectCaseGraphicsFixtures, arrowEvidence, GRAPHICS_SCENARIOS, RESOURCE_KINDS, expectedPhysicalRect, expectedTarget, timingSummary, assertHandlePlateau, installCaseGraphicsProbe, runCaseGraphicsBrowserCases, assertHostBoundaries, assertActiveLeaseDrawSuppression, assertRecoveryCounters, isGeographicRecoveryDraw, assertRetiredLeaseSuppression, assertTerminalNativeState } from './case-graphics-browser.mjs';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 
 function fixture() {
@@ -169,4 +169,92 @@ test('portable arrow oracle requires every exact directed target and actual samp
   assert.throws(() => arrowEvidence(reversed, frame, file), /points away/);
   const missing = structuredClone(data); missing.contexts[0].draws[0].positions.length = 3; assert.throws(() => arrowEvidence(missing, frame, file));
   const black = structuredClone(data); black.contexts[0].draws[0].pixelSamples[0].rgba = [0,0,0,255]; assert.throws(() => arrowEvidence(black, frame, file), /shader color/);
+});
+
+function recoveryFixture() {
+  const identity = { contextId: 1, rendererId: 2, canvasId: 3 };
+  const draw = { sequence: 12, three: true, shaderKind: 'three', contextId: 1, geographicWorkspaceActive: false, semanticWorkspaceCount: 0, casePass: null, nativeSucceeded: true, rendererId: 2, drawFramebuffer: null, viewport: [0, 0, 1440, 1000], buffer: [1440, 1000], scissorTest: false };
+  const context = { id: 1, canvasId: 3, hostDraws: 8, hostBoundaryViolationCount: 0, hostLeaseViolationCount: 0, draws: [draw] };
+  const data = { sequence: 12, contexts: [context], renderers: [{ id: 2, contextId: 1, canvasId: 3 }], canvasCount: 1 };
+  return { identity, draw, context, data };
+}
+test('phase-aware geographic recovery requires a new successful original-context draw, never a case composite', () => {
+  const { identity, data } = recoveryFixture(); assert.equal(assertHostBoundaries(data, 11, identity), 1);
+  for (const [name, mutate] of [
+    ['no later draw', d => { d.contexts[0].draws[0].sequence = 11; }],
+    ['case composite', d => { d.contexts[0].draws[0].casePass = 10; }],
+    ['misrecognized composite', d => { d.contexts[0].draws[0].shaderKind = 'composite'; }],
+    ['before-close action gap', d => { d.contexts[0].draws[0].geographicWorkspaceActive = true; }],
+    ['semantic workspace still present', d => { d.contexts[0].draws[0].semanticWorkspaceCount = 1; }],
+    ['wrong context', d => { d.contexts[0].id = 7; }],
+    ['replacement renderer', d => { d.contexts[0].draws[0].rendererId = 9; }],
+    ['unsuccessful native call', d => { d.contexts[0].draws[0].nativeSucceeded = false; }],
+    ['offscreen target', d => { d.contexts[0].draws[0].drawFramebuffer = 1; }],
+    ['stale viewport', d => { d.contexts[0].draws[0].viewport = [0, 0, 800, 600]; }],
+    ['case scissor retained', d => { d.contexts[0].draws[0].scissorTest = true; }],
+  ]) { const changed = structuredClone(data); mutate(changed); assert.throws(() => assertHostBoundaries(changed, 11, identity), undefined, name); }
+});
+test('active workspace suppression uses cumulative host draw counters even when an escaped event was evicted', () => {
+  const { data, identity } = recoveryFixture();
+  const snapshot = { active: 'true', workspaceCount: 1, data }, baseline = { identity, hostDraws: 8, sequence: 10 };
+  assert.equal(assertActiveLeaseDrawSuppression(snapshot, baseline).hostDraws, 8);
+  const evicted = structuredClone(snapshot); evicted.data.contexts[0].draws = []; evicted.data.contexts[0].hostDraws = 9;
+  assert.throws(() => assertActiveLeaseDrawSuppression(evicted, baseline), /escaped active workspace suppression/);
+  for (const mutate of [s => { s.active = 'false'; }, s => { s.workspaceCount = 0; }, s => { s.data.renderers[0].id = 9; }, s => { s.data.canvasCount = 2; }]) {
+    const changed = structuredClone(snapshot); mutate(changed); assert.throws(() => assertActiveLeaseDrawSuppression(changed, baseline));
+  }
+});
+test('cumulative recovery boundary counter rejects evicted violations without replacing native draw proof', () => {
+  const before = { hostDraws: 8, hostBoundaryViolationCount: 0, hostLeaseViolationCount: 0 };
+  assert.doesNotThrow(() => assertRecoveryCounters(before, { hostDraws: 9, hostBoundaryViolationCount: 0, hostLeaseViolationCount: 0 }));
+  assert.throws(() => assertRecoveryCounters(before, { hostDraws: 9, hostBoundaryViolationCount: 1, hostLeaseViolationCount: 0 }), /including any evicted draw/);
+  assert.throws(() => assertRecoveryCounters(before, { hostDraws: 9, hostBoundaryViolationCount: 0, hostLeaseViolationCount: 1 }), /before-Close action gap/);
+  assert.throws(() => assertRecoveryCounters(before, { hostDraws: 8, hostBoundaryViolationCount: 0, hostLeaseViolationCount: 0 }), /did not advance/);
+  assert.throws(() => assertRecoveryCounters(before, { hostDraws: 9 }), /Missing cumulative/);
+});
+test('native probe exposes the real monotonic sequence independently of pass count', () => {
+  const { gl, probe } = fixture(); const before = probe.read();
+  gl.drawArrays(4, 0, 3); const after = probe.read();
+  assert.ok(Number.isInteger(before.sequence) && after.sequence > before.sequence);
+  assert.equal(after.allPasses, 0); assert.equal(after.contexts[0].hostBoundaryViolationCount, 0);
+});
+test('CI recovery is after actual Close, replacement is explicit, and shader episodes disclose semantic reset', async () => {
+  const source = await readFile(resolve(root, 'spatial-prototype/scripts/case-graphics-browser.mjs'), 'utf8');
+  const close = source.slice(source.indexOf('async function closeWorkspace('), source.indexOf('async function openSources('));
+  assert.ok(close.indexOf('const before = await leaseSnapshot(page)') < close.indexOf("name: 'Close workspace'"));
+  assert.ok(close.indexOf("name: 'Close workspace'") < close.indexOf('return requireGeographicRecovery('));
+  assert.match(source, /snapshot\.active === 'false' && snapshot\.workspaceCount === 0/);
+  assert.match(source, /draw\.sequence > watermark && draw\.three && draw\.shaderKind === 'three' && draw\.casePass === null && draw\.nativeSucceeded/);
+  assert.match(source, /draw\.geographicWorkspaceActive === false && draw\.semanticWorkspaceCount === 0/);
+  assert.match(source, /row\.hostLeaseViolationCount\+\+/);
+  assert.match(source, /hostBoundaryViolationCount\+\+/); assert.match(source, /context\.hostDraws, baseline\.hostDraws/);
+  assert.match(source, /A-original-renderer-containment/); assert.match(source, /B-explicit-recreation/);
+  assert.match(source, /new workspace; selection\/history explicitly re-established/);
+  assert.match(source, /Second shader episode must inject exactly one owned fault/);
+  assert.match(source, /await rememberActiveLease\(page, until, result, 'explicit-graphics-recreation'\)/);
+  const recreation = source.slice(source.indexOf('async function recreateAndVerify('), source.indexOf('export async function runCaseGraphicsBrowserCases'));
+  assert.doesNotMatch(recreation, /await assertSpatial\(page\)/, 'Geographic drawing stays suppressed during recreation inside the existing workspace');
+  assert.match(source, /if \(await caseWorkspace\(page\)\.count\(\)\) await closeWorkspace[^]+?await assertSpatial\(page\)/);
+});
+
+test('retired context counters survive replacement baseline and fail for old renderer leaks', () => {
+  const { identity, data } = recoveryFixture(); const baseline = { identity, hostDraws: 8, hostLeaseViolationCount: 0 };
+  assert.equal(assertRetiredLeaseSuppression(data, baseline).hostDraws, 8);
+  for (const mutate of [d => { d.contexts = []; }, d => { d.contexts[0].hostDraws++; }, d => { d.contexts[0].hostLeaseViolationCount++; }]) {
+    const changed = structuredClone(data); mutate(changed); assert.throws(() => assertRetiredLeaseSuppression(changed, baseline));
+  }
+});
+
+test('terminal all-context state rejects a poisoned retired renderer draw during final recovery', () => {
+  const data = { errors: [], contexts: [{ pendingPass: null, restorationErrors: [], poisoned: { sequence: 5 }, postPoisonThreeDraws: 0,
+    passes: [{ entryObserved: true, terminalRestoreObserved: true, changes: [], logicalChanges: [] }] }] };
+  assert.doesNotThrow(() => assertTerminalNativeState(data));
+  data.contexts[0].postPoisonThreeDraws = 1;
+  assert.throws(() => assertTerminalNativeState(data), /during final Close\/recovery/);
+});
+
+test('the exact pre-Close snapshot is validated synchronously before action, including interrupted flight', async () => {
+  const source = await readFile(resolve(root, 'spatial-prototype/scripts/case-graphics-browser.mjs'), 'utf8');
+  assert.ok(source.includes('const before = await leaseSnapshot(page);\n  assertActiveLeaseDrawSuppression(before, activeLeaseBaselines.get(page)); checkRetiredLeases(page, before.data);\n  await caseWorkspace(page).getByRole'));
+  assert.ok(source.includes('const interruptedClose = await leaseSnapshot(page);\n    assertActiveLeaseDrawSuppression(interruptedClose, activeLeaseBaselines.get(page)); checkRetiredLeases(page, interruptedClose.data);\n    result.interruptedCaseTravel'));
 });

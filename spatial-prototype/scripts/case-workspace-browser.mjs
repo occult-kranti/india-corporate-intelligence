@@ -76,6 +76,121 @@ export async function openCaseWorkspace(page, until) {
   await until(async () => await caseWorkspace(page).count() === 1 && await caseWorkspace(page).getAttribute('data-case-view') === 'chooser', 'Case chooser did not open');
   return caseWorkspace(page);
 }
+/** Read-only DOM references live in the CI driver, never in the application.
+ * Keep the pre-modal canvas/chrome/credit nodes so unmounting cannot masquerade
+ * as a visibility repair. These helpers never start a browser. */
+export async function captureCaseChromeBaseline(page, result) {
+  const retained = await page.evaluateHandle(() => {
+    const root = document.querySelector('main.evidence-app');
+    const chrome = () => [...root.children].filter(element => !element.matches('.spatial-stage,.city-attribution'))
+      .concat([...root.querySelectorAll(':scope > .spatial-stage > .world-labels,:scope > .city-attribution > button')]);
+    return { root, stage: root.querySelector('.spatial-stage'), host: root.querySelector('.webgl-host'),
+      canvas: root.querySelector('.webgl-host canvas'), chrome: chrome(),
+      credits: [...root.querySelectorAll('.city-attribution > a,.maplibregl-ctrl-attrib-inner')],
+      creditControls: [...root.querySelectorAll('.city-attribution > button,.maplibregl-ctrl-attrib-button')] };
+  });
+  const baseline = { retained, snapshot: null };
+  baseline.snapshot = await readCaseChromeSnapshot(baseline);
+  (result.caseChromeSamples ??= []).push({ phase: 'before-workspace', ...baseline.snapshot });
+  assert.equal(baseline.snapshot.inert, false, 'Chrome baseline must precede the modal');
+  assert.ok(baseline.snapshot.canvas?.rect.width > 0 && baseline.snapshot.canvas?.rect.height > 0, 'Chrome review requires a live shared canvas');
+  assert.ok(baseline.snapshot.credits.some(row => row.kind === 'provider' && row.text), 'Provider credit baseline is missing');
+  return baseline;
+}
+
+async function readCaseChromeSnapshot(baseline) {
+  return baseline.retained.evaluate(retained => {
+    const root = document.querySelector('main.evidence-app');
+    const style = element => { const css = getComputedStyle(element); return { display: css.display, visibility: css.visibility, opacity: css.opacity }; };
+    const geometry = element => element.getBoundingClientRect().toJSON();
+    const sample = element => ({ connected: element.isConnected, name: element.tagName.toLowerCase() + '.' + element.className,
+      style: style(element), rect: geometry(element) });
+    const currentChrome = [...root.children].filter(element => !element.matches('.spatial-stage,.city-attribution'))
+      .concat([...root.querySelectorAll(':scope > .spatial-stage > .world-labels,:scope > .city-attribution > button')]);
+    const canvas = root.querySelector('.webgl-host canvas');
+    const surface = document.querySelector('[data-case-surface]');
+    const opener = root.querySelector('.selected-cases-launcher');
+    const openerRect = geometry(opener), hit = document.elementFromPoint(openerRect.x + openerRect.width / 2, openerRect.y + openerRect.height / 2);
+    return { inert: root.inert, ariaHidden: root.getAttribute('aria-hidden'), rootRetained: root === retained.root,
+      stageRetained: root.querySelector('.spatial-stage') === retained.stage, hostRetained: root.querySelector('.webgl-host') === retained.host,
+      canvas: canvas ? { ...sample(canvas), retained: canvas === retained.canvas, buffer: { width: canvas.width, height: canvas.height } } : null,
+      canvasAncestors: canvas ? [root, retained.stage, retained.host, canvas.parentElement].map(sample) : [],
+      providerOpen: root.querySelector('.maplibregl-ctrl-attrib')?.hasAttribute('open') ?? null,
+      chrome: currentChrome.map(sample), retainedChrome: retained.chrome.map(sample),
+      credits: retained.credits.map(element => ({ ...sample(element), kind: element.matches('.maplibregl-ctrl-attrib-inner') ? 'provider' : 'city',
+        text: element.textContent.trim(), links: [...(element.matches('a') ? [element] : element.querySelectorAll('a'))].map(link => ({ text: link.textContent, href: link.href })),
+        displayed: element.checkVisibility({ opacityProperty: true, visibilityProperty: true, contentVisibilityAuto: true }) })),
+      creditControls: retained.creditControls.map(sample),
+      surface: surface ? geometry(surface) : null,
+      opener: { connected: opener.isConnected, focused: document.activeElement === opener,
+        reachable: !opener.closest('[inert]') && opener.tabIndex >= 0 && !opener.disabled && (hit === opener || opener.contains(hit)) } };
+  });
+}
+
+/** Portable assertions over real CI measurements; fixture success is not browser proof. */
+export function validateCaseChromeSnapshot(sample, baseline, active) {
+  assert.equal(sample.inert, active, 'Atlas inert state does not match the workspace');
+  assert.equal(sample.ariaHidden, active ? 'true' : null, 'Atlas accessibility state did not restore');
+  assert.ok(sample.rootRetained && sample.stageRetained && sample.hostRetained, 'Case chrome repair replaced the atlas or shared host');
+  assert.ok(sample.canvas?.connected && sample.canvas.retained, 'Case chrome repair replaced or unmounted the canvas');
+  assert.ok(sample.canvas.rect.width > 0 && sample.canvas.rect.height > 0, 'Case chrome repair collapsed the canvas');
+  for (const key of ['x', 'y', 'width', 'height']) assert.equal(sample.canvas.rect[key], baseline.canvas.rect[key], `Case chrome repair changed canvas ${key}`);
+  assert.deepEqual(sample.canvas.buffer, baseline.canvas.buffer, 'Case chrome repair changed the drawing buffer');
+  for (const row of [sample.canvas, ...sample.canvasAncestors]) {
+    assert.equal(row.style.visibility, 'visible', `${row.name}: shared canvas ancestry was hidden`);
+    assert.notEqual(row.style.display, 'none', `${row.name}: shared canvas ancestry was removed from layout`);
+    assert.equal(Number(row.style.opacity), 1, `${row.name}: shared canvas ancestry became transparent`);
+  }
+  assert.equal(sample.retainedChrome.length, baseline.retainedChrome.length);
+  for (const [index, row] of sample.retainedChrome.entries()) {
+    assert.equal(row.connected, true, `${row.name}: atlas chrome was unmounted`);
+    if (!active) assert.deepEqual(row.style, baseline.retainedChrome[index].style, `${row.name}: atlas style did not restore`);
+  }
+  if (active) for (const row of sample.chrome) assert.equal(row.style.visibility, 'hidden', `${row.name}: inactive atlas chrome is still visible`);
+  assert.equal(sample.providerOpen, baseline.providerOpen, 'CSS repair changed the original attribution disclosure state');
+  assert.equal(sample.credits.length, baseline.credits.length, 'Map credits disappeared');
+  for (const [index, row] of sample.credits.entries()) {
+    const previous = baseline.credits[index];
+    assert.equal(row.connected, true, 'Original map credit DOM was removed');
+    assert.equal(row.text, previous.text, 'Map attribution text changed');
+    assert.deepEqual(row.links, previous.links, 'Map attribution URLs changed');
+    if (active) {
+      assert.equal(row.displayed, true, `${row.kind}: map credits are not displayed`);
+      assert.ok(row.rect.width > 0 && row.rect.height > 0, `${row.kind}: map credits have no visible bounds`);
+      if (sample.surface) {
+        const board = sample.surface;
+        assert.ok(row.rect.left >= board.left && row.rect.right <= board.right && row.rect.top >= board.top && row.rect.bottom < board.bottom,
+          `${row.kind}: displayed credits are outside the transparent board`);
+      }
+    } else {
+      assert.deepEqual(row.style, previous.style, `${row.kind}: credit style did not restore`);
+      for (const key of ['x', 'y', 'width', 'height']) assert.ok(Math.abs(row.rect[key] - previous.rect[key]) <= 0.5, `${row.kind}: credit ${key} did not restore`);
+    }
+  }
+  for (const [index, row] of sample.creditControls.entries()) {
+    assert.equal(row.connected, true, 'Attribution control was unmounted');
+    if (active) assert.ok(row.style.display === 'none' || row.style.visibility === 'hidden', 'Inert attribution control looks usable');
+    else assert.deepEqual(row.style, baseline.creditControls[index].style, 'Attribution control did not restore');
+  }
+  if (!active) assert.ok(sample.opener.connected && sample.opener.focused && sample.opener.reachable, 'Close did not restore the original launcher and focus');
+}
+
+export async function assertCaseChromeActive(page, result, baseline, phase = 'scene-active') {
+  const sample = await readCaseChromeSnapshot(baseline);
+  (result.caseChromeSamples ??= []).push({ phase, ...sample });
+  validateCaseChromeSnapshot(sample, baseline.snapshot, true);
+  assert.equal(await page.locator('canvas').count(), 1, 'Chrome repair added a second canvas');
+  return sample;
+}
+
+export async function assertCaseChromeRestored(page, result, baseline, phase = 'workspace-closed') {
+  const sample = await readCaseChromeSnapshot(baseline);
+  (result.caseChromeSamples ??= []).push({ phase, ...sample });
+  validateCaseChromeSnapshot(sample, baseline.snapshot, false);
+  await page.getByRole('button', { name: 'Selected case files', exact: true }).click({ trial: true });
+  return sample;
+}
+
 export async function chooseCase(page, fileOrProfileId, until) {
   const profileId = typeof fileOrProfileId === 'string' ? fileOrProfileId : fileOrProfileId.profileId;
   if (await caseWorkspace(page).getAttribute('data-case-view') !== 'chooser')
@@ -566,6 +681,13 @@ export async function runCaseWorkspaceBrowserCases({ root, dist, output, scenari
     await assertFullLoad(page, result); await assertSpatial(page); await assertCountryBase(page);
     await page.evaluate(() => document.fonts.ready.then(() => undefined));
     const baseline = await geographySnapshot(page), canvas = await page.locator('.webgl-host canvas').elementHandle();
+    // Exercise the native closed-disclosure case; modal CSS must display credits
+    // without changing this original user-controlled open state.
+    const providerCredits = page.locator('.webgl-host .maplibregl-ctrl-attrib');
+    for (let attempt = 0; attempt < 2 && await providerCredits.getAttribute('open') !== null; attempt++)
+      await providerCredits.locator('.maplibregl-ctrl-attrib-button').click();
+    assert.equal(await providerCredits.getAttribute('open'), null, 'Native attribution disclosure did not close');
+    const chrome = await captureCaseChromeBaseline(page, result);
     const graphics = await page.evaluate(() => ({ contexts: window.__spatialReviewGraphics.contexts, draws: window.__spatialReviewGraphics.drawCalls }));
     assert.equal(graphics.contexts.length, 1, 'Shared-canvas review requires exactly one incumbent WebGL context');
     resources.stage('case-chooser'); await openCaseWorkspace(page, until);
@@ -574,6 +696,7 @@ export async function runCaseWorkspaceBrowserCases({ root, dist, output, scenari
       await chooseCase(page, file, until);
       resources.stage(index === 0 ? 'first-case-scene' : 'subsequent-case-scenes');
       await showCaseScene(page, until, result); await assertCaseFrame(page, file, until, result, 'initial');
+      await assertCaseChromeActive(page, result, chrome, `${file.id}:scene-active`);
       assert.equal(await canvas.evaluate(element => element.isConnected && element === document.querySelector('.webgl-host canvas')), true, 'A case replaced the incumbent canvas');
       assert.equal(await page.locator('canvas').count(), 1, 'Case scene created an extra canvas');
       assert.deepEqual(await page.evaluate(() => window.__spatialReviewGraphics.contexts), graphics.contexts, 'Case scene allocated another WebGL context');
@@ -598,6 +721,10 @@ export async function runCaseWorkspaceBrowserCases({ root, dist, output, scenari
       coverage.sceneCases.push({ id: file.id, selectedNodeId: node.id, selectedEdgeId: edge.id, readerOnlyFactIds: [...file.readerFactIds] });
     }
     assert.ok(await page.evaluate(() => window.__spatialReviewGraphics.drawCalls) > graphics.draws, 'No real shared-context drawing was observed');
+    await caseWorkspace(page).getByRole('button', { name: 'Close workspace', exact: true }).click();
+    await until(async () => await caseWorkspace(page).count() === 0 && await page.locator('.selected-cases-launcher').evaluate(element => document.activeElement === element), 'Close did not restore atlas launcher focus');
+    await assertCaseChromeRestored(page, result, chrome);
+    await chrome.retained.dispose();
     const resourceRecord = await resources.finish();
     for (const name of Object.values(assets).flat()) assert.ok(resourceRecord.resources.some(row => basename(new URL(row.url).pathname) === name), `Missing all-view resource accounting: ${name}`);
     coverage.resources.push({ scenario: result.name, ...resourceRecord });
