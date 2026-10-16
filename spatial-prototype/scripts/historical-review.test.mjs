@@ -442,8 +442,11 @@ test('the staged CI harness requires default-build reader coverage and retains i
   const source = await readFile('scripts/browser-review.mjs', 'utf8');
   assert.match(source, /process\.env\.GITHUB_ACTIONS !== "true"/);
   assert.match(source, /No local browser was launched/);
-  assert.match(source, /const expectHistoricalReview = true/);
-  assert.match(source, /disabled-mode review is obsolete/);
+  assert.match(source, /const expectHistoricalReview = expectedHistoricalReview\(process\.env\.SPATIAL_EXPECT_HISTORICAL_REVIEW\)/);
+  const { expectedHistoricalReview } = await import('./browser-review-mode.mjs');
+  assert.equal(expectedHistoricalReview(undefined), true);
+  assert.equal(expectedHistoricalReview('true'), true);
+  assert.throws(() => expectedHistoricalReview('false'), /disabled-mode review is obsolete/);
   assert.match(source, /src\/historical-review\/reader-admission\.json/);
   assert.match(source, /data-reader-admission="READER_ADMITTED"/);
   assert.match(source, /Retained packet holds and graph exclusions/);

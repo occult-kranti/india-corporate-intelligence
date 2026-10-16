@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
+import { expectedHistoricalReview } from './browser-review-mode.mjs';
 const harness=await readFile('scripts/sector-browser-review.mjs','utf8');
 const main=await readFile('scripts/browser-review.mjs','utf8');
 test('sector browser extension is mandatory in the existing CI harness and cannot launch a local browser',()=>{
@@ -30,4 +31,12 @@ test('source metadata and panel count assertions preserve graph/path isolation a
   assert.match(harness,/getAttribute\('rel'\),'noopener noreferrer'/);
   assert.match(harness,/data-public-graph="blocked"/);
   assert.match(harness,/data-public-paths="blocked"/);
+});
+
+test('default and explicit browser modes both require historical coverage; every opt-out fails closed',()=>{
+  assert.equal(expectedHistoricalReview(undefined),true);
+  assert.equal(expectedHistoricalReview('true'),true);
+  for(const value of ['false','auto','',null,true,false]) assert.throws(()=>expectedHistoricalReview(value));
+  assert.match(main,/import \{ expectedHistoricalReview \} from "\.\/browser-review-mode\.mjs"/);
+  assert.match(main,/const expectHistoricalReview = expectedHistoricalReview\(process\.env\.SPATIAL_EXPECT_HISTORICAL_REVIEW\)/);
 });

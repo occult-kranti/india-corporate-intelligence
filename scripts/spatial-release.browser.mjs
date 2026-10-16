@@ -641,14 +641,16 @@ try {
       await page.goto(`${origin}${base}global-workbench/${offline?'fieldwork-offline.html':''}`, { waitUntil: 'domcontentloaded' });
       await page.locator('#records [data-record]').first().waitFor();
       for(const [id,label] of [['india-corporate-intelligence:edge-e7605f62f7476da5f3e1','Electoral-bond name absence reported'],['india-corporate-intelligence:edge-b3d60e32fb42932af025','Adani-specific disclosure claim unverified']]) {
-        await page.locator(`[data-record=${JSON.stringify(id)}]`).first().click();
+        await page.locator(`#records [data-record=${JSON.stringify(id)}]`).click();
+        await page.locator('#detail').getByRole('heading', { name: new RegExp(label) }).waitFor();
         const detail=page.locator('#detail'),value=await detail.innerText();
         assert.ok(value.includes(label));assert.match(value,/HELD SOURCE SCOPE/);
         assert.doesNotMatch(value,/₹0 — documented void|genuine nil OR concealment|Relation endpoints|Documented relation types/);
         await detail.scrollIntoViewIfNeeded();
         await capture(page,result,`${offline?'offline':'served'}-${id.endsWith('5f3e1')?'donation':'disclosure'}-source-scope-hold`);
       }
-      await page.locator('[data-record="india-corporate-intelligence:adani"]').first().click();
+      await page.locator('#records [data-record="india-corporate-intelligence:adani"]').click();
+      await page.locator('#detail').getByRole('heading', { name: 'Adani Group', exact: true }).waitFor();
       assert.match(await page.locator('#detail').innerText(),/Denies wrongdoing\./);
       assert.doesNotMatch(await page.locator('#detail').innerText(),/ZERO disclosed political donations anywhere/);
     }

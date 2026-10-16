@@ -22,3 +22,9 @@ Two strict release source-code revision pins cover the audit-builder refactor an
 ## Gates
 
 Unit tests cover exact-target holds, negative controls, raw-reference and canonical-hash preservation, counter-context, source date precision, factual search/thread exclusion, JSON sidecars, qualified Markdown and narration. Original/global tests cover effective versus audit exports and served/offline rendering. CI browser cases 27–28 cover desktop/mobile correction reading, the four exact targets, source date context, disabled spatial actions, and raw packet plus sidecar export. A combined-route scenario checks original PoliticalView and both served/offline global readers. No local browser is launched.
+
+## Dependent runtime audit receipt, 16 October 2026
+
+The original money-trails cross-source audit uses the corrected runtime registry, not the retained raw audit builder. Its unchanged generator produced exactly three scalar changes: relationship count 4,203 → 4,201, record count 5,617 → 5,615, and relationship-projection SHA-256 `14067eb1b7cb871fdc7bcb7408a61052e324d12e146f356657dad4ffe59e5561` → `77e42b6970651f4073b68ad3e03830f66172a5601cf366c1893c690f33482747`. All five authored trails, their source closure, gaps and context are unchanged. The corrected receipt SHA-256 is `2cca805f3b3e7f1be33ec8ceec5c308033d10012df9f1d02bf30c1f5344e0e09`.
+
+The verification gate remains strict; no raw-loader substitution or audit-check bypass was added. A regression binds the runtime projection, unchanged five-trail content and separate immutable raw snapshot.

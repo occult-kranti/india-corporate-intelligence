@@ -29,6 +29,7 @@ import { chromium } from "playwright";
 import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { runSectorBrowserCases } from "./sector-browser-review.mjs";
+import { expectedHistoricalReview } from "./browser-review-mode.mjs";
 import { runSourceCorrectionBrowserCases } from "./source-correction-browser.mjs";
 
 if (
@@ -41,10 +42,7 @@ if (
 }
 
 // The next-release default build has the reader gate; positive coverage cannot be skipped.
-if (process.env.SPATIAL_EXPECT_HISTORICAL_REVIEW !== undefined && process.env.SPATIAL_EXPECT_HISTORICAL_REVIEW !== "true") {
-  throw new Error("Next-release reader review requires SPATIAL_EXPECT_HISTORICAL_REVIEW=true or absent; disabled-mode review is obsolete.");
-}
-const expectHistoricalReview = true;
+const expectHistoricalReview = expectedHistoricalReview(process.env.SPATIAL_EXPECT_HISTORICAL_REVIEW);
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const dist = await realpath(join(root, "dist"));
 const output = join(root, "browser-review");
@@ -1562,14 +1560,14 @@ try {
   );
   assert.equal(
     expectedHistoricalReview(undefined),
-    false,
-    "Default deployment mode must keep historical review disabled",
+    true,
+    "Default next-release review requires positive historical coverage",
   );
-  assert.equal(expectedHistoricalReview("false"), false);
+  assert.throws(() => expectedHistoricalReview("false"));
   assert.equal(
     expectedHistoricalReview("true"),
     true,
-    "Explicit isolated review mode must require positive historical coverage",
+    "Explicit review mode must require positive historical coverage",
   );
   assert.throws(() => expectedHistoricalReview("auto"));
   const candidateHead = process.env.SPATIAL_HEAD_SHA ?? process.env.GITHUB_SHA;
