@@ -22,6 +22,10 @@ export default function RegistryReader({
   onSelect,
 }: Props) {
   const [view, setView] = useState<View>("items");
+  const sources = useMemo(
+    () => new Map(scene.registry.sources.map((s) => [s.id, s])),
+    [scene.registry],
+  );
   const [page, setPage] = useState(0);
   const heldIds = useMemo(
     () => new Set(scene.registry.held.map((r) => r.id)),
@@ -151,7 +155,11 @@ export default function RegistryReader({
                 {source.tier} · {source.namespace}
               </span>
               <h3>
-                <a href={safeSourceUrl(source.url) ?? undefined} target="_blank" rel="noopener noreferrer">
+                <a
+                  href={safeSourceUrl(source.url) ?? undefined}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   {source.title} <ExternalLink size={14} />
                 </a>
               </h3>
@@ -188,6 +196,43 @@ export default function RegistryReader({
                   Read retained counter-context
                 </button>
               )}
+              <details className="held-citations">
+                <summary>
+                  Retained citations ({new Set(row.sourceIds).size})
+                </summary>
+                {row.sourceIds.length ? (
+                  [...new Set(row.sourceIds)].map((id) => {
+                    const source = sources.get(id);
+                    return source ? (
+                      <article key={id}>
+                        <a
+                          href={safeSourceUrl(source.url) ?? undefined}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {source.title} <ExternalLink size={14} />
+                        </a>
+                        <p>
+                          {source.publisher} ·{" "}
+                          {source.publishedAt ?? "Publication date unknown"}
+                        </p>
+                        <p>{source.locator}</p>
+                        <small>{id}</small>
+                        {source.limitations.map((limit, i) => (
+                          <p key={i}>{limit}</p>
+                        ))}
+                      </article>
+                    ) : (
+                      <p key={id}>
+                        Retained source ID {id}; no matching source object is
+                        available in this snapshot.
+                      </p>
+                    );
+                  })
+                ) : (
+                  <p>No direct citation is retained on this held entry.</p>
+                )}
+              </details>
               <a href={originalRoute(row.route)}>
                 Original review context <ExternalLink size={14} />
               </a>

@@ -40,6 +40,7 @@ import {
 } from "lucide-react";
 const SpatialWorld = lazy(() => import("./SpatialWorld"));
 import RegistryReader from "./RegistryReader";
+import MapBoundary from "./MapBoundary";
 import { originalRoute, safeSourceUrl } from "./navigation";
 import { planGeographicDisplay } from "./displayBudget";
 import {
@@ -69,6 +70,7 @@ import {
   GEOGRAPHIC_CAVEAT,
 } from "./geography";
 import { useNarration } from "./useNarration";
+import { buildNarrationTranscript } from "./narrationTranscript";
 import cityMetadata from "./assets/city-metadata.json";
 import { readProgress, updateProgress } from "./tutorial/model";
 const readable = (word: string) => word.replace(/-/g, " ");
@@ -235,6 +237,11 @@ export default function App({
       ),
     };
   }, [filteredScene, areaFilter]);
+  const enterReading = useCallback(() => {
+    setCommand(null);
+    setJourney({ phase: "idle", progress: 0, edgeId: null });
+    setReading(true);
+  }, []);
   const send = useCallback((type: CameraCommand["type"], id?: string) => {
     if (type !== "stop") setExploring(true);
     setCommand({ type, id, stamp: performance.now() });
@@ -305,14 +312,24 @@ export default function App({
     () => new Set(mapScene.nodes.map((n) => n.id)),
     [mapScene],
   );
+  const mapEdgeIds = useMemo(
+    () => new Set(mapScene.edges.map((e) => e.id)),
+    [mapScene],
+  );
   const canFollow = (edge?: SceneEdge) =>
     !!edge &&
+    mapEdgeIds.has(edge.id) &&
     !failure &&
     mapNodeIds.has(edge.from) &&
     mapNodeIds.has(edge.to) &&
     !!getNodeAnchor(nodes.get(edge.from)!) &&
     !!getNodeAnchor(nodes.get(edge.to)!);
   const inspectionHeld = !!item && isHeldItem(registry, item.id);
+  const readerOnlyCount = scene.nodes.filter(
+    (node) =>
+      isHeldItem(registry, node.id) ||
+      ("status" in node.item && node.item.status === "not-drawn"),
+  ).length;
   const inspectionAnchor =
     inspectionNode && !inspectionHeld ? getNodeAnchor(inspectionNode) : null;
   const currentEdges = selected
@@ -451,7 +468,7 @@ export default function App({
   }
   function transcript() {
     if (!item) return "";
-    return `${itemTitle(item)}. ${item.summary}. ${"tier" in item ? `Evidence status: ${item.tier}. Date basis: ${item.dateBasis}. ` : ""}${item.sourceIds.length} retained source references. ${"response" in item && item.response ? `Recorded response: ${item.response}. ` : ""}Limitations: ${item.limitations.join(" ")} A graph path does not establish influence, causation or misconduct.`;
+    return buildNarrationTranscript(item, inspectionHeld);
   }
   const closePanel = () => {
     setInspector(null);
@@ -475,30 +492,37 @@ export default function App({
         Skip to records
       </a>
       {!reading && !failure && (
-        <Suspense
-          fallback={
-            <p className="map-loading glass" role="status">
-              Preparing the felt map… Reading remains available.
-            </p>
-          }
+        <MapBoundary
+          onFailure={(reason) => {
+            setFailure(reason);
+            enterReading();
+          }}
         >
-          <SpatialWorld
-            data={mapScene}
-            selected={selected}
-            command={command}
-            reducedMotion={reduced}
-            cities={cities}
-            onSelect={open}
-            onJourney={setJourney}
-            onMetric={setMetric}
-            onMapStatus={setMapStatus}
-            onInteraction={() => setExploring(true)}
-            onFailure={(reason) => {
-              setFailure(reason);
-              setReading(true);
-            }}
-          />
-        </Suspense>
+          <Suspense
+            fallback={
+              <p className="map-loading glass" role="status">
+                Preparing the felt map… Reading remains available.
+              </p>
+            }
+          >
+            <SpatialWorld
+              data={mapScene}
+              selected={selected}
+              command={command}
+              reducedMotion={reduced}
+              cities={cities}
+              onSelect={open}
+              onJourney={setJourney}
+              onMetric={setMetric}
+              onMapStatus={setMapStatus}
+              onInteraction={() => setExploring(true)}
+              onFailure={(reason) => {
+                setFailure(reason);
+                enterReading();
+              }}
+            />
+          </Suspense>
+        </MapBoundary>
       )}
       <div className="room-vignette" aria-hidden="true" />
       <header className="masthead glass">
@@ -595,11 +619,15 @@ export default function App({
             : "SOURCE-BOUND PREVIEW"}
         </div>
         <p>
-          {scene.nodes.length.toLocaleString()} filtered items ·{" "}
-          {geographicScene.nodes.length.toLocaleString()} area-anchored ·{" "}
-          {geographicScene.unplacedNodes.length.toLocaleString()} unplaced
+          {scene.nodes.length.toLocaleString()} searchable items in this lens.
           <br />
-          {registry.held.length} held review entries excluded from factual map
+          {geographicScene.nodes.length.toLocaleString()} area-anchored ·{" "}
+          {geographicScene.unplacedNodes.length.toLocaleString()} unplaced ·{" "}
+          {readerOnlyCount.toLocaleString()} retained held/not-drawn records are
+          reader-only.
+          <br />
+          Separate review queue: {registry.held.length} held entries, including
+          retained counter-context records. No held entries draw factual marks.
         </p>
         <small>
           {registry.entities.length.toLocaleString()} entities ·{" "}
@@ -613,9 +641,30 @@ export default function App({
           {display.groups.size} area groups · {display.rendered.length} of{" "}
           {display.candidates.length} cross-area threads drawn
         </small>
-        <button className="overview-read" onClick={() => setReading(true)}>
+        <button className="overview-read" onClick={enterReading}>
           Search and read the registry
         </button>
+        {geographicScene.unplacedNodes.length > 0 && !reading && (
+          <details className="unplaced-tray">
+            <summary>
+              {geographicScene.unplacedNodes.length} items without a single
+              verified area
+            </summary>
+            {geographicScene.unplacedNodes.slice(0, 30).map((n) => (
+              <button key={n.id} onClick={() => open(n.id, "node")}>
+                {n.title}
+              </button>
+            ))}
+            <button
+              onClick={() => {
+                setAreaFilter("unplaced");
+                enterReading();
+              }}
+            >
+              Read and search all unplaced items
+            </button>
+          </details>
+        )}
       </aside>
       {(reading || failure) && (
         <section
@@ -663,7 +712,7 @@ export default function App({
           id="record-list"
           aria-label="Keyboard record navigation"
         >
-          <button onClick={() => setReading(true)}>
+          <button onClick={enterReading}>
             Open searchable keyboard reader for all{" "}
             {scene.nodes.length.toLocaleString()} filtered items
           </button>
@@ -674,27 +723,7 @@ export default function App({
           ))}
         </section>
       )}
-      {geographicScene.unplacedNodes.length > 0 && !reading && (
-        <details className="unplaced-tray glass">
-          <summary>
-            {geographicScene.unplacedNodes.length} records without a single
-            verified area
-          </summary>
-          {geographicScene.unplacedNodes.slice(0, 30).map((n) => (
-            <button key={n.id} onClick={() => open(n.id, "node")}>
-              {n.title}
-            </button>
-          ))}
-          <button
-            onClick={() => {
-              setAreaFilter("unplaced");
-              setReading(true);
-            }}
-          >
-            Read and search all unplaced records
-          </button>
-        </details>
-      )}
+
       {scene.nodes.length === 0 && !reading && !failure && (
         <div className="empty-state glass">
           <h2>No records in this lens</h2>
@@ -830,7 +859,8 @@ export default function App({
           className={reading ? "active" : ""}
           onClick={() => {
             send("stop");
-            setReading(!reading || Boolean(failure));
+            if (!reading || failure) enterReading();
+            else setReading(false);
           }}
         >
           <BookOpen size={18} />
@@ -1247,6 +1277,20 @@ export default function App({
                 )}
               </section>
             )}
+            {inspectionEdge && !mapEdgeIds.has(inspectionEdge.id) && (
+              <p className="small-copy">
+                This relationship remains readable outside the current map lens.
+                Adjust the filters to follow it.
+              </p>
+            )}
+            {inspectionNode &&
+              !inspectionHeld &&
+              !mapNodeIds.has(inspectionNode.id) && (
+                <p className="small-copy">
+                  This record is outside the current map lens. Adjust the
+                  filters to locate it.
+                </p>
+              )}
             {inspectionEdge && (
               <div className="relationship-route">
                 <span>{nodes.get(inspectionEdge.from)?.title}</span>
@@ -1461,7 +1505,7 @@ export default function App({
                   <button
                     onClick={() => {
                       setAreaFilter(inspectionAnchor.areaCode);
-                      setReading(true);
+                      enterReading();
                     }}
                   >
                     Browse all records in {inspectionAnchor.label}
@@ -1577,7 +1621,11 @@ export default function App({
             </button>
             {inspectionNode && (
               <button
-                disabled={Boolean(failure) || !inspectionAnchor}
+                disabled={
+                  Boolean(failure) ||
+                  !inspectionAnchor ||
+                  !mapNodeIds.has(inspectionNode.id)
+                }
                 onClick={() => {
                   setReading(false);
                   send("focus", inspectionNode.id);

@@ -204,6 +204,21 @@ test('full search finds exact record IDs and cited source titles without narrowi
   assert.equal(filterScene(factual, { query: 'no-such-entity-zzzz-2469-5617' }).nodes.length, 0);
 });
 
+test('exact entity search remains findable with a complete or matching time range', () => {
+  const id = 'legacy:entity:joshi';
+  assert.ok(factual.nodes.some(node => node.id === id));
+  const filters = { query: id, fromYear: scene.yearRange[0], toYear: scene.yearRange[1], includeUndated: true };
+  assert.ok(filterScene(factual, filters).nodes.some(node => node.id === id));
+  const fixture = exclusionFixture();
+  fixture.held = [];
+  fixture.relationships = [];
+  fixture.records = [{ ...fixture.records[0], status: 'documented', fromDate: '2020-01-01', toDate: '2020-12-31',
+    title: 'Unrelated evidence wording', summary: '', sourceIds: [], entityIds: [fixture.entities[1].id] }];
+  const input = factualScene(buildEvidenceScene(fixture));
+  assert.ok(filterScene(input, { query: fixture.entities[1].id, fromYear: 2020, toYear: 2020 }).nodes.some(node => node.id === fixture.entities[1].id));
+  assert.equal(filterScene(input, { query: fixture.entities[1].id, fromYear: 2021, toYear: 2021 }).nodes.length, 0);
+});
+
 test('namespace and layers select original memberships while keeping directed edge endpoints visible', () => {
   for (const filters of [{ namespace: 'atlas-international-finance' }, { namespace: 'atlas-defence-trade', layers: ['procurement'] },
     { layers: ['legal'] }, { namespace: 'no-such-namespace' }]) {

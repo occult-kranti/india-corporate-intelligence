@@ -4,6 +4,10 @@ on:
   pull_request:
     paths:
       - "spatial-prototype/**"
+      - "src/components/Layout.tsx"
+      - "scripts/spatial-release*.mjs"
+      - ".github/workflows/deploy.yml"
+      - ".github/workflows/spatial-release-review.yml"
       - ".github/workflows/spatial-review.yml"
   workflow_dispatch:
 

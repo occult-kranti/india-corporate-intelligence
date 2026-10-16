@@ -68,6 +68,7 @@ let fullRegistry;
 let fullScene;
 let registryManifest;
 let heavyAssetNames;
+let spatialAssetName;
 let displayBudget;
 
 const mime = {
@@ -177,6 +178,27 @@ async function assertCameraControlsClearOfReader(page) {
 
 async function capture(page, result, name) {
   const filename = `${result.name}--${name}.png`;
+  const layout = await page.evaluate(() => ({
+    stylesheets: [...document.styleSheets].map((sheet) => sheet.href),
+    rectangles: Object.fromEntries(
+      [".webgl-host", ".webgl-host canvas"].map((selector) => {
+        const element = document.querySelector(selector);
+        const style = element ? getComputedStyle(element) : null;
+        return [
+          selector,
+          element
+            ? {
+                ...element.getBoundingClientRect().toJSON(),
+                position: style.position,
+                cssWidth: style.width,
+                cssHeight: style.height,
+              }
+            : null,
+        ];
+      }),
+    ),
+  }));
+  (result.layoutSamples ??= []).push({ capture: name, ...layout });
   await page.screenshot({
     path: join(output, filename),
     fullPage: true,
@@ -198,18 +220,30 @@ async function assertSpatial(page) {
         );
       }
       return page.evaluate(() => {
-        const canvas = document.querySelector(".webgl-host canvas");
+        const host = document.querySelector(".webgl-host");
+        const canvas = host?.querySelector("canvas");
+        const hostRect = host?.getBoundingClientRect();
+        const canvasRect = canvas?.getBoundingClientRect();
         return Boolean(
           canvas &&
           canvas.width > 0 &&
           canvas.height > 0 &&
-          document.querySelector(".webgl-host")?.dataset.renderer ===
-            "maplibre-three-mercator" &&
+          hostRect &&
+          canvasRect &&
+          hostRect.width >= innerWidth * 0.9 &&
+          hostRect.height >= innerHeight * 0.9 &&
+          canvasRect.width >= hostRect.width - 4 &&
+          canvasRect.height >= hostRect.height - 4 &&
+          hostRect.x >= -2 &&
+          hostRect.y >= -2 &&
+          hostRect.right <= innerWidth + 2 &&
+          hostRect.bottom <= innerHeight + 2 &&
+          host?.dataset.renderer === "maplibre-three-mercator" &&
           window.__spatialReviewGraphics.drawCalls > 0,
         );
       });
     },
-    "No successful draw from the continuous MapLibre/Three renderer was observed",
+    "No viewport-sized visible host/canvas with successful MapLibre/Three draws was observed",
     30000,
   );
   assert.equal(
@@ -245,7 +279,7 @@ async function assertCounts(page, filters = {}, base = preview) {
   );
   assert.ok(
     overview.includes(
-      `${expected.nodes.length.toLocaleString("en-US")} filtered items`,
+      `${expected.nodes.length.toLocaleString("en-US")} searchable items`,
     ),
   );
   assert.ok(
@@ -256,6 +290,20 @@ async function assertCounts(page, filters = {}, base = preview) {
   assert.ok(
     overview.includes(
       `${geographic.unplacedNodes.length.toLocaleString("en-US")} unplaced`,
+    ),
+  );
+  const heldIds = new Set(base.registry.held.map((row) => row.id));
+  const readerOnly = expected.nodes.filter(
+    (node) => heldIds.has(node.id) || node.item.status === "not-drawn",
+  ).length;
+  assert.ok(
+    overview.includes(
+      `${readerOnly.toLocaleString("en-US")} retained held/not-drawn records are reader-only`,
+    ),
+  );
+  assert.ok(
+    overview.includes(
+      `Separate review queue: ${base.registry.held.length} held entries`,
     ),
   );
   if (await page.locator(".webgl-host").count()) {
@@ -336,7 +384,9 @@ async function assertProvenance(page, item, registry = model.registry) {
   }
   if ("dateBasis" in item)
     assert.equal(
-      normalized(await panel.locator(".small-copy").innerText()),
+      normalized(
+        await panel.getByText(item.dateBasis, { exact: true }).innerText(),
+      ),
       normalized(item.dateBasis),
     );
   for (const limitation of item.limitations)
@@ -606,6 +656,22 @@ async function scenario(name, options, work) {
         result.graphics = await page.evaluate(
           () => window.__spatialReviewGraphics,
         );
+        result.viewportGeometry = await page.evaluate(() =>
+          Object.fromEntries(
+            [".webgl-host", ".webgl-host canvas"].map((selector) => {
+              const element = document.querySelector(selector);
+              return [
+                selector,
+                element
+                  ? {
+                      ...element.getBoundingClientRect().toJSON(),
+                      position: getComputedStyle(element).position,
+                    }
+                  : null,
+              ];
+            }),
+          ),
+        );
         result.visibleText = await page
           .locator("body")
           .innerText({ timeout: 2000 });
@@ -696,6 +762,14 @@ try {
     if (/maplibre.*worker.*\.js$/.test(name)) heavyAssetNames.add(name);
     if (!name.endsWith(".js.map")) continue;
     const map = JSON.parse(await readFile(join(dist, "assets", name), "utf8"));
+    if (map.sources.some((source) => /src\/SpatialWorld\.tsx$/.test(source))) {
+      assert.equal(
+        spatialAssetName,
+        undefined,
+        "More than one SpatialWorld entry chunk was emitted",
+      );
+      spatialAssetName = name.slice(0, -4);
+    }
     if (
       map.sources.some((source) =>
         /(?:node_modules\/(?:three|maplibre-gl)\/|src\/(?:scene\.ts|SpatialWorld\.tsx)$)/.test(
@@ -709,6 +783,10 @@ try {
   assert.ok(
     heavyAssetNames.size >= 2,
     "Cannot identify deferred WebGL assets from the production source maps",
+  );
+  assert.ok(
+    spatialAssetName,
+    "Cannot identify the deferred SpatialWorld entry chunk",
   );
   report.fullRegistry = {
     counts: registryManifest.counts,
@@ -1000,12 +1078,21 @@ try {
   await scenario("05-reading-mode", {}, async (page, result) => {
     await assertSpatial(page);
     const expected = await assertCounts(page);
+    await page
+      .getByRole("button", { name: "Start a source trail", exact: true })
+      .click();
+    await journey(page)
+      .getByRole("button", { name: "Pause", exact: true })
+      .waitFor();
     await page.getByRole("button", { name: "Reading", exact: true }).click();
     const reading = page.getByRole("region", {
       name: "Accessible record reading mode",
     });
     await reading.waitFor({ state: "visible" });
+    await journey(page).waitFor({ state: "hidden" });
     assert.equal(await page.locator(".webgl-host canvas").count(), 0);
+    if (await inspector(page).count())
+      await page.getByRole("button", { name: "Close reading panel" }).click();
     assert.deepEqual(
       await reading.locator(".reading-card h3").allTextContents(),
       expected.nodes.slice(0, 40).map((node) => node.title),
@@ -1042,6 +1129,12 @@ try {
     await page.getByRole("button", { name: "Close reading panel" }).click();
     await page.getByRole("button", { name: "Explore", exact: true }).click();
     await assertSpatial(page);
+    await delay(350);
+    assert.equal(
+      await journey(page).count(),
+      0,
+      "Returning from reading resumed a cancelled camera journey",
+    );
   });
 
   await scenario(
@@ -1351,6 +1444,7 @@ try {
   );
 
   let releaseFullChunk;
+  let releaseMapChunk;
   await scenario(
     "12-full-default-map-and-counts",
     {
@@ -1366,6 +1460,16 @@ try {
           await gate;
           await route.continue();
         });
+        const mapGate = new Promise((resolve) => {
+          releaseMapChunk = resolve;
+        });
+        await context.route(
+          `${origin}${prefix}assets/${spatialAssetName}`,
+          async (route) => {
+            await mapGate;
+            await route.continue();
+          },
+        );
       },
     },
     async (page, result) => {
@@ -1392,7 +1496,17 @@ try {
       } finally {
         releaseFullChunk();
       }
-      await assertFullLoad(page, result);
+      try {
+        await assertFullLoad(page, result);
+        assert.equal(
+          await page.locator(".webgl-host").count(),
+          0,
+          "Map host mounted before its deliberately delayed module loaded",
+        );
+        await capture(page, result, "full-registry-before-deferred-map-import");
+      } finally {
+        releaseMapChunk();
+      }
       await assertSpatial(page);
       const factual = model.factualScene(fullScene);
       const geographic = geography.getGeographicScene(factual);
@@ -1483,6 +1597,10 @@ try {
       const node = fullScene.nodes[0];
       await search.fill(node.id);
       const searched = await assertCounts(page, { query: node.id }, fullScene);
+      assert.ok(
+        searched.nodes.some((result) => result.id === node.id),
+        "Exact entity-ID search was suppressed by the default temporal lens",
+      );
       await readerView(page, "items", searched.nodes.length);
       await reader
         .locator(`[data-record-id=${JSON.stringify(node.id)}]`)
@@ -1659,6 +1777,70 @@ try {
       await capture(page, result, "complete-registry-after-retry");
       result.notes.push(
         "One declared registry chunk was deliberately unavailable. The interface refused a partial result, offered an explicit preview switch, and recovered the full registry only after retrying the now-available chunk.",
+      );
+    },
+  );
+  await scenario(
+    "15-full-map-chunk-failure-preserves-reader",
+    {
+      query: "",
+      budgetMs: 110000,
+      beforeNavigation: async (context, result) => {
+        const blocked = `${origin}${prefix}assets/${spatialAssetName}`;
+        result.expectedFailedRequests.push(blocked);
+        result.blockedMapRequests = [];
+        await context.route(blocked, (route) => {
+          result.blockedMapRequests.push(route.request().url());
+          return route.abort("failed");
+        });
+      },
+    },
+    async (page, result) => {
+      await assertFullLoad(page, result);
+      const reading = page.getByRole("region", {
+        name: "Accessible record reading mode",
+      });
+      await reading.waitFor({ timeout: 30000 });
+      assert.ok(
+        result.blockedMapRequests.length > 0,
+        "The deferred map chunk was not actually blocked",
+      );
+      assert.match(
+        await page.getByRole("alert").innerText(),
+        /3D is unavailable/,
+      );
+      assert.equal(await page.locator(".webgl-host canvas").count(), 0);
+      const reader = await readerView(page, "items", 8086);
+      assert.equal(await reader.locator(".reading-card").count(), 40);
+      assert.equal(
+        await page
+          .getByRole("button", { name: "Explore", exact: true })
+          .isDisabled(),
+        true,
+      );
+      const node = fullScene.nodes[0];
+      await reader
+        .locator(`[data-record-id=${JSON.stringify(node.id)}]`)
+        .click();
+      await assertProvenance(page, node.item, fullRegistry);
+      assert.equal(
+        await inspector(page)
+          .getByRole("button", { name: "Find on felt", exact: true })
+          .isDisabled(),
+        true,
+      );
+      assert.equal(
+        await page.locator('.evidence-app[data-dataset="full"]').count(),
+        1,
+      );
+      assert.equal(new URL(page.url()).searchParams.has("dataset"), false);
+      await capture(
+        page,
+        result,
+        "full-reader-survives-deferred-map-chunk-failure",
+      );
+      result.notes.push(
+        "The actual emitted SpatialWorld JavaScript request was deliberately rejected after all registry chunks verified. Its graphics-only boundary preserved full counts, readable provenance, and the original default dataset instead of evicting the reader or substituting preview data.",
       );
     },
   );

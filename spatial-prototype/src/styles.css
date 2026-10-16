@@ -125,6 +125,14 @@ svg {
   height: 100%;
   touch-action: none;
 }
+/* MapLibre's stylesheet is intentionally deferred with the map chunk. Its
+   .maplibregl-map position:relative must never collapse our absolute host. */
+.spatial-stage > .webgl-host.maplibregl-map {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
 .room-vignette {
   pointer-events: none;
   background:
@@ -1620,7 +1628,9 @@ svg {
   grid-template-columns: repeat(2, minmax(180px, 1fr));
 }
 .graphics-unavailable .camera-tools,
-.graphics-unavailable .city-toggle {
+.graphics-unavailable .city-toggle,
+.reading-active .camera-tools,
+.reading-active .city-toggle {
   display: none;
 }
 .notice details {
@@ -1787,4 +1797,33 @@ svg {
   white-space: pre-wrap;
   overflow-wrap: anywhere;
   font: 11px/1.5 monospace;
+}
+/* Keep the expanded counts and the unplaced catalogue in one flow. */
+.scene-overview {
+  z-index: 4;
+}
+.scene-overview .overview-read {
+  pointer-events: auto;
+}
+.scene-overview .unplaced-tray {
+  position: static;
+  pointer-events: auto;
+  width: 100%;
+  padding: 8px 0 0;
+  margin-top: 8px;
+  border-top: 1px solid var(--border);
+  max-height: 230px;
+  overflow: auto;
+}
+@media (max-height: 850px) and (min-width: 801px) {
+  .room-caption {
+    display: none;
+  }
+  .scene-overview {
+    top: 150px;
+  }
+  .legend {
+    max-height: 190px;
+    overflow: auto;
+  }
 }

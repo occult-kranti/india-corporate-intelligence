@@ -33,6 +33,22 @@ jobs:
       - name: Global workbench provenance, model and integration guards
         run: npm run test:global-workbench
 
+      # BEGIN SPATIAL ADDITION preflight
+      - name: Install isolated spatial dependencies
+        run: npm ci --prefix spatial-prototype
+
+      - name: Verify original source pins and immutable spatial snapshot before promotion
+        run: node scripts/spatial-release-validate.mjs --preflight
+
+      - name: Spatial release integration guards
+        run: node --test scripts/spatial-release-validate.test.mjs scripts/spatial-release.browser.test.mjs
+
+      - name: Exact original spatial registry, loader and model checks
+        working-directory: spatial-prototype
+        env:
+          FIELDWORK_SOURCE_ROOT: ${{ github.workspace }}
+        run: npm test
+      # END SPATIAL ADDITION preflight
       # The site is only worth publishing if it passes the same gates CI runs.
       # Deploying past a red build would put unsourced or unrenderable content
       # live, which is the one failure this project cannot absorb.
@@ -107,6 +123,14 @@ jobs:
       - name: Typecheck and build
         run: npm run build
 
+      # BEGIN SPATIAL ADDITION build-and-copy
+      - name: Build the reviewed spatial snapshot without regeneration
+        working-directory: spatial-prototype
+        run: npm run build
+
+      - name: Add spatial output beneath preserved root and global workbench output
+        run: node scripts/spatial-release-validate.mjs --copy
+      # END SPATIAL ADDITION build-and-copy
       - name: Install Chromium for the render smoke test
         run: npx playwright install --with-deps chromium
 
@@ -162,6 +186,37 @@ jobs:
       - name: Page acceptance suites
         run: npm run test:pages
 
+      # BEGIN SPATIAL ADDITION release-gates
+      - name: Install spatial Chromium in GitHub CI only
+        working-directory: spatial-prototype
+        run: npx --no-install playwright install --with-deps chromium
+
+      - name: Full spatial registry and browser review gates
+        working-directory: spatial-prototype
+        env:
+          CI: 'true'
+          SPATIAL_BROWSER_REVIEW: github-actions
+          SPATIAL_HEAD_SHA: ${{ github.sha }}
+        run: node scripts/browser-review.mjs
+
+      - name: Combined published-path navigation and source-route gate
+        env:
+          CI: 'true'
+          SPATIAL_RELEASE_REVIEW: github-actions
+          SPATIAL_HEAD_SHA: ${{ github.sha }}
+        run: node scripts/spatial-release.browser.mjs
+
+      - name: Preserve spatial deployment review screenshots and provenance
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: spatial-deploy-review-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            spatial-release-review/
+            spatial-prototype/browser-review/
+          if-no-files-found: warn
+          retention-days: 14
+      # END SPATIAL ADDITION release-gates
       # Publishing by pushing the build to `gh-pages`, rather than via the
       # actions/deploy-pages artifact flow, because Pages on this repository is
       # already configured to serve that branch. The artifact flow would need the

@@ -250,11 +250,19 @@ export function filterScene(preview: PreviewData, filters: SceneFilters = {}): P
     ...sceneRecords.flatMap(record => record.entityIds),
     ...sceneRelationships.flatMap(relationship => [relationship.from, relationship.to]),
   ]);
+  // An entity's own ID/name can match independently of the wording in its
+  // evidence. Date eligibility must not also require that evidence to repeat
+  // the search term. Read only the supplied scene, so held context cannot leak
+  // into a factual search through this temporal index.
+  const eligibleTemporalContext = new Set([
+    ...sceneRecords.filter(item => matchesYearRange(item, filters)).flatMap(item => item.entityIds),
+    ...sceneRelationships.filter(item => matchesYearRange(item, filters)).flatMap(item => [item.from, item.to]),
+  ]);
   const hasTemporalFilter = filters.fromYear !== undefined || filters.toYear !== undefined || filters.includeUndated === false;
   const eligibleRecordIds = new Set(records.map(record => record.id));
   const nodes = preview.nodes.filter(node => node.kind === 'record'
     ? eligibleRecordIds.has(node.id)
-    : referenced.has(node.id) || (layerMatches(node.item) && queryMatches(node.item) && (!hasTemporalFilter || !anyTemporalContext.has(node.id) && filters.includeUndated !== false)));
+    : referenced.has(node.id) || (layerMatches(node.item) && queryMatches(node.item) && (!hasTemporalFilter || eligibleTemporalContext.has(node.id) || !anyTemporalContext.has(node.id) && filters.includeUndated !== false)));
   const visibleIds = new Set(nodes.map(node => node.id));
   const eligibleRelationshipIds = new Set(relationships.map(relationship => relationship.id));
   const edges = preview.edges.filter(edge => eligibleRelationshipIds.has(edge.id) && visibleIds.has(edge.from) && visibleIds.has(edge.to));

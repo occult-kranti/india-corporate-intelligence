@@ -957,6 +957,8 @@ export class EvidenceWorld {
   };
   dispose() {
     this.disposed = true;
+    this.journey = null;
+    this.cb.onJourney({ phase: "idle", progress: 0, edgeId: null });
     cancelAnimationFrame(this.raf);
     this.observer.disconnect();
     this.map
