@@ -1,5 +1,6 @@
 /** Imported only by the existing GitHub Actions browser harness; never launches a browser. */
 import assert from 'node:assert/strict';
+import { measureReaderLayout, exerciseReaderScroll } from './reader-layout-review.mjs';
 import { readFile, readdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { createHash } from 'node:crypto';
@@ -95,7 +96,7 @@ export async function runSectorBrowserCases({ root, dist, output, origin, prefix
   }
   async function captureBands(page,result,locator,name) {
     const dimensions=await locator.evaluate(element=>{
-      const container=element.closest('dialog'),outer=container.getBoundingClientRect(),inner=element.getBoundingClientRect();
+      const container=element.closest('[data-reader-scroll]'),outer=container.getBoundingClientRect(),inner=element.getBoundingClientRect();
       return {top:inner.top-outer.top+container.scrollTop-container.clientTop,height:inner.height,viewport:container.clientHeight,maxScroll:container.scrollHeight-container.clientHeight};
     });
     const stride=dimensions.viewport-150;
@@ -106,7 +107,8 @@ export async function runSectorBrowserCases({ root, dist, output, origin, prefix
     assert.ok(unique.length>0 && unique.length<=24,`Unbounded section capture: ${name}`);
     const filenames=[];
     for(const [index,top]of unique.entries()) {
-      await dialog(page).evaluate((element,value)=>{element.scrollTop=value;},top);
+      await dialog(page).locator('[data-reader-scroll]').evaluate((element,value)=>{element.scrollTop=value;},top);
+      await measureReaderLayout(dialog(page),result,`${name}:band-${index+1}`);
       const filename=`${result.name}--${name}${index?`--part-${index+1}`:''}--reader.png`;
       await dialog(page).screenshot({path:join(output,filename),timeout:10000});
       result.screenshots.push(filename);filenames.push(filename);
@@ -139,6 +141,7 @@ export async function runSectorBrowserCases({ root, dist, output, origin, prefix
     await baseUnchanged(page,result);await assertReaderOnly(page,result);await prompt(page).waitFor();
     assert.deepEqual(requested(result,['panel','payload']),[]);assert.equal(await dialog(page).count(),0);
     await opener(page).focus();await page.keyboard.press('Enter');await dialog(page).waitFor();
+    await exerciseReaderScroll(page,dialog(page),result,'desktop-source-reader');
     const body=dialog(page);assert.equal(await body.locator('[data-sector-claim]').count(),20);
     assert.equal(await body.locator('[data-reader-admission="READER_ADMITTED"][data-public-graph="blocked"][data-public-paths="blocked"]').count(),1);
     await captureBands(page,result,body.locator('.sector-reader-content > header'),'reader-admission-and-limits');
@@ -205,6 +208,7 @@ export async function runSectorBrowserCases({ root, dist, output, origin, prefix
     await until(()=>opener(page).isEnabled(),'Cancellation did not restore Open');
     assert.equal(await dialog(page).count(),0);assert.deepEqual(requested(result,['panel']),[]);
     await opener(page).tap();await dialog(page).waitFor();
+    await exerciseReaderScroll(page,dialog(page),result,'mobile-source-reader');
     await captureBands(page,result,dialog(page).locator('.sector-reader-content > header'),'mobile-admission-and-limits');
     const overflow=await dialog(page).evaluate(element=>({scroll:element.scrollWidth,client:element.clientWidth,bounds:element.getBoundingClientRect().toJSON()}));
     assert.ok(overflow.scroll<=overflow.client+1,`Mobile reader horizontally overflows: ${JSON.stringify(overflow)}`);

@@ -29,6 +29,7 @@ import { chromium } from "playwright";
 import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { runSectorBrowserCases } from "./sector-browser-review.mjs";
+import { measureReaderLayout, exerciseReaderScroll } from "./reader-layout-review.mjs";
 import { expectedHistoricalReview } from "./browser-review-mode.mjs";
 import { runSourceCorrectionBrowserCases } from "./source-correction-browser.mjs";
 
@@ -912,7 +913,7 @@ async function assertHistoricalReader(page, result) {
 
 async function captureHistoricalSection(page, result, locator, name) {
   const dimensions = await locator.evaluate((element) => {
-    const dialog = element.closest("dialog");
+    const dialog = element.closest("[data-reader-scroll]");
     const outer = dialog.getBoundingClientRect();
     const inner = element.getBoundingClientRect();
     return {
@@ -923,7 +924,7 @@ async function captureHistoricalSection(page, result, locator, name) {
     };
   });
   // Cover the entire expanded claim/source, not only its first screenful.
-  // Overlap leaves room for the sticky Close control without hiding qualifiers.
+  // The viewport is the independently scrolling body below the reserved Close row.
   const stride = dimensions.viewport - 160;
   assert.ok(stride > 200, "Historical reader viewport is too small for review");
   const positions = [];
@@ -944,9 +945,10 @@ async function captureHistoricalSection(page, result, locator, name) {
     positions: unique,
   });
   for (const [index, top] of unique.entries()) {
-    await historicalDialog(page).evaluate((element, value) => {
+    await historicalDialog(page).locator("[data-reader-scroll]").evaluate((element, value) => {
       element.scrollTop = value;
     }, top);
+    await measureReaderLayout(historicalDialog(page), result, `${name}:band-${index + 1}`);
     const part = index ? `${name}--part-${index + 1}` : name;
     await capture(page, result, part);
     const filename = `${result.name}--${part}--reader.png`;
@@ -3237,6 +3239,7 @@ try {
         await opener.focus();
         await page.keyboard.press("Enter");
         const dialog = await assertHistoricalReader(page, result);
+        await exerciseReaderScroll(page, dialog, result, "desktop-historical-reader");
         assert.equal(
           await page
             .locator(".webgl-host canvas")
@@ -3253,7 +3256,7 @@ try {
         await captureHistoricalSection(
           page,
           result,
-          dialog.getByRole("heading", { level: 1 }),
+          dialog.locator(".historical-review-content > header"),
           "reader-introduction-and-publication-block",
         );
         await captureHistoricalSection(
@@ -3913,6 +3916,43 @@ try {
   );
   await runSectorBrowserCases({ root, dist, output, origin, prefix, scenario, capture, assertFullLoad, assertReaderOnly, until, report });
   await runSourceCorrectionBrowserCases({ root, output, scenario, capture, assertFullLoad, assertReaderOnly, until, fullRegistry });
+  await scenario("29-qualified-readers-reserved-controls-and-reflow", {
+    query: "?mode=reading&review=historical-2025", viewport: {width:640,height:450}, reducedMotion:true, budgetMs:120000,
+  }, async (page,result) => {
+    for (const type of ["historical", "sector"]) {
+      if(type === "sector") await page.goto(`${origin}${prefix}?mode=reading&review=sector-2026-10`,{waitUntil:"domcontentloaded"});
+      await assertFullLoad(page,result);await assertReaderOnly(page,result);
+      const open = type === "historical" ? historicalGate(page).getByRole("button",{name:"Open historical review reader",exact:true}) : page.getByTestId("sector-reader-open");
+      await open.click();
+      const modal = type === "historical" ? historicalDialog(page) : page.getByTestId("sector-reader-dialog");
+      await modal.waitFor({state:"visible"});
+      for(const [name,viewport] of [["half-size-desktop",{width:640,height:450}],["narrow-mobile",{width:320,height:640}]]) {
+        await page.setViewportSize(viewport);
+        await exerciseReaderScroll(page,modal,result,`${type}:${name}`);
+        const source = type === "historical" ? modal.locator("[data-review-relationship]").nth(1) : modal.locator('[data-sector-pair="wff-criticism-1"]').first();
+        const sourceHeight = await source.evaluate(element => element.getBoundingClientRect().height);
+        const bodyHeight = await modal.locator("[data-reader-scroll]").evaluate(element => element.clientHeight);
+        assert.ok(sourceHeight > bodyHeight,"Long-source check must span more than one reader viewport");
+        for(const [band,offset] of [["start",0],["midpoint",sourceHeight/2]]) {
+          await source.evaluate((element,offset) => {const body=element.closest("[data-reader-scroll]");body.scrollTop+=element.getBoundingClientRect().top-body.getBoundingClientRect().top-12+offset;},offset);
+          await measureReaderLayout(modal,result,`${type}:${name}:long-source-${band}`);
+          await capture(page,result,`${type}-${name}-long-source-${band}-with-clear-controls`);
+        }
+        if(type === "sector") {
+          await modal.getByRole("button",{name:"Thacker Pass · financing and ownership",exact:true}).click();
+          const target=modal.locator('#sector-collection-energy-mineral-finance');
+          assert.equal(await target.evaluate(element=>document.activeElement===element),true);
+          const visible=await target.evaluate(element=>{const body=element.closest("[data-reader-scroll]");const a=element.getBoundingClientRect(),b=body.getBoundingClientRect();return a.top>=b.top-1 && a.top<b.bottom;});
+          assert.equal(visible,true,"Collection jump must reveal its heading below the controls");
+          await measureReaderLayout(modal,result,`${type}:${name}:collection-jump`);
+        }
+      }
+      await page.keyboard.press("Escape");await modal.waitFor({state:"detached"});
+      assert.equal(await open.evaluate(element=>document.activeElement===element),true);
+    }
+    result.notes.push("Both named keyboard-scroll regions kept Close in a separate non-scrolling row at top/middle/bottom and inside long source text. PageDown, visible focus, Escape/focus return, collection jumps and nested horizontal bounds passed at 320px and a 640×450 effective viewport. The latter covers the layout space of 200% zoom on 1280×900; it is not a browser-chrome zoom automation claim.");
+  });
+
 } catch (error) {
   report.setupError = error.stack ?? String(error);
   process.exitCode = 1;

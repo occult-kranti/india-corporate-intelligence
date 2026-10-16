@@ -114,7 +114,11 @@ export default function HistoricalReviewPanel(props: { overlay: HistoricalReview
   }, [props.returnFocusTo]);
   return <dialog ref={dialog} className="historical-review-dialog" aria-labelledby="historical-review-title"
     onCancel={event => { event.preventDefault(); props.onClose(); }}>
+    <div className="historical-reader-controls" data-reader-controls>
     <button className="historical-dismiss" type="button" onClick={props.onClose} autoFocus>Close review (Escape)</button>
-    <HistoricalReviewView {...props} />
+    </div>
+    <div className="historical-reader-scroll" data-reader-scroll tabIndex={0} role="region" aria-label="Historical disclosure content">
+      <HistoricalReviewView {...props} />
+    </div>
   </dialog>;
 }

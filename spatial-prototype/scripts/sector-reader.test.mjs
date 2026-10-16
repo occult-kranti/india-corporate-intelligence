@@ -299,7 +299,10 @@ test('modal has labelled native-dialog semantics, Escape handling and focus retu
   assert.ok(code.includes('target.isConnected')); assert.ok(code.includes('target.focus()'));
   assert.ok(code.includes('scrollIntoView')); assert.ok(!code.includes('href={`#sector-collection-'));
   const style = await readFile('src/sector-reader/sector-reader.css', 'utf8');
-  assert.ok(style.includes('overflow-wrap:anywhere')); assert.ok(!/(text-overflow|line-clamp|overflow:hidden)/.test(style));
+  assert.ok(style.includes('overflow-wrap:anywhere')); assert.ok(!/(text-overflow|line-clamp)/.test(style));
+  const clippedRules=[...style.matchAll(/([^{}]+)\{([^{}]*)\}/g)].filter(([, , declarations])=>declarations.includes('overflow:hidden'));
+  assert.equal(clippedRules.length,1);assert.equal(clippedRules[0][1].trim(),'.sector-reader-dialog');
+  assert.match(style,/\.sector-reader-scroll\{[^}]*min-height:0;[^}]*overflow:auto/);
 });
 
 test('payload and reader remain dynamically imported; private review files and raw materials are absent', async () => {
@@ -336,7 +339,7 @@ test('coverage counts derive only from reader records and are explicitly separat
   assert.ok(html.includes('reader coverage counts, separate from the base registry catalogue'));
 });
 
-test('sticky Close and collection buttons keep explicit opaque high-contrast hover/focus palettes', async () => {
+test('reserved Close and collection buttons keep explicit opaque high-contrast hover/focus palettes', async () => {
   const style = await readFile('src/sector-reader/sector-reader.css', 'utf8');
   assert.ok(style.includes('.sector-reader-dialog .sector-dismiss:hover:not(:disabled)'));
   assert.ok(style.includes('.sector-reader-dialog .sector-dismiss:focus-visible'));

@@ -124,7 +124,11 @@ export default function SectorReaderPanel(props: { overlay: SectorReaderOverlay;
   }, [props.returnFocusTo]);
   return <dialog ref={dialog} className="sector-reader-dialog" aria-labelledby="sector-reader-title" data-testid="sector-reader-dialog"
     onCancel={event => { event.preventDefault(); props.onClose(); }}>
+    <div className="sector-reader-controls" data-reader-controls>
     <button className="sector-dismiss" type="button" onClick={props.onClose} autoFocus>Close sector reader (Escape)</button>
-    <SectorReaderView {...props} />
+    </div>
+    <div className="sector-reader-scroll" data-reader-scroll tabIndex={0} role="region" aria-label="Qualified source collection content">
+      <SectorReaderView {...props} />
+    </div>
   </dialog>;
 }
