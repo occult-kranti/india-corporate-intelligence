@@ -2,10 +2,11 @@
 /** Flat geographic evidence overlays and offline acceptance against the retained corpus. */
 import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
-import { existsSync, mkdirSync, readFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { extname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
+import { waitForExactReader } from './map-reader-readiness.mjs';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const dist = resolve(root, process.env.INVESTIGATION_DIST ?? 'dist');
@@ -26,6 +27,7 @@ const binary = process.env.PLAYWRIGHT_CHROMIUM_PATH ?? '/usr/bin/chromium';
 const browser = await chromium.launch({ ...(existsSync(binary) ? { executablePath: binary } : {}), args: ['--enable-unsafe-swiftshader'] });
 const page = await browser.newPage({ viewport: { width: 1440, height: 1100 } });
 const errors = [];
+const selectionDiagnostics = [];
 page.on('pageerror', error => errors.push(error.message));
 page.setDefaultTimeout(30000);
 let checks = 0;
@@ -60,10 +62,14 @@ try {
   await overlay.getByRole('button', {name:'All connections',exact:true}).click();
   check(await overlay.locator('.map-overlay-list li').count() === Number(await overlay.getAttribute('data-overlay-total-edges')), 'Every selected connection remains in the complete searchable list');
   const relationshipId = await overlay.locator('[data-overlay-edge-id]').first().getAttribute('data-overlay-edge-id');
-  await overlay.locator('[data-overlay-edge-id]').first().focus(); await page.keyboard.press('Enter');
+  await overlay.locator(`[data-overlay-edge-id=${JSON.stringify(relationshipId)}]`).focus(); await page.keyboard.press('Enter');
+  await waitForExactReader(page, relationshipId, selectionDiagnostics);
   check(await page.locator(`.atlas-evidence-popover[data-selection-id="${relationshipId}"]`).isVisible(), 'A relationship overlay edge opens its exact evidence identifier');
-  const entityNode = places.locator('[data-overlay-entity-id]').first(), entityId = await entityNode.getAttribute('data-overlay-entity-id');
+  const entityId = await places.locator('[data-overlay-entity-id]').first().getAttribute('data-overlay-entity-id');
+  const entityNode = places.locator(`[data-overlay-entity-id=${JSON.stringify(entityId)}]`);
+  check(await entityNode.getAttribute('role') === 'button', 'The exact endpoint is an interactive diagram node');
   await entityNode.click();
+  await waitForExactReader(page, entityId, selectionDiagnostics);
   check(await page.locator(`.atlas-evidence-popover[data-selection-id="${entityId}"]`).isVisible(), 'Selecting a diagram endpoint changes the reader to that exact identity');
   await page.getByRole('button', {name:'Close evidence details',exact:true}).click();
   await map.getByRole('button', { name: '2D map', exact: true }).click();
@@ -83,5 +89,10 @@ try {
   const failed = await browser.newPage(); await controlled(failed); await failed.addInitScript(()=>{ const original=HTMLCanvasElement.prototype.getContext; HTMLCanvasElement.prototype.getContext=function(type,...args){return String(type).includes('webgl')?null:original.call(this,type,...args);}; }); await failed.goto(url); await failed.locator('.iw-map-graphics-notice').filter({hasText:'street-map service is unavailable'}).waitFor(); check(await failed.locator('.iw-map-stage').isVisible(),'Unavailable WebGL preserves usable fallback'); check(await failed.locator('.iw-map-state').count()===36,'Graphics failure preserves every boundary'); await failed.close();
   check(errors.length===0,`No browser runtime exceptions: ${errors.join(' | ')}`);
   console.log(JSON.stringify({passed:true,checks,screenshots:out}));
-} catch(error) { console.error(JSON.stringify({passed:false,checks,url:page.url(),message:error.message,runtimeErrors:errors})); throw error; }
-finally { await browser.close(); if(listening) await new Promise(done=>server.close(done)); }
+} catch(error) {
+  try { await page.screenshot({path:resolve(out,'selection-failure.png'),fullPage:true}); } catch(captureError) { console.error('Failure screenshot unavailable:',captureError.message); }
+  console.error(JSON.stringify({passed:false,checks,url:page.url(),message:error.message,runtimeErrors:errors,selectionDiagnostics})); throw error;
+}
+finally {
+  try { writeFileSync(resolve(out,'selection-readiness.json'),JSON.stringify({checks,url:page.url(),runtimeErrors:errors,selectionDiagnostics},null,2)+'\n'); } catch(diagnosticError) { console.error('Selection diagnostic file unavailable:',diagnosticError.message); }
+  await browser.close(); if(listening) await new Promise(done=>server.close(done)); }

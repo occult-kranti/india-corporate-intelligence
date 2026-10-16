@@ -1,3 +1,4 @@
+import { sourceCorrection, presentationTitle, presentationSummary } from './sourceCorrections';
 import registryData from './registry.json';
 import type {
   InvestigationEntity, InvestigationLayer, InvestigationRecord,
@@ -139,11 +140,11 @@ export const getPreview = buildPreview;
 export function buildEvidenceScene(input: InvestigationRegistry): PreviewData {
   const nodes: SceneNode[] = [
     ...input.entities.map(item => ({
-      id: item.id, kind: 'entity' as const, item, title: item.label,
+      id: item.id, kind: 'entity' as const, item, title: presentationTitle(item),
       position: [0, 0, 0] as [number, number, number], cluster: 'unplaced',
     })),
     ...input.records.map(item => ({
-      id: item.id, kind: 'record' as const, item, title: item.title,
+      id: item.id, kind: 'record' as const, item, title: presentationTitle(item),
       position: [0, 0, 0] as [number, number, number], cluster: 'unplaced',
     })),
   ];
@@ -177,7 +178,7 @@ function heldIdsFor(input: InvestigationRegistry): Set<string> {
 
 /** Constant-time lookup, including held IDs absent from scene evidence. */
 export function isHeldItem(input: InvestigationRegistry, id: string): boolean {
-  return heldIdsFor(input).has(id);
+  return heldIdsFor(input).has(id) || !!sourceCorrection(id);
 }
 
 /** A drawable evidence subset, not an upgrade of any record's evidentiary tier.
@@ -186,10 +187,10 @@ export function isHeldItem(input: InvestigationRegistry, id: string): boolean {
  */
 export function factualScene(scene: PreviewData): PreviewData {
   const heldIds = heldIdsFor(scene.registry);
-  const nodes = scene.nodes.filter(node => !heldIds.has(node.id)
+  const nodes = scene.nodes.filter(node => !heldIds.has(node.id) && !sourceCorrection(node.id)
     && !('status' in node.item && node.item.status === 'not-drawn'));
   const visibleIds = new Set(nodes.map(node => node.id));
-  const edges = scene.edges.filter(edge => !heldIds.has(edge.id)
+  const edges = scene.edges.filter(edge => !heldIds.has(edge.id) && !sourceCorrection(edge.id)
     && edge.relationship.status !== 'not-drawn'
     && visibleIds.has(edge.from) && visibleIds.has(edge.to));
   return { ...scene, nodes, edges };
@@ -229,7 +230,7 @@ export function filterScene(preview: PreviewData, filters: SceneFilters = {}): P
   const queryMatches = (item: EvidenceItem) => {
     if (!terms.length) return true;
     const endpointIds = 'entityIds' in item ? item.entityIds : 'from' in item ? [item.from, item.to] : [];
-    const text = normalized([item.id, 'title' in item ? item.title : item.label, item.summary,
+    const text = normalized([item.id, presentationTitle(item), presentationSummary(item),
       ...endpointIds.map(id => entities.get(id)?.label ?? ''), ...item.sourceIds.map(id => sources.get(id)?.title ?? ''),
     ].join(' '));
     return terms.every(term => text.includes(term));

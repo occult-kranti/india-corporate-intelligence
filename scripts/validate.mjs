@@ -7,6 +7,7 @@
  */
 
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
+import { loadEffectiveGraph } from './lib/load-effective-graph.mjs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { assembleFleet, predProblem } from './assemble-fleet.mjs';
@@ -55,13 +56,10 @@ if (!existsSync(geoPath)) {
 // 2. Graph — the provenance invariant
 // ---------------------------------------------------------------------------
 /**
- * The graph lives in TypeScript modules for editability. Rather than compile
- * them, extract the literals with a narrow parse — enough to enforce the rules,
- * and it fails loudly rather than silently passing on an unreadable file. The
- * grab takes `export const NAME: T = [ … ];` or `= { … };` with the closer alone
- * on its line. No imported values or TypeScript casts are evaluated. Motifs
- * receive the already-read EDGES array so their censuses can count retained
- * membership instead of drifting after graph corrections.
+ * Generated fleet datasets still use this narrow literal extractor. The Atlas
+ * graph itself is evaluated by loadEffectiveGraph below so its corrected exports,
+ * rather than retained audit arrays, are checked. No imported runtime values or
+ * TypeScript casts are evaluated by this generated-literal helper.
  */
 function grabConst(where, src, name, bindings = {}) {
   const m = src.match(new RegExp(`export const ${name}\\b[^=]*=\\s*(\\[[\\s\\S]*?\\n\\];|\\{[\\s\\S]*?\\n\\};)`, 'm'));
@@ -91,13 +89,12 @@ function grabConst(where, src, name, bindings = {}) {
 function loadGraph() {
   const file = join(root, 'src/graph/data.ts');
   if (!existsSync(file)) return null;
-  const src = readFileSync(file, 'utf8');
-  const edges = grabConst('graph', src, 'EDGES');
-  return {
-    nodes: grabConst('graph', src, 'NODES'),
-    edges,
-    motifs: grabConst('graph', src, 'MOTIFS', { EDGES: edges ?? [] }),
-  };
+  try {
+    return loadEffectiveGraph(file);
+  } catch (error) {
+    err('graph', `could not evaluate effective graph exports: ${error.message}`);
+    return null;
+  }
 }
 
 /**

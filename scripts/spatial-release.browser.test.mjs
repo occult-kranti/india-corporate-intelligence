@@ -138,3 +138,19 @@ test('activity navigation and four simple groups are additive CI requirements', 
     assert.match(workflow, /node scripts\/spatial-release.browser.mjs/);
   }
 });
+
+test('combined release requires both original and served/offline global correction scopes',()=>{
+  for(const required of ['exact-source-corrections-across-original-and-global','original-political-two-qualified-scope-holds','fieldwork-offline.html','HELD SOURCE SCOPE','Denies wrongdoing','report.scenarios.length === 7'])assert.ok(source.includes(required),required);
+  assert.match(source,/for \(const offline of \[false,true\]\)/);
+  assert.match(source,/#\/political\?iw_view=dossier/);
+  assert.match(source,/page\.locator\('\.iw-dossier-content'\)/);
+  assert.match(source,/The flows, and what they are worth/);
+});
+
+test('global correction interactions target the visible record list instead of hidden duplicate table buttons', async () => {
+  const text = await readFile(new URL('./spatial-release.browser.mjs', import.meta.url), 'utf8');
+  assert.ok(text.includes('page.locator(`#records [data-record=${JSON.stringify(id)}]`).click()'));
+  assert.ok(text.includes("page.locator('#records [data-record=\"india-corporate-intelligence:adani\"]').click()"));
+  assert.ok(text.includes("getByRole('heading', { name: new RegExp(label) }).waitFor()"));
+  assert.ok(!text.includes('page.locator(`[data-record=${JSON.stringify(id)}]`).first().click()'));
+});

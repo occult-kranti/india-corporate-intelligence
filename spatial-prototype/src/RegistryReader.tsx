@@ -1,13 +1,16 @@
+import { sourceCorrection, presentationCorrection, sourceCitationCorrection, presentationTitle, presentationSummary, presentationTier } from "./sourceCorrections";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
 import type { PreviewData } from "./model";
 import { originalRoute, safeSourceUrl } from "./navigation";
+import { ReaderCollections } from "./ReaderCollections";
 import { restoreReaderStart } from "./readerPagination";
 const PAGE_SIZE = 40;
 type View = "items" | "relationships" | "sources" | "held";
 const normal = (value: string) =>
   value.normalize("NFKC").toLocaleLowerCase("en-IN");
 interface Props {
+  dataset?: "full" | "preview";
   scene: PreviewData;
   selected: string;
   query: string;
@@ -16,6 +19,7 @@ interface Props {
 }
 /** Pagination changes only the DOM page; the source-preserving registry remains complete. */
 export default function RegistryReader({
+  dataset = "preview",
   scene,
   selected,
   query,
@@ -89,6 +93,7 @@ export default function RegistryReader({
           ),
         )}
       </div>
+      {view === "sources" && dataset === "full" && <ReaderCollections />}
       {view === "held" && (
         <p className="notice">
           These retained review entries are excluded from the factual map. Their
@@ -119,7 +124,7 @@ export default function RegistryReader({
               key={node.id}
               data-record-id={node.id}
               data-held={
-                heldIds.has(node.id) ||
+                !!sourceCorrection(node.id) || heldIds.has(node.id) ||
                 ("status" in node.item && node.item.status === "not-drawn")
               }
               className={
@@ -128,13 +133,14 @@ export default function RegistryReader({
               onClick={() => onSelect(node.id, "node")}
             >
               <span className="eyebrow">
-                {heldIds.has(node.id)
+                {sourceCorrection(node.id) ? "SOURCE CORRECTION · READER ONLY" : heldIds.has(node.id)
                   ? "HELD · READING CONTEXT ONLY"
                   : node.kind}{" "}
                 · {new Set(node.item.sourceIds).size} source references
               </span>
               <h3>{node.title}</h3>
-              <p>{node.item.summary}</p>
+              <p>{presentationSummary(node.item)}</p>
+              {presentationCorrection(node.id) && <p className="notice">{presentationCorrection(node.id)?.interpretationNotice}</p>}
               <span>
                 Inspect evidence <ArrowRight size={15} />
               </span>
@@ -145,17 +151,18 @@ export default function RegistryReader({
             <button
               key={edge.id}
               data-record-id={edge.id}
+              data-held={!!sourceCorrection(edge.id) || heldIds.has(edge.id)}
               className={
                 selected === edge.id ? "reading-card active" : "reading-card"
               }
               onClick={() => onSelect(edge.id, "edge")}
             >
               <span className="eyebrow">
-                {edge.relationship.tier} · {edge.sourceCount} distinct source
+                {presentationTier(edge.relationship)} · {edge.sourceCount} distinct source
                 IDs
               </span>
-              <h3>{edge.relationship.label}</h3>
-              <p>{edge.relationship.summary}</p>
+              <h3>{presentationTitle(edge.relationship)}</h3>
+              <p>{presentationSummary(edge.relationship)}</p>
               <span>
                 Read directed relationship <ArrowRight size={15} />
               </span>
@@ -177,13 +184,14 @@ export default function RegistryReader({
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {source.title} <ExternalLink size={14} />
+                  {sourceCitationCorrection(source.id)?.sourceTitle ?? source.title} <ExternalLink size={14} />
                 </a>
               </h3>
               <p>
                 {source.publisher} · {source.publishedAt ?? "Date unknown"}
               </p>
-              <p>{source.summary}</p>
+              <p>{sourceCitationCorrection(source.id)?.reason ?? source.summary}</p>
+              {sourceCitationCorrection(source.id) ? <p className="notice">{sourceCitationCorrection(source.id)?.sourceDateNotice}</p> : null}
               <details>
                 <summary>Source locator and limitations</summary>
                 <p>{source.locator}</p>
@@ -227,7 +235,7 @@ export default function RegistryReader({
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          {source.title} <ExternalLink size={14} />
+                          {sourceCitationCorrection(source.id)?.sourceTitle ?? source.title} <ExternalLink size={14} />
                         </a>
                         <p>
                           {source.publisher} ·{" "}

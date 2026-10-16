@@ -5,6 +5,8 @@ import importlib.util
 import json
 from pathlib import Path
 import unittest
+import tempfile
+from unittest.mock import patch
 
 MODULE = Path(__file__).with_name('trace.py')
 spec = importlib.util.spec_from_file_location('evidence_trace', MODULE)
@@ -158,6 +160,55 @@ class TraceTests(unittest.TestCase):
         self.assertEqual(result['sourceClosure']['missingSourceIds'],[])
         trace.validate_packet(result,graph)
         self.assertTrue(all(e['namespace'] not in {'legacy','crosswalk'} for e in result['relationships']))
+
+
+class RuntimeReceiptScopeTests(unittest.TestCase):
+    def test_excluded_legacy_correction_changes_receipt_only_not_paths(self):
+        registry = fixture() | {'updatedAt': '2026-10-16', 'held': []}
+        target_ids = [
+            'legacy:relationship:f34361dbb8642b3|adani|direct|bjp',
+            'legacy:relationship:652dbd2bc25b312f|sec182|law|adani',
+        ]
+        for ident in target_ids:
+            registry['relationships'].append(registry['relationships'][0] | {
+                'id': ident, 'namespace': 'legacy', 'recordIds': [], 'responseIds': []})
+            registry['records'].append(registry['records'][0] | {
+                'id': ident.replace(':relationship:', ':record:'),
+                'namespace': 'legacy', 'relationshipIds': [ident]})
+        corrected = deepcopy(registry)
+        corrected['relationships'] = [r for r in corrected['relationships'] if r['id'] not in target_ids]
+        corrected['records'] = [r for r in corrected['records'] if r['namespace'] != 'legacy']
+        with tempfile.TemporaryDirectory() as temp, patch.object(trace, 'ROOT', Path(temp)):
+            before = trace.build_artifact(registry)
+            after = trace.build_artifact(corrected)
+        self.assertEqual(before['registryFingerprint'], trace.canonical_sha(registry))
+        self.assertEqual(after['registryFingerprint'], trace.canonical_sha(corrected))
+        self.assertNotEqual(before['registryFingerprint'], after['registryFingerprint'])
+        self.assertEqual(before['fullRegistryCounts']['relationships'] - after['fullRegistryCounts']['relationships'], 2)
+        self.assertEqual(before['fullRegistryCounts']['records'] - after['fullRegistryCounts']['records'], 2)
+        metadata = {'registryFingerprint', 'fullRegistryCounts'}
+        self.assertEqual({k: v for k, v in before.items() if k not in metadata},
+                         {k: v for k, v in after.items() if k not in metadata})
+        for graph in [before, after]:
+            self.assertTrue(set(target_ids).isdisjoint(r['id'] for r in graph['relationships']))
+            packet = trace.expand_trace(graph, from_entity='A', to_entity='C', max_hops=2)
+            trace.validate_packet(packet, graph)
+            self.assertEqual(packet['paths'][0]['relationshipIds'], ['ab', 'bc'])
+            self.assertTrue(set(target_ids).isdisjoint(r['id'] for r in packet['relationships']))
+
+    def test_current_graph_verification_rejects_stale_runtime_metadata(self):
+        registry = fixture() | {'updatedAt': '2026-10-16', 'held': []}
+        with tempfile.TemporaryDirectory() as temp, patch.object(trace, 'ROOT', Path(temp)):
+            directory = Path(temp)
+            registry_path = directory / 'registry.json'
+            graph_path = directory / 'graph.json'
+            registry_path.write_text(json.dumps(registry))
+            graph = trace.build_artifact(registry)
+            graph['fullRegistryCounts']['relationships'] += 2
+            graph_path.write_text(json.dumps(graph, separators=(',', ':'), ensure_ascii=False) + '\n')
+            with patch('sys.argv', ['trace.py', '--verify', '--registry', str(registry_path), '--graph', str(graph_path)]):
+                with self.assertRaisesRegex(ValueError, 'Graph artifact differs from the current registry'):
+                    trace.main()
 
 
 if __name__=='__main__': unittest.main()

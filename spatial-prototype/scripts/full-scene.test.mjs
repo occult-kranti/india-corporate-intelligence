@@ -57,7 +57,7 @@ test('all evidence objects, original IDs, citations, qualifiers and geography ar
     const node = scene.nodes[index], item = originalItems[index];
     assert.equal(node.item, item);
     assert.equal(node.id, item.id);
-    assert.equal(node.title, item.title ?? item.label);
+    assert.equal(node.title, node.id === 'legacy:record:f34361dbb8642b3|adani|direct|bjp' ? 'Adani Group · Electoral-bond name absence reported; wider donation history unverified' : node.id === 'legacy:record:652dbd2bc25b312f|sec182|law|adani' ? 'Adani Group · Adani-specific disclosure claim unverified' : item.title ?? item.label);
     assert.equal(node.item.sourceIds, item.sourceIds);
     assert.equal(node.item.geography, item.geography);
     assert.equal(node.item.limitations, item.limitations);
@@ -147,10 +147,10 @@ test('held lookup indexes each immutable snapshot once without mutating or mixin
 });
 
 test('factual marks exclude all held/not-drawn records while the complete reader registry survives', () => {
-  assert.equal(factual.nodes.length, 7859);
+  assert.equal(factual.nodes.length, 7857);
   assert.equal(factual.nodes.filter(node => node.kind === 'entity').length, 2469);
-  assert.equal(factual.nodes.filter(node => node.kind === 'record').length, 5390);
-  assert.equal(factual.edges.length, 4203);
+  assert.equal(factual.nodes.filter(node => node.kind === 'record').length, 5388);
+  assert.equal(factual.edges.length, 4201);
   assert.ok(factual.nodes.every(node => !heldIds.has(node.id) && node.item.status !== 'not-drawn'));
   assert.ok(factual.edges.every(edge => !heldIds.has(edge.id) && edge.relationship.status !== 'not-drawn'));
   assert.equal(factual.registry.held.length, 316);

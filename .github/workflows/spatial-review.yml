@@ -21,7 +21,7 @@ concurrency:
 jobs:
   browser-review:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     defaults:
       run:
         shell: bash
@@ -48,15 +48,13 @@ jobs:
         run: |
           mkdir -p browser-review
           npm test 2>&1 | tee browser-review/unit-tests.log
-      - name: Build isolated next-head review preview (never deploy)
+      - name: Build default qualified-reader candidate (never deploy)
         working-directory: spatial-prototype
-        env:
-          VITE_HISTORICAL_REVIEW: "true"
         run: npm run build 2>&1 | tee browser-review/build.log
       - name: Install Chromium in CI only
         working-directory: spatial-prototype
         run: npx --no-install playwright install --with-deps chromium
-      - name: Review next-head historical reader and atlas behavior at the repository subpath
+      - name: Review atlas and both qualified readers at the repository subpath
         working-directory: spatial-prototype
         run: node scripts/browser-review.mjs 2>&1 | tee browser-review/browser-run.log
       - name: Publish review summary

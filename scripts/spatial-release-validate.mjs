@@ -20,6 +20,11 @@ export const BASE_FILES = Object.freeze({
   'src/components/investigation/shell.css': 'e638b551c2a20d00c0ad47e4ed91ccdab844500f',
   'src/data/investigation.ts': '4aee0a6730e9d5c094aa37027d0efaa5e51e8e12',
 });
+// Exact reviewed code revisions; historical base pins and immutable data pins remain intact.
+export const REVIEWED_SOURCE_REVISIONS = Object.freeze({
+  'package.json': Object.freeze({ gitBlob: 'e7fe46c0b4930888604a9c3e272d4ce81795def5', reason: 'Appends the exact source-correction regression test to the existing investigation gate; no prior script is removed.' }),
+  'src/data/investigation.ts': Object.freeze({ gitBlob: '232752e7927ae8901fe26be99a1cc09f6ca5da30', reason: 'Separates corrected runtime exports from the dedicated retained audit builder; canonical snapshot stays unchanged.' }),
+});
 export const ARRAY_KEYS = Object.freeze(['entities', 'relationships', 'records', 'sources', 'states', 'localities', 'coverage', 'held', 'methodology']);
 export const REVIEWED_REGISTRY = Object.freeze({
   manifestSha256: 'd551897418cc8b9db640293863ab04718408a6b3e6e7a9ef2a7c863d072ef323',
@@ -99,8 +104,9 @@ export async function validatePinnedSources(root, pins = BASE_FILES) {
     let original = bytes;
     if (path === 'src/components/Layout.tsx') original = Buffer.from(stripSpatialNavigation(bytes.toString('utf8')));
     if (path === '.github/workflows/deploy.yml') original = Buffer.from(stripSpatialDeployAdditions(bytes.toString('utf8')));
-    assert.equal(gitBlobSha(original), expected, `Pinned original source changed: ${path}`);
-    verified[path] = { originalGitBlob: expected, currentSha256: sha256(bytes) };
+    const revision = pins === BASE_FILES ? REVIEWED_SOURCE_REVISIONS[path] : undefined;
+    assert.equal(gitBlobSha(original), revision?.gitBlob ?? expected, `Pinned original source changed: ${path}`);
+    verified[path] = { originalGitBlob: expected, currentSha256: sha256(bytes), ...(revision ? { reviewedRevisionGitBlob: revision.gitBlob, revisionReason: revision.reason } : {}) };
   }
   return verified;
 }
@@ -202,7 +208,8 @@ export async function loadReleaseRegistry(root) {
     await build({ entryPoints: [source], outfile, bundle: true, platform: 'node', format: 'esm', logLevel: 'silent' });
     const original = await import(pathToFileURL(outfile).href);
     assert.equal(typeof original.getInvestigationRegistry, 'function', 'Original registry export missing');
-    return original.getInvestigationRegistry();
+    assert.equal(typeof original.buildRetainedInvestigationRegistry, "function", "A dedicated retained audit builder is required for release integrity checks");
+    return original.buildRetainedInvestigationRegistry();
   } finally {
     await rm(temporary, { recursive: true, force: true });
   }

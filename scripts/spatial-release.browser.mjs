@@ -51,11 +51,11 @@ assert.deepEqual(activityGroups, ['completed', 'working', 'planned', 'blocked'])
 assert.deepEqual(activityLabels, { completed: 'Done', working: 'Working on', planned: 'Next', blocked: 'Blocked' });
 const requiredActivityStates = {
   'base-release': 'completed', 'historical-tutorial': 'review-pending',
-  'research-methods': 'review-pending', 'repository-audit': 'review-pending', 'source-reviews': 'blocked',
+  'research-methods': 'review-pending', 'repository-audit': 'review-pending', 'source-reviews': 'review-pending',
   'cross-border-finance': 'review-pending', 'public-program-records': 'review-pending',
 };
 for (const [id, status] of Object.entries(requiredActivityStates)) assert.equal(activitySnapshot.tasks.find(task => task.id === id)?.status, status, `Dated release/review state: ${id}`);
-for (const id of ['cross-border-finance', 'public-program-records']) assert.equal(activitySnapshot.tasks.find(task => task.id === id)?.reviewStage, 'source-review', `Source-review qualification: ${id}`);
+for (const id of ['public-program-records']) assert.equal(activitySnapshot.tasks.find(task => task.id === id)?.reviewStage, 'source-review', `Source-review qualification: ${id}`);
 assert.equal(activitySnapshot.tasks.filter(task => task.status === 'running').length, 0, 'Reviewed work must not remain indefinitely running in this dated snapshot');
 
 const report = {
@@ -625,13 +625,44 @@ try {
     await activityRows(page);
     await capture(page, result, 'browser-back-to-activity');
   });
+  await scenario('exact-source-corrections-across-original-and-global', { width: 1440, height: 1000 }, async (page, result) => {
+    await page.goto(`${origin}${base}#/political?iw_view=dossier`, { waitUntil: 'domcontentloaded' });
+    await rootReady(page, '/political?iw_view=dossier');
+    const political = page.locator('.iw-dossier-content');
+    await political.getByRole('heading', { name: 'The flows, and what they are worth', exact: true }).waitFor();
+    const text = await political.innerText();
+    assert.match(text, /Missing edges describe[\s\S]*collection coverage only/);
+    assert.match(text, /Adani zero-donation claim has been held/);
+    assert.match(text, /does not establish an Adani FY20–FY25 filing survey, concealment or non-compliance/);
+    assert.doesNotMatch(text, /₹0 — documented void|No disclosed political donation anywhere|genuine nil OR concealment/);
+    await political.getByText('Donation coverage gaps', { exact: true }).scrollIntoViewIfNeeded();
+    await capture(page, result, 'original-political-two-qualified-scope-holds');
+    for (const offline of [false,true]) {
+      await page.goto(`${origin}${base}global-workbench/${offline?'fieldwork-offline.html':''}`, { waitUntil: 'domcontentloaded' });
+      await page.locator('#records [data-record]').first().waitFor();
+      for(const [id,label] of [['india-corporate-intelligence:edge-e7605f62f7476da5f3e1','Electoral-bond name absence reported'],['india-corporate-intelligence:edge-b3d60e32fb42932af025','Adani-specific disclosure claim unverified']]) {
+        await page.locator(`#records [data-record=${JSON.stringify(id)}]`).click();
+        await page.locator('#detail').getByRole('heading', { name: new RegExp(label) }).waitFor();
+        const detail=page.locator('#detail'),value=await detail.innerText();
+        assert.ok(value.includes(label));assert.match(value,/HELD SOURCE SCOPE/);
+        assert.doesNotMatch(value,/₹0 — documented void|genuine nil OR concealment|Relation endpoints|Documented relation types/);
+        await detail.scrollIntoViewIfNeeded();
+        await capture(page,result,`${offline?'offline':'served'}-${id.endsWith('5f3e1')?'donation':'disclosure'}-source-scope-hold`);
+      }
+      await page.locator('#records [data-record="india-corporate-intelligence:adani"]').click();
+      await page.locator('#detail').getByRole('heading', { name: 'Adani Group', exact: true }).waitFor();
+      assert.match(await page.locator('#detail').innerText(),/Denies wrongdoing\./);
+      assert.doesNotMatch(await page.locator('#detail').innerText(),/ZERO disclosed political donations anywhere/);
+    }
+    result.notes=['Original political coverage and both served/offline global readers qualify the exact two inherited claims. Neither claim becomes a funding, concealment or legal-compliance finding; the original entity denial remains.'];
+  });
 } catch (error) {
   report.error = error.stack ?? error.message;
 } finally {
   await browser?.close().catch(() => {});
   if (server) await new Promise(resolveClosed => server.close(resolveClosed));
   report.finishedAt = new Date().toISOString();
-  report.status = !report.error && report.scenarios.length === 6 && report.scenarios.every(result => result.status === 'passed') ? 'passed' : 'failed';
+  report.status = !report.error && report.scenarios.length === 7 && report.scenarios.every(result => result.status === 'passed') ? 'passed' : 'failed';
   await writeFile(join(output, 'report.json'), `${JSON.stringify(report, null, 2)}\n`);
   const lines = [
     '# Combined spatial release review', '', `Status: **${report.status}**`,

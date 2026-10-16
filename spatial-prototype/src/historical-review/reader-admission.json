@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "admissionId": "historical-2025-reader-v1",
+  "surface": "explicit-opt-in-historical-reader",
+  "readerStatus": "READER_ADMITTED",
+  "snapshot": "2025-12-31",
+  "graphStatus": "PUBLIC_GRAPH_BLOCKED",
+  "publicGraphEligible": false,
+  "publicPathEligible": false,
+  "payloadSha256": {
+    "base": "048f89ffd008a498212ff2ac71d4413aef09b138a50ab77f336a23fec4722064",
+    "additions": "5cd5c36de9dd98609c948cf526595a175f30fd29457fa1c7db9cf29b978eaf45",
+    "provenance": "7ad1b6269af516d7f88dbee5687a6f3ba2cd0ac2f3b97318931d248c382eebf0"
+  },
+  "claims": [
+    {
+      "recordId": "olympus-reviewed-2025:record:OF-C-F01",
+      "relationshipId": "olympus-reviewed-2025:relationship:OF-E-F01",
+      "sourceIds": [
+        "olympus-reviewed-2025:source:OF-S01"
+      ]
+    },
+    {
+      "recordId": "olympus-reviewed-2025:record:OF-C-F02",
+      "relationshipId": "olympus-reviewed-2025:relationship:OF-E-F02",
+      "sourceIds": [
+        "olympus-reviewed-2025:source:OF-S01",
+        "olympus-reviewed-2025:source:OF-S02"
+      ]
+    },
+    {
+      "recordId": "olympus-reviewed-2025:record:OF-C-F03",
+      "relationshipId": "olympus-reviewed-2025:relationship:OF-E-F03",
+      "sourceIds": [
+        "olympus-reviewed-2025:source:OF-S01",
+        "olympus-reviewed-2025:source:OF-S02"
+      ]
+    },
+    {
+      "recordId": "olympus-reviewed-2025:record:OF-C-F04",
+      "relationshipId": "olympus-reviewed-2025:relationship:OF-E-F04",
+      "sourceIds": [
+        "olympus-reviewed-2025:source:OF-S01"
+      ]
+    },
+    {
+      "recordId": "olympus-reviewed-2025:record:OF-C-P01",
+      "relationshipId": "olympus-reviewed-2025:relationship:OF-E-P01",
+      "sourceIds": [
+        "olympus-reviewed-2025:source:OF-S04"
+      ]
+    },
+    {
+      "recordId": "olympus-reviewed-2025:record:OF-C-P02",
+      "relationshipId": "olympus-reviewed-2025:relationship:OF-E-P02",
+      "sourceIds": [
+        "olympus-reviewed-2025:source:OF-S04"
+      ]
+    },
+    {
+      "recordId": "olympus-reviewed-2025:record:OF-C-P03",
+      "relationshipId": "olympus-reviewed-2025:relationship:OF-E-P03",
+      "sourceIds": [
+        "olympus-reviewed-2025:source:OF-S04"
+      ]
+    },
+    {
+      "recordId": "olympus-reviewed-2025:record:OF-C-P04",
+      "relationshipId": "olympus-reviewed-2025:relationship:OF-E-P04",
+      "sourceIds": [
+        "olympus-reviewed-2025:source:OF-S04"
+      ]
+    },
+    {
+      "recordId": "olympus-reviewed-2025:record:OF-C-P05",
+      "relationshipId": "olympus-reviewed-2025:relationship:OF-E-P05",
+      "sourceIds": [
+        "olympus-reviewed-2025:source:OF-S04"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "olympus-reviewed-2025:source:OF-S01",
+      "retainedContentSha256": "387741cd4107c50560430cf389b8ff57e7d80670b2806f3ef682961b77468a5e"
+    },
+    {
+      "sourceId": "olympus-reviewed-2025:source:OF-S02",
+      "retainedContentSha256": "2f563e6aac77784d2cc4f0429be8f627f6c19d61f98cd8114532176605b804fd"
+    },
+    {
+      "sourceId": "olympus-reviewed-2025:source:OF-S04",
+      "retainedContentSha256": "5f7542c24a184b443b862c609e21282f98efa9d6fdd55ebca8da1b7fe83d9341"
+    }
+  ]
+}

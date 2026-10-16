@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "asOf": "2026-10-16T03:49:31Z",
-  "checkpointTitle": "Release and research status review · 16 October 2026, 03:49 UTC",
+  "asOf": "2026-10-16T06:43:06Z",
+  "checkpointTitle": "Release and selected-case review · 16 October 2026, 06:43 UTC",
   "freshnessHours": 24,
-  "scope": "Nine curated work items, their next steps, and dated roadmap milestones. This snapshot is updated after reviewed progress; it is not a live activity feed.",
+  "scope": "Nine curated work items, next steps and dated roadmap milestones. Updated after reviewed progress; this is a snapshot, not live worker telemetry.",
   "tasks": [
     {
       "id": "base-release",
@@ -32,20 +32,21 @@
     },
     {
       "id": "historical-tutorial",
-      "title": "Historical reader and field guide",
+      "title": "Field guide and activity release",
       "status": "review-pending",
-      "role": "Implementation review",
-      "question": "Does the historical reader retain source qualifications and does the field guide work in the rendered app?",
-      "lastChecked": "2026-10-16T03:44:12Z",
-      "nextAction": "Review rendered scope and release readiness. Recheck the original-application CI result before any merge.",
-      "summary": "PR10 remains a draft, not merged. Latest checked commit: 0b4af3a1. 174 static tests, 22 spatial browser cases and four combined browser cases passed; original-application CI was still in progress at this check. Historical relationships remain blocked from public graph promotion.",
+      "role": "Release verification",
+      "question": "Are the field guide and simple activity page published after their browser repair?",
+      "lastChecked": "2026-10-16T06:43:06Z",
+      "nextAction": "Complete the post-merge deployment gates and verify the published routes and files.",
+      "summary": "PR10 merged with the atlas guide and activity page, but its first deployment stopped before publication. Test-only PR11 merged at 81b0e3b9 after all three exact-head CI gates and assistant screenshot review. The new deployment is pending; these additions are not yet verified live.",
       "evidence": [
         {
-          "title": "PR10 · historical reader and field guide",
+          "title": "PR10 · guide and activity implementation",
           "url": "https://github.com/occult-kranti/india-corporate-intelligence/pull/10"
         },
         {
-          "title": "PR10 verification checkpoint · commit 0b4af3a1"
+          "title": "PR11 · input-aware browser-test repair",
+          "url": "https://github.com/occult-kranti/india-corporate-intelligence/pull/11"
         }
       ],
       "privateProjectLink": null
@@ -87,22 +88,19 @@
     },
     {
       "id": "source-reviews",
-      "title": "Retained and held source reviews",
-      "status": "blocked",
-      "role": "Independent evidence review",
-      "question": "Which reviewed relationships meet a clearly dated and scoped evidence standard?",
-      "lastChecked": "2026-10-16T03:44:12Z",
-      "nextAction": "Complete independent and publication review of the candidates, and resolve outstanding authentication and date qualifications before any admission.",
-      "summary": "Qualified reviews are retained. New source-lane packets are reviewed candidates awaiting independent and publication review. Held material remains held; no current/common-date certification or public graph promotion is claimed.",
+      "title": "Qualified readers and source corrections",
+      "status": "review-pending",
+      "role": "Reader and source-scope review",
+      "question": "Do the approved reader panels retain their dates, qualifications and responses without becoming factual paths?",
+      "lastChecked": "2026-10-16T06:43:06Z",
+      "nextAction": "Run exact-head browser checks and inspect all reader panels and both source-scope corrections before release.",
+      "summary": "Nine historical issuer-disclosure claims and twenty sector panels have scoped reader-only publication approval. The local candidate passes 223 spatial tests and production builds; actual release-head browser review is pending. Two inherited donation/disclosure claims are qualified and held after citation-scope review. Raw baseline bytes and all graph/path holds remain intact.",
       "evidence": [
         {
-          "title": "Source-review coverage register"
+          "title": "29-panel reader candidate · local validation and source-scope review"
         },
         {
-          "title": "Release and research checkpoint · 03:22 UTC"
-        },
-        {
-          "title": "Source-lane candidate review register"
+          "title": "Separate reader-admission decisions · graph and paths blocked"
         }
       ],
       "privateProjectLink": null
@@ -141,17 +139,19 @@
     },
     {
       "id": "cross-border-finance",
-      "title": "US, China and Europe ownership and finance",
+      "title": "Selected ownership and public-office profiles",
       "status": "review-pending",
-      "reviewStage": "source-review",
-      "role": "Cross-border source review",
-      "question": "Which public records can establish bounded ownership, donations and finance links across the US, China and Europe?",
-      "lastChecked": "2026-10-16T03:49:31Z",
-      "nextAction": "Review the scoped source packets, separate documented links from open questions, and retain unresolved date and entity qualifications.",
-      "summary": "This requested research lane is scoped for public-source packets and independent review. Any resulting links remain research candidates pending source and publication review; no public graph admission is authorized.",
+      "role": "Profile integration and source review",
+      "question": "Can selected profiles retain dated ownership, voting, financial-stage and role qualifications in a clear reader?",
+      "lastChecked": "2026-10-16T06:29:00Z",
+      "nextAction": "Integrate the reviewed profile reader after the qualified-reader release; implement the content-reviewed case-local diagrams, then check their visible qualifications and new sources.",
+      "summary": "17 selected billionaire and public-office case packets have received scoped source reviews. A 14-profile, 50-claim reader projection passed content review and awaits app integration and visual checks. Ellison/Oracle and Page/Brin/Alphabet research is underway. Modi is a public-office profile. Dates, voting versus economic rights, shared holdings and financial stages stay explicit; this is selected-case coverage, not complete worldwide mapping.",
       "evidence": [
         {
-          "title": "Cross-border ownership, donations and finance · scoped source review"
+          "title": "Selected-case source-review checkpoint · 16 October 2026, 06:29 UTC"
+        },
+        {
+          "title": "Case-diagram content reviewed; implementation and visual checks pending, with no automatic global graph or geographic admission"
         }
       ],
       "privateProjectLink": null
@@ -176,24 +176,24 @@
   ],
   "milestones": [
     {
-      "title": "Base release published",
+      "title": "Base atlas published",
       "taskId": "base-release",
-      "detail": "PR9 · master 6e4d6512"
+      "detail": "PR9 · retained original evidence and live reader verified"
     },
     {
-      "title": "Historical reader release decision",
+      "title": "Guide and activity deployment",
       "taskId": "historical-tutorial",
-      "detail": "PR10 remains separate and unmerged"
+      "detail": "PR11 merged; post-merge deployment and live verification pending"
     },
     {
-      "title": "Original-route browser acceptance",
-      "taskId": "original-guides",
-      "detail": "62 staged guides await rendered checks"
+      "title": "Qualified reader review",
+      "taskId": "source-reviews",
+      "detail": "29 reader-only panels and two exact source corrections await rendered release checks"
     },
     {
-      "title": "Federation publication decision",
-      "taskId": "federation",
-      "detail": "Reader-only proposal; review gates remain"
+      "title": "Selected-profile preparation",
+      "taskId": "cross-border-finance",
+      "detail": "17 packets source-reviewed; 14 profiles / 50 claims content-reviewed, not published"
     }
   ]
 }

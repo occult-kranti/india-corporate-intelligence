@@ -28,6 +28,10 @@ import { build } from "esbuild";
 import { chromium } from "playwright";
 import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
+import { runSectorBrowserCases } from "./sector-browser-review.mjs";
+import { measureReaderLayout, exerciseReaderScroll } from "./reader-layout-review.mjs";
+import { expectedHistoricalReview } from "./browser-review-mode.mjs";
+import { runSourceCorrectionBrowserCases } from "./source-correction-browser.mjs";
 
 if (
   process.env.GITHUB_ACTIONS !== "true" ||
@@ -38,16 +42,8 @@ if (
   );
 }
 
-function expectedHistoricalReview(value) {
-  if (value === undefined || value === "false") return false;
-  if (value === "true") return true;
-  throw new Error(
-    "SPATIAL_EXPECT_HISTORICAL_REVIEW must be true, false, or absent",
-  );
-}
-const expectHistoricalReview = expectedHistoricalReview(
-  process.env.SPATIAL_EXPECT_HISTORICAL_REVIEW,
-);
+// The next-release default build has the reader gate; positive coverage cannot be skipped.
+const expectHistoricalReview = expectedHistoricalReview(process.env.SPATIAL_EXPECT_HISTORICAL_REVIEW);
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const dist = await realpath(join(root, "dist"));
 const output = join(root, "browser-review");
@@ -64,7 +60,7 @@ const report = {
   basePath: prefix,
   renderer: "Chromium / ANGLE SwiftShader (CI software rendering)",
   reviewLabel:
-    "next-head historical reader and atlas tutorial review · PUBLIC_GRAPH_BLOCKED",
+    "qualified historical and sector readers with atlas tutorial · Graph/paths: PUBLIC_GRAPH_BLOCKED",
   scope:
     "Behavior and review captures, not pixel approval, a hardware benchmark, or a deployment.",
   scenarios: [],
@@ -431,11 +427,11 @@ async function assertCounts(page, filters = {}, base = preview) {
   );
   const heldIds = new Set(base.registry.held.map((row) => row.id));
   const readerOnly = expected.nodes.filter(
-    (node) => heldIds.has(node.id) || node.item.status === "not-drawn",
+    (node) => model.isHeldItem(base.registry, node.id) || node.item.status === "not-drawn",
   ).length;
   assert.ok(
     overview.includes(
-      `${readerOnly.toLocaleString("en-US")} retained held/not-drawn records are reader-only`,
+      `${readerOnly.toLocaleString("en-US")} records are reader-only`,
     ),
   );
   assert.ok(
@@ -672,12 +668,14 @@ async function assertHistoricalReader(page, result) {
     true,
   );
   const content = dialog.locator(
-    '[data-historical-review="review-only"][data-public-graph="blocked"]',
+    '[data-historical-review="reader-admitted"][data-reader-admission="READER_ADMITTED"][data-public-graph="blocked"][data-public-paths="blocked"]',
   );
   assert.equal(await content.count(), 1);
   const text = normalized(await content.innerText());
   for (const qualification of [
     "PUBLIC_GRAPH_BLOCKED",
+    "Reader admission and retained graph/path holds",
+    "verbatim historical provenance",
     "Same-issuer materials are dependent, not independent corroboration",
     "No current ownership or independent registry certification is established",
     "No payment flow, award influence, wrongdoing or propagated control is established",
@@ -766,7 +764,7 @@ async function assertHistoricalReader(page, result) {
     }
     assert.ok(
       claimText.includes(
-        `${historicalOverlay.snapshot} · issuer-reported · self-reported · PUBLIC_GRAPH_BLOCKED`,
+        `${historicalOverlay.snapshot} · issuer-reported · self-reported · reader admitted · Graph/paths: PUBLIC_GRAPH_BLOCKED`,
       ),
     );
     assert.equal(edge.amounts.length, 0);
@@ -861,7 +859,7 @@ async function assertHistoricalReader(page, result) {
     await irbLink.evaluate((element) => element.href),
     new URL(irbDestination.href, page.url()).href,
   );
-  const holds = content.getByRole("region", { name: "Publication holds" });
+  const holds = content.getByRole("region", { name: "Retained packet holds and graph exclusions" });
   const holdText = normalized(await holds.innerText());
   for (const hold of additions.held)
     assert.ok(holdText.includes(normalized(`${hold.id}: ${hold.reason}`)));
@@ -915,7 +913,7 @@ async function assertHistoricalReader(page, result) {
 
 async function captureHistoricalSection(page, result, locator, name) {
   const dimensions = await locator.evaluate((element) => {
-    const dialog = element.closest("dialog");
+    const dialog = element.closest("[data-reader-scroll]");
     const outer = dialog.getBoundingClientRect();
     const inner = element.getBoundingClientRect();
     return {
@@ -926,7 +924,7 @@ async function captureHistoricalSection(page, result, locator, name) {
     };
   });
   // Cover the entire expanded claim/source, not only its first screenful.
-  // Overlap leaves room for the sticky Close control without hiding qualifiers.
+  // The viewport is the independently scrolling body below the reserved Close row.
   const stride = dimensions.viewport - 160;
   assert.ok(stride > 200, "Historical reader viewport is too small for review");
   const positions = [];
@@ -947,9 +945,10 @@ async function captureHistoricalSection(page, result, locator, name) {
     positions: unique,
   });
   for (const [index, top] of unique.entries()) {
-    await historicalDialog(page).evaluate((element, value) => {
+    await historicalDialog(page).locator("[data-reader-scroll]").evaluate((element, value) => {
       element.scrollTop = value;
     }, top);
+    await measureReaderLayout(historicalDialog(page), result, `${name}:band-${index + 1}`);
     const part = index ? `${name}--part-${index + 1}` : name;
     await capture(page, result, part);
     const filename = `${result.name}--${part}--reader.png`;
@@ -1243,22 +1242,6 @@ async function assertTutorialProgress(page, step, status) {
     ),
     { version: 2, step, status },
   );
-}
-
-async function notApplicable(name, reason) {
-  const result = {
-    name,
-    status: "not-applicable",
-    reason,
-    screenshots: [],
-    expectedHistoricalReview: false,
-  };
-  report.scenarios.push(result);
-  await writeFile(
-    join(output, `${name}.json`),
-    `${JSON.stringify(result, null, 2)}\n`,
-  );
-  console.log(`NOT APPLICABLE: ${name}: ${reason}`);
 }
 
 /** Check actual rendered styles for the current input capability. No CSS is forced. */
@@ -1579,14 +1562,14 @@ try {
   );
   assert.equal(
     expectedHistoricalReview(undefined),
-    false,
-    "Default deployment mode must keep historical review disabled",
+    true,
+    "Default next-release review requires positive historical coverage",
   );
-  assert.equal(expectedHistoricalReview("false"), false);
+  assert.throws(() => expectedHistoricalReview("false"));
   assert.equal(
     expectedHistoricalReview("true"),
     true,
-    "Explicit isolated review mode must require positive historical coverage",
+    "Explicit review mode must require positive historical coverage",
   );
   assert.throws(() => expectedHistoricalReview("auto"));
   const candidateHead = process.env.SPATIAL_HEAD_SHA ?? process.env.GITHUB_SHA;
@@ -1672,7 +1655,7 @@ try {
   );
   assert.equal(
     model.factualScene(fullScene).nodes.length,
-    7859,
+    7857,
     "Factual exclusion baseline changed",
   );
   await build({
@@ -1727,7 +1710,10 @@ try {
     historicalAdditionsText,
     provenanceText,
     "historical-2025",
+    await readFile(join(root, "src/historical-review/reader-admission.json"), "utf8"),
   );
+  assert.equal(historicalOverlay.readerAdmission.readerStatus, "READER_ADMITTED");
+  assert.equal(historicalOverlay.publicPathEligible, false);
   assert.equal(
     JSON.stringify(fullRegistry),
     baseBeforeReview,
@@ -1794,7 +1780,7 @@ try {
   );
   assert.match(
     entrySource,
-    /import\.meta\.env\??\.VITE_HISTORICAL_REVIEW === 'true'/,
+    /historicalReviewRequested\(new URL\(href\)\.search, true, dataset\)/,
   );
   assert.match(
     entrySource,
@@ -1807,7 +1793,9 @@ try {
   report.historicalReview = {
     label: report.reviewLabel,
     status: historicalOverlay.status,
+    readerAdmission: historicalOverlay.readerAdmission,
     publicGraphEligible: false,
+    publicPathEligible: false,
     snapshot: historicalOverlay.snapshot,
     reference: historicalReference,
     reusedEntityId: historicalOverlay.reusedEntity.id,
@@ -1828,7 +1816,7 @@ try {
       expected,
     })),
     sourceProvenance: historicalOverlay.provenance,
-    note: "Reader-only inspection. PUBLIC_GRAPH_BLOCKED is never cleared; passing this CI run is not publication approval.",
+    note: "Exact-ID reader admission only. PUBLIC_GRAPH_BLOCKED remains graph/path-specific; this CI run does not authorize deployment or factual graph/path admission.",
   };
   const guideText = await readFile(
     join(root, "src/guidance/atlas-guide.json"),
@@ -1917,7 +1905,7 @@ try {
   if (expectHistoricalReview) {
     assert.ok(
       historicalGateAsset && historicalPanelAsset && historicalPayloadAsset,
-      "The explicitly expected flagged build must emit identifiable deferred gate, reader and payload chunks",
+      "The default build must emit identifiable deferred gate, reader and payload chunks",
     );
     assert.equal(
       new Set([
@@ -1930,9 +1918,7 @@ try {
     );
   }
   report.historicalReview.expectedEnabled = expectHistoricalReview;
-  report.historicalReview.mode = expectHistoricalReview
-    ? "isolated opt-in review expected"
-    : "default deployment: review unavailable expected";
+  report.historicalReview.mode = "default build: exact query plus fresh Open; graph/paths blocked";
   report.historicalReview.deferredAssets = [...historicalDeferredAssets];
   report.historicalReview.loadingBudget = JSON.parse(
     await readFile(join(dist, "build-budget.json"), "utf8"),
@@ -2705,7 +2691,7 @@ try {
       const factual = model.factualScene(fullScene);
       const geographic = geography.getGeographicScene(factual);
       assert.equal(geographic.nodes.length, 3856);
-      assert.equal(geographic.unplacedNodes.length, 4003);
+      assert.equal(geographic.unplacedNodes.length, 4001);
       const display = await assertSemanticDisplay(
         page,
         result,
@@ -2723,13 +2709,13 @@ try {
       const heldIds = new Set(fullRegistry.held.map((row) => row.id));
       assert.ok(
         factual.nodes.every(
-          (node) => !heldIds.has(node.id) && node.item.status !== "not-drawn",
+          (node) => !model.isHeldItem(fullRegistry, node.id) && node.item.status !== "not-drawn",
         ),
       );
       assert.ok(
         factual.edges.every(
           (edge) =>
-            !heldIds.has(edge.id) && edge.relationship.status !== "not-drawn",
+            !model.isHeldItem(fullRegistry, edge.id) && edge.relationship.status !== "not-drawn",
         ),
       );
       await assertCountryBase(page);
@@ -2885,7 +2871,7 @@ try {
         ),
       );
       result.notes.push(
-        "Default entry fetched all 96 verified chunks; 8,086 retained items include 7,859 factual-map-eligible items, with 3,856 area-anchored and 4,003 unplaced. Six UI-only country stacks expand to 42 original areas. Exact original rendered-edge IDs follow the 24-world/60-area caps; the selected original relationship, both endpoint details, provenance and exported source objects survive semantic zoom. Full-reader pagination resets scroll and focuses the new result range.",
+        "Default entry fetched all 96 verified chunks; 8,086 retained items include 7,857 factual-map-eligible items, with 3,856 area-anchored and 4,001 unplaced. Six UI-only country stacks expand to 42 original areas. Exact original rendered-edge IDs follow the 24-world/60-area caps; the selected original relationship, both endpoint details, provenance and exported source objects survive semantic zoom. Full-reader pagination resets scroll and focuses the new result range.",
       );
     },
   );
@@ -3176,12 +3162,6 @@ try {
           label: "duplicate review query rejected",
         },
       ];
-      if (!expectHistoricalReview)
-        routes.push({
-          query: "?mode=reading&review=historical-2025",
-          dataset: "full",
-          label: "default build rejects even the exact opt-in query",
-        });
       result.historicalRoutes = [];
       for (const [index, route] of routes.entries()) {
         if (index > 0) {
@@ -3217,9 +3197,7 @@ try {
         );
       }
       result.notes.push(
-        expectHistoricalReview
-          ? "The explicitly flagged review build leaves default, preview, unknown and duplicate-query entries base-only. No deferred historical module was requested. Flag-disabled integration is additionally covered by static/unit checks."
-          : "The default deployment build leaves even the exact review query unavailable, as well as default, preview, unknown and duplicate-query routes. No deferred historical gate, payload or reader was requested. Only flag-dependent positive cases are not applicable; all base and atlas tutorial gates still run.",
+        "The default build leaves no-query, preview, unknown and duplicate-query entries base-only. No deferred historical module was requested. The exact-query route still requires a fresh Open before loading the manifest and payload."
       );
     },
   );
@@ -3261,6 +3239,7 @@ try {
         await opener.focus();
         await page.keyboard.press("Enter");
         const dialog = await assertHistoricalReader(page, result);
+        await exerciseReaderScroll(page, dialog, result, "desktop-historical-reader");
         assert.equal(
           await page
             .locator(".webgl-host canvas")
@@ -3277,7 +3256,7 @@ try {
         await captureHistoricalSection(
           page,
           result,
-          dialog.getByRole("heading", { level: 1 }),
+          dialog.locator(".historical-review-content > header"),
           "reader-introduction-and-publication-block",
         );
         await captureHistoricalSection(
@@ -3311,7 +3290,7 @@ try {
         await captureHistoricalSection(
           page,
           result,
-          dialog.getByRole("region", { name: "Publication holds" }),
+          dialog.getByRole("region", { name: "Retained packet holds and graph exclusions" }),
           "all-publication-holds-and-overview-only-link",
         );
         await page.keyboard.press("Escape");
@@ -3344,7 +3323,7 @@ try {
           () => window.__historicalReviewVerification,
         );
         result.notes.push(
-          "A build flag plus one exact query only revealed an opt-in prompt. A keyboard user click opened nine exact retained claims, their original primary-source destinations, issuer/date attribution, basis/control/payment limits, identity/incorporation cautions and publication holds. IRB remained the existing entity; new additions only offered the investigation overview. The original canvas, factual totals and exact original edge IDs survived. Escape and Close restored focus to the same Open button; reopening reverified the payload.",
+          "In the default build one exact query only revealed an opt-in prompt. A keyboard user click opened nine exact retained claims, their original primary-source destinations, issuer/date attribution, basis/control/payment limits, identity/incorporation cautions and publication holds. IRB remained the existing entity; new additions only offered the investigation overview. The original canvas, factual totals and exact original edge IDs survived. Escape and Close restored focus to the same Open button; reopening reverified the payload.",
         );
       },
     );
@@ -3612,17 +3591,6 @@ try {
       );
       releasePayload?.();
     }
-  } else {
-    for (const name of [
-      "17-historical-explicit-reader-provenance-and-unchanged-graph",
-      "18-historical-verification-failure-and-explicit-retry",
-      "19-historical-cancel-loading-and-preserve-base-url",
-      "20-historical-back-forward-cancels-stale-load",
-    ])
-      await notApplicable(
-        name,
-        "Default build expectation: historical review must remain unavailable. Case 16 explicitly checks the exact review query and absence of deferred requests. Positive historical behavior requires the separate artifact-only opt-in review workflow.",
-      );
   }
 
   await scenario(
@@ -3946,6 +3914,45 @@ try {
       );
     },
   );
+  await runSectorBrowserCases({ root, dist, output, origin, prefix, scenario, capture, assertFullLoad, assertReaderOnly, until, report });
+  await runSourceCorrectionBrowserCases({ root, output, scenario, capture, assertFullLoad, assertReaderOnly, until, fullRegistry });
+  await scenario("29-qualified-readers-reserved-controls-and-reflow", {
+    query: "?mode=reading&review=historical-2025", viewport: {width:640,height:450}, reducedMotion:true, budgetMs:120000,
+  }, async (page,result) => {
+    for (const type of ["historical", "sector"]) {
+      if(type === "sector") await page.goto(`${origin}${prefix}?mode=reading&review=sector-2026-10`,{waitUntil:"domcontentloaded"});
+      await assertFullLoad(page,result);await assertReaderOnly(page,result);
+      const open = type === "historical" ? historicalGate(page).getByRole("button",{name:"Open historical review reader",exact:true}) : page.getByTestId("sector-reader-open");
+      await open.click();
+      const modal = type === "historical" ? historicalDialog(page) : page.getByTestId("sector-reader-dialog");
+      await modal.waitFor({state:"visible"});
+      for(const [name,viewport] of [["half-size-desktop",{width:640,height:450}],["narrow-mobile",{width:320,height:640}]]) {
+        await page.setViewportSize(viewport);
+        await exerciseReaderScroll(page,modal,result,`${type}:${name}`);
+        const source = type === "historical" ? modal.locator("[data-review-relationship]").nth(1) : modal.locator('[data-sector-pair="wff-criticism-1"]').first();
+        const sourceHeight = await source.evaluate(element => element.getBoundingClientRect().height);
+        const bodyHeight = await modal.locator("[data-reader-scroll]").evaluate(element => element.clientHeight);
+        assert.ok(sourceHeight > bodyHeight,"Long-source check must span more than one reader viewport");
+        for(const [band,offset] of [["start",0],["midpoint",sourceHeight/2]]) {
+          await source.evaluate((element,offset) => {const body=element.closest("[data-reader-scroll]");body.scrollTop+=element.getBoundingClientRect().top-body.getBoundingClientRect().top-12+offset;},offset);
+          await measureReaderLayout(modal,result,`${type}:${name}:long-source-${band}`);
+          await capture(page,result,`${type}-${name}-long-source-${band}-with-clear-controls`);
+        }
+        if(type === "sector") {
+          await modal.getByRole("button",{name:"Thacker Pass · financing and ownership",exact:true}).click();
+          const target=modal.locator('#sector-collection-energy-mineral-finance');
+          assert.equal(await target.evaluate(element=>document.activeElement===element),true);
+          const visible=await target.evaluate(element=>{const body=element.closest("[data-reader-scroll]");const a=element.getBoundingClientRect(),b=body.getBoundingClientRect();return a.top>=b.top-1 && a.top<b.bottom;});
+          assert.equal(visible,true,"Collection jump must reveal its heading below the controls");
+          await measureReaderLayout(modal,result,`${type}:${name}:collection-jump`);
+        }
+      }
+      await page.keyboard.press("Escape");await modal.waitFor({state:"detached"});
+      assert.equal(await open.evaluate(element=>document.activeElement===element),true);
+    }
+    result.notes.push("Both named keyboard-scroll regions kept Close in a separate non-scrolling row at top/middle/bottom and inside long source text. PageDown, visible focus, Escape/focus return, collection jumps and nested horizontal bounds passed at 320px and a 640×450 effective viewport. The latter covers the layout space of 200% zoom on 1280×900; it is not a browser-chrome zoom automation claim.");
+  });
+
 } catch (error) {
   report.setupError = error.stack ?? String(error);
   process.exitCode = 1;
@@ -3970,8 +3977,8 @@ try {
     `Result: **${report.status}**`,
     `Preview path: ${prefix}`,
     `Review label: ${report.reviewLabel}`,
-    `Expected historical mode: ${expectHistoricalReview ? "isolated opt-in enabled" : "default disabled"}`,
-    "Only applicable checks contribute to success; not-applicable positive historical cases are listed explicitly.",
+    `Expected historical mode: default build, exact query plus fresh Open`,
+    "All positive and negative historical reader cases are mandatory for this next-release candidate.",
     `Checked out: ${report.revision?.checkedOutCommit ?? "unverified"}`,
     `Candidate head: ${report.revision?.candidateHead ?? "unverified"}`,
     `Revision coverage: ${report.revision?.mode ?? "unverified"}`,
