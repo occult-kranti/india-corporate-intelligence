@@ -219,7 +219,182 @@ export const HELD_DISCLOSURE_CORRECTION = {
   label: "Adani-specific disclosure claim unverified", summary: "The inherited citation does not establish a company-by-company Adani political-contribution disclosure review for FY20–FY25. This claim is held pending suitable entity- and year-specific evidence; no conclusion about donation amounts or concealment is supported.",
   reason: "Material entity-population and period mismatch; unsupported insinuation remains in a distinct legacy claim.", originalEdges: RETAINED_EDGES.filter(heldDisclosureEdge),
 };
-export const EDGES: GEdge[] = RETAINED_EDGES.filter(e => !heldDonationEdge(e) && !heldDisclosureEdge(e));
+
+// Parent-reviewed 16 October 2026: exact source-scope overlays, never raw edits.
+// Entire reviewed objects are checked, including source tuples, endpoints and old prose.
+const INHERITED_ABSENCE_GRAPH_NODES: GNode[] = [
+  {
+    "id": "tata",
+    "label": "Tata Group",
+    "sub": "power · software",
+    "ty": "company",
+    "fam": "capital",
+    "st": "mh",
+    "sz": 3,
+    "al": [
+      "Tata Sons",
+      "TCS",
+      "Tata Power",
+      "Progressive Electoral Trust"
+    ],
+    "d": [
+      "Never bought bonds — but Progressive Electoral Trust → BJP ₹757.6cr FY25 (Tata Sons ₹308cr + TCS ₹218cr). PM CARES ~₹500cr. #1 PM Surya Ghar rooftop installer."
+    ],
+    "srcs": [
+      [
+        "Wire trust",
+        "https://m.thewire.in/article/politics/in-2024-25-bjp-got-rs-959-crore-from-electoral-trusts-tata-group-alone-contributed-rs-757-crore"
+      ]
+    ]
+  },
+  {
+    "id": "leap",
+    "label": "Leap India",
+    "sub": "FCI silo logistics",
+    "ty": "company",
+    "fam": "capital",
+    "st": "tg",
+    "sz": 3,
+    "al": [
+      "Leap India Food & Logistics",
+      "Happzee Technologies"
+    ],
+    "d": [
+      "Won 38/48 Phase-2 FCI silo bundles (~₹6,173cr) under Joshi. ZERO political footprint anywhere — the key negative: the 2nd-biggest silo winner paid nothing, pointing cause at policy design not donations."
+    ],
+    "srcs": [
+      [
+        "BS bidder counts",
+        "https://www.business-standard.com/amp/industry/news/govt-defends-fci-silo-awards-says-contracts-were-bid-competitively-126060301218_1.html"
+      ]
+    ]
+  },
+  {
+    "id": "sarda",
+    "label": "Sarda Energy",
+    "sub": "minerals",
+    "ty": "company",
+    "fam": "capital",
+    "st": "ct",
+    "sz": 1,
+    "d": [
+      "Won Gare Palma IV/7 at a record 66.75% revenue share. Electoral bonds: not found — a winner who didn't pay."
+    ],
+    "srcs": [
+      [
+        "T1 results",
+        "https://coal.gov.in/sites/default/files/2020-12/Result-of-e-auction-for-coal-mines-under-11th-Tranche_0.pdf"
+      ]
+    ]
+  },
+  {
+    "id": "progressive",
+    "label": "Progressive Electoral Trust",
+    "sub": "Tata vehicle",
+    "ty": "trust",
+    "fam": "recipient",
+    "st": null,
+    "sz": 3,
+    "d": [
+      "Gave BJP ₹757.62cr FY25 (Tata Sons ₹308cr + TCS ₹218cr) — the Tata group never bought bonds."
+    ],
+    "srcs": [
+      [
+        "Wire",
+        "https://m.thewire.in/article/politics/in-2024-25-bjp-got-rs-959-crore-from-electoral-trusts-tata-group-alone-contributed-rs-757-crore"
+      ]
+    ]
+  }
+];
+const INHERITED_ABSENCE_GRAPH_EDGES: GEdge[] = [
+  {
+    "s": "coal",
+    "t": "sarda",
+    "pred": "award",
+    "tier": "documented",
+    "lab": "record 66.75% bid",
+    "d": "Gare Palma IV/7 — a winner who paid the highest share and gave no donations.",
+    "m": [
+      "M10"
+    ],
+    "srcs": [
+      [
+        "Results",
+        "https://coal.gov.in/sites/default/files/2020-12/Result-of-e-auction-for-coal-mines-under-11th-Tranche_0.pdf"
+      ]
+    ]
+  },
+  {
+    "s": "leap",
+    "t": "bjp",
+    "pred": "direct",
+    "tier": "documented",
+    "lab": "₹0 — no footprint",
+    "d": "The ₹6,173cr silo winner has no traceable political giving — the analytic key: benefit ≠ payment.",
+    "m": [
+      "M10"
+    ],
+    "srcs": [
+      [
+        "BS",
+        "https://www.business-standard.com/amp/industry/news/govt-defends-fci-silo-awards-says-contracts-were-bid-competitively-126060301218_1.html"
+      ]
+    ]
+  }
+];
+const INHERITED_ABSENCE_NODE_SUMMARIES: Record<string,string> = {
+  "tata": "Progressive Electoral Trust → BJP ₹757.6cr FY25 (Tata Sons ₹308cr + TCS ₹218cr). PM CARES ~₹500cr. #1 PM Surya Ghar rooftop installer.",
+  "leap": "Won 38/48 Phase-2 FCI silo bundles (~₹6,173cr) under Joshi. Political donation history is unverified; the cited procurement report does not establish non-donation.",
+  "sarda": "The Ministry of Coal result lists Sarda Energy and Minerals Limited’s 66.75% revenue-share closing bid for Gare Palma IV/7 on 9 November 2020.",
+  "progressive": "Gave BJP ₹757.62cr FY25 (Tata Sons ₹308cr + TCS ₹218cr)."
+};
+function absenceCanonical(value:unknown):string {
+  if(Array.isArray(value)) return '['+value.map(absenceCanonical).join(',')+']';
+  if(value && typeof value==='object') return '{'+Object.keys(value).sort().map(key=>JSON.stringify(key)+':'+absenceCanonical((value as Record<string,unknown>)[key])).join(',')+'}';
+  return JSON.stringify(value);
+}
+export function applyInheritedAbsenceGraphCorrections(nodes:GNode[],edges:GEdge[]) {
+  for(const expected of INHERITED_ABSENCE_GRAPH_NODES) {
+    const rows=nodes.filter(row=>row.id===expected.id);
+    if(rows.length!==1 || absenceCanonical(rows[0])!==absenceCanonical(expected)) throw new Error(`Inherited absence node/source drift: ${expected.id}`);
+  }
+  for(const expected of INHERITED_ABSENCE_GRAPH_EDGES) {
+    const rows=edges.filter(row=>row.s===expected.s && row.t===expected.t && row.pred===expected.pred);
+    if(rows.length!==1 || absenceCanonical(rows[0])!==absenceCanonical(expected)) throw new Error(`Inherited absence edge/source drift: ${expected.s}|${expected.pred}|${expected.t}`);
+  }
+  return {
+    nodes:nodes.map(row=>Object.prototype.hasOwnProperty.call(INHERITED_ABSENCE_NODE_SUMMARIES,row.id)?{...row,d:[INHERITED_ABSENCE_NODE_SUMMARIES[row.id]]}:row),
+    edges:edges.filter(row=>!(row.s==='leap'&&row.t==='bjp'&&row.pred==='direct')).map(row=>
+      row.s==='coal'&&row.t==='sarda'&&row.pred==='award' ? {...row,
+        // Keep the retained edge/record address; prose-derived IDs must not change.
+        id:'95bc13ffc3aa7ef5',lab:"66.75% closing bid",d:"The Ministry of Coal result lists Sarda Energy and Minerals Limited's 66.75% revenue-share closing bid for Gare Palma IV/7 on 9 November 2020. This procurement result makes no finding about political donations."} : row),
+  };
+}
+const ABSENCE_CORRECTED_GRAPH=applyInheritedAbsenceGraphCorrections(RETAINED_NODES,RETAINED_EDGES);
+
+// Exact upstream-stage hold: retain the original audit value, exclude it from effective paths/totals.
+export const PROGRESSIVE_UPSTREAM_EXPECTED: GEdge = {
+  "s": "tata",
+  "t": "progressive",
+  "pred": "trust",
+  "tier": "documented",
+  "a": 757.6,
+  "lab": "₹757.6cr → BJP FY25",
+  "d": "Tata Sons ₹308cr + TCS ₹218cr into the pool.",
+  "srcs": [
+    [
+      "Wire",
+      "https://m.thewire.in/article/politics/in-2024-25-bjp-got-rs-959-crore-from-electoral-trusts-tata-group-alone-contributed-rs-757-crore"
+    ]
+  ]
+};
+export function holdProgressiveUpstream(edges:GEdge[]):GEdge[] {
+  const expected=PROGRESSIVE_UPSTREAM_EXPECTED;
+  const targets=edges.filter(row=>row.s===expected.s&&row.t===expected.t&&row.pred===expected.pred);
+  if(targets.length!==1||absenceCanonical(targets[0])!==absenceCanonical(expected))throw new Error('Progressive upstream object/source drift');
+  return edges.filter(row=>!(row.s===expected.s&&row.t===expected.t&&row.pred===expected.pred));
+}
+export const EDGES: GEdge[] = holdProgressiveUpstream(ABSENCE_CORRECTED_GRAPH.edges).filter(e => !heldDonationEdge(e) && !heldDisclosureEdge(e));
 
 const RETAINED_MOTIFS: Motif[] = [
   {
@@ -360,7 +535,7 @@ export const HELD_DONATION_CORRECTION = {
   originalEdges: RETAINED_EDGES.filter(heldDonationEdge),
   originalMotifs: RETAINED_MOTIFS.filter(m => m.id === 'M10'),
 };
-export const NODES: GNode[] = RETAINED_NODES.map(n => n.id === 'adani'
+export const NODES: GNode[] = ABSENCE_CORRECTED_GRAPH.nodes.map(n => n.id === 'adani'
   && n.srcs?.some(([, url]) => url === DONATION_SCOPE_URL)
   ? { ...n, d: n.d?.flatMap(text => text === "ZERO disclosed political donations anywhere FY13–FY25 — the 'documented void' [documented absence]. Denies wrongdoing." ? [DONATION_SCOPE_SUMMARY, 'Denies wrongdoing.'] : [text]) } : n);
 // M10's universal-absence interpretation depends on the held claim; preserve it for audit only.

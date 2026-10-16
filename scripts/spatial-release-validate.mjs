@@ -22,8 +22,8 @@ export const BASE_FILES = Object.freeze({
 });
 // Exact reviewed code revisions; historical base pins and immutable data pins remain intact.
 export const REVIEWED_SOURCE_REVISIONS = Object.freeze({
-  'package.json': Object.freeze({ gitBlob: 'e7fe46c0b4930888604a9c3e272d4ce81795def5', reason: 'Appends the exact source-correction regression test to the existing investigation gate; no prior script is removed.' }),
-  'src/data/investigation.ts': Object.freeze({ gitBlob: '232752e7927ae8901fe26be99a1cc09f6ca5da30', reason: 'Separates corrected runtime exports from the dedicated retained audit builder; canonical snapshot stays unchanged.' }),
+  'package.json': Object.freeze({ gitBlob: 'f5f4c1e03c865705eb223b14a08a2fe3a76b948c', reason: 'Retains all existing gates, adds exact source-scope regressions and bounds investigation test concurrency.' }),
+  'src/data/investigation.ts': Object.freeze({ gitBlob: 'bb8aa02f0c8b82685a7808622ecf14ccab4f4bc9', reason: 'Separates effective national and energy projections from the canonical retained audit builder; no raw snapshot changes.' }),
 });
 export const ARRAY_KEYS = Object.freeze(['entities', 'relationships', 'records', 'sources', 'states', 'localities', 'coverage', 'held', 'methodology']);
 export const REVIEWED_REGISTRY = Object.freeze({

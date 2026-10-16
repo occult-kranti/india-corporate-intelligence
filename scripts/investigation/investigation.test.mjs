@@ -8,9 +8,9 @@ const api=await loadInvestigation();
 const data=api.INVESTIGATION_REGISTRY;
 const clone=()=>structuredClone(data);
 
-async function optionalFleetFixture(fleets,{declaredEmpty=true,invalidIdentityBasis=false}={}){
+async function optionalFleetFixture(fleets,{declaredEmpty=true,invalidIdentityBasis=false,preserveEdges=false}={}){
  const result=await build({entryPoints:[new URL('../../src/data/investigation.ts',import.meta.url).pathname],bundle:true,platform:'node',format:'cjs',write:false,logLevel:'silent',plugins:[{name:'optional-fleet-fixture',setup(builder){
-  builder.onLoad({filter:/\.generated\.ts$/},({path})=>{const name=fleets.find(fleet=>path.endsWith(`/${fleet}.generated.ts`));if(!name)return;const prefix=name.toUpperCase();return {contents:readFileSync(path,'utf8')+`\n${prefix}_NODES.length=0;${prefix}_EDGES.length=0;${prefix}_META.empty=${declaredEmpty};`,loader:'ts'};});
+  builder.onLoad({filter:/\.generated\.ts$/},({path})=>{const name=fleets.find(fleet=>path.endsWith(`/${fleet}.generated.ts`));if(!name)return;const prefix=name.toUpperCase();return {contents:readFileSync(path,'utf8')+`\n${prefix}_NODES.length=0;${preserveEdges?'':`${prefix}_EDGES.length=0;`}${prefix}_META.empty=${declaredEmpty};`,loader:'ts'};});
   if(invalidIdentityBasis)builder.onLoad({filter:/deep-investigation\/corporate\.json$/},({path})=>{const value=JSON.parse(readFileSync(path,'utf8'));value.entities.find(row=>row.id==='pkcl').identityBasis='';return {contents:JSON.stringify(value),loader:'json'};});
  }}]});
  const module={exports:{}};new Function('module','exports',result.outputFiles[0].text)(module,module.exports);return module.exports.INVESTIGATION_REGISTRY;
@@ -30,8 +30,13 @@ test('explicitly empty optional fleets retain reviewed mentions and hold only un
 });
 
 test('missing identity in a nonempty fleet and missing primary identity basis still fail closed',async()=>{
- await assert.rejects(optionalFleetFixture(['energy'],{declaredEmpty:false}),/reviewed canonical identity is unavailable: energy:parsa-kente-collieries/);
+ // Retain edges (including c040) to reach the independently enforced identity guard.
+ await assert.rejects(optionalFleetFixture(['energy'],{declaredEmpty:false,preserveEdges:true}),/reviewed canonical identity is unavailable: energy:parsa-kente-collieries/);
  await assert.rejects(optionalFleetFixture(['energy'],{invalidIdentityBasis:true}),/canonical identity requires primary-source documentary basis/);
+});
+
+test('undeclared empty energy fleet fails closed before registry construction',async()=>{
+ await assert.rejects(optionalFleetFixture(['energy'],{declaredEmpty:false}),/Progressive c040 object\/source drift/);
 });
 
 test('registry joins the substantive existing corpus without dropping namespaces or sources',()=>{assert.deepEqual(validateInvestigation(data),[]);assert.ok(data.entities.length>1800);assert.ok(data.relationships.length>3500);assert.ok(data.records.length>5000);assert.ok(data.sources.length>2800);for(const name of ['legacy','education','water','public-works','welfare','pmcares','justice-research','welfare-research','finance-research'])assert.ok(data.coverage.some(row=>row.namespace===name),name);assert.ok(data.held.length>250);});

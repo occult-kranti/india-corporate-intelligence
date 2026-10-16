@@ -1,0 +1,38 @@
+import test,{after} from 'node:test';import assert from 'node:assert/strict';import {mkdtemp,rm,readFile} from 'node:fs/promises';import {tmpdir} from 'node:os';import {join} from 'node:path';import {pathToFileURL} from 'node:url';import {createHash} from 'node:crypto';import {build} from 'esbuild';import {loadOriginalRegistry} from './original-registry.mjs';
+const tmp=await mkdtemp(join(tmpdir(),'progressive-holds-'));after(()=>rm(tmp,{recursive:true,force:true}));async function load(path,name){const outfile=join(tmp,name+'.mjs');await build({entryPoints:[path],outfile,bundle:true,platform:'node',format:'esm',logLevel:'silent'});return import(pathToFileURL(outfile).href);}
+const c=await load('src/sourceCorrections.ts','corrections'),m=await load('src/model.ts','model'),n=await load('src/narrationTranscript.ts','narration'),b=await load('src/casebookWithCorrections.ts','book'),g=await load('src/geography.ts','geo');
+const raw=await loadOriginalRegistry(),hash=()=>createHash('sha256').update(JSON.stringify(raw)).digest('hex'),before=hash(),scene=m.buildEvidenceScene(raw,{requireAllTargets:true}),factual=m.factualScene(scene),held=c.PROGRESSIVE_CORRECTIONS.find(x=>!x.graphEligible),qualified=c.PROGRESSIVE_CORRECTIONS.find(x=>x.graphEligible),all=[...raw.entities,...raw.relationships,...raw.records],find=id=>all.find(x=>x.id===id);
+const book=ids=>({version:1,title:'Progressive source scope',question:'',falsifier:'',pins:ids.map(id=>({kind:id.includes(':relationship:')?'relationship':'record',id,addedAt:'2026-10-16T08:35:00Z',note:''})),views:[]});
+test('only exact upstream pair is held; c040 stays qualified and immutable raw corpus survives',()=>{
+ assert.equal(before,'048f89ffd008a498212ff2ac71d4413aef09b138a50ab77f336a23fec4722064');assert.equal(scene.nodes.length,8086);assert.equal(scene.edges.length,4203);assert.equal(raw.held.length,316);
+ for(const id of held.targetIds){assert.ok(m.isHeldItem(raw,id));assert.ok(!factual.nodes.some(x=>x.id===id));assert.ok(!factual.edges.some(x=>x.id===id));assert.ok(!m.filterScene(factual,{query:id}).nodes.some(x=>x.id===id));}
+ for(const id of qualified.targetIds){assert.equal(m.isHeldItem(raw,id),false);assert.ok([...factual.nodes,...factual.edges].some(x=>x.id===id));}
+ assert.equal(factual.nodes.length,7853);assert.equal(factual.edges.length,4197);const geographic=g.getGeographicScene(factual);assert.equal(geographic.nodes.length,3856);assert.equal(geographic.unplacedNodes.length,3997);assert.equal(hash(),before);
+});
+test('full title/summary/narration retain source limits without speaking held numeric amounts',()=>{
+ for(const entry of c.PROGRESSIVE_CORRECTIONS)for(const id of entry.targetIds){const row=find(id);assert.deepEqual(row,entry.expectedItems.find(x=>x.id===id));assert.equal(c.presentationTitle(row),entry.displayTitle);assert.equal(c.presentationSummary(row),entry.summary);const spoken=n.buildNarrationTranscript(row,m.isHeldItem(raw,id));assert.match(spoken,/Source-scope correction/);assert.doesNotMatch(spoken,/834\.97|two donations|weeks after|44,203/);if(entry.graphEligible){assert.match(spoken,/approximately ₹757\.62/);assert.match(spoken,/Amount: INR 757\.6205/);}else{assert.doesNotMatch(spoken,/Amount:|757\.6/);assert.match(spoken,/excluded from totals and money paths/);}}
+ assert.equal(hash(),before);
+});
+test('JSON retains exact raw amounts and closure plus sidecars; derived Markdown suppresses held amount only',()=>{
+ const ids=c.PROGRESSIVE_CORRECTIONS.flatMap(x=>x.targetIds),packet=b.buildCasebookPacket(book(ids),raw,{requireAllTargets:true});assert.deepEqual(packet.sourceCorrections.filter(x=>c.PROGRESSIVE_CORRECTIONS.some(p=>p.id===x.id)).map(x=>x.id),c.PROGRESSIVE_CORRECTIONS.map(x=>x.id));
+ for(const key of ['relationships','records'])for(const row of packet[key])assert.deepEqual(row,find(row.id));
+ for(const entry of c.PROGRESSIVE_CORRECTIONS){const record=packet.records.find(x=>x.id===entry.targetIds[1]);assert.deepEqual(record.sourceIds,entry.sourceIds);for(const id of record.sourceIds)assert.ok(packet.sources.some(x=>x.id===id));}
+ const heldPacket=b.buildCasebookPacket(book(held.targetIds),raw),heldMarkdown=b.casebookMarkdown(heldPacket);for(const id of held.targetIds){const section=heldMarkdown.split("\n### ").find(text=>text.includes(`ID: ${id}.`));assert.ok(section);assert.doesNotMatch(section,/Amounts \(|INR 757\.6 |₹757\.6cr → BJP/);}assert.match(heldMarkdown,/SOURCE-SCOPE CORRECTION/);assert.match(heldMarkdown,/upstream amount/);
+ const qualifiedMarkdown=b.casebookMarkdown(b.buildCasebookPacket(book(qualified.targetIds),raw));assert.match(qualifiedMarkdown,/INR 757\.6205/);assert.doesNotMatch(qualifiedMarkdown,/834\.97|two donations|weeks after the Cabinet/);assert.equal(hash(),before);
+});
+test('strict present/complete targets and full source objects fail closed across load, mutation and export',()=>{
+ for(const entry of c.PROGRESSIVE_CORRECTIONS){for(const expected of entry.expectedItems)for(const key of Object.keys(expected)){const changed=structuredClone(raw),row=[...changed.relationships,...changed.records].find(x=>x.id===expected.id);row[key]='drift';assert.throws(()=>c.validateProgressiveRegistry(changed,{requireAllTargets:true}),/Progressive (object drift|missing target)/,key);}
+  for(const expected of entry.expectedSources){const changed=structuredClone(raw);changed.sources.find(x=>x.id===expected.id).url='https://example.com/drift';assert.throws(()=>m.buildEvidenceScene(changed,{requireAllTargets:true}),/source (closure )?drift/);}
+  const missing=structuredClone(raw);missing.relationships=missing.relationships.filter(x=>x.id!==entry.targetIds[0]);assert.throws(()=>c.validateProgressiveRegistry(missing,{requireAllTargets:true}),/missing target/);
+  const dup=structuredClone(raw);dup.records.push(structuredClone(entry.expectedItems[1]));assert.throws(()=>c.validateProgressiveRegistry(dup),/duplicate target/);
+ }
+ const mutateAfter=structuredClone(raw),parsed=m.buildEvidenceScene(mutateAfter);mutateAfter.records.find(x=>x.id===held.targetIds[1]).summary+='drift';assert.throws(()=>m.factualScene(parsed),/Progressive object drift/);
+ assert.throws(()=>c.validateProgressiveDefinitions([]),/definition drift/);
+ const partial={entities:[],relationships:[held.expectedItems[0]],records:[],sources:held.expectedSources};assert.doesNotThrow(()=>c.validateProgressiveRegistry(partial));assert.throws(()=>c.validateProgressiveRegistry(partial,{requireAllTargets:true}),/missing target/);
+});
+test('unrelated shared citations and separate onward/INC/aggregate assertions are unchanged',()=>{
+ for(const id of ['legacy:relationship:20dec4ae286c2b9a|progressive|trust|bjp','legacy:relationship:money:c039|grp:tata|trust|progressive','legacy:relationship:money:c041|progressive|direct|party:inc']){const item=find(id);assert.ok(item);assert.equal(c.presentationCorrection(id),null);assert.equal(c.presentationSummary(item),item.summary);assert.ok(factual.edges.some(x=>x.id===id));}
+ for(const source of qualified.expectedSources)assert.equal(c.sourceCitationCorrection(source.id),null);
+ const unrelated={...held.expectedItems[0],id:'unrelated:relationship'};assert.equal(c.presentationCorrection(unrelated.id),null);assert.equal(c.presentationSummary(unrelated),unrelated.summary);assert.equal(hash(),before);
+});
+test('reader exposes held amount only in explicit raw audit material',async()=>{const app=await readFile('src/App.tsx','utf8');assert.match(app,/data-held-amounts="true"/);assert.match(app,/\(!inspectionCorrection \|\| inspectionCorrection.graphEligible\) && \(/);assert.match(app,/Superseded raw object · audit only, not accepted evidence/);});

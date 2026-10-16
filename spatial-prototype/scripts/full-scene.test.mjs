@@ -1,6 +1,6 @@
 import test, { after } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtemp, rm } from 'node:fs/promises';
+import { mkdtemp, rm, readFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -23,6 +23,8 @@ const snapshot = createHash('sha256').update(JSON.stringify(original)).digest('h
 const scene = buildEvidenceScene(original);
 const factual = factualScene(scene);
 const originalItems = [...original.entities, ...original.records];
+const acceptedTitleCorrections = (await Promise.all(['src/source-correction-jio-holds.json','src/source-correction-progressive.json'].map(async path=>JSON.parse(await readFile(path,'utf8'))))).flat();
+const acceptedTitles = new Map(acceptedTitleCorrections.flatMap(c=>c.targetIds.filter(id=>id.includes(':record:')).map(id=>[id,c.displayTitle])));
 const sourceIds = new Set(original.sources.map(source => source.id));
 const heldIds = new Set(original.held.map(item => item.id));
 
@@ -53,11 +55,12 @@ test('complete model retains every original entity, record, directed relationshi
 });
 
 test('all evidence objects, original IDs, citations, qualifiers and geography are retained by reference', () => {
+  assert.deepEqual([...acceptedTitles.keys()].sort(),['legacy:record:4d8d2645c8158165|for:meta-platforms|own|grp:reliance','legacy:record:46b943139aaf3743|for:google-alphabet-|own|grp:reliance','legacy:record:e1f6b96bef1be1d5|tata|trust|progressive','legacy:record:money:c040|progressive|direct|bjp'].sort());
   for (let index = 0; index < scene.nodes.length; index++) {
     const node = scene.nodes[index], item = originalItems[index];
     assert.equal(node.item, item);
     assert.equal(node.id, item.id);
-    assert.equal(node.title, node.id === 'legacy:record:f34361dbb8642b3|adani|direct|bjp' ? 'Adani Group · Electoral-bond name absence reported; wider donation history unverified' : node.id === 'legacy:record:652dbd2bc25b312f|sec182|law|adani' ? 'Adani Group · Adani-specific disclosure claim unverified' : item.title ?? item.label);
+    assert.equal(node.title, node.id === 'legacy:record:f34361dbb8642b3|adani|direct|bjp' ? 'Adani Group · Electoral-bond name absence reported; wider donation history unverified' : node.id === 'legacy:record:652dbd2bc25b312f|sec182|law|adani' ? 'Adani Group · Adani-specific disclosure claim unverified' : node.id === 'legacy:record:d28b0cf3ca30f78d|leap|direct|bjp' ? 'Leap India · Political donation history unverified' : node.id === 'legacy:record:95bc13ffc3aa7ef5|coal|award|sarda' ? 'Coal & Mines Ministry · 66.75% closing bid · Sarda Energy' : acceptedTitles.get(node.id) ?? item.title ?? item.label);
     assert.equal(node.item.sourceIds, item.sourceIds);
     assert.equal(node.item.geography, item.geography);
     assert.equal(node.item.limitations, item.limitations);
@@ -147,10 +150,10 @@ test('held lookup indexes each immutable snapshot once without mutating or mixin
 });
 
 test('factual marks exclude all held/not-drawn records while the complete reader registry survives', () => {
-  assert.equal(factual.nodes.length, 7857);
+  assert.equal(factual.nodes.length, 7853);
   assert.equal(factual.nodes.filter(node => node.kind === 'entity').length, 2469);
-  assert.equal(factual.nodes.filter(node => node.kind === 'record').length, 5388);
-  assert.equal(factual.edges.length, 4201);
+  assert.equal(factual.nodes.filter(node => node.kind === 'record').length, 5384);
+  assert.equal(factual.edges.length, 4197);
   assert.ok(factual.nodes.every(node => !heldIds.has(node.id) && node.item.status !== 'not-drawn'));
   assert.ok(factual.edges.every(edge => !heldIds.has(edge.id) && edge.relationship.status !== 'not-drawn'));
   assert.equal(factual.registry.held.length, 316);

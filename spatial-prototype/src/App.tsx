@@ -117,7 +117,7 @@ export default function App({
   dataset?: "full" | "preview";
 }) {
   const preview = useMemo(
-    () => (dataset === "full" ? buildEvidenceScene(registry) : buildPreview()),
+    () => (dataset === "full" ? buildEvidenceScene(registry, { requireAllTargets: true }) : buildPreview()),
     [registry, dataset],
   );
   const nodes = useMemo(
@@ -1265,7 +1265,7 @@ export default function App({
                   filters to locate it.
                 </p>
               )}
-            {inspectionEdge && !inspectionCorrection && (
+            {inspectionEdge && (!inspectionCorrection || inspectionCorrection.graphEligible) && (
               <div className="relationship-route">
                 <span>{nodes.get(inspectionEdge.from)?.title}</span>
                 <ArrowRight size={16} />
@@ -1282,8 +1282,8 @@ export default function App({
             {"tier" in item && (
               <dl className="metadata-grid">
                 <div>
-                  <dt>{inspectionCorrection ? "Superseded original status" : "Recorded status"}</dt>
-                  <dd>{readable(item.status)}{inspectionCorrection ? " · now source-correction hold" : ""}</dd>
+                  <dt>{inspectionCorrection && !inspectionCorrection.graphEligible ? "Superseded original status" : "Recorded status"}</dt>
+                  <dd>{readable(item.status)}{inspectionCorrection && !inspectionCorrection.graphEligible ? " · now source-correction hold" : ""}</dd>
                 </div>
                 <div>
                   <dt>Status as of</dt>
@@ -1301,7 +1301,10 @@ export default function App({
             {"dateBasis" in item && (
               <p className="small-copy">{item.dateBasis}</p>
             )}
-            {"amounts" in item && item.amounts.length > 0 && (
+            {"amounts" in item && item.amounts.length > 0 && inspectionCorrection && !inspectionCorrection.graphEligible && (
+              <p className="notice" data-held-amounts="true">The retained amount is excluded from factual numeric use. The unchanged original value is available only in the audit object and raw JSON export.</p>
+            )}
+            {"amounts" in item && item.amounts.length > 0 && (!inspectionCorrection || inspectionCorrection.graphEligible) && (
               <section>
                 <h3>Amounts, with their accounting stage</h3>
                 {item.amounts.map((a, i) => (
@@ -1542,7 +1545,7 @@ export default function App({
               </section>
             )}
             <details className="retained-metadata">
-              <summary>{inspectionCorrection ? "Superseded raw object · audit only, not accepted evidence" : "Complete retained object"}</summary>
+              <summary>{inspectionCorrection ? (inspectionCorrection.graphEligible ? "Original object · specified prose superseded by source qualification" : "Superseded raw object · audit only, not accepted evidence") : "Complete retained object"}</summary>
               <pre>{JSON.stringify(item, null, 2)}</pre>
             </details>
             <section className="casebook-box">
@@ -1571,7 +1574,7 @@ export default function App({
                 className="text-button"
                 onClick={() =>
                   makeDownload(
-                    buildCasebookPacket(saved.book, registry),
+                    buildCasebookPacket(saved.book, registry, { requireAllTargets: dataset === "full" }),
                     "fieldwork-casebook.json",
                   )
                 }

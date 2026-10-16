@@ -1,4 +1,4 @@
-import { sourceCorrection, presentationTitle, presentationSummary } from './sourceCorrections';
+import { sourceCorrection, presentationTitle, presentationSummary, validateSourceCorrectionsRegistry } from './sourceCorrections';
 import registryData from './registry.json';
 import type {
   InvestigationEntity, InvestigationLayer, InvestigationRecord,
@@ -40,6 +40,8 @@ export interface SceneFilters {
   includeUndated?: boolean;
 }
 export interface PreviewData {
+  /** Explicit complete-corpus contract survives filtering; previews and packets make no such claim. */
+  completeOriginalSnapshot?: true;
   nodes: SceneNode[];
   edges: SceneEdge[];
   /** The complete input registry stays available while the scene is filtered. */
@@ -97,6 +99,7 @@ export function strength(item: { sourceIds: string[] } | SceneEdge | number): nu
 
 /** All positions are deterministic display coordinates on an approximately 60 × 36 board. */
 export function buildPreview(): PreviewData {
+  validateSourceCorrectionsRegistry(registry);
   const items: { kind: 'entity' | 'record'; item: InvestigationEntity | InvestigationRecord }[] = [
     ...registry.entities.map(item => ({ kind: 'entity' as const, item })),
     ...registry.records.map(item => ({ kind: 'record' as const, item })),
@@ -113,7 +116,7 @@ export function buildPreview(): PreviewData {
       const z = cluster.position[2] + (Math.floor(index / columns) - (rowCount - 1) / 2) * spacingZ;
       // Elevation is only a stable visual treatment, unrelated to evidence tier.
       const y = kind === 'record' ? 0.28 : 0.52 + (stableHash(item.id) % 4) * 0.14;
-      nodes.push({ id: item.id, kind, item, title: 'title' in item ? item.title : item.label, position: [x, y, z], cluster: cluster.id });
+      nodes.push({ id: item.id, kind, item, title: presentationTitle(item), position: [x, y, z], cluster: cluster.id });
     });
   }
   const ids = new Set(nodes.map(node => node.id));
@@ -137,7 +140,8 @@ export const getPreview = buildPreview;
  * projection must read each item's retained geography; no label-based placement,
  * narrative cluster, membership edge or inferred relationship is introduced here.
  */
-export function buildEvidenceScene(input: InvestigationRegistry): PreviewData {
+export function buildEvidenceScene(input: InvestigationRegistry, options: { requireAllTargets?: boolean } = {}): PreviewData {
+  validateSourceCorrectionsRegistry(input, options);
   const nodes: SceneNode[] = [
     ...input.entities.map(item => ({
       id: item.id, kind: 'entity' as const, item, title: presentationTitle(item),
@@ -157,6 +161,7 @@ export function buildEvidenceScene(input: InvestigationRegistry): PreviewData {
     .filter((year): year is number => year !== null);
   return {
     nodes, edges, registry: input, clusters: [],
+    ...(options.requireAllTargets ? { completeOriginalSnapshot: true as const } : {}),
     layers: LAYERS.map(layer => ({ ...layer })),
     // [0, 0] is the empty-range sentinel, never a substituted event date.
     yearRange: years.length ? [Math.min(...years), Math.max(...years)] : [0, 0],
@@ -186,6 +191,7 @@ export function isHeldItem(input: InvestigationRegistry, id: string): boolean {
  * excluding held/not-drawn marks and any edge whose endpoint cannot be drawn.
  */
 export function factualScene(scene: PreviewData): PreviewData {
+  validateSourceCorrectionsRegistry(scene.registry, { requireAllTargets: scene.completeOriginalSnapshot });
   const heldIds = heldIdsFor(scene.registry);
   const nodes = scene.nodes.filter(node => !heldIds.has(node.id) && !sourceCorrection(node.id)
     && !('status' in node.item && node.item.status === 'not-drawn'));

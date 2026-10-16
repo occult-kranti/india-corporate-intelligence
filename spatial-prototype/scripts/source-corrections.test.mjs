@@ -20,8 +20,13 @@ const hash=()=>createHash('sha256').update(JSON.stringify(original)).digest('hex
 const hashBefore=hash();
 const edgeID='legacy:relationship:f34361dbb8642b3|adani|direct|bjp';
 const recordID='legacy:record:f34361dbb8642b3|adani|direct|bjp';
+const leapEdgeID='legacy:relationship:d28b0cf3ca30f78d|leap|direct|bjp';
+const leapRecordID='legacy:record:d28b0cf3ca30f78d|leap|direct|bjp';
 const sectionEdgeID='legacy:relationship:652dbd2bc25b312f|sec182|law|adani';
 const sectionRecordID='legacy:record:652dbd2bc25b312f|sec182|law|adani';
+const acceptedAdditionalHolds=[...correction.JIO_HOLD_CORRECTIONS,...correction.PROGRESSIVE_CORRECTIONS.filter(c=>!c.graphEligible)];
+const heldEdgeIDs=[edgeID,sectionEdgeID,leapEdgeID,...acceptedAdditionalHolds.flatMap(c=>c.targetIds.filter(id=>id.includes(':relationship:')))];
+const heldRecordIDs=[recordID,sectionRecordID,leapRecordID,...acceptedAdditionalHolds.flatMap(c=>c.targetIds.filter(id=>id.includes(':record:')))];
 const entityID='legacy:entity:adani';
 const sourceID='legacy:source:4f9a5826f3c29ee';
 const edge=original.relationships.find(row=>row.id===edgeID),record=original.records.find(row=>row.id===recordID),entity=original.entities.find(row=>row.id===entityID);
@@ -45,9 +50,12 @@ test('exact edge and mirrored record are reader-only without removing other rows
  assert.equal(original.held.length,316);
  const retainedEligibleNodes=scene.nodes.filter(node=>!original.held.some(row=>row.id===node.id)&&node.item.status!=='not-drawn');
  const retainedEligibleEdges=scene.edges.filter(row=>!original.held.some(held=>held.id===row.id)&&row.relationship.status!=='not-drawn');
- assert.deepEqual(retainedEligibleNodes.filter(node=>!factual.nodes.includes(node)).map(node=>node.id).sort(),[recordID,sectionRecordID].sort());
- assert.deepEqual(retainedEligibleEdges.filter(row=>!factual.edges.includes(row)).map(row=>row.id).sort(),[edgeID,sectionEdgeID].sort());
- assert.equal(factual.nodes.length,7857);assert.equal(factual.edges.length,4201);
+ assert.equal(heldEdgeIDs.length,6);assert.equal(heldRecordIDs.length,6);
+ assert.deepEqual(heldEdgeIDs.slice().sort(),['legacy:relationship:f34361dbb8642b3|adani|direct|bjp','legacy:relationship:652dbd2bc25b312f|sec182|law|adani','legacy:relationship:d28b0cf3ca30f78d|leap|direct|bjp','legacy:relationship:4d8d2645c8158165|for:meta-platforms|own|grp:reliance','legacy:relationship:46b943139aaf3743|for:google-alphabet-|own|grp:reliance','legacy:relationship:e1f6b96bef1be1d5|tata|trust|progressive'].sort());
+ assert.deepEqual(heldRecordIDs.slice().sort(),heldEdgeIDs.map(id=>id.replace('relationship:','record:')).sort());
+ assert.deepEqual(retainedEligibleNodes.filter(node=>!factual.nodes.includes(node)).map(node=>node.id).sort(),heldRecordIDs.slice().sort());
+ assert.deepEqual(retainedEligibleEdges.filter(row=>!factual.edges.includes(row)).map(row=>row.id).sort(),heldEdgeIDs.slice().sort());
+ assert.equal(factual.nodes.length,7853);assert.equal(factual.edges.length,4197);
  assert.equal(model.isHeldItem(original,edgeID),true);assert.equal(model.isHeldItem(original,recordID),true);assert.equal(model.isHeldItem(original,entityID),false);
  assert.equal(hash(),hashBefore);
 });
@@ -55,7 +63,7 @@ test('held correction never re-enters a selected geographic/thread projection or
  assert.equal(model.filterScene(factual,{query:recordID}).nodes.length,0);
  assert.equal(model.filterScene(factual,{query:edgeID}).edges.length,0);
  const geo=geography.getGeographicScene(factual);
- assert.equal(geo.nodes.length,3856);assert.equal(geo.unplacedNodes.length,4001);
+ assert.equal(geo.nodes.length,3856);assert.equal(geo.unplacedNodes.length,3997);
  assert.ok(!geo.edges.some(row=>row.id===edgeID));
  assert.ok(model.filterScene(scene,{query:recordID}).nodes.some(row=>row.id===recordID));
  assert.ok(model.filterScene(scene,{query:edgeID}).edges.some(row=>row.id===edgeID));
@@ -99,7 +107,7 @@ test('UI and exported casebook entry use correction-aware helpers while storage 
  assert.match(app,/from "\.\/casebookWithCorrections"/);assert.match(app,/data-source-correction/);
  assert.match(app,/Superseded raw object · audit only, not accepted evidence/);
  assert.match(app,/inspectionEdge && !inspectionHeld && !mapEdgeIds.has/);
- assert.match(app,/inspectionEdge && !inspectionCorrection &&/);
+ assert.ok(app.includes('inspectionEdge && (!inspectionCorrection || inspectionCorrection.graphEligible)'));
  assert.match(app,/SUPERSEDED CLAIM \/ SOURCE REVIEW/);
  assert.match(reader,/presentationSummary\(node.item\)/);assert.match(reader,/presentationTitle\(edge.relationship\)/);
  assert.match(reader,/sourceCitationCorrection\(source.id\)/);
@@ -125,7 +133,7 @@ test('second exact-target receipt holds the unsupported filing survey without ma
  }
  const casebook={version:1,title:'Both corrections',question:'',falsifier:'',pins:[edgeID,sectionEdgeID].map(id=>({kind:'relationship',id,addedAt:'2026-10-16T05:00:00Z',note:''})),views:[]};
  const packet=book.buildCasebookPacket(casebook,original);
- assert.deepEqual(packet.sourceCorrections,correction.SOURCE_CORRECTIONS);
+ assert.deepEqual(packet.sourceCorrections,[correction.SOURCE_CORRECTION,correction.SECTION182_CORRECTION]);
  assert.equal(packet.relationships.length,2);assert.equal(packet.records.length,2);
  assert.doesNotMatch(book.casebookMarkdown(packet),/No non-zero|genuine nil OR concealment|₹0|ZERO disclosed political donations anywhere/);
  assert.equal(hash(),hashBefore);

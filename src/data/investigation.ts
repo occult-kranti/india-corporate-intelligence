@@ -27,9 +27,11 @@ export interface InvestigationRawSlice {sources:Omit<InvestigationSource,'namesp
 export interface LegacyInvestigationGraph {nodes:GNode[];edges:GEdge[];heldEdges?:GEdge[]}
 
 import {NODES,EDGES,RAW_ATLAS_NODES,RAW_ATLAS_EDGES} from '../graph/data';
-import {buildNationalGraph} from '../graph/build';
+import {buildNationalGraph,buildRetainedNationalGraph,type DerivedGraph} from '../graph/build';
+import {assertJioRetainedRegistry} from './jioOwnershipCorrections';
 import {mergeFleet} from '../graph/mergeFleet';
-import {ENERGY_NODES,ENERGY_EDGES,ENERGY_META} from '../graph/energy.generated';
+import {ENERGY_NODES,ENERGY_EDGES as RETAINED_ENERGY_EDGES,ENERGY_META} from '../graph/energy.generated';
+import {ENERGY_EDGES} from '../graph/energyEffective';
 import {WELFARE_ENTITIES,WELFARE_SCHEME_NODES,WELFARE_CLAIMS,WELFARE_SCHEMES} from './welfare.generated';
 import {FINANCE_NODES,FINANCE_EDGES,FINANCE_LOAN_FACTS,FINANCE_META} from '../graph/finance.generated';
 import {NGO_NODES,NGO_EDGES,NGO_META} from '../graph/ngo.generated';
@@ -105,14 +107,13 @@ const edgeLayer=(kind:string):InvestigationLayer=>['award','contracted','impleme
 const publicWorksDomains=(row:{sectors?:string[]})=>unique(['public-works',...(row.sectors??[]).map(sector=>({electricity:'energy',schools:'education',hospitals:'welfare',police:'security',military:'security',recruitment:'governance',administration:'governance',water:'water'} as Record<string,string>)[sector]).filter(Boolean)]);
 const domainRoute=(domain:string)=>({governance:'/political',capital:'/map',energy:'/energy',finance:'/finance',ngo:'/network',security:'/security',welfare:'/welfare',education:'/education',water:'/water','public-works':'/public-works',pmcares:'/pmcares',justice:'/justice','debt-relief':'/debt'} as Record<string,string>)[domain]??'/investigate';
 
-function buildInvestigationRegistryFromAtlas(atlasNodes:GNode[],atlasEdges:GEdge[]):InvestigationRegistry{
+function buildInvestigationRegistryFromAtlas(atlasNodes:GNode[],atlasEdges:GEdge[],nationalGraph:DerivedGraph,energyEdges:GEdge[]):InvestigationRegistry{
  const registry:InvestigationRegistry={updatedAt:INVESTIGATION_UPDATED_AT,entities:[],relationships:[],records:[],sources:[],states:INVESTIGATION_STATES,localities:[],coverage:[],held:[],methodology:['This registry adapts existing source-backed records; it does not infer relationships from geographic proximity or similar names.','State association, registered headquarters and constituency are distinct from documented programme or asset coverage. Legacy Jammu & Kashmir tags may reflect pre-2019 boundaries; they are not assigned to Ladakh.','Paths traverse retained sourced relationships only. They demonstrate recorded connectivity, not causation, criminal guilt or influence.','Money retains currency, unit, accounting stage and period. No cross-stage, cross-currency or cross-population total is supplied.','Held records preserve missing sources, unresolved identities and claim-target responses without drawing dangling edges.']};
  const sourceMap=new Map<string,InvestigationSource>();
  const addSource=(source:InvestigationSource)=>{if(sourceMap.has(source.id)&&sourceMap.get(source.id)!.url!==source.url)throw new Error(`Source ID collision: ${source.id}`);if(!sourceMap.has(source.id)){sourceMap.set(source.id,source);registry.sources.push(source);}return source.id;};
  const tupleSources=(items:[string,string][]|undefined)=>unique((items??[]).filter(([,url])=>/^https?:\/\//u.test(url)).map(([title,url])=>addSource({id:ns('legacy','source',hash(url)),originalId:url,namespace:'legacy',title,url,publisher:'See retained source',publishedAt:null,retrievedAt:null,locator:'Existing corpus citation; exact page/date may not be recorded',summary:title,tier:'reported',limitations:['Citation inherited from the existing registry; its claim retains the original evidence tier. Publication and retrieval dates were not re-inferred.']})));
  const addRecord=(row:Partial<InvestigationRecord>&Pick<InvestigationRecord,'id'|'originalId'|'namespace'|'title'|'summary'|'sourceIds'|'domains'|'layers'|'geography'|'route'>)=>registry.records.push({kind:'record',tier:'reported',status:'retained-record',statusAsOf:null,fromDate:null,toDate:null,dateBasis:'Exact event dates not recorded; read the stated period.',entityIds:[],relationshipIds:[],period:'Not specified in structured fields',response:'No response is asserted by this record.',alternativeExplanations:[],falsifier:null,amounts:[],limitations:[],...row});
- const fleets=[{domain:'energy',nodes:ENERGY_NODES,edges:ENERGY_EDGES},{domain:'welfare',nodes:[...WELFARE_ENTITIES,...WELFARE_SCHEME_NODES],edges:WELFARE_CLAIMS},{domain:'finance',nodes:FINANCE_NODES,edges:FINANCE_EDGES},{domain:'ngo',nodes:NGO_NODES,edges:NGO_EDGES},{domain:'capital',nodes:CAPITAL_NODES,edges:CAPITAL_EDGES},{domain:'security',nodes:FORCE_NODES,edges:FORCE_EDGES}];
- const nationalGraph=buildNationalGraph();
+ const fleets=[{domain:'energy',nodes:ENERGY_NODES,edges:energyEdges},{domain:'welfare',nodes:[...WELFARE_ENTITIES,...WELFARE_SCHEME_NODES],edges:WELFARE_CLAIMS},{domain:'finance',nodes:FINANCE_NODES,edges:FINANCE_EDGES},{domain:'ngo',nodes:NGO_NODES,edges:NGO_EDGES},{domain:'capital',nodes:CAPITAL_NODES,edges:CAPITAL_EDGES},{domain:'security',nodes:FORCE_NODES,edges:FORCE_EDGES}];
  const legacy=mergeFleet({nodes:[...atlasNodes,...nationalGraph.nodes],edges:[...atlasEdges,...nationalGraph.edges]},fleets);
  const edgeKey=(edge:GEdge)=>`${edge.id??hash(`${edge.lab??''}|${edge.d??''}`)}|${edge.s}|${edge.pred}|${edge.t}`;
  const lenderIds=new Set(RETAINED_INTERNATIONAL_LENDER_IDS);
@@ -235,10 +236,14 @@ function buildInvestigationRegistryFromAtlas(atlasNodes:GNode[],atlasEdges:GEdge
 }
 
 // Normal routes, indexes and path search always use the corrected display graph.
-export const buildInvestigationRegistry=():InvestigationRegistry=>buildInvestigationRegistryFromAtlas(NODES,EDGES);
+export const buildInvestigationRegistry=():InvestigationRegistry=>buildInvestigationRegistryFromAtlas(NODES,EDGES,buildNationalGraph(),ENERGY_EDGES);
 // Audit/snapshot packaging only: preserves the historical corpus and insertion order.
 // Never use this function for normal /investigate display or path eligibility.
-export const buildRetainedInvestigationRegistry=():InvestigationRegistry=>buildInvestigationRegistryFromAtlas(RAW_ATLAS_NODES,RAW_ATLAS_EDGES);
+export const buildRetainedInvestigationRegistry=():InvestigationRegistry=>{
+ const registry=buildInvestigationRegistryFromAtlas(RAW_ATLAS_NODES,RAW_ATLAS_EDGES,buildRetainedNationalGraph(),RETAINED_ENERGY_EDGES);
+ assertJioRetainedRegistry(registry);
+ return registry;
+};
 export const INVESTIGATION_REGISTRY=buildInvestigationRegistry();
 export const getInvestigationRegistry=()=>INVESTIGATION_REGISTRY;
 const entityIndex=new Map(INVESTIGATION_REGISTRY.entities.map(row=>[row.id,row]));

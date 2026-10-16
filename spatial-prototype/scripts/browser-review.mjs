@@ -1655,7 +1655,7 @@ try {
   );
   assert.equal(
     model.factualScene(fullScene).nodes.length,
-    7857,
+    7853,
     "Factual exclusion baseline changed",
   );
   await build({
@@ -2691,7 +2691,7 @@ try {
       const factual = model.factualScene(fullScene);
       const geographic = geography.getGeographicScene(factual);
       assert.equal(geographic.nodes.length, 3856);
-      assert.equal(geographic.unplacedNodes.length, 4001);
+      assert.equal(geographic.unplacedNodes.length, 3997);
       const display = await assertSemanticDisplay(
         page,
         result,
@@ -2871,7 +2871,7 @@ try {
         ),
       );
       result.notes.push(
-        "Default entry fetched all 96 verified chunks; 8,086 retained items include 7,857 factual-map-eligible items, with 3,856 area-anchored and 4,001 unplaced. Six UI-only country stacks expand to 42 original areas. Exact original rendered-edge IDs follow the 24-world/60-area caps; the selected original relationship, both endpoint details, provenance and exported source objects survive semantic zoom. Full-reader pagination resets scroll and focuses the new result range.",
+        "Default entry fetched all 96 verified chunks; 8,086 retained items include 7,853 factual-map-eligible items, with 3,856 area-anchored and 3,997 unplaced. Six UI-only country stacks expand to 42 original areas. Exact original rendered-edge IDs follow the 24-world/60-area caps; the selected original relationship, both endpoint details, provenance and exported source objects survive semantic zoom. Full-reader pagination resets scroll and focuses the new result range.",
       );
     },
   );

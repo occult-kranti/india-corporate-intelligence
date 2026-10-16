@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "asOf": "2026-10-16T06:43:06Z",
-  "checkpointTitle": "Release and selected-case review · 16 October 2026, 06:43 UTC",
+  "asOf": "2026-10-16T09:38:40Z",
+  "checkpointTitle": "Qualified readers live and source-scope review · 16 October 2026, 09:38 UTC",
   "freshnessHours": 24,
   "scope": "Nine curated work items, next steps and dated roadmap milestones. Updated after reviewed progress; this is a snapshot, not live worker telemetry.",
   "tasks": [
@@ -33,12 +33,12 @@
     {
       "id": "historical-tutorial",
       "title": "Field guide and activity release",
-      "status": "review-pending",
+      "status": "completed",
       "role": "Release verification",
       "question": "Are the field guide and simple activity page published after their browser repair?",
-      "lastChecked": "2026-10-16T06:43:06Z",
-      "nextAction": "Complete the post-merge deployment gates and verify the published routes and files.",
-      "summary": "PR10 merged with the atlas guide and activity page, but its first deployment stopped before publication. Test-only PR11 merged at 81b0e3b9 after all three exact-head CI gates and assistant screenshot review. The new deployment is pending; these additions are not yet verified live.",
+      "lastChecked": "2026-10-16T09:12:40Z",
+      "nextAction": "Keep the published guide, activity page and original-route navigation covered by release checks.",
+      "summary": "PR11 merged at 81b0e3b9 after all three exact-head CI gates and assistant screenshot review. Its deployment and published reader, guide, activity and navigation were verified. The guide is explicitly opened by the reader; audio remains optional.",
       "evidence": [
         {
           "title": "PR10 · guide and activity implementation",
@@ -49,7 +49,12 @@
           "url": "https://github.com/occult-kranti/india-corporate-intelligence/pull/11"
         }
       ],
-      "privateProjectLink": null
+      "privateProjectLink": null,
+      "completion": {
+        "evidenceIndex": 1,
+        "verifiedAt": "2026-10-16T07:03:10Z",
+        "note": "Published route/assets and all 96 raw registry chunks matched the release tree; separate live fallback navigation and guide checks passed. This dated console does not monitor deployments."
+      }
     },
     {
       "id": "original-guides",
@@ -92,15 +97,17 @@
       "status": "review-pending",
       "role": "Reader and source-scope review",
       "question": "Do the approved reader panels retain their dates, qualifications and responses without becoming factual paths?",
-      "lastChecked": "2026-10-16T06:43:06Z",
-      "nextAction": "Run exact-head browser checks and inspect all reader panels and both source-scope corrections before release.",
-      "summary": "Nine historical issuer-disclosure claims and twenty sector panels have scoped reader-only publication approval. The local candidate passes 223 spatial tests and production builds; actual release-head browser review is pending. Two inherited donation/disclosure claims are qualified and held after citation-scope review. Raw baseline bytes and all graph/path holds remain intact.",
+      "lastChecked": "2026-10-16T09:38:40Z",
+      "nextAction": "Complete PR13 exact-head browser and visual checks, then verify the next bounded source-correction release.",
+      "summary": "PR12 is live at the verified 3032fd73 release: nine historical issuer-disclosure claims and twenty sector panels have reader-only publication approval and are available in explicit opt-in readers. All 146 checked published paths, including 96 raw registry chunks, matched the release tree; live reader, scroll, focus-return and source-correction checks passed. PR13 is a draft review candidate holding four further inherited relationship interpretations and qualifying dated Sarda/Progressive text. Raw baseline bytes and all research graph/path holds remain intact.",
       "evidence": [
         {
-          "title": "29-panel reader candidate · local validation and source-scope review"
+          "title": "PR12 · 29 qualified readers and first source corrections, publication verified",
+          "url": "https://github.com/occult-kranti/india-corporate-intelligence/pull/12"
         },
         {
-          "title": "Separate reader-admission decisions · graph and paths blocked"
+          "title": "PR13 · bounded source-scope corrections under exact-head review",
+          "url": "https://github.com/occult-kranti/india-corporate-intelligence/pull/13"
         }
       ],
       "privateProjectLink": null
@@ -143,15 +150,15 @@
       "status": "review-pending",
       "role": "Profile integration and source review",
       "question": "Can selected profiles retain dated ownership, voting, financial-stage and role qualifications in a clear reader?",
-      "lastChecked": "2026-10-16T06:29:00Z",
-      "nextAction": "Integrate the reviewed profile reader after the qualified-reader release; implement the content-reviewed case-local diagrams, then check their visible qualifications and new sources.",
-      "summary": "17 selected billionaire and public-office case packets have received scoped source reviews. A 14-profile, 50-claim reader projection passed content review and awaits app integration and visual checks. Ellison/Oracle and Page/Brin/Alphabet research is underway. Modi is a public-office profile. Dates, voting versus economic rights, shared holdings and financial stages stay explicit; this is selected-case coverage, not complete worldwide mapping.",
+      "lastChecked": "2026-10-16T09:12:40Z",
+      "nextAction": "Integrate the reviewed 19-profile reader and case-local scene after the source-correction release, with actual browser and source-qualification checks.",
+      "summary": "20 selected billionaire and public-office case packets have scoped source reviews and dedicated case chats. The frozen 19-profile, 72-claim reader projection passed content review and awaits app integration and visual checks; Huang remains outside that projection. Modi is a public-office profile. Dates, voting versus economic rights, shared holdings and financial stages stay explicit; this is selected-case coverage, not complete worldwide mapping.",
       "evidence": [
         {
-          "title": "Selected-case source-review checkpoint · 16 October 2026, 06:29 UTC"
+          "title": "Selected-case review checkpoint · 16 October 2026, 09:12 UTC"
         },
         {
-          "title": "Case-diagram content reviewed; implementation and visual checks pending, with no automatic global graph or geographic admission"
+          "title": "Case-scene and adapter source checks passed; real-browser acceptance and global geographic admission remain separate"
         }
       ],
       "privateProjectLink": null
@@ -178,22 +185,22 @@
     {
       "title": "Base atlas published",
       "taskId": "base-release",
-      "detail": "PR9 · retained original evidence and live reader verified"
+      "detail": "Retained original evidence and live reader verified"
     },
     {
-      "title": "Guide and activity deployment",
+      "title": "Guide and activity published",
       "taskId": "historical-tutorial",
-      "detail": "PR11 merged; post-merge deployment and live verification pending"
+      "detail": "PR11 publication parity and live fallback guide/navigation verified"
     },
     {
-      "title": "Qualified reader review",
+      "title": "Qualified readers verified live",
       "taskId": "source-reviews",
-      "detail": "29 reader-only panels and two exact source corrections await rendered release checks"
+      "detail": "PR12: 29 opt-in panels; 146 published paths and all 96 raw registry chunks verified, plus live reader/navigation checks"
     },
     {
       "title": "Selected-profile preparation",
       "taskId": "cross-border-finance",
-      "detail": "17 packets source-reviewed; 14 profiles / 50 claims content-reviewed, not published"
+      "detail": "20 packets reviewed; frozen 19 profiles / 72 claims awaiting website integration"
     }
   ]
 }

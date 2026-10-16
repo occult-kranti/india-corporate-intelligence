@@ -6,15 +6,15 @@ The full-registry scene uses one continuous rectangular Web Mercator world. Orig
 
 The original snapshot retains **2,469 entities, 5,617 records, 4,203 relationships, 3,314 sources and 316 held entries**. Of the records, 227 also occur in the held list with `status: "not-drawn"`; these remain readable, including their counter-evidence, but are excluded by the model adapter from scene admission.
 
-Two separate [source-scope corrections](source-scope-corrections.md) additionally hold two exact inherited relationships and their mirrored records without altering their raw evidence objects. The geographic adapter receives 7,857 drawable items:
+Six exact source-scope holds ([review history](source-scope-corrections.md)) exclude the two prior Adani relationships, Leap zero-payment relationship, two Jio endpoint interpretations, and unsupported Progressive upstream amount relationship, together with their mirrored records. Raw evidence objects remain unchanged. The geographic adapter receives 7,853 drawable items:
 
 - 3,856 placed items: 1,757 entities and 2,099 records
-- 4,001 unplaced drawable items: 712 entities and 3,289 records
-- 1,658 unchanged directed relationships have both endpoints placed
+- 3,997 unplaced drawable items: 712 entities and 3,285 records
+- 1,657 original directed relationships have both endpoints placed
 - 42 occupied areas: all 36 retained India state/UT units and six country areas, IN, BD, ES, PH, RU and US
 - Of placed items, 827 have country precision and 3,029 have state precision
 
-These replace the earlier reduced-preview counts of 44 placed items, 4 unplaced items and 30 relationships. The additional records and locations are original-registry integration, not new research claims. If all 8,086 entity/record objects are inspected without the drawing admission rule, the same 3,856 qualify for anchors and 4,230 do not; the additional 229 are the 227 preserved held counterparts and two correction records.
+These replace the earlier reduced-preview counts of 44 placed items, 4 unplaced items and 30 relationships. The additional records and locations are original-registry integration, not new research claims. If all 8,086 entity/record objects are inspected without the drawing admission rule, the same 3,856 qualify for anchors and 4,230 do not; the additional 233 are the 227 preserved held counterparts and six correction records.
 
 The anchor catalog has 269 source-validated representatives: 233 countries with a unique two-letter code already retained in the audited Natural Earth extraction, plus all 36 original India state/UT geometries. Nine world features have ambiguous or non-two-letter source codes and remain render-only: ATC, CYN, FRA, IOA, KAS, KOS, NOR, SOL and TWN. No label lookup or new country-code assignment is used. All six country codes present in the original evidence are supported.
 

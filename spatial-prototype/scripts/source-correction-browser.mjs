@@ -1,4 +1,7 @@
+import {runProgressiveBrowserCases} from './progressive-browser.mjs';
 /** Additional exact-target source-correction checks; invoked only by the CI browser harness. */
+import {runJioHoldBrowserCases} from './jio-hold-browser.mjs';
+import {runInheritedAbsenceBrowserCases} from './inherited-absence-browser.mjs';
 import assert from 'node:assert/strict';
 import {readFile,writeFile} from 'node:fs/promises';
 import {join} from 'node:path';
@@ -84,5 +87,8 @@ export async function runSourceCorrectionBrowserCases({root,output,scenario,capt
     }
     await assertReaderOnly(page,result);
   });
+  await runInheritedAbsenceBrowserCases({root,output,scenario,capture,assertFullLoad,assertReaderOnly,until,fullRegistry});
+  await runJioHoldBrowserCases({root,output,scenario,capture,assertFullLoad,assertReaderOnly,until,fullRegistry});
+  await runProgressiveBrowserCases({root,output,scenario,capture,assertFullLoad,assertReaderOnly,until,fullRegistry});
   await writeFile(join(output,'source-correction-review-scope.json'),JSON.stringify({corrections:corrections.map(({id,targetIds,reviewReceiptSha256,graphEligible,pathEligible})=>({id,targetIds,reviewReceiptSha256,graphEligible,pathEligible})),rawCanonicalSha256:corrections[0].baselineCanonicalSha256,originalHeldEntries:316},null,2));
 }

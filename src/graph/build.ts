@@ -16,6 +16,7 @@
 
 import { MINISTERS, RANK_LABEL, economicPortfolioLabels, sectorsTouchedBy, type Minister } from '../data/politics';
 import { GROUPS } from '../data/conglomerates';
+import { applyJioNationalOwnershipHolds } from '../data/jioOwnershipCorrections';
 import { COMPANIES, EXCHANGE_OF, type Company } from '../data/companies';
 import type { GNode, GEdge, NodeFamily, NodeType } from './schema';
 
@@ -113,7 +114,8 @@ export interface DerivedGraph {
   edges: GEdge[];
 }
 
-export function buildNationalGraph(): DerivedGraph {
+// Audit/snapshot only. Preserve the complete original national graph and ordering.
+export function buildRetainedNationalGraph(): DerivedGraph {
   const nodes = new Map<string, GNode>();
   const edges: GEdge[] = [];
   const put = (n: GNode) => {
@@ -285,6 +287,11 @@ export function buildNationalGraph(): DerivedGraph {
   }
 
   return { nodes: [...nodes.values()], edges: dedupe(edges) };
+}
+
+// All normal graphs and path consumers use the validated exact-target projection.
+export function buildNationalGraph(): DerivedGraph {
+  return applyJioNationalOwnershipHolds(buildRetainedNationalGraph(), GROUPS);
 }
 
 const SECTOR_MAP: Record<string, string> = {
