@@ -38,3 +38,66 @@ with tempfile.TemporaryDirectory() as d:
   assert actual==expected,(expected,actual)
 print(json.dumps({'cases':len(cases),'acceptances':2,'rejections':7,'rawBodiesLogged':False}))
 `;const r=spawnSync('python3',['-c',code],{encoding:'utf8'});assert.equal(r.status,0,r.stdout+'\n'+r.stderr);assert.deepEqual(JSON.parse(r.stdout),{cases:9,acceptances:2,rejections:7,rawBodiesLogged:false});});
+
+import {readFile} from 'node:fs/promises';
+import {readInputs,records,at,typed,ownerPaths,ownerKind} from '../scripts/contract.mjs';
+import {assertContext} from '../scripts/assert-context.mjs';
+import {axDuplicateDiagnostic} from '../scripts/failure-diagnostic.mjs';
+test('owner total counts the exact independently audited observations, retaining the 37/152/50 oracles',async()=>{
+ const {raw,fixture}=await readInputs(),source=await readFile(resolve(ROOT,'scripts/native-review.mjs'),'utf8');
+ const fn=source.match(/^async function audit\(r,m=null\)\{.*\}$/m)?.[0];assert(fn);
+ assert(source.includes('const observed=await audit(r,m);owners+=observed.owners.length;'));
+ assert(source.includes('assert.equal(count,152);assert.equal(owners,37);assert.equal(capacities,50);'));
+ assert(!source.includes('owners+=m.contextOwners.length'));
+ let actual,focused=0;const page={locator:s=>s==='#evidence-content'?{evaluate:async()=>actual}:{focus:async()=>{focused++;}},evaluate:async()=>({modal:true,backgroundFocus:false})};
+ const audit=new Function('page','assertContext','inspectContext','raw','assert','return ('+fn+')')(page,assertContext,()=>{},raw,assert);
+ const rs=records(raw);let observedTotal=0,legacyTotal=0,capacityTotal=0;
+ for(const m of fixture.mappings){const r=rs.find(r=>r.recordPointer===m.recordPointer);assert(r);const ref=at(raw,m.referencePointer);
+  actual={claim:typed(r.record,r.recordPointer),claimOpen:true,claimLabel:'Complete selected-claim context (all supplied record fields)',claimExplanation:'record dates are not assigned to an individual reference',activeId:'drawer-title',dialogLabel:'drawer-title',inert:true,rawAndContextMerged:false,reference:typed(ref,m.referencePointer),sourceDateBlock:false,owners:ownerPaths(raw,m.referencePointer,m.recordPointer).map(path=>{const kind=ownerKind(at(raw,path));return {path,kind,label:{'date-owner':'Reference-owning date','condition-owner':'Reference-owning condition','observation-owner':'Enclosing observation and as-of context','enclosing-owner':'Enclosing source-scoped context'}[kind],fields:typed(at(raw,path),path)};}),links:[]};
+  if(r.record.qualifying_observations!==undefined)actual.qualifying=typed(r.record.qualifying_observations,r.recordPointer+'/qualifying_observations');
+  if(r.collection==='procedural_relations')actual.endpoints=['source','target'].map(side=>({side:side==='source'?'Source':'Target',identity:r.component==='baseline'?r.recordPointer+'/'+side+'_endpoint':r.component+':'+r.record[side+'_node_id'],label:r.component==='baseline'?r.record[side+'_endpoint']:r.packet.nodes.find(n=>n.id===r.record[side+'_node_id']).label,capacity:r.component==='baseline'?'no separate endpoint-capacity field is supplied':r.record[side+'_legal_capacity']}));
+  const observed=await audit(r,m);assert.equal(observed,actual);observedTotal+=observed.owners.length;legacyTotal+=m.contextOwners.length;if(r.component!=='baseline'&&r.collection==='procedural_relations')capacityTotal++;
+  if(actual.owners.length){const saved=actual.owners;actual.owners=[];await assert.rejects(audit(r,m));actual.owners=saved;}
+ }
+ assert.deepEqual({observedTotal,legacyTotal,capacityTotal,focused,sources:fixture.mappings.length},{observedTotal:37,legacyTotal:33,capacityTotal:50,focused:152,sources:152});
+ // The DOM/native observation producer is not simulated by this counter-unit test.
+});
+test('AX duplicate counts never grant acceptance or disclose row values and reject malformed counters',()=>{
+ const good={nodes:4,uniqueNodes:2,duplicateRows:2,identicalRows:1,conflictingRows:1};
+ assert.deepEqual(axDuplicateDiagnostic(good),{schema:'world-ax-duplicate-counts-v1',...good,nativeAcceptance:false,artifactApproval:false});
+ for(const v of [null,[],{}, {...good,nodeId:'SECRET'}, {...good,nodes:'SECRET'}, {...good,nodes:100001}, {...good,nodes:NaN}, {...good,nodes:Infinity}, {...good,nodes:4.5}, {...good,nodes:true}, {...good,nodes:0}, {...good,uniqueNodes:0}, {...good,duplicateRows:0}, {...good,identicalRows:-1}, {...good,conflictingRows:2},new Proxy({},{ownKeys(){throw Error('SECRET')}})])assert.equal(axDuplicateDiagnostic(v),null);
+});
+test('every duplicate remains denied while complete validated row equality is counted without raw output',()=>{
+ const code=`import pathlib,json,sys,tempfile,importlib.util,copy,hashlib
+sys.dont_write_bytecode=True
+r=pathlib.Path(${JSON.stringify(ROOT)});s=importlib.util.spec_from_file_location('raw',r/'scripts/audit-raw.py');m=importlib.util.module_from_spec(s);s.loader.exec_module(m)
+base={'nodeId':'opaque-fixture-id','ignored':False,'name':{'type':'computedString','value':'synthetic-only-secret'},'role':{'type':'role','value':'generic'},'value':{'type':'integer','value':1},'childIds':['child'],'properties':[{'name':'focusable','value':{'type':'boolean','value':True}}]}
+variants=[]
+for key,value in [('name',{'type':'computedString','value':'different-secret'}),('value',{'type':'integer','value':2}),('role',{'type':'role','value':'button'}),('childIds',['other']),('ignored',True),('properties',[{'name':'focusable','value':{'type':'boolean','value':False}}]),('value',{'type':'integer','value':True}),('value',{'type':'integer','value':1.0})]:
+ n=copy.deepcopy(base);n[key]=value;variants.append(n)
+with tempfile.TemporaryDirectory() as d:
+ p=pathlib.Path(d)/'01-initial.ax.json'
+ def run(nodes):
+  p.write_text(json.dumps({'nodes':nodes}));before=hashlib.sha256(p.read_bytes()).hexdigest();code=None;counts=None
+  try:m.inspect(p,r)
+  except ValueError as e:code=str(e);counts=getattr(e,'ax_duplicate_counts',None)
+  assert hashlib.sha256(p.read_bytes()).hexdigest()==before
+  return code,counts
+ for variant in [copy.deepcopy(base),dict(reversed(list(base.items())))]:
+  code,counts=run([base,variant]);assert code=='AX_NODE_DUPLICATE_ID';assert counts=={'nodes':2,'uniqueNodes':1,'duplicateRows':1,'identicalRows':1,'conflictingRows':0}
+ for variant in variants:
+  code,counts=run([base,variant]);assert code=='AX_NODE_DUPLICATE_ID';assert counts['conflictingRows']==1 and counts['identicalRows']==0
+ code,counts=run([base,copy.deepcopy(base),variants[0],{'nodeId':'second','ignored':False}]);assert code=='AX_NODE_DUPLICATE_ID';assert counts=={'nodes':4,'uniqueNodes':2,'duplicateRows':2,'identicalRows':1,'conflictingRows':1}
+ # Later rows must still pass every original schema/budget check before counts escape.
+ bad=[{**base,'unexpected':'SECRET'},{**base,'ignored':'false'},{**base,'name':{'type':'unsupported','value':'SECRET'}},{**base,'properties':[{'name':1,'value':{'type':'string','value':'SECRET'}}]},{**base,'childIds':[1]},{**base,'childIds':['x']*100001}]
+ for row in bad:
+  code,counts=run([base,copy.deepcopy(base),row]);assert code!='AX_NODE_DUPLICATE_ID' and counts is None
+ code,counts=run([{'nodeId':'x','ignored':False}]*100001);assert code=='AX_NODES' and counts is None
+ # Object cycles cannot be JSON input; the retained recursion bound fails closed in memory.
+ cycle={};cycle['cycle']=cycle
+ try:m.bounded(cycle);raise AssertionError('Cycle accepted')
+ except ValueError as e:assert str(e)=='JSON_DEPTH'
+print(json.dumps({'equalDuplicateProbes':2,'conflictingDuplicateProbes':len(variants),'mixedDuplicateProbes':1,'laterInvalidRowProbes':len(bad),'nodeCapProbes':1,'cycleBoundProbes':1,'allDuplicatesDenied':True,'rawRowsUnchanged':True,'rawBodiesLogged':False}))
+`;
+ const r=spawnSync('python3',['-c',code],{encoding:'utf8'});assert.equal(r.status,0,r.stdout+'\n'+r.stderr);assert(!r.stdout.includes('SECRET'));const result=JSON.parse(r.stdout);assert.equal(result.conflictingDuplicateProbes,8);assert.equal(result.allDuplicatesDenied,true);assert.equal(result.rawRowsUnchanged,true);
+});

@@ -27,3 +27,14 @@ export function failureDiagnostic(report,{plannedIds,groupNames,root,sourceLineC
  }catch{return unavailable();}
 }
 export const DIAGNOSTIC_SOURCE_FILES=FILES;
+
+// Accept only a closed numeric diagnostic. This is never artifact admission.
+export function axDuplicateDiagnostic(value){
+ try{
+  const names=['nodes','uniqueNodes','duplicateRows','identicalRows','conflictingRows'];
+  if(!value||typeof value!=='object'||Array.isArray(value)||Object.keys(value).length!==names.length||!names.every(k=>own(value,k)&&Number.isSafeInteger(value[k])&&value[k]>=0&&value[k]<=100000))return null;
+  const {nodes,uniqueNodes,duplicateRows,identicalRows,conflictingRows}=value;
+  if(nodes<2||uniqueNodes<1||duplicateRows<1||nodes!==uniqueNodes+duplicateRows||duplicateRows!==identicalRows+conflictingRows)return null;
+  return {schema:'world-ax-duplicate-counts-v1',nodes,uniqueNodes,duplicateRows,identicalRows,conflictingRows,nativeAcceptance:false,artifactApproval:false};
+ }catch{return null;}
+}

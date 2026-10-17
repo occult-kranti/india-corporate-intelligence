@@ -25,9 +25,9 @@ def inspect(path,root):
  if name.endswith('.html'):
   text=b.decode('utf-8');require('<html' in text.lower() and '<body' in text.lower() and '</html>' in text.lower(),'DOM_DOCUMENT_SCHEMA');d=DOM();d.feed(text);d.close();require(d.tags.count('html')==1 and d.tags.count('body')==1,'DOM_DOCUMENT_ROOTS');digest=hashlib.sha256(b).hexdigest();return {'class':'dom','status':'EXACT_APPROVED_INPUT' if digest in trace.HTML_HASHES else 'BOUNDED_PRODUCER_DOM_SCHEMA','tagCount':len(d.tags),'boundedSchemaSupported':True,'semanticPrivacyCertified':False}
  if name.endswith('.ax.json'):
-  v=json.loads(b);keys(v,['nodes'],['nodes']);require(isinstance(v['nodes'],list) and 0<len(v['nodes'])<=100000,'AX_NODES');ids=set()
+  v=json.loads(b);keys(v,['nodes'],['nodes']);require(isinstance(v['nodes'],list) and 0<len(v['nodes'])<=100000,'AX_NODES');ids={};identical=0;conflicting=0
   for node in v['nodes']:
-   keys(node,['nodeId','ignored','ignoredReasons','role','chromeRole','name','description','value','properties','parentId','childIds','backendDOMNodeId','frameId'],['nodeId','ignored']);require(isinstance(node['nodeId'],str),'AX_NODE_ID_TYPE');require(node['nodeId'] not in ids,'AX_NODE_DUPLICATE_ID');require(isinstance(node['ignored'],bool),'AX_IGNORED_TYPE');ids.add(node['nodeId']);bounded(node)
+   keys(node,['nodeId','ignored','ignoredReasons','role','chromeRole','name','description','value','properties','parentId','childIds','backendDOMNodeId','frameId'],['nodeId','ignored']);require(isinstance(node['nodeId'],str),'AX_NODE_ID_TYPE');require(isinstance(node['ignored'],bool),'AX_IGNORED_TYPE');bounded(node)
    for k in ['role','chromeRole','name','description','value']:
     if k in node:axvalue(node[k])
    for k in ['properties','ignoredReasons']:
@@ -35,6 +35,15 @@ def inspect(path,root):
      require(isinstance(node[k],list),'AX_PROPERTIES')
      for prop in node[k]:keys(prop,['name','value'],['name','value']);require(isinstance(prop['name'],str),'AX_PROPERTY_NAME');axvalue(prop['value'])
    if 'childIds' in node:require(isinstance(node['childIds'],list) and all(isinstance(i,str) for i in node['childIds']),'AX_CHILD_IDS')
+   if node['nodeId'] in ids:
+    # Compare complete validated rows with JSON type distinctions and array order.
+    # Raw rows are never edited or discarded, and all duplicates still fail closed.
+    same=json.dumps(node,sort_keys=True,ensure_ascii=True,allow_nan=False,separators=(',',':'))==json.dumps(ids[node['nodeId']],sort_keys=True,ensure_ascii=True,allow_nan=False,separators=(',',':'))
+    if same:identical+=1
+    else:conflicting+=1
+   else:ids[node['nodeId']]=node
+  if identical+conflicting:
+   e=ValueError('AX_NODE_DUPLICATE_ID');e.ax_duplicate_counts={'nodes':len(v['nodes']),'uniqueNodes':len(ids),'duplicateRows':identical+conflicting,'identicalRows':identical,'conflictingRows':conflicting};raise e
   return {'class':'ax','status':'BOUNDED_PRODUCER_AX_SCHEMA','nodes':len(v['nodes']),'boundedSchemaSupported':True,'semanticPrivacyCertified':False}
  if name=='network.har':
   v=json.loads(b);keys(v,['log'],['log']);log=v['log'];keys(log,['version','creator','browser','pages','entries'],['version','creator','entries']);trace.har_schema.log_metadata(log);require(log['version']=='1.2','HAR_VERSION');keys(log['creator'],['name','version'],['name','version']);require(log['creator']['name']=='Playwright' and log['creator']['version']=='1.62.1','HAR_CREATOR');require(isinstance(log['entries'],list) and len(log['entries'])<=10000,'HAR_ENTRIES')
@@ -52,4 +61,6 @@ if __name__=='__main__':
  try:print(json.dumps(inspect(pathlib.Path(sys.argv[1]),pathlib.Path(sys.argv[2])),separators=(',',':')))
  except Exception as e:
   code=str(e) if isinstance(e,ValueError) and re.fullmatch('[A-Z_]+',str(e)) else 'MALFORMED_RAW_EVIDENCE'
-  print(json.dumps({'status':'DENY_RAW_STRUCTURE_OR_CONTENT','code':code,'publicationApproved':False}));sys.exit(1)
+  out={'status':'DENY_RAW_STRUCTURE_OR_CONTENT','code':code,'publicationApproved':False}
+  if code=='AX_NODE_DUPLICATE_ID' and hasattr(e,'ax_duplicate_counts'):out['axDuplicateCounts']=e.ax_duplicate_counts
+  print(json.dumps(out));sys.exit(1)
