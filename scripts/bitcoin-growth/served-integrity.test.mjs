@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {verifyServingManifest,hash,expectedPaths} from './served-integrity.mjs';
+const bytes=readFileSync(new URL('./release-manifest-v2.json',import.meta.url));
+const sha=hash(bytes),read=path=>readFileSync(new URL(`../../public/bitcoin-growth/${path}`,import.meta.url));
+test('exact six-file serving unit is hash-bound to the selected manifest',async()=>assert.equal((await verifyServingManifest(bytes,sha,read)).length,6));
+test('a changed selected manifest is rejected before loading any files',async()=>{let reads=0;await assert.rejects(verifyServingManifest(Buffer.concat([bytes,Buffer.from(' ')]),sha,()=>{reads++;}),/manifest hash/);assert.equal(reads,0);});
+for(const path of expectedPaths)test(`changed served bytes rejected: ${path}`,async()=>await assert.rejects(verifyServingManifest(bytes,sha,p=>p===path?Buffer.concat([read(p),Buffer.from(' ')]):read(p)),/file hash\/length/));
+test('missing or extra serving path is rejected even with a matching manifest checksum',async()=>{const m=JSON.parse(bytes);m.files.pop();const b=Buffer.from(JSON.stringify(m));await assert.rejects(verifyServingManifest(b,hash(b),read),/exactly the six/);});
