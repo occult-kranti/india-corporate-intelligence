@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "asOf": "2026-10-17T06:55:00Z",
+  "checkpointTitle": "Zoom repair live; separate world-board review · 17 October 2026, 06:55 UTC",
+  "freshnessHours": 24,
+  "scope": "Four verified release and review updates. This is a dated editorial snapshot, not live worker telemetry. The 16 October checkpoint is preserved separately with its original claims and dates.",
+  "tasks": [
+    {
+      "id": "zoom-release",
+      "title": "Zoom continuity repair live",
+      "status": "completed",
+      "role": "Release verification",
+      "question": "Does the published felt atlas contain the reviewed thread-continuity repair?",
+      "lastChecked": "2026-10-17T06:45:49Z",
+      "nextAction": "Keep the verified release intact while reviewing the next interface changes.",
+      "summary": "PR15 merged at cdc0f9fb and the zoom repair is live. The actual merge passed its release gates. All 141 published spatial files matched the deployment receipt and Pages tree. Two later live browser observations at zoom 5.9 and 8 retained continuous sampled threads; they do not establish every edge or zoom level.",
+      "evidence": [
+        {
+          "title": "PR15 · thread continuity and release verification",
+          "url": "https://github.com/occult-kranti/india-corporate-intelligence/pull/15"
+        },
+        {
+          "title": "Published byte parity and bounded live-browser review · 17 October 2026"
+        }
+      ],
+      "privateProjectLink": null,
+      "completion": {
+        "evidenceIndex": 0,
+        "verifiedAt": "2026-10-17T06:45:49Z",
+        "note": "Deployment and public spatial asset parity were verified after merge. The fresh live observation covered two zoom settings with software rendering. The oversized post-deployment full raw archive was not independently re-downloaded; the reviewed equal-tree evidence and successful actual-merge gates remain separately recorded. This dated page does not monitor the live site."
+      }
+    },
+    {
+      "id": "epstein-world-board",
+      "title": "Separate Epstein world-board review",
+      "status": "review-pending",
+      "role": "Interface and source-conservation review",
+      "question": "Can the separate map and timeline retain the reviewed source context and accessible navigation?",
+      "lastChecked": "2026-10-17T06:18:12Z",
+      "nextAction": "Review the final browser-test package, then run and inspect its actual browser evidence after publication approval.",
+      "summary": "The feature/epstein-world-map branch was created from the released merge. The local world-board interface and controller passed scoped source-conservation and portable reviews. Actual browser behavior, rendering and accessibility still require review. No world-board deployment is claimed.",
+      "evidence": [
+        {
+          "title": "Separate feature branch creation verified · 17 October 2026, 05:33 UTC"
+        },
+        {
+          "title": "Local world-board controller and retained-source recheck · 17 October 2026, 06:18 UTC"
+        }
+      ],
+      "privateProjectLink": null
+    },
+    {
+      "id": "epstein-publication",
+      "title": "New world-board data publication",
+      "status": "blocked",
+      "role": "Publication scope",
+      "question": "Is the reviewed world-board packet and its browser evidence cleared for public upload?",
+      "lastChecked": "2026-10-17T06:53:23Z",
+      "nextAction": "Obtain explicit approval for the exact public packet, institutional context anchors, app and bounded browser evidence before upload.",
+      "summary": "Publication approval is pending for the new source-qualified packet, coarse institutional context anchors and generated browser-test evidence. Local review does not itself grant public release approval. The branch currently contains the released base rather than the new world-board data.",
+      "evidence": [
+        {
+          "title": "World-board publication scope · approval pending at this checkpoint"
+        }
+      ],
+      "privateProjectLink": null
+    },
+    {
+      "id": "epstein-email-coverage",
+      "title": "Email corpus coverage boundary",
+      "status": "blocked",
+      "role": "Source and privacy eligibility",
+      "question": "Is an eligible, source-resolved email corpus available for the board?",
+      "lastChecked": "2026-10-17T06:53:23Z",
+      "nextAction": "Identify a vetted, source-filtered and provenance-resolved route before considering corpus acquisition or display.",
+      "summary": "No bulk Jmail payload has been imported: zero email records have been acquired through that route. The world-board candidate contains no email corpus. Provider-reported corpus totals are not reviewed coverage, and the procedural timeline is not email coverage.",
+      "evidence": [
+        {
+          "title": "Bounded corpus access and coverage review · no bulk import"
+        }
+      ],
+      "privateProjectLink": null
+    }
+  ],
+  "milestones": [
+    {
+      "title": "Zoom continuity repair published",
+      "taskId": "zoom-release",
+      "detail": "PR15 deployed; public spatial bytes and two bounded live zoom observations verified."
+    },
+    {
+      "title": "Separate world-board local review",
+      "taskId": "epstein-world-board",
+      "detail": "Feature branch created; local controller and source-conservation review passed. Actual browser acceptance remains open."
+    },
+    {
+      "title": "New publication decision pending",
+      "taskId": "epstein-publication",
+      "detail": "The new world-board packet and full bounded browser evidence await explicit publication approval."
+    }
+  ]
+}

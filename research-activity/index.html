@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self'; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="A dated snapshot of Olympus research, review gates, and release milestones.">
+<title>Research Activity · Olympus</title>
+<link rel="stylesheet" href="styles.css">
+<script type="module" src="app.mjs"></script>
+</head>
+<body>
+<a class="skip" href="#work">Skip to research work</a>
+<div class="shell">
+<aside class="rail" aria-label="Console introduction">
+  <div class="wordmark">OLYMPUS<span>RESEARCH DESK</span></div>
+  <p class="edition">FIELD NOTES / 01</p>
+  <h1>Research<br>Activity</h1>
+  <p class="intro">The work, its evidence,<br>and what happens next.</p>
+  <nav class="back-nav" aria-label="Other workspaces">
+    <a class="rail-link" href="../spatial/">Evidence atlas <span aria-hidden="true">↗</span></a>
+    <a class="rail-link" href="../#/investigate">Original workbench <span aria-hidden="true">↗</span></a>
+  </nav>
+  <div class="rail-rule"></div>
+  <p class="small-label">STATUS MODEL</p>
+  <p class="rail-note">A dated editorial snapshot.<br>No live telemetry.<br>No automatic scheduling.</p>
+  <a class="rail-link" href="#milestones">Release milestones <span aria-hidden="true">↗</span></a>
+  <p class="rail-footer">Keep the question open.<br>Keep the evidence close.</p>
+</aside>
+<main>
+<header class="page-header"><span class="eyebrow">WORK IN VIEW</span><span class="snapshot-label">Snapshot, not live</span></header>
+<section class="overview" aria-labelledby="overview-title">
+  <div><h2 id="overview-title">A clear view of the work.</h2><p id="scope">Loading the research snapshot…</p></div>
+  <div class="snapshot-date"><span class="small-label">SNAPSHOT AS OF</span><time id="as-of">Loading…</time></div>
+</section>
+<div id="freshness" class="notice" role="status">Reading the dated snapshot. Status is not continuously checked.</div>
+<div id="error" class="error" role="alert" hidden></div>
+<noscript><p class="error">JavaScript is required to read and filter this snapshot. The source data is available in snapshot.json.</p></noscript>
+<div id="console-content" hidden>
+<section class="work-section" id="work" aria-labelledby="work-title" tabindex="-1">
+ <div class="section-heading"><h2 id="work-title">Roadmap progress</h2><span id="total-count"></span></div>
+ <div id="filters" class="filters" role="group" aria-label="Filter tasks by status"></div>
+ <form id="search-form" class="search-row" role="search"><label for="search">Find work</label><input id="search" type="search" placeholder="Question, role, source, or next action" autocomplete="off" maxlength="200"><button type="reset" class="reset">Reset filters</button></form>
+ <p id="result-count" class="result-count" role="status" aria-live="polite" aria-atomic="true"></p>
+ <div id="tasks"></div>
+ <div id="empty" class="empty" hidden><h3>No work matches these filters.</h3><p>Try a broader search or reset the filters to see every task.</p></div>
+</section>
+<section class="milestones" id="milestones" aria-labelledby="milestone-title"><div class="section-heading"><h2 id="milestone-title">Release milestones</h2><span>Evidence before promotion</span></div><ol id="milestone-list"></ol></section>
+<footer class="page-footer"><p id="checkpoint"></p><p>Source titles without a link are references, not published evidence links. Held work stays held until a scoped review and release decision.</p><p>This public-safe view contains only reviewed status summaries and approved public PR references.</p></footer>
+</div>
+</main>
+</div>
+</body>
+</html>
