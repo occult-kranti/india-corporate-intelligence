@@ -11,6 +11,7 @@ import { build } from 'esbuild';
 import { measureReaderLayout, exerciseReaderScroll } from './reader-layout-review.mjs';
 import { assertCaseLabelReadability } from './case-label-readability.mjs';
 import { createCaseLabelCoverage } from './case-label-coverage.mjs';
+import { beginReaderScrollSettlement } from './reader-scroll-settlement.mjs';
 
 export const ACCEPTED_CASE_TRANSPORT_SHA256 = '2ca8ae35ef4a02c252e8a1109bb98afd86d7c104b010e90e981a95891a32476c';
 export const ACCEPTED_CASE_ADAPTER_SHA256 = 'bcd69ea3201b236d60eb39cfc4f28dba330359c6131e948e9a2e90decff152ea';
@@ -480,8 +481,23 @@ async function openClaimSourcesByKeyboard(page, claim, result, phase) {
     await measureCaseReaderLayout(page, result, `${phase}:${name}`);
   }
   await scroll.evaluate(element => { element.scrollTop = 0; element.focus({ preventScroll: true }); });
-  await page.keyboard.press('PageDown');
-  await page.waitForFunction(() => document.querySelector('[data-reader-scroll="workspace-evidence"]')?.scrollTop > 0, null, { timeout: 5000 });
+  // Native PageDown can still animate after scrollTop first becomes positive.
+  // Observe its actual scrollend before the next programmatic fixture move;
+  // otherwise its remaining motion can overwrite Tab's focus-reveal scroll.
+  const scrolling = await scroll.evaluateHandle(beginReaderScrollSettlement, { timeoutMs: 5000, stableFrames: 2 });
+  try {
+    await page.keyboard.press('PageDown');
+    const observation = await scrolling.evaluate(state => state.promise);
+    (result.caseReaderScrollSettlements ??= []).push({ phase, status: 'passed', ...observation });
+    assert.ok(observation.seenScroll && observation.samples.at(-1).scrollTop > 0, 'Case reader PageDown did not scroll');
+  } catch (error) {
+    const observation = await scrolling.evaluate(state => state.snapshot()).catch(() => null);
+    (result.caseReaderScrollSettlements ??= []).push({ phase, status: 'failed', observation, error: String(error) });
+    throw error;
+  } finally {
+    await scrolling.evaluate(state => state.cancel());
+    await scrolling.dispose();
+  }
   assert.equal(await scroll.evaluate(element => document.activeElement === element), true, 'Case reader PageDown lost focus');
   const outline = await scroll.evaluate(element => ({ width: parseFloat(getComputedStyle(element).outlineWidth), style: getComputedStyle(element).outlineStyle, offset: parseFloat(getComputedStyle(element).outlineOffset) }));
   assert.ok(outline.width >= 2 && outline.style !== 'none' && outline.offset <= -outline.width, 'Case keyboard scroll outline must remain inside the visible rail');
