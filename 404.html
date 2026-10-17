@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Not found — India Corporate Intelligence Platform</title>
+    <!--
+      A plain 404, deliberately.
+
+      The usual GitHub Pages trick here is the spa-github-pages redirect shim, which
+      rewrites an unknown path into a query string for a BrowserRouter to unpick. This
+      app uses HashRouter: every route lives after a '#', so the server is only ever
+      asked for index.html and deep links already work. The shim would add a redirect
+      that resolves nothing.
+    -->
+    <style>
+      :root { color-scheme: dark light; }
+      body {
+        margin: 0; min-height: 100vh; display: grid; place-items: center;
+        background: #0a0a0c; color: #e8e4dc; padding: 2rem;
+        font-family: Inter, system-ui, -apple-system, sans-serif;
+      }
+      main { max-width: 34rem; }
+      h1 { font-family: 'Playfair Display', Georgia, serif; font-size: 2rem; margin: 0 0 .75rem; letter-spacing: -.02em; }
+      p { color: #9c9688; line-height: 1.7; margin: 0 0 1rem; }
+      code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .85em; color: #c9a86c; }
+      a { color: #c9a86c; }
+      .kicker { font-family: ui-monospace, monospace; font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; color: #6b6558; margin-bottom: 1rem; }
+      @media (prefers-color-scheme: light) {
+        body { background: #faf8f4; color: #1a1a1e; }
+        p { color: #55504a; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="kicker">404</p>
+      <h1>There is nothing at this address</h1>
+      <p>
+        Routes on this site live after a <code>#</code> — for example
+        <code>#/map</code> or <code>#/geograph</code>. A path without one will not
+        resolve.
+      </p>
+      <p><a href="./">Go to the platform →</a></p>
+    </main>
+  </body>
+</html>

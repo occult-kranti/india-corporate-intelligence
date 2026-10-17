@@ -1,0 +1,176 @@
+{
+  "_App-CfBS-Sqn.js": {
+    "file": "assets/App-CfBS-Sqn.js",
+    "name": "App",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ],
+    "dynamicImports": [
+      "src/SpatialWorld.tsx",
+      "src/profile-host/CaseWorkspace.tsx"
+    ],
+    "css": [
+      "assets/App-zqD4QZg2.css"
+    ]
+  },
+  "_App-zqD4QZg2.css": {
+    "file": "assets/App-zqD4QZg2.css",
+    "src": "_App-zqD4QZg2.css"
+  },
+  "_scene-DTdIlK9k.js": {
+    "file": "assets/scene-DTdIlK9k.js",
+    "name": "scene"
+  },
+  "_state-BBypOQrg.js": {
+    "file": "assets/state-BBypOQrg.js",
+    "name": "state"
+  },
+  "index.html": {
+    "file": "assets/index-DLAfxIt4.js",
+    "name": "index",
+    "src": "index.html",
+    "isEntry": true,
+    "dynamicImports": [
+      "_App-CfBS-Sqn.js",
+      "src/historical-review/ReviewGate.tsx",
+      "src/sector-reader/SectorReaderGate.tsx"
+    ],
+    "css": [
+      "assets/index-BLd7T96c.css"
+    ]
+  },
+  "src/SpatialWorld.tsx": {
+    "file": "assets/SpatialWorld-BvfnBsdq.js",
+    "name": "SpatialWorld",
+    "src": "src/SpatialWorld.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html",
+      "_scene-DTdIlK9k.js",
+      "_App-CfBS-Sqn.js"
+    ],
+    "css": [
+      "assets/SpatialWorld-Chgj_yD8.css"
+    ],
+    "assets": [
+      "assets/world-countries-50m-C4H0D1XI.json",
+      "assets/india-states-wgs84-FBQo--NI.json"
+    ]
+  },
+  "src/assets/geography/india-states-wgs84.json": {
+    "file": "assets/india-states-wgs84-FBQo--NI.json",
+    "src": "src/assets/geography/india-states-wgs84.json"
+  },
+  "src/assets/geography/world-countries-50m.json": {
+    "file": "assets/world-countries-50m-C4H0D1XI.json",
+    "src": "src/assets/geography/world-countries-50m.json"
+  },
+  "src/historical-review/ReviewGate.tsx": {
+    "file": "assets/ReviewGate-CGQ9zO15.js",
+    "name": "ReviewGate",
+    "src": "src/historical-review/ReviewGate.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ],
+    "dynamicImports": [
+      "src/historical-review/ReviewPanel.tsx",
+      "src/historical-review/loadHistoricalReview.ts"
+    ]
+  },
+  "src/historical-review/ReviewPanel.tsx": {
+    "file": "assets/ReviewPanel-ByAm2C3I.js",
+    "name": "ReviewPanel",
+    "src": "src/historical-review/ReviewPanel.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ],
+    "css": [
+      "assets/ReviewPanel-BlvWzzDw.css"
+    ]
+  },
+  "src/historical-review/loadHistoricalReview.ts": {
+    "file": "assets/loadHistoricalReview-C3aOFYPY.js",
+    "name": "loadHistoricalReview",
+    "src": "src/historical-review/loadHistoricalReview.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ]
+  },
+  "src/profile-host/CaseWorkspace.tsx": {
+    "file": "assets/CaseWorkspace-Dw1iSG3W.js",
+    "name": "CaseWorkspace",
+    "src": "src/profile-host/CaseWorkspace.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ],
+    "dynamicImports": [
+      "src/profile-host/attachScene.ts",
+      "src/profile-host/reader-runtime.ts"
+    ],
+    "css": [
+      "assets/CaseWorkspace-C33OH-Z3.css"
+    ]
+  },
+  "src/profile-host/attachScene.ts": {
+    "file": "assets/attachScene-CgDN5nGR.js",
+    "name": "attachScene",
+    "src": "src/profile-host/attachScene.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "_state-BBypOQrg.js",
+      "_scene-DTdIlK9k.js"
+    ]
+  },
+  "src/profile-host/reader-runtime.ts": {
+    "file": "assets/reader-runtime-CGHTYxyO.js",
+    "name": "reader-runtime",
+    "src": "src/profile-host/reader-runtime.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html",
+      "_state-BBypOQrg.js"
+    ],
+    "css": [
+      "assets/reader-runtime-DPzapdWW.css"
+    ]
+  },
+  "src/sector-reader/SectorReaderGate.tsx": {
+    "file": "assets/SectorReaderGate-hnywokmb.js",
+    "name": "SectorReaderGate",
+    "src": "src/sector-reader/SectorReaderGate.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ],
+    "dynamicImports": [
+      "src/sector-reader/SectorReaderPanel.tsx",
+      "src/sector-reader/loadSectorReader.ts"
+    ]
+  },
+  "src/sector-reader/SectorReaderPanel.tsx": {
+    "file": "assets/SectorReaderPanel-CYzsY8XB.js",
+    "name": "SectorReaderPanel",
+    "src": "src/sector-reader/SectorReaderPanel.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ],
+    "css": [
+      "assets/SectorReaderPanel-V2d_pTAs.css"
+    ]
+  },
+  "src/sector-reader/loadSectorReader.ts": {
+    "file": "assets/loadSectorReader-C9H-Qyd8.js",
+    "name": "loadSectorReader",
+    "src": "src/sector-reader/loadSectorReader.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ]
+  }
+}
