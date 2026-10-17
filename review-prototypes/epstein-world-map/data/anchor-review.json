@@ -1,0 +1,30 @@
+{
+  "schema": "independent-institutional-geo-review-receipt-v1",
+  "decision": "approved",
+  "review_scope": "Geographical source admission for three exact institutional context anchors only",
+  "packet_sha256": "e0e11b6cea35d968127d11a8a12b5f4666e0598af8c567b03f5d36b20ca2fb78",
+  "source_first_review": true,
+  "root_acceptance": false,
+  "anchor_ids": [
+    "anchor-scotus-washington-city",
+    "anchor-nydfs-new-york-state",
+    "anchor-usvi-doj-territory"
+  ],
+  "public_new_claims_approval": false,
+  "publication_authorized": false,
+  "email_import_authorized": false,
+  "corpus_sha256": "f365d7f785d54556759230f0c6c27e65ec41ec3ad885fdaee1f46f72860175b5",
+  "verification_scope": [
+    "Primary institutional source pages reopened because only selected excerpts were retained locally.",
+    "Coordinates independently recomputed with 42-digit Decimal arithmetic; all rounded 8-decimal values match.",
+    "Root acceptance must be recorded separately; source review does not grant publication permission."
+  ],
+  "public_projection": {
+    "schema": "public-safe-metadata-projection-v1",
+    "source_receipt_sha256": "b54f8c86b02e084a74f688088db36c17afb0fc17e9fe83eb4c0dd45c334b40f3",
+    "source_candidate_sha256": "e0e11b6cea35d968127d11a8a12b5f4666e0598af8c567b03f5d36b20ca2fb78",
+    "conservation_review": "pending",
+    "publication_authorized": false,
+    "verification_scope_attribution": "Statements retained verbatim from historical review notes at indices 1, 2 and 4. The historical approved decision applies to the original candidate hash; this metadata projection has not yet passed distinct conservation review."
+  }
+}

@@ -1,0 +1,5592 @@
+{
+  "contract": "epstein-exact-component-v1",
+  "component": "round-2",
+  "schema": "epstein-procedural-board-packet-v1",
+  "source_sha256": "f365d7f785d54556759230f0c6c27e65ec41ec3ad885fdaee1f46f72860175b5",
+  "root": {
+    "kind": "object",
+    "entries": [
+      [
+        "schema",
+        {
+          "kind": "string",
+          "exact": "epstein-procedural-board-packet-v1"
+        }
+      ],
+      [
+        "title",
+        {
+          "kind": "string",
+          "exact": "Civil-unsealing decisions and publication conditions"
+        }
+      ],
+      [
+        "additional_round",
+        {
+          "kind": "number",
+          "exact": 2
+        }
+      ],
+      [
+        "as_of",
+        {
+          "kind": "string",
+          "exact": "2026-10-17"
+        }
+      ],
+      [
+        "scope",
+        {
+          "kind": "string",
+          "exact": "Four source-qualified assertions from two official procedural records. This is a partial extension, not a complete unsealing or release history."
+        }
+      ],
+      [
+        "review_status",
+        {
+          "kind": "string",
+          "exact": "reviewed_source_qualified"
+        }
+      ],
+      [
+        "public_posting_authorized",
+        {
+          "kind": "boolean",
+          "exact": false
+        }
+      ],
+      [
+        "milestones",
+        {
+          "kind": "array",
+          "items": [
+            {
+              "kind": "object",
+              "entries": [
+                [
+                  "id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-c01"
+                  }
+                ],
+                [
+                  "title",
+                  {
+                    "kind": "string",
+                    "exact": "Appellate vacatur and individualized-review remand"
+                  }
+                ],
+                [
+                  "source_qualified_statement",
+                  {
+                    "kind": "string",
+                    "exact": "The Second Circuit opinion marked decided July 3, 2019 vacates district-court orders entered November 2, 2016, May 3, 2017 and August 27, 2018, and remands remaining sealed materials for individualized review."
+                  }
+                ],
+                [
+                  "claim_type",
+                  {
+                    "kind": "string",
+                    "exact": "court_disposition"
+                  }
+                ],
+                [
+                  "primary_date",
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "role",
+                        {
+                          "kind": "string",
+                          "exact": "event_date"
+                        }
+                      ],
+                      [
+                        "precision",
+                        {
+                          "kind": "string",
+                          "exact": "day"
+                        }
+                      ],
+                      [
+                        "raw_label",
+                        {
+                          "kind": "string",
+                          "exact": "DECIDED: JULY 3, 2019"
+                        }
+                      ],
+                      [
+                        "state",
+                        {
+                          "kind": "string",
+                          "exact": "exact"
+                        }
+                      ],
+                      [
+                        "value",
+                        {
+                          "kind": "string",
+                          "exact": "2019-07-03"
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "date_claims",
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "event_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "event_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "day"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "string",
+                                "exact": "DECIDED: JULY 3, 2019"
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "exact"
+                              }
+                            ],
+                            [
+                              "value",
+                              {
+                                "kind": "string",
+                                "exact": "2019-07-03"
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "signature_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "signature_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "null",
+                                "exact": null
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "reason",
+                              {
+                                "kind": "string",
+                                "exact": "Not established by the inspected source."
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "filing_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "filing_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "null",
+                                "exact": null
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "reason",
+                              {
+                                "kind": "string",
+                                "exact": "Not established by the inspected source."
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "entry_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "entry_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "null",
+                                "exact": null
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "reason",
+                              {
+                                "kind": "string",
+                                "exact": "Not established by the inspected source."
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "effective_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "effective_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "null",
+                                "exact": null
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "reason",
+                              {
+                                "kind": "string",
+                                "exact": "Not established by the inspected source."
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "publication_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "publication_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "null",
+                                "exact": null
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "reason",
+                              {
+                                "kind": "string",
+                                "exact": "Not established by the inspected source."
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "disclosure_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "disclosure_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "null",
+                                "exact": null
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "reason",
+                              {
+                                "kind": "string",
+                                "exact": "Not established by the inspected source."
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "update_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "update_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "null",
+                                "exact": null
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "reason",
+                              {
+                                "kind": "string",
+                                "exact": "Not established by the inspected source."
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "mandate_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "mandate_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "null",
+                                "exact": null
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "reason",
+                              {
+                                "kind": "string",
+                                "exact": "Not established by the inspected source."
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "document_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "document_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "day"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "string",
+                                "exact": "07/03/2019 (Document 213-1 footer)"
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "exact"
+                              }
+                            ],
+                            [
+                              "value",
+                              {
+                                "kind": "string",
+                                "exact": "2019-07-03"
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "retrieval_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "retrieval_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "day"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "string",
+                                "exact": "Source retrieval date recorded during this research"
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "exact"
+                              }
+                            ],
+                            [
+                              "value",
+                              {
+                                "kind": "string",
+                                "exact": "2026-10-17"
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "review_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "review_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "day"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "string",
+                                "exact": "Distinct source review completed October 17, 2026"
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "exact"
+                              }
+                            ],
+                            [
+                              "value",
+                              {
+                                "kind": "string",
+                                "exact": "2026-10-17"
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "argument_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "argument_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "day"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "string",
+                                "exact": "ARGUED: MARCH 6, 2019"
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "exact"
+                              }
+                            ],
+                            [
+                              "value",
+                              {
+                                "kind": "string",
+                                "exact": "2019-03-06"
+                              }
+                            ]
+                          ]
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "operative_actor",
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "name",
+                        {
+                          "kind": "string",
+                          "exact": "United States Court of Appeals for the Second Circuit"
+                        }
+                      ],
+                      [
+                        "legal_capacity",
+                        {
+                          "kind": "string",
+                          "exact": "appellate court deciding civil-unsealing appeals"
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "reporter",
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "actor",
+                        {
+                          "kind": "string",
+                          "exact": "United States Court of Appeals for the Second Circuit"
+                        }
+                      ],
+                      [
+                        "capacity",
+                        {
+                          "kind": "string",
+                          "exact": "issuing court"
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sources",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "entries": [
+                          [
+                            "source_id",
+                            {
+                              "kind": "string",
+                              "exact": "round-2-g1-opinion"
+                            }
+                          ],
+                          [
+                            "url",
+                            {
+                              "kind": "string",
+                              "exact": "https://www.govinfo.gov/content/pkg/USCOURTS-ca2-18-02868/pdf/USCOURTS-ca2-18-02868-0.pdf"
+                            }
+                          ],
+                          [
+                            "family",
+                            {
+                              "kind": "string",
+                              "exact": "CA2_CIVIL_UNSEALING_OPINION_20190703"
+                            }
+                          ],
+                          [
+                            "locator",
+                            {
+                              "kind": "string",
+                              "exact": "PDF pp.2–3 and 24–25; caption case numbers p.1"
+                            }
+                          ]
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                [
+                  "limitations",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "exact": "The earlier orders themselves were not inspected; their entry dates are reported by the appellate opinion."
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "The selected appellate pages identify the lower court but do not establish its exact district docket number. No direct case-number join to the later order is asserted."
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "The opinion is not a mandate or completed-publication record."
+                      }
+                    ]
+                  }
+                ],
+                [
+                  "qualifying_observations",
+                  {
+                    "kind": "array",
+                    "items": []
+                  }
+                ],
+                [
+                  "source_read_at",
+                  {
+                    "kind": "string",
+                    "exact": "2026-10-17"
+                  }
+                ],
+                [
+                  "review_status",
+                  {
+                    "kind": "string",
+                    "exact": "reviewed_source_qualified"
+                  }
+                ],
+                [
+                  "continuing_status_inferred",
+                  {
+                    "kind": "boolean",
+                    "exact": false
+                  }
+                ],
+                [
+                  "case_identifiers",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "exact": "18-2868-cv"
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "16-3945-cv(L)"
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "17-1625 (CON)"
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "17-1722 (CON)"
+                      }
+                    ]
+                  }
+                ],
+                [
+                  "reported_prior_order_entry_dates",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "entries": [
+                          [
+                            "role",
+                            {
+                              "kind": "string",
+                              "exact": "entry_date"
+                            }
+                          ],
+                          [
+                            "precision",
+                            {
+                              "kind": "string",
+                              "exact": "day"
+                            }
+                          ],
+                          [
+                            "raw_label",
+                            {
+                              "kind": "string",
+                              "exact": "November 2, 2016"
+                            }
+                          ],
+                          [
+                            "state",
+                            {
+                              "kind": "string",
+                              "exact": "attributed"
+                            }
+                          ],
+                          [
+                            "value",
+                            {
+                              "kind": "string",
+                              "exact": "2016-11-02"
+                            }
+                          ]
+                        ]
+                      },
+                      {
+                        "kind": "object",
+                        "entries": [
+                          [
+                            "role",
+                            {
+                              "kind": "string",
+                              "exact": "entry_date"
+                            }
+                          ],
+                          [
+                            "precision",
+                            {
+                              "kind": "string",
+                              "exact": "day"
+                            }
+                          ],
+                          [
+                            "raw_label",
+                            {
+                              "kind": "string",
+                              "exact": "May 3, 2017"
+                            }
+                          ],
+                          [
+                            "state",
+                            {
+                              "kind": "string",
+                              "exact": "attributed"
+                            }
+                          ],
+                          [
+                            "value",
+                            {
+                              "kind": "string",
+                              "exact": "2017-05-03"
+                            }
+                          ]
+                        ]
+                      },
+                      {
+                        "kind": "object",
+                        "entries": [
+                          [
+                            "role",
+                            {
+                              "kind": "string",
+                              "exact": "entry_date"
+                            }
+                          ],
+                          [
+                            "precision",
+                            {
+                              "kind": "string",
+                              "exact": "day"
+                            }
+                          ],
+                          [
+                            "raw_label",
+                            {
+                              "kind": "string",
+                              "exact": "August 27, 2018"
+                            }
+                          ],
+                          [
+                            "state",
+                            {
+                              "kind": "string",
+                              "exact": "attributed"
+                            }
+                          ],
+                          [
+                            "value",
+                            {
+                              "kind": "string",
+                              "exact": "2018-08-27"
+                            }
+                          ]
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              ]
+            },
+            {
+              "kind": "object",
+              "entries": [
+                [
+                  "id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-c02"
+                  }
+                ],
+                [
+                  "title",
+                  {
+                    "kind": "string",
+                    "exact": "Summary-judgment unsealing depends on mandate"
+                  }
+                ],
+                [
+                  "source_qualified_statement",
+                  {
+                    "kind": "string",
+                    "exact": "The same opinion orders the summary-judgment record unsealed with minimal redactions upon issuance of the appellate mandate. It states that a minimally redacted version will then be accessible on the Court of Appeals docket."
+                  }
+                ],
+                [
+                  "claim_type",
+                  {
+                    "kind": "string",
+                    "exact": "court_order_conditional_scope"
+                  }
+                ],
+                [
+                  "primary_date",
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "role",
+                        {
+                          "kind": "string",
+                          "exact": "event_date"
+                        }
+                      ],
+                      [
+                        "precision",
+                        {
+                          "kind": "string",
+                          "exact": "day"
+                        }
+                      ],
+                      [
+                        "raw_label",
+                        {
+                          "kind": "string",
+                          "exact": "DECIDED: JULY 3, 2019"
+                        }
+                      ],
+                      [
+                        "state",
+                        {
+                          "kind": "string",
+                          "exact": "exact"
+                        }
+                      ],
+                      [
+                        "value",
+                        {
+                          "kind": "string",
+                          "exact": "2019-07-03"
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "date_claims",
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "event_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "event_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "day"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "string",
+                                "exact": "DECIDED: JULY 3, 2019"
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "exact"
+                              }
+                            ],
+                            [
+                              "value",
+                              {
+                                "kind": "string",
+                                "exact": "2019-07-03"
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "signature_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "signature_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "null",
+                                "exact": null
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "reason",
+                              {
+                                "kind": "string",
+                                "exact": "Not established by the inspected source."
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "filing_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "filing_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "null",
+                                "exact": null
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "reason",
+                              {
+                                "kind": "string",
+                                "exact": "Not established by the inspected source."
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "entry_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "entry_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "null",
+                                "exact": null
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "reason",
+                              {
+                                "kind": "string",
+                                "exact": "Not established by the inspected source."
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "effective_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "effective_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "string",
+                                "exact": "upon issuance of our mandate"
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "conditional"
+                              }
+                            ],
+                            [
+                              "condition",
+                              {
+                                "kind": "string",
+                                "exact": "Issuance of the appellate mandate; date not established."
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "publication_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "publication_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "null",
+                                "exact": null
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "reason",
+                              {
+                                "kind": "string",
+                                "exact": "Not established by the inspected source."
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "disclosure_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "disclosure_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "null",
+                                "exact": null
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "reason",
+                              {
+                                "kind": "string",
+                                "exact": "Not established by the inspected source."
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "update_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "update_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "null",
+                                "exact": null
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "reason",
+                              {
+                                "kind": "string",
+                                "exact": "Not established by the inspected source."
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "mandate_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "mandate_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "null",
+                                "exact": null
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "reason",
+                              {
+                                "kind": "string",
+                                "exact": "Not established by the inspected source."
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "document_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "document_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "day"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "string",
+                                "exact": "07/03/2019 (Document 213-1 footer)"
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "exact"
+                              }
+                            ],
+                            [
+                              "value",
+                              {
+                                "kind": "string",
+                                "exact": "2019-07-03"
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "retrieval_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "retrieval_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "day"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "string",
+                                "exact": "Source retrieval date recorded during this research"
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "exact"
+                              }
+                            ],
+                            [
+                              "value",
+                              {
+                                "kind": "string",
+                                "exact": "2026-10-17"
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "review_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "review_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "day"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "string",
+                                "exact": "Distinct source review completed October 17, 2026"
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "exact"
+                              }
+                            ],
+                            [
+                              "value",
+                              {
+                                "kind": "string",
+                                "exact": "2026-10-17"
+                              }
+                            ]
+                          ]
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "operative_actor",
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "name",
+                        {
+                          "kind": "string",
+                          "exact": "United States Court of Appeals for the Second Circuit"
+                        }
+                      ],
+                      [
+                        "legal_capacity",
+                        {
+                          "kind": "string",
+                          "exact": "appellate court deciding civil-unsealing appeals"
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "reporter",
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "actor",
+                        {
+                          "kind": "string",
+                          "exact": "United States Court of Appeals for the Second Circuit"
+                        }
+                      ],
+                      [
+                        "capacity",
+                        {
+                          "kind": "string",
+                          "exact": "issuing court"
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sources",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "entries": [
+                          [
+                            "source_id",
+                            {
+                              "kind": "string",
+                              "exact": "round-2-g1-opinion"
+                            }
+                          ],
+                          [
+                            "url",
+                            {
+                              "kind": "string",
+                              "exact": "https://www.govinfo.gov/content/pkg/USCOURTS-ca2-18-02868/pdf/USCOURTS-ca2-18-02868-0.pdf"
+                            }
+                          ],
+                          [
+                            "family",
+                            {
+                              "kind": "string",
+                              "exact": "CA2_CIVIL_UNSEALING_OPINION_20190703"
+                            }
+                          ],
+                          [
+                            "locator",
+                            {
+                              "kind": "string",
+                              "exact": "PDF p.13 and footnote 22 continued on p.14; conclusion p.24"
+                            }
+                          ]
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                [
+                  "limitations",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "exact": "The mandate date and actual docket-publication date were not verified."
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "The opinion treats the summary-judgment record differently from the remaining materials remanded for review."
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "This is a publication direction and condition, not evidence that all files were published."
+                      }
+                    ]
+                  }
+                ],
+                [
+                  "qualifying_observations",
+                  {
+                    "kind": "array",
+                    "items": []
+                  }
+                ],
+                [
+                  "source_read_at",
+                  {
+                    "kind": "string",
+                    "exact": "2026-10-17"
+                  }
+                ],
+                [
+                  "review_status",
+                  {
+                    "kind": "string",
+                    "exact": "reviewed_source_qualified"
+                  }
+                ],
+                [
+                  "continuing_status_inferred",
+                  {
+                    "kind": "boolean",
+                    "exact": false
+                  }
+                ],
+                [
+                  "case_identifiers",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "exact": "18-2868-cv"
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "16-3945-cv(L)"
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "17-1625 (CON)"
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "17-1722 (CON)"
+                      }
+                    ]
+                  }
+                ]
+              ]
+            },
+            {
+              "kind": "object",
+              "entries": [
+                [
+                  "id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-c03"
+                  }
+                ],
+                [
+                  "title",
+                  {
+                    "kind": "string",
+                    "exact": "Later order reports December entry and fourteen-day stay"
+                  }
+                ],
+                [
+                  "source_qualified_statement",
+                  {
+                    "kind": "string",
+                    "exact": "The January 3, 2024 district-court order states that the court entered docket item 1315 on December 18, 2023 after particularized document review and immediately stayed that order for fourteen days to permit appeals."
+                  }
+                ],
+                [
+                  "claim_type",
+                  {
+                    "kind": "string",
+                    "exact": "attributed_later_judicial_description"
+                  }
+                ],
+                [
+                  "primary_date",
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "role",
+                        {
+                          "kind": "string",
+                          "exact": "entry_date"
+                        }
+                      ],
+                      [
+                        "precision",
+                        {
+                          "kind": "string",
+                          "exact": "day"
+                        }
+                      ],
+                      [
+                        "raw_label",
+                        {
+                          "kind": "string",
+                          "exact": "On December 18, 2023, the Court entered an order (dkt. no. 1315)"
+                        }
+                      ],
+                      [
+                        "state",
+                        {
+                          "kind": "string",
+                          "exact": "attributed"
+                        }
+                      ],
+                      [
+                        "value",
+                        {
+                          "kind": "string",
+                          "exact": "2023-12-18"
+                        }
+                      ],
+                      [
+                        "applies_to",
+                        {
+                          "kind": "string",
+                          "exact": "round-2-instrument-1315"
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "date_claims",
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "event_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "event_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "null",
+                                "exact": null
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "reason",
+                              {
+                                "kind": "string",
+                                "exact": "Not established by the inspected source."
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "signature_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "signature_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "null",
+                                "exact": null
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "reason",
+                              {
+                                "kind": "string",
+                                "exact": "Not established by the inspected source."
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "filing_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "filing_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "null",
+                                "exact": null
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "reason",
+                              {
+                                "kind": "string",
+                                "exact": "Not established by the inspected source."
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "entry_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "entry_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "day"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "string",
+                                "exact": "On December 18, 2023, the Court entered an order (dkt. no. 1315)"
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "attributed"
+                              }
+                            ],
+                            [
+                              "value",
+                              {
+                                "kind": "string",
+                                "exact": "2023-12-18"
+                              }
+                            ],
+                            [
+                              "applies_to",
+                              {
+                                "kind": "string",
+                                "exact": "round-2-instrument-1315"
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "effective_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "effective_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "null",
+                                "exact": null
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "reason",
+                              {
+                                "kind": "string",
+                                "exact": "Not established by the inspected source."
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "publication_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "publication_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "null",
+                                "exact": null
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "reason",
+                              {
+                                "kind": "string",
+                                "exact": "Not established by the inspected source."
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "disclosure_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "disclosure_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "null",
+                                "exact": null
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "reason",
+                              {
+                                "kind": "string",
+                                "exact": "Not established by the inspected source."
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "update_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "update_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "null",
+                                "exact": null
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "reason",
+                              {
+                                "kind": "string",
+                                "exact": "Not established by the inspected source."
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "mandate_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "mandate_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "null",
+                                "exact": null
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "reason",
+                              {
+                                "kind": "string",
+                                "exact": "Not established by the inspected source."
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "document_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "document_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "day"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "string",
+                                "exact": "Dated: January 3, 2024"
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "exact"
+                              }
+                            ],
+                            [
+                              "value",
+                              {
+                                "kind": "string",
+                                "exact": "2024-01-03"
+                              }
+                            ],
+                            [
+                              "applies_to",
+                              {
+                                "kind": "string",
+                                "exact": "round-2-instrument-january-order"
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "retrieval_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "retrieval_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "day"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "string",
+                                "exact": "Source retrieval date recorded during this research"
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "exact"
+                              }
+                            ],
+                            [
+                              "value",
+                              {
+                                "kind": "string",
+                                "exact": "2026-10-17"
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "review_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "review_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "day"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "string",
+                                "exact": "Distinct source review completed October 17, 2026"
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "exact"
+                              }
+                            ],
+                            [
+                              "value",
+                              {
+                                "kind": "string",
+                                "exact": "2026-10-17"
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "stay_duration",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "stay_duration"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "days"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "string",
+                                "exact": "immediately staying its order for fourteen days"
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "attributed"
+                              }
+                            ],
+                            [
+                              "value",
+                              {
+                                "kind": "number",
+                                "exact": 14
+                              }
+                            ],
+                            [
+                              "unit",
+                              {
+                                "kind": "string",
+                                "exact": "days"
+                              }
+                            ],
+                            [
+                              "applies_to",
+                              {
+                                "kind": "string",
+                                "exact": "round-2-instrument-1315"
+                              }
+                            ]
+                          ]
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "operative_actor",
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "name",
+                        {
+                          "kind": "string",
+                          "exact": "United States District Court for the Southern District of New York"
+                        }
+                      ],
+                      [
+                        "legal_capacity",
+                        {
+                          "kind": "string",
+                          "exact": "district court managing civil-record access"
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "reporter",
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "actor",
+                        {
+                          "kind": "string",
+                          "exact": "United States District Court for the Southern District of New York"
+                        }
+                      ],
+                      [
+                        "capacity",
+                        {
+                          "kind": "string",
+                          "exact": "later court order describing an earlier order"
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sources",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "entries": [
+                          [
+                            "source_id",
+                            {
+                              "kind": "string",
+                              "exact": "round-2-g3-order"
+                            }
+                          ],
+                          [
+                            "url",
+                            {
+                              "kind": "string",
+                              "exact": "https://www.nysd.uscourts.gov/sites/default/files/2024-01/15cv7433%2001032023%20115pm%20%281%29.pdf"
+                            }
+                          ],
+                          [
+                            "family",
+                            {
+                              "kind": "string",
+                              "exact": "SDNY_CIVIL_ORDER_20240103"
+                            }
+                          ],
+                          [
+                            "locator",
+                            {
+                              "kind": "string",
+                              "exact": "PDF p.1, opening procedural paragraph; order date p.2"
+                            }
+                          ]
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                [
+                  "limitations",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "exact": "Docket item 1315 itself was not inspected."
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "Its full document perimeter, signature and filing stamps remain unverified."
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "No calendar-expiration date or actual release date is calculated from the fourteen-day language."
+                      }
+                    ]
+                  }
+                ],
+                [
+                  "qualifying_observations",
+                  {
+                    "kind": "array",
+                    "items": []
+                  }
+                ],
+                [
+                  "source_read_at",
+                  {
+                    "kind": "string",
+                    "exact": "2026-10-17"
+                  }
+                ],
+                [
+                  "review_status",
+                  {
+                    "kind": "string",
+                    "exact": "reviewed_source_qualified"
+                  }
+                ],
+                [
+                  "continuing_status_inferred",
+                  {
+                    "kind": "boolean",
+                    "exact": false
+                  }
+                ],
+                [
+                  "case_identifiers",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "exact": "15 Civ. 7433 (LAP)"
+                      }
+                    ]
+                  }
+                ]
+              ]
+            },
+            {
+              "kind": "object",
+              "entries": [
+                [
+                  "id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-c04"
+                  }
+                ],
+                [
+                  "title",
+                  {
+                    "kind": "string",
+                    "exact": "January order preserves exceptions and reports planned filing"
+                  }
+                ],
+                [
+                  "source_qualified_statement",
+                  {
+                    "kind": "string",
+                    "exact": "The district-court order dated January 3, 2024 leaves documents concerning two anonymous individuals pending further determination and reports that, with those exceptions, the parties intended to begin filing the records covered by the December order later that day."
+                  }
+                ],
+                [
+                  "claim_type",
+                  {
+                    "kind": "string",
+                    "exact": "court_order_and_attributed_party_plan"
+                  }
+                ],
+                [
+                  "primary_date",
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "role",
+                        {
+                          "kind": "string",
+                          "exact": "document_date"
+                        }
+                      ],
+                      [
+                        "precision",
+                        {
+                          "kind": "string",
+                          "exact": "day"
+                        }
+                      ],
+                      [
+                        "raw_label",
+                        {
+                          "kind": "string",
+                          "exact": "Dated: January 3, 2024"
+                        }
+                      ],
+                      [
+                        "state",
+                        {
+                          "kind": "string",
+                          "exact": "exact"
+                        }
+                      ],
+                      [
+                        "value",
+                        {
+                          "kind": "string",
+                          "exact": "2024-01-03"
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "date_claims",
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "event_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "event_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "null",
+                                "exact": null
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "reason",
+                              {
+                                "kind": "string",
+                                "exact": "Not established by the inspected source."
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "signature_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "signature_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "null",
+                                "exact": null
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "reason",
+                              {
+                                "kind": "string",
+                                "exact": "Not established by the inspected source."
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "filing_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "filing_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "null",
+                                "exact": null
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "reason",
+                              {
+                                "kind": "string",
+                                "exact": "Not established by the inspected source."
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "entry_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "entry_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "null",
+                                "exact": null
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "reason",
+                              {
+                                "kind": "string",
+                                "exact": "Not established by the inspected source."
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "effective_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "effective_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "null",
+                                "exact": null
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "reason",
+                              {
+                                "kind": "string",
+                                "exact": "Not established by the inspected source."
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "publication_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "publication_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "null",
+                                "exact": null
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "reason",
+                              {
+                                "kind": "string",
+                                "exact": "Not established by the inspected source."
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "disclosure_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "disclosure_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "null",
+                                "exact": null
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "reason",
+                              {
+                                "kind": "string",
+                                "exact": "Not established by the inspected source."
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "update_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "update_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "null",
+                                "exact": null
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "reason",
+                              {
+                                "kind": "string",
+                                "exact": "Not established by the inspected source."
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "mandate_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "mandate_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "null",
+                                "exact": null
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "unknown"
+                              }
+                            ],
+                            [
+                              "reason",
+                              {
+                                "kind": "string",
+                                "exact": "Not established by the inspected source."
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "document_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "document_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "day"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "string",
+                                "exact": "Dated: January 3, 2024"
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "exact"
+                              }
+                            ],
+                            [
+                              "value",
+                              {
+                                "kind": "string",
+                                "exact": "2024-01-03"
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "retrieval_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "retrieval_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "day"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "string",
+                                "exact": "Source retrieval date recorded during this research"
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "exact"
+                              }
+                            ],
+                            [
+                              "value",
+                              {
+                                "kind": "string",
+                                "exact": "2026-10-17"
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "review_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "review_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "day"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "string",
+                                "exact": "Distinct source review completed October 17, 2026"
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "exact"
+                              }
+                            ],
+                            [
+                              "value",
+                              {
+                                "kind": "string",
+                                "exact": "2026-10-17"
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      [
+                        "planned_filing_date",
+                        {
+                          "kind": "object",
+                          "entries": [
+                            [
+                              "role",
+                              {
+                                "kind": "string",
+                                "exact": "planned_filing_date"
+                              }
+                            ],
+                            [
+                              "precision",
+                              {
+                                "kind": "string",
+                                "exact": "day"
+                              }
+                            ],
+                            [
+                              "raw_label",
+                              {
+                                "kind": "string",
+                                "exact": "later today"
+                              }
+                            ],
+                            [
+                              "state",
+                              {
+                                "kind": "string",
+                                "exact": "planned"
+                              }
+                            ],
+                            [
+                              "value",
+                              {
+                                "kind": "string",
+                                "exact": "2024-01-03"
+                              }
+                            ],
+                            [
+                              "normalization_basis",
+                              {
+                                "kind": "string",
+                                "exact": "Date printed on this order is January 3, 2024."
+                              }
+                            ]
+                          ]
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "operative_actor",
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "name",
+                        {
+                          "kind": "string",
+                          "exact": "United States District Court for the Southern District of New York"
+                        }
+                      ],
+                      [
+                        "legal_capacity",
+                        {
+                          "kind": "string",
+                          "exact": "district court managing civil-record access"
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "reporter",
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "actor",
+                        {
+                          "kind": "string",
+                          "exact": "United States District Court for the Southern District of New York"
+                        }
+                      ],
+                      [
+                        "capacity",
+                        {
+                          "kind": "string",
+                          "exact": "issuing court"
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sources",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "entries": [
+                          [
+                            "source_id",
+                            {
+                              "kind": "string",
+                              "exact": "round-2-g3-order"
+                            }
+                          ],
+                          [
+                            "url",
+                            {
+                              "kind": "string",
+                              "exact": "https://www.nysd.uscourts.gov/sites/default/files/2024-01/15cv7433%2001032023%20115pm%20%281%29.pdf"
+                            }
+                          ],
+                          [
+                            "family",
+                            {
+                              "kind": "string",
+                              "exact": "SDNY_CIVIL_ORDER_20240103"
+                            }
+                          ],
+                          [
+                            "locator",
+                            {
+                              "kind": "string",
+                              "exact": "PDF p.1, procedural paragraphs 2–3; p.2, dated judicial block"
+                            }
+                          ]
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                [
+                  "limitations",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "exact": "The statement describes intended filing, not verified completed publication."
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "The court-hosted copy has no visible ECF number or filing/entry stamp."
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "The December order is only cited; the exact document list was not inspected."
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "Anonymous identifiers and protected identities are excluded."
+                      }
+                    ]
+                  }
+                ],
+                [
+                  "qualifying_observations",
+                  {
+                    "kind": "array",
+                    "items": []
+                  }
+                ],
+                [
+                  "source_read_at",
+                  {
+                    "kind": "string",
+                    "exact": "2026-10-17"
+                  }
+                ],
+                [
+                  "review_status",
+                  {
+                    "kind": "string",
+                    "exact": "reviewed_source_qualified"
+                  }
+                ],
+                [
+                  "continuing_status_inferred",
+                  {
+                    "kind": "boolean",
+                    "exact": false
+                  }
+                ],
+                [
+                  "case_identifiers",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "exact": "15 Civ. 7433 (LAP)"
+                      }
+                    ]
+                  }
+                ]
+              ]
+            }
+          ]
+        }
+      ],
+      [
+        "nodes",
+        {
+          "kind": "array",
+          "items": [
+            {
+              "kind": "object",
+              "entries": [
+                [
+                  "id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-court-ca2"
+                  }
+                ],
+                [
+                  "label",
+                  {
+                    "kind": "string",
+                    "exact": "United States Court of Appeals for the Second Circuit"
+                  }
+                ],
+                [
+                  "kind",
+                  {
+                    "kind": "string",
+                    "exact": "institution"
+                  }
+                ],
+                [
+                  "legal_capacity",
+                  {
+                    "kind": "string",
+                    "exact": "appellate court deciding civil-unsealing appeals"
+                  }
+                ]
+              ]
+            },
+            {
+              "kind": "object",
+              "entries": [
+                [
+                  "id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-court-sdny"
+                  }
+                ],
+                [
+                  "label",
+                  {
+                    "kind": "string",
+                    "exact": "United States District Court for the Southern District of New York"
+                  }
+                ],
+                [
+                  "kind",
+                  {
+                    "kind": "string",
+                    "exact": "institution"
+                  }
+                ],
+                [
+                  "legal_capacity",
+                  {
+                    "kind": "string",
+                    "exact": "district court managing civil-record access"
+                  }
+                ]
+              ]
+            },
+            {
+              "kind": "object",
+              "entries": [
+                [
+                  "id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-case-appellate"
+                  }
+                ],
+                [
+                  "label",
+                  {
+                    "kind": "string",
+                    "exact": "Civil-unsealing appellate proceedings"
+                  }
+                ],
+                [
+                  "kind",
+                  {
+                    "kind": "string",
+                    "exact": "case"
+                  }
+                ],
+                [
+                  "legal_capacity",
+                  {
+                    "kind": "string",
+                    "exact": "appellate review of civil sealing orders"
+                  }
+                ],
+                [
+                  "case_identifiers",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "exact": "18-2868-cv"
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "16-3945-cv(L)"
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "17-1625 (CON)"
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "17-1722 (CON)"
+                      }
+                    ]
+                  }
+                ]
+              ]
+            },
+            {
+              "kind": "object",
+              "entries": [
+                [
+                  "id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-instrument-opinion"
+                  }
+                ],
+                [
+                  "label",
+                  {
+                    "kind": "string",
+                    "exact": "Second Circuit Document 213-1"
+                  }
+                ],
+                [
+                  "kind",
+                  {
+                    "kind": "string",
+                    "exact": "legal_instrument"
+                  }
+                ],
+                [
+                  "legal_capacity",
+                  {
+                    "kind": "string",
+                    "exact": "appellate opinion"
+                  }
+                ],
+                [
+                  "case_identifiers",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "exact": "18-2868"
+                      }
+                    ]
+                  }
+                ],
+                [
+                  "document_id",
+                  {
+                    "kind": "string",
+                    "exact": "213-1"
+                  }
+                ]
+              ]
+            },
+            {
+              "kind": "object",
+              "entries": [
+                [
+                  "id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-instrument-vacated-set"
+                  }
+                ],
+                [
+                  "label",
+                  {
+                    "kind": "string",
+                    "exact": "Three district sealing orders identified by appellate opinion"
+                  }
+                ],
+                [
+                  "kind",
+                  {
+                    "kind": "string",
+                    "exact": "legal_instrument_set"
+                  }
+                ],
+                [
+                  "legal_capacity",
+                  {
+                    "kind": "string",
+                    "exact": "prior district-court sealing orders; originals not inspected"
+                  }
+                ],
+                [
+                  "reported_entry_dates",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "exact": "2016-11-02"
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "2017-05-03"
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "2018-08-27"
+                      }
+                    ]
+                  }
+                ],
+                [
+                  "case_identifiers",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "exact": "18-2868-cv"
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "16-3945-cv(L)"
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "17-1625 (CON)"
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "17-1722 (CON)"
+                      }
+                    ]
+                  }
+                ],
+                [
+                  "identifier_scope",
+                  {
+                    "kind": "string",
+                    "exact": "Order dates and appellate-proceeding context only; district ECF numbers unknown."
+                  }
+                ]
+              ]
+            },
+            {
+              "kind": "object",
+              "entries": [
+                [
+                  "id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-record-summary"
+                  }
+                ],
+                [
+                  "label",
+                  {
+                    "kind": "string",
+                    "exact": "Summary-judgment record covered by Document 213-1"
+                  }
+                ],
+                [
+                  "kind",
+                  {
+                    "kind": "string",
+                    "exact": "record_set"
+                  }
+                ],
+                [
+                  "legal_capacity",
+                  {
+                    "kind": "string",
+                    "exact": "judicial record set subject to mandate-conditioned unsealing"
+                  }
+                ],
+                [
+                  "case_identifiers",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "exact": "18-2868"
+                      }
+                    ]
+                  }
+                ],
+                [
+                  "identifier_scope",
+                  {
+                    "kind": "string",
+                    "exact": "Defined by inspected opinion; file-level denominator and appendix identifiers unverified."
+                  }
+                ]
+              ]
+            },
+            {
+              "kind": "object",
+              "entries": [
+                [
+                  "id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-case-district"
+                  }
+                ],
+                [
+                  "label",
+                  {
+                    "kind": "string",
+                    "exact": "SDNY civil case 15 Civ. 7433 (LAP)"
+                  }
+                ],
+                [
+                  "kind",
+                  {
+                    "kind": "string",
+                    "exact": "case"
+                  }
+                ],
+                [
+                  "legal_capacity",
+                  {
+                    "kind": "string",
+                    "exact": "civil proceeding addressed by the January 2024 record-access order"
+                  }
+                ],
+                [
+                  "case_identifiers",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "exact": "15 Civ. 7433 (LAP)"
+                      }
+                    ]
+                  }
+                ]
+              ]
+            },
+            {
+              "kind": "object",
+              "entries": [
+                [
+                  "id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-instrument-1315"
+                  }
+                ],
+                [
+                  "label",
+                  {
+                    "kind": "string",
+                    "exact": "District docket item 1315"
+                  }
+                ],
+                [
+                  "kind",
+                  {
+                    "kind": "string",
+                    "exact": "legal_instrument"
+                  }
+                ],
+                [
+                  "legal_capacity",
+                  {
+                    "kind": "string",
+                    "exact": "earlier unsealing order described by later order; original uninspected"
+                  }
+                ],
+                [
+                  "case_identifiers",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "exact": "15 Civ. 7433 (LAP)"
+                      }
+                    ]
+                  }
+                ],
+                [
+                  "document_id",
+                  {
+                    "kind": "string",
+                    "exact": "1315"
+                  }
+                ]
+              ]
+            },
+            {
+              "kind": "object",
+              "entries": [
+                [
+                  "id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-instrument-january-order"
+                  }
+                ],
+                [
+                  "label",
+                  {
+                    "kind": "string",
+                    "exact": "District order dated January 3, 2024"
+                  }
+                ],
+                [
+                  "kind",
+                  {
+                    "kind": "string",
+                    "exact": "legal_instrument"
+                  }
+                ],
+                [
+                  "legal_capacity",
+                  {
+                    "kind": "string",
+                    "exact": "dated procedural order on unresolved exceptions and intended filing"
+                  }
+                ],
+                [
+                  "case_identifiers",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "exact": "15 Civ. 7433 (LAP)"
+                      }
+                    ]
+                  }
+                ],
+                [
+                  "document_id",
+                  {
+                    "kind": "null",
+                    "exact": null
+                  }
+                ],
+                [
+                  "identifier_scope",
+                  {
+                    "kind": "string",
+                    "exact": "Exact official URL and date identify encountered copy; ECF number unverified."
+                  }
+                ]
+              ]
+            }
+          ]
+        }
+      ],
+      [
+        "procedural_relations",
+        {
+          "kind": "array",
+          "items": [
+            {
+              "kind": "object",
+              "entries": [
+                [
+                  "id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-r01"
+                  }
+                ],
+                [
+                  "source_node_id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-court-ca2"
+                  }
+                ],
+                [
+                  "target_node_id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-instrument-vacated-set"
+                  }
+                ],
+                [
+                  "source_legal_capacity",
+                  {
+                    "kind": "string",
+                    "exact": "appellate court deciding civil-unsealing appeals"
+                  }
+                ],
+                [
+                  "target_legal_capacity",
+                  {
+                    "kind": "string",
+                    "exact": "prior district-court sealing orders; originals not inspected"
+                  }
+                ],
+                [
+                  "relation_type",
+                  {
+                    "kind": "string",
+                    "exact": "vacates_prior_sealing_orders"
+                  }
+                ],
+                [
+                  "source_qualified_label",
+                  {
+                    "kind": "string",
+                    "exact": "Appellate opinion vacates the three specified district sealing orders"
+                  }
+                ],
+                [
+                  "milestone_id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-c01"
+                  }
+                ],
+                [
+                  "date_claim",
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "role",
+                        {
+                          "kind": "string",
+                          "exact": "event_date"
+                        }
+                      ],
+                      [
+                        "precision",
+                        {
+                          "kind": "string",
+                          "exact": "day"
+                        }
+                      ],
+                      [
+                        "raw_label",
+                        {
+                          "kind": "string",
+                          "exact": "DECIDED: JULY 3, 2019"
+                        }
+                      ],
+                      [
+                        "state",
+                        {
+                          "kind": "string",
+                          "exact": "exact"
+                        }
+                      ],
+                      [
+                        "value",
+                        {
+                          "kind": "string",
+                          "exact": "2019-07-03"
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sources",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "entries": [
+                          [
+                            "source_id",
+                            {
+                              "kind": "string",
+                              "exact": "round-2-g1-opinion"
+                            }
+                          ],
+                          [
+                            "url",
+                            {
+                              "kind": "string",
+                              "exact": "https://www.govinfo.gov/content/pkg/USCOURTS-ca2-18-02868/pdf/USCOURTS-ca2-18-02868-0.pdf"
+                            }
+                          ],
+                          [
+                            "family",
+                            {
+                              "kind": "string",
+                              "exact": "CA2_CIVIL_UNSEALING_OPINION_20190703"
+                            }
+                          ],
+                          [
+                            "locator",
+                            {
+                              "kind": "string",
+                              "exact": "PDF pp.2–3 and 24–25; caption case numbers p.1"
+                            }
+                          ]
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                [
+                  "reporter",
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "actor",
+                        {
+                          "kind": "string",
+                          "exact": "United States Court of Appeals for the Second Circuit"
+                        }
+                      ],
+                      [
+                        "capacity",
+                        {
+                          "kind": "string",
+                          "exact": "issuing court"
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "operative_actor",
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "name",
+                        {
+                          "kind": "string",
+                          "exact": "United States Court of Appeals for the Second Circuit"
+                        }
+                      ],
+                      [
+                        "legal_capacity",
+                        {
+                          "kind": "string",
+                          "exact": "appellate court deciding civil-unsealing appeals"
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "assertion_status",
+                  {
+                    "kind": "string",
+                    "exact": "court_disposition"
+                  }
+                ],
+                [
+                  "limitations",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "exact": "The earlier orders themselves were not inspected; their entry dates are reported by the appellate opinion."
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "The selected appellate pages identify the lower court but do not establish its exact district docket number. No direct case-number join to the later order is asserted."
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "The opinion is not a mandate or completed-publication record."
+                      }
+                    ]
+                  }
+                ],
+                [
+                  "review_status",
+                  {
+                    "kind": "string",
+                    "exact": "reviewed_source_qualified"
+                  }
+                ],
+                [
+                  "causal_claim",
+                  {
+                    "kind": "boolean",
+                    "exact": false
+                  }
+                ],
+                [
+                  "person_association_link",
+                  {
+                    "kind": "boolean",
+                    "exact": false
+                  }
+                ],
+                [
+                  "continuing_status_inferred",
+                  {
+                    "kind": "boolean",
+                    "exact": false
+                  }
+                ]
+              ]
+            },
+            {
+              "kind": "object",
+              "entries": [
+                [
+                  "id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-r02"
+                  }
+                ],
+                [
+                  "source_node_id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-court-ca2"
+                  }
+                ],
+                [
+                  "target_node_id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-court-sdny"
+                  }
+                ],
+                [
+                  "source_legal_capacity",
+                  {
+                    "kind": "string",
+                    "exact": "appellate court deciding civil-unsealing appeals"
+                  }
+                ],
+                [
+                  "target_legal_capacity",
+                  {
+                    "kind": "string",
+                    "exact": "district court managing civil-record access"
+                  }
+                ],
+                [
+                  "relation_type",
+                  {
+                    "kind": "string",
+                    "exact": "remands_for_individualized_review"
+                  }
+                ],
+                [
+                  "source_qualified_label",
+                  {
+                    "kind": "string",
+                    "exact": "Appellate opinion directs the district court to review remaining sealed materials individually"
+                  }
+                ],
+                [
+                  "milestone_id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-c01"
+                  }
+                ],
+                [
+                  "date_claim",
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "role",
+                        {
+                          "kind": "string",
+                          "exact": "event_date"
+                        }
+                      ],
+                      [
+                        "precision",
+                        {
+                          "kind": "string",
+                          "exact": "day"
+                        }
+                      ],
+                      [
+                        "raw_label",
+                        {
+                          "kind": "string",
+                          "exact": "DECIDED: JULY 3, 2019"
+                        }
+                      ],
+                      [
+                        "state",
+                        {
+                          "kind": "string",
+                          "exact": "exact"
+                        }
+                      ],
+                      [
+                        "value",
+                        {
+                          "kind": "string",
+                          "exact": "2019-07-03"
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sources",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "entries": [
+                          [
+                            "source_id",
+                            {
+                              "kind": "string",
+                              "exact": "round-2-g1-opinion"
+                            }
+                          ],
+                          [
+                            "url",
+                            {
+                              "kind": "string",
+                              "exact": "https://www.govinfo.gov/content/pkg/USCOURTS-ca2-18-02868/pdf/USCOURTS-ca2-18-02868-0.pdf"
+                            }
+                          ],
+                          [
+                            "family",
+                            {
+                              "kind": "string",
+                              "exact": "CA2_CIVIL_UNSEALING_OPINION_20190703"
+                            }
+                          ],
+                          [
+                            "locator",
+                            {
+                              "kind": "string",
+                              "exact": "PDF pp.2–3 and 24–25; caption case numbers p.1"
+                            }
+                          ]
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                [
+                  "reporter",
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "actor",
+                        {
+                          "kind": "string",
+                          "exact": "United States Court of Appeals for the Second Circuit"
+                        }
+                      ],
+                      [
+                        "capacity",
+                        {
+                          "kind": "string",
+                          "exact": "issuing court"
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "operative_actor",
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "name",
+                        {
+                          "kind": "string",
+                          "exact": "United States Court of Appeals for the Second Circuit"
+                        }
+                      ],
+                      [
+                        "legal_capacity",
+                        {
+                          "kind": "string",
+                          "exact": "appellate court deciding civil-unsealing appeals"
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "assertion_status",
+                  {
+                    "kind": "string",
+                    "exact": "court_disposition"
+                  }
+                ],
+                [
+                  "limitations",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "exact": "The earlier orders themselves were not inspected; their entry dates are reported by the appellate opinion."
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "The selected appellate pages identify the lower court but do not establish its exact district docket number. No direct case-number join to the later order is asserted."
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "The opinion is not a mandate or completed-publication record."
+                      }
+                    ]
+                  }
+                ],
+                [
+                  "review_status",
+                  {
+                    "kind": "string",
+                    "exact": "reviewed_source_qualified"
+                  }
+                ],
+                [
+                  "causal_claim",
+                  {
+                    "kind": "boolean",
+                    "exact": false
+                  }
+                ],
+                [
+                  "person_association_link",
+                  {
+                    "kind": "boolean",
+                    "exact": false
+                  }
+                ],
+                [
+                  "continuing_status_inferred",
+                  {
+                    "kind": "boolean",
+                    "exact": false
+                  }
+                ]
+              ]
+            },
+            {
+              "kind": "object",
+              "entries": [
+                [
+                  "id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-r03"
+                  }
+                ],
+                [
+                  "source_node_id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-court-ca2"
+                  }
+                ],
+                [
+                  "target_node_id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-record-summary"
+                  }
+                ],
+                [
+                  "source_legal_capacity",
+                  {
+                    "kind": "string",
+                    "exact": "appellate court deciding civil-unsealing appeals"
+                  }
+                ],
+                [
+                  "target_legal_capacity",
+                  {
+                    "kind": "string",
+                    "exact": "judicial record set subject to mandate-conditioned unsealing"
+                  }
+                ],
+                [
+                  "relation_type",
+                  {
+                    "kind": "string",
+                    "exact": "orders_unsealing_upon_mandate"
+                  }
+                ],
+                [
+                  "source_qualified_label",
+                  {
+                    "kind": "string",
+                    "exact": "Summary-judgment unsealing is conditioned on issuance of the mandate"
+                  }
+                ],
+                [
+                  "milestone_id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-c02"
+                  }
+                ],
+                [
+                  "date_claim",
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "role",
+                        {
+                          "kind": "string",
+                          "exact": "event_date"
+                        }
+                      ],
+                      [
+                        "precision",
+                        {
+                          "kind": "string",
+                          "exact": "day"
+                        }
+                      ],
+                      [
+                        "raw_label",
+                        {
+                          "kind": "string",
+                          "exact": "DECIDED: JULY 3, 2019"
+                        }
+                      ],
+                      [
+                        "state",
+                        {
+                          "kind": "string",
+                          "exact": "exact"
+                        }
+                      ],
+                      [
+                        "value",
+                        {
+                          "kind": "string",
+                          "exact": "2019-07-03"
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sources",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "entries": [
+                          [
+                            "source_id",
+                            {
+                              "kind": "string",
+                              "exact": "round-2-g1-opinion"
+                            }
+                          ],
+                          [
+                            "url",
+                            {
+                              "kind": "string",
+                              "exact": "https://www.govinfo.gov/content/pkg/USCOURTS-ca2-18-02868/pdf/USCOURTS-ca2-18-02868-0.pdf"
+                            }
+                          ],
+                          [
+                            "family",
+                            {
+                              "kind": "string",
+                              "exact": "CA2_CIVIL_UNSEALING_OPINION_20190703"
+                            }
+                          ],
+                          [
+                            "locator",
+                            {
+                              "kind": "string",
+                              "exact": "PDF p.13 and footnote 22 continued on p.14; conclusion p.24"
+                            }
+                          ]
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                [
+                  "reporter",
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "actor",
+                        {
+                          "kind": "string",
+                          "exact": "United States Court of Appeals for the Second Circuit"
+                        }
+                      ],
+                      [
+                        "capacity",
+                        {
+                          "kind": "string",
+                          "exact": "issuing court"
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "operative_actor",
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "name",
+                        {
+                          "kind": "string",
+                          "exact": "United States Court of Appeals for the Second Circuit"
+                        }
+                      ],
+                      [
+                        "legal_capacity",
+                        {
+                          "kind": "string",
+                          "exact": "appellate court deciding civil-unsealing appeals"
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "assertion_status",
+                  {
+                    "kind": "string",
+                    "exact": "court_order_conditional_scope"
+                  }
+                ],
+                [
+                  "limitations",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "exact": "The mandate date and actual docket-publication date were not verified."
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "The opinion treats the summary-judgment record differently from the remaining materials remanded for review."
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "This is a publication direction and condition, not evidence that all files were published."
+                      }
+                    ]
+                  }
+                ],
+                [
+                  "review_status",
+                  {
+                    "kind": "string",
+                    "exact": "reviewed_source_qualified"
+                  }
+                ],
+                [
+                  "causal_claim",
+                  {
+                    "kind": "boolean",
+                    "exact": false
+                  }
+                ],
+                [
+                  "person_association_link",
+                  {
+                    "kind": "boolean",
+                    "exact": false
+                  }
+                ],
+                [
+                  "continuing_status_inferred",
+                  {
+                    "kind": "boolean",
+                    "exact": false
+                  }
+                ]
+              ]
+            },
+            {
+              "kind": "object",
+              "entries": [
+                [
+                  "id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-r04"
+                  }
+                ],
+                [
+                  "source_node_id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-instrument-january-order"
+                  }
+                ],
+                [
+                  "target_node_id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-instrument-1315"
+                  }
+                ],
+                [
+                  "source_legal_capacity",
+                  {
+                    "kind": "string",
+                    "exact": "dated procedural order on unresolved exceptions and intended filing"
+                  }
+                ],
+                [
+                  "target_legal_capacity",
+                  {
+                    "kind": "string",
+                    "exact": "earlier unsealing order described by later order; original uninspected"
+                  }
+                ],
+                [
+                  "relation_type",
+                  {
+                    "kind": "string",
+                    "exact": "reports_prior_order_entry_and_stay"
+                  }
+                ],
+                [
+                  "source_qualified_label",
+                  {
+                    "kind": "string",
+                    "exact": "Later district order reports entry of docket item 1315 and a fourteen-day stay"
+                  }
+                ],
+                [
+                  "milestone_id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-c03"
+                  }
+                ],
+                [
+                  "date_claim",
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "role",
+                        {
+                          "kind": "string",
+                          "exact": "entry_date"
+                        }
+                      ],
+                      [
+                        "precision",
+                        {
+                          "kind": "string",
+                          "exact": "day"
+                        }
+                      ],
+                      [
+                        "raw_label",
+                        {
+                          "kind": "string",
+                          "exact": "On December 18, 2023, the Court entered an order (dkt. no. 1315)"
+                        }
+                      ],
+                      [
+                        "state",
+                        {
+                          "kind": "string",
+                          "exact": "attributed"
+                        }
+                      ],
+                      [
+                        "value",
+                        {
+                          "kind": "string",
+                          "exact": "2023-12-18"
+                        }
+                      ],
+                      [
+                        "applies_to",
+                        {
+                          "kind": "string",
+                          "exact": "round-2-instrument-1315"
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sources",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "entries": [
+                          [
+                            "source_id",
+                            {
+                              "kind": "string",
+                              "exact": "round-2-g3-order"
+                            }
+                          ],
+                          [
+                            "url",
+                            {
+                              "kind": "string",
+                              "exact": "https://www.nysd.uscourts.gov/sites/default/files/2024-01/15cv7433%2001032023%20115pm%20%281%29.pdf"
+                            }
+                          ],
+                          [
+                            "family",
+                            {
+                              "kind": "string",
+                              "exact": "SDNY_CIVIL_ORDER_20240103"
+                            }
+                          ],
+                          [
+                            "locator",
+                            {
+                              "kind": "string",
+                              "exact": "PDF p.1, opening procedural paragraph; order date p.2"
+                            }
+                          ]
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                [
+                  "reporter",
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "actor",
+                        {
+                          "kind": "string",
+                          "exact": "United States District Court for the Southern District of New York"
+                        }
+                      ],
+                      [
+                        "capacity",
+                        {
+                          "kind": "string",
+                          "exact": "later court order describing an earlier order"
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "operative_actor",
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "name",
+                        {
+                          "kind": "string",
+                          "exact": "United States District Court for the Southern District of New York"
+                        }
+                      ],
+                      [
+                        "legal_capacity",
+                        {
+                          "kind": "string",
+                          "exact": "district court managing civil-record access"
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "assertion_status",
+                  {
+                    "kind": "string",
+                    "exact": "attributed_later_judicial_description"
+                  }
+                ],
+                [
+                  "limitations",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "exact": "Docket item 1315 itself was not inspected."
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "Its full document perimeter, signature and filing stamps remain unverified."
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "No calendar-expiration date or actual release date is calculated from the fourteen-day language."
+                      }
+                    ]
+                  }
+                ],
+                [
+                  "review_status",
+                  {
+                    "kind": "string",
+                    "exact": "reviewed_source_qualified"
+                  }
+                ],
+                [
+                  "causal_claim",
+                  {
+                    "kind": "boolean",
+                    "exact": false
+                  }
+                ],
+                [
+                  "person_association_link",
+                  {
+                    "kind": "boolean",
+                    "exact": false
+                  }
+                ],
+                [
+                  "continuing_status_inferred",
+                  {
+                    "kind": "boolean",
+                    "exact": false
+                  }
+                ],
+                [
+                  "reporting_document_date",
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "role",
+                        {
+                          "kind": "string",
+                          "exact": "document_date"
+                        }
+                      ],
+                      [
+                        "precision",
+                        {
+                          "kind": "string",
+                          "exact": "day"
+                        }
+                      ],
+                      [
+                        "raw_label",
+                        {
+                          "kind": "string",
+                          "exact": "Dated: January 3, 2024"
+                        }
+                      ],
+                      [
+                        "state",
+                        {
+                          "kind": "string",
+                          "exact": "exact"
+                        }
+                      ],
+                      [
+                        "value",
+                        {
+                          "kind": "string",
+                          "exact": "2024-01-03"
+                        }
+                      ],
+                      [
+                        "applies_to",
+                        {
+                          "kind": "string",
+                          "exact": "round-2-instrument-january-order"
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            },
+            {
+              "kind": "object",
+              "entries": [
+                [
+                  "id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-r05"
+                  }
+                ],
+                [
+                  "source_node_id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-court-sdny"
+                  }
+                ],
+                [
+                  "target_node_id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-instrument-january-order"
+                  }
+                ],
+                [
+                  "source_legal_capacity",
+                  {
+                    "kind": "string",
+                    "exact": "district court managing civil-record access"
+                  }
+                ],
+                [
+                  "target_legal_capacity",
+                  {
+                    "kind": "string",
+                    "exact": "dated procedural order on unresolved exceptions and intended filing"
+                  }
+                ],
+                [
+                  "relation_type",
+                  {
+                    "kind": "string",
+                    "exact": "issues_dated_procedural_order"
+                  }
+                ],
+                [
+                  "source_qualified_label",
+                  {
+                    "kind": "string",
+                    "exact": "Court order dated January 3, 2024 reserves unresolved exceptions and records planned filing"
+                  }
+                ],
+                [
+                  "milestone_id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-c04"
+                  }
+                ],
+                [
+                  "date_claim",
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "role",
+                        {
+                          "kind": "string",
+                          "exact": "document_date"
+                        }
+                      ],
+                      [
+                        "precision",
+                        {
+                          "kind": "string",
+                          "exact": "day"
+                        }
+                      ],
+                      [
+                        "raw_label",
+                        {
+                          "kind": "string",
+                          "exact": "Dated: January 3, 2024"
+                        }
+                      ],
+                      [
+                        "state",
+                        {
+                          "kind": "string",
+                          "exact": "exact"
+                        }
+                      ],
+                      [
+                        "value",
+                        {
+                          "kind": "string",
+                          "exact": "2024-01-03"
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sources",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "entries": [
+                          [
+                            "source_id",
+                            {
+                              "kind": "string",
+                              "exact": "round-2-g3-order"
+                            }
+                          ],
+                          [
+                            "url",
+                            {
+                              "kind": "string",
+                              "exact": "https://www.nysd.uscourts.gov/sites/default/files/2024-01/15cv7433%2001032023%20115pm%20%281%29.pdf"
+                            }
+                          ],
+                          [
+                            "family",
+                            {
+                              "kind": "string",
+                              "exact": "SDNY_CIVIL_ORDER_20240103"
+                            }
+                          ],
+                          [
+                            "locator",
+                            {
+                              "kind": "string",
+                              "exact": "PDF p.1, procedural paragraphs 2–3; p.2, dated judicial block"
+                            }
+                          ]
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                [
+                  "reporter",
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "actor",
+                        {
+                          "kind": "string",
+                          "exact": "United States District Court for the Southern District of New York"
+                        }
+                      ],
+                      [
+                        "capacity",
+                        {
+                          "kind": "string",
+                          "exact": "issuing court"
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "operative_actor",
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "name",
+                        {
+                          "kind": "string",
+                          "exact": "United States District Court for the Southern District of New York"
+                        }
+                      ],
+                      [
+                        "legal_capacity",
+                        {
+                          "kind": "string",
+                          "exact": "district court managing civil-record access"
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "assertion_status",
+                  {
+                    "kind": "string",
+                    "exact": "court_order_and_attributed_party_plan"
+                  }
+                ],
+                [
+                  "limitations",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "exact": "The statement describes intended filing, not verified completed publication."
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "The court-hosted copy has no visible ECF number or filing/entry stamp."
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "The December order is only cited; the exact document list was not inspected."
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "Anonymous identifiers and protected identities are excluded."
+                      }
+                    ]
+                  }
+                ],
+                [
+                  "review_status",
+                  {
+                    "kind": "string",
+                    "exact": "reviewed_source_qualified"
+                  }
+                ],
+                [
+                  "causal_claim",
+                  {
+                    "kind": "boolean",
+                    "exact": false
+                  }
+                ],
+                [
+                  "person_association_link",
+                  {
+                    "kind": "boolean",
+                    "exact": false
+                  }
+                ],
+                [
+                  "continuing_status_inferred",
+                  {
+                    "kind": "boolean",
+                    "exact": false
+                  }
+                ]
+              ]
+            }
+          ]
+        }
+      ],
+      [
+        "sources",
+        {
+          "kind": "array",
+          "items": [
+            {
+              "kind": "object",
+              "entries": [
+                [
+                  "id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-g1-opinion"
+                  }
+                ],
+                [
+                  "title",
+                  {
+                    "kind": "string",
+                    "exact": "Second Circuit civil-unsealing opinion, appellate docket 18-2868"
+                  }
+                ],
+                [
+                  "url",
+                  {
+                    "kind": "string",
+                    "exact": "https://www.govinfo.gov/content/pkg/USCOURTS-ca2-18-02868/pdf/USCOURTS-ca2-18-02868-0.pdf"
+                  }
+                ],
+                [
+                  "family",
+                  {
+                    "kind": "string",
+                    "exact": "CA2_CIVIL_UNSEALING_OPINION_20190703"
+                  }
+                ],
+                [
+                  "read_scope",
+                  {
+                    "kind": "string",
+                    "exact": "Selected caption case numbers and legal capacities, procedural opening, legal standards, operative scope and conclusion. Narrative pages 4–9 and allegations were excluded. Eleven of twenty-five pages were read."
+                  }
+                ],
+                [
+                  "provenance_limit",
+                  {
+                    "kind": "string",
+                    "exact": "The official copy supports only the claim-specific procedural passages cited; earlier referenced orders and later actual publication are not established by implication."
+                  }
+                ]
+              ]
+            },
+            {
+              "kind": "object",
+              "entries": [
+                [
+                  "id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-g3-order"
+                  }
+                ],
+                [
+                  "title",
+                  {
+                    "kind": "string",
+                    "exact": "SDNY civil-unsealing procedural order dated January 3, 2024"
+                  }
+                ],
+                [
+                  "url",
+                  {
+                    "kind": "string",
+                    "exact": "https://www.nysd.uscourts.gov/sites/default/files/2024-01/15cv7433%2001032023%20115pm%20%281%29.pdf"
+                  }
+                ],
+                [
+                  "family",
+                  {
+                    "kind": "string",
+                    "exact": "SDNY_CIVIL_ORDER_20240103"
+                  }
+                ],
+                [
+                  "read_scope",
+                  {
+                    "kind": "string",
+                    "exact": "Procedural order and date/signature block. Caption plaintiff name and anonymous-person numbers are not retained. No attached records or identity list inspected."
+                  }
+                ],
+                [
+                  "provenance_limit",
+                  {
+                    "kind": "string",
+                    "exact": "The official copy supports only the claim-specific procedural passages cited; earlier referenced orders and later actual publication are not established by implication."
+                  }
+                ]
+              ]
+            }
+          ]
+        }
+      ],
+      [
+        "coverage",
+        {
+          "kind": "object",
+          "entries": [
+            [
+              "new_unique_resources",
+              {
+                "kind": "number",
+                "exact": 2
+              }
+            ],
+            [
+              "new_candidate_assertions",
+              {
+                "kind": "number",
+                "exact": 4
+              }
+            ],
+            [
+              "new_candidate_relations",
+              {
+                "kind": "number",
+                "exact": 5
+              }
+            ],
+            [
+              "goals",
+              {
+                "kind": "array",
+                "items": [
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "area",
+                        {
+                          "kind": "string",
+                          "exact": "2019 appellate disposition and scope"
+                        }
+                      ],
+                      [
+                        "status",
+                        {
+                          "kind": "string",
+                          "exact": "partially_resolved"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "area",
+                        {
+                          "kind": "string",
+                          "exact": "Original district implementation order and perimeter"
+                        }
+                      ],
+                      [
+                        "status",
+                        {
+                          "kind": "string",
+                          "exact": "bounded_negative_result"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "kind": "object",
+                    "entries": [
+                      [
+                        "area",
+                        {
+                          "kind": "string",
+                          "exact": "2023–2024 order, stay and release metadata"
+                        }
+                      ],
+                      [
+                        "status",
+                        {
+                          "kind": "string",
+                          "exact": "partially_resolved"
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              }
+            ],
+            [
+              "reading_note",
+              {
+                "kind": "string",
+                "exact": "Only selected safe procedural passages were used. The appellate PDF was not read in full; the two-page district procedural order was read in full. No exhibits or identity lists are included."
+              }
+            ]
+          ]
+        }
+      ],
+      [
+        "gaps",
+        {
+          "kind": "array",
+          "items": [
+            {
+              "kind": "object",
+              "entries": [
+                [
+                  "area",
+                  {
+                    "kind": "string",
+                    "exact": "2019 appellate disposition and scope"
+                  }
+                ],
+                [
+                  "status",
+                  {
+                    "kind": "string",
+                    "exact": "partially_resolved"
+                  }
+                ],
+                [
+                  "unresolved",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "exact": "Mandate issuance date and original mandate."
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "Actual docket-publication event and file-level released perimeter."
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "Exact district case number in the selected appellate pages."
+                      }
+                    ]
+                  }
+                ]
+              ]
+            },
+            {
+              "kind": "object",
+              "entries": [
+                [
+                  "area",
+                  {
+                    "kind": "string",
+                    "exact": "Original district implementation order and perimeter"
+                  }
+                ],
+                [
+                  "status",
+                  {
+                    "kind": "string",
+                    "exact": "bounded_negative_result"
+                  }
+                ],
+                [
+                  "unresolved",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "exact": "Original remand/implementation order and district case linkage."
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "Exact docket items governed by that order."
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "Clerk release/filing notice tied to that original."
+                      }
+                    ]
+                  }
+                ]
+              ]
+            },
+            {
+              "kind": "object",
+              "entries": [
+                [
+                  "area",
+                  {
+                    "kind": "string",
+                    "exact": "2023–2024 order, stay and release metadata"
+                  }
+                ],
+                [
+                  "status",
+                  {
+                    "kind": "string",
+                    "exact": "partially_resolved"
+                  }
+                ],
+                [
+                  "unresolved",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "exact": "Original docket item 1315 and its exact full perimeter."
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "Current order ECF identifier and filing/entry stamps."
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "Original modifying orders and actual clerk/file-release metadata."
+                      }
+                    ]
+                  }
+                ]
+              ]
+            }
+          ]
+        }
+      ],
+      [
+        "boundaries",
+        {
+          "kind": "array",
+          "items": [
+            {
+              "kind": "string",
+              "exact": "No identity network, allegations or finding of wrongdoing is inferred from these records."
+            },
+            {
+              "kind": "string",
+              "exact": "Source repetition and distinct review do not create independent corroborating witnesses."
+            },
+            {
+              "kind": "string",
+              "exact": "Document date, docket stamp, effective condition, publication and retrieval are separate."
+            }
+          ]
+        }
+      ],
+      [
+        "review_qualifying_observations",
+        {
+          "kind": "array",
+          "items": [
+            {
+              "kind": "object",
+              "entries": [
+                [
+                  "id",
+                  {
+                    "kind": "string",
+                    "exact": "round-2-observation-date-label"
+                  }
+                ],
+                [
+                  "kind",
+                  {
+                    "kind": "string",
+                    "exact": "document_label_distinction"
+                  }
+                ],
+                [
+                  "statement",
+                  {
+                    "kind": "string",
+                    "exact": "The district order is dated January 3, 2024 on page 2. Its official URL contains 01032023. The filename component is retained as metadata and is not used as the legal date."
+                  }
+                ],
+                [
+                  "sources",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "entries": [
+                          [
+                            "source_id",
+                            {
+                              "kind": "string",
+                              "exact": "round-2-g3-order"
+                            }
+                          ],
+                          [
+                            "url",
+                            {
+                              "kind": "string",
+                              "exact": "https://www.nysd.uscourts.gov/sites/default/files/2024-01/15cv7433%2001032023%20115pm%20%281%29.pdf"
+                            }
+                          ],
+                          [
+                            "family",
+                            {
+                              "kind": "string",
+                              "exact": "SDNY_CIVIL_ORDER_20240103"
+                            }
+                          ],
+                          [
+                            "locator",
+                            {
+                              "kind": "string",
+                              "exact": "PDF p.2, dated block; exact official URL"
+                            }
+                          ]
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                [
+                  "limits",
+                  {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "exact": "The reason for the filename difference is unknown."
+                      },
+                      {
+                        "kind": "string",
+                        "exact": "No concealment, deletion or misconduct inference."
+                      }
+                    ]
+                  }
+                ]
+              ]
+            }
+          ]
+        }
+      ],
+      [
+        "reviewed_at",
+        {
+          "kind": "string",
+          "exact": "2026-10-17T01:59:44.032561+00:00"
+        }
+      ],
+      [
+        "review_scope",
+        {
+          "kind": "string",
+          "exact": "Source-reviewed on 2026-10-17: four source-qualified procedural assertions and five narrow relations from two official records. Consume each date only with its full linked milestone, planned/conditional state, source, limitations and two-matter exception; never display planned filing as completed or unrestricted publication. Original mandate, implementing orders and actual publication remain unresolved."
+        }
+      ]
+    ]
+  }
+}

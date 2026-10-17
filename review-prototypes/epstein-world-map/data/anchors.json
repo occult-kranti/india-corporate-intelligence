@@ -1,0 +1,96 @@
+{
+  "schema": "reviewed-institutional-anchor-table-v1",
+  "status": "reviewer_approved_root_acceptance_pending",
+  "packet_sha256": "e0e11b6cea35d968127d11a8a12b5f4666e0598af8c567b03f5d36b20ca2fb78",
+  "review_receipt": "institutional-geo-review-receipt.json",
+  "public_new_claims_approval": false,
+  "anchors": [
+    {
+      "anchor_id": "anchor-scotus-washington-city",
+      "entity": {
+        "id": "round-1-actor-scotus-court",
+        "json_pointer": "/extensions/0/nodes/17"
+      },
+      "role": "institutional_city_context",
+      "latitude": 38.90477467,
+      "longitude": -77.01630245,
+      "display_decimals": 2,
+      "precision_label": "City centroid; public institution city context, not a building or event location",
+      "geoid": "1150000",
+      "coordinate_method": "area_weighted_planar_centroid_of_returned_wgs84_polygon",
+      "evidence_ids": [
+        "round-1-g3-docket",
+        "scotus-institutional-city",
+        "scotus-building-context"
+      ],
+      "milestone_ids": [
+        "round-1-c18"
+      ],
+      "relation_ids": [
+        "round-1-r13"
+      ],
+      "event_location": null,
+      "person_presence": false,
+      "map_edges_allowed": false,
+      "routes_allowed": false,
+      "company_or_person_coordinate_inheritance": false
+    },
+    {
+      "anchor_id": "anchor-nydfs-new-york-state",
+      "entity": {
+        "id": "round-4-nydfs",
+        "json_pointer": "/extensions/3/nodes/0"
+      },
+      "role": "regulatory_state_context",
+      "latitude": 42.92106222,
+      "longitude": -75.59641833,
+      "display_decimals": 2,
+      "precision_label": "State centroid; regulatory jurisdiction context, not an event location",
+      "geoid": "36",
+      "coordinate_method": "area_weighted_planar_centroid_of_returned_wgs84_polygon",
+      "evidence_ids": [
+        "round-4-g1-nydfs-order"
+      ],
+      "milestone_ids": [
+        "round-4-c02"
+      ],
+      "relation_ids": [
+        "round-4-r02",
+        "round-4-r03"
+      ],
+      "event_location": null,
+      "person_presence": false,
+      "map_edges_allowed": false,
+      "routes_allowed": false,
+      "company_or_person_coordinate_inheritance": false
+    },
+    {
+      "anchor_id": "anchor-usvi-doj-territory",
+      "entity": {
+        "id": "round-4-jpm-government",
+        "json_pointer": "/extensions/3/nodes/4"
+      },
+      "role": "institutional_territory_context",
+      "latitude": 18.05981791,
+      "longitude": -64.83903695,
+      "display_decimals": 2,
+      "precision_label": "Territory centroid; institutional jurisdiction context, not an event location",
+      "geoid": "78",
+      "coordinate_method": "area_weighted_planar_centroid_of_returned_wgs84_polygon",
+      "evidence_ids": [
+        "round-4-g2-usvi-jpm-release"
+      ],
+      "milestone_ids": [
+        "round-4-c03"
+      ],
+      "relation_ids": [
+        "round-4-r04"
+      ],
+      "event_location": null,
+      "person_presence": false,
+      "map_edges_allowed": false,
+      "routes_allowed": false,
+      "company_or_person_coordinate_inheritance": false
+    }
+  ]
+}

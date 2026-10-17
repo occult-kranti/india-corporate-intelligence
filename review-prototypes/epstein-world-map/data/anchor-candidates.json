@@ -1,0 +1,532 @@
+{
+  "schema": "epstein-institutional-map-anchor-candidates-v1",
+  "title": "Three source-bounded institutional geography candidates",
+  "prepared_at_utc_window": [
+    "2026-10-17T05:36:48Z",
+    "2026-10-17T05:44:00Z"
+  ],
+  "status": "candidate_pending_independent_source_review",
+  "publication_or_graph_admission_authorized_by_this_packet": false,
+  "admission": {
+    "default": "deny",
+    "required": "Root acceptance plus distinct source-first reviewer approval of this exact packet hash and exact anchor IDs. Prior procedural review does not approve geography.",
+    "review_receipt": null
+  },
+  "corpus": {
+    "id": "reviewed-corpus",
+    "role": "reviewed_procedural_assertions",
+    "path": "data/packet.json",
+    "sha256": "f365d7f785d54556759230f0c6c27e65ec41ec3ad885fdaee1f46f72860175b5",
+    "schema": "epstein-selected-timeline-cumulative-v2",
+    "as_of": "2026-10-17",
+    "read_scope": "Only the selected three institution nodes, three milestones, four relations and source metadata. Prior review is inherited only for those procedural assertions; it does not approve this new geography."
+  },
+  "scope": {
+    "maximum_anchors": 4,
+    "candidate_anchors": 3,
+    "admitted_anchors": 0,
+    "explicit_milestone_context_links": 3,
+    "explicit_relation_context_links": 4,
+    "default_unmapped": true,
+    "other_records": "All records outside the exact anchor entity and linked context ID lists remain unmapped. Company and person nodes remain unmapped without exception.",
+    "no_email_corpus_acquired": true,
+    "website_files_changed": false,
+    "published": false
+  },
+  "geography_contract": {
+    "only_roles": [
+      "institutional_city_context",
+      "regulatory_state_context",
+      "institutional_territory_context"
+    ],
+    "not_event_geography": true,
+    "not_person_presence": true,
+    "no_dynamic_name_matching": true,
+    "no_company_name_geocoding": true,
+    "no_proximity_associations": true,
+    "no_time_animation_as_travel": true,
+    "record_date_semantics_unchanged": true,
+    "same_place_does_not_create_relation": true,
+    "map_edges_disabled_for_this_packet": true
+  },
+  "sources": [
+    {
+      "id": "reviewed-corpus",
+      "role": "reviewed_procedural_assertions",
+      "path": "data/packet.json",
+      "sha256": "f365d7f785d54556759230f0c6c27e65ec41ec3ad885fdaee1f46f72860175b5",
+      "schema": "epstein-selected-timeline-cumulative-v2",
+      "as_of": "2026-10-17",
+      "read_scope": "Only the selected three institution nodes, three milestones, four relations and source metadata. Prior review is inherited only for those procedural assertions; it does not approve this new geography."
+    },
+    {
+      "id": "geo-states-2020",
+      "role": "coordinate_provenance",
+      "provider": "U.S. Census Bureau",
+      "dataset": "TIGERweb Decennial Census2020 / State_County / States (layer 0)",
+      "version": "January 1, 2020 vintage; ArcGIS service currentVersion 11.5 at retrieval",
+      "layer_url": "https://tigerweb.geo.census.gov/arcgis/rest/services/Census2020/State_County/MapServer/0?f=pjson",
+      "query_url": "https://tigerweb.geo.census.gov/arcgis/rest/services/Census2020/State_County/MapServer/0/query?where=STATE+IN+%28%2736%27%2C%2778%27%29&outFields=GEOID%2CSTATE%2CNAME%2CCENTLAT%2CCENTLON%2CINTPTLAT%2CINTPTLON&returnGeometry=true&outSR=4326&f=pjson",
+      "geometry_sha256": "ae399d110a3e0e3628254fa11244d725b1ea9e52efa24ff21ca3b223d74bb672",
+      "retrieval_window_utc": [
+        "2026-10-17T05:39:27Z",
+        "2026-10-17T05:39:55Z"
+      ],
+      "returned_crs": {
+        "wkid": 4326,
+        "latestWkid": 4326
+      },
+      "license_id": "census-public-domain",
+      "read_scope": "Exactly New York (STATE/GEOID 36) and United States Virgin Islands (STATE/GEOID 78) feature records and polygons."
+    },
+    {
+      "id": "geo-washington-2020",
+      "role": "coordinate_provenance",
+      "provider": "U.S. Census Bureau",
+      "dataset": "TIGERweb Decennial Census2020 / Places_CouSub_ConCity_SubMCD / Incorporated Places (layer 4)",
+      "version": "January 1, 2020 vintage; ArcGIS service currentVersion 11.5 at retrieval",
+      "layer_url": "https://tigerweb.geo.census.gov/arcgis/rest/services/Census2020/Places_CouSub_ConCity_SubMCD/MapServer/4?f=pjson",
+      "query_url": "https://tigerweb.geo.census.gov/arcgis/rest/services/Census2020/Places_CouSub_ConCity_SubMCD/MapServer/4/query?where=GEOID%3D%271150000%27&outFields=GEOID%2CSTATE%2CNAME%2CCENTLAT%2CCENTLON%2CINTPTLAT%2CINTPTLON&returnGeometry=true&outSR=4326&f=pjson",
+      "geometry_sha256": "66d1e652497d5ad17c840568ea629d4f2ceebd9a738df3c20dea11028124c2c2",
+      "retrieval_window_utc": [
+        "2026-10-17T05:39:27Z",
+        "2026-10-17T05:39:55Z"
+      ],
+      "returned_crs": {
+        "wkid": 4326,
+        "latestWkid": 4326
+      },
+      "license_id": "census-public-domain",
+      "read_scope": "Exactly Washington city (GEOID 1150000, STATE 11), one feature record and polygon."
+    },
+    {
+      "id": "census-public-domain",
+      "role": "coordinate_license",
+      "title": "2020 TIGER/Line Shapefiles Technical Documentation, issued February 2021",
+      "url": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2020/TGRSHP2020_TechDoc.pdf",
+      "locator": "PDF p.12 / printed p.1-1, section 1.2 Citation Information; section 1.1 disclaimer",
+      "license": "U.S. Government work: not subject to U.S. copyright under 17 USC 105; Census Bureau requests attribution. Not a Creative Commons license.",
+      "required_attribution": "Source: U.S. Census Bureau, TIGERweb, Census2020 (January 1, 2020 vintage). Derived centroids prepared for this map; no Census Bureau endorsement.",
+      "read_scope": "Selected citation/license and accuracy paragraphs only; no map/geographic claim extracted from the documentation."
+    },
+    {
+      "id": "scotus-institutional-city",
+      "role": "institutional_location_evidence",
+      "title": "Supreme Court of the United States Contact Us",
+      "url": "https://www.supremecourt.gov/contact/contactus.aspx",
+      "locator": "General Contact Information > U.S. Mail, institution and city lines",
+      "quote": "Supreme Court of the United States ... Washington, DC 20543",
+      "qualification": "Ellipsis omits the street-address line. Supports the public institution’s listed city only; not where a particular decision was made.",
+      "retrieval_window_utc": [
+        "2026-10-17T05:41:03Z",
+        "2026-10-17T05:41:32Z"
+      ]
+    },
+    {
+      "id": "scotus-building-context",
+      "role": "auxiliary_institution_identity",
+      "title": "Supreme Court Hours & Directions",
+      "url": "https://www.supremecourt.gov/visiting/hoursanddirections.aspx",
+      "locator": "Paragraph beginning The Supreme Court of the United States is located",
+      "paraphrase": "The Court describes the physical location of its public building by the U.S. Capitol and Library of Congress. No street or building point is plotted."
+    },
+    {
+      "id": "round-1-g3-docket",
+      "role": "procedural_evidence",
+      "url": "https://www.supremecourt.gov/docket/docketfiles/html/public/24-1073.html",
+      "locator": "Case number and Proceedings and Orders, Oct 06 2025 row",
+      "quote": "Oct 06 2025 | Petition DENIED.",
+      "corpus_ref": {
+        "id": "round-1-g3-docket",
+        "json_pointer": "/extensions/0/sources/2"
+      },
+      "qualification": "Procedural docket entry only. Does not locate a party or establish a merits adjudication."
+    },
+    {
+      "id": "round-4-g1-nydfs-order",
+      "role": "procedural_and_regulatory_geography_evidence",
+      "url": "https://www.dfs.ny.gov/system/files/documents/2020/07/ea20200706_deutsche_bank_consent_order.pdf",
+      "locator": "PDF p.1, agency heading and Consent Order Under New York Banking Law §§ 39 and 44 heading",
+      "quotes": [
+        "NEW YORK STATE DEPARTMENT OF FINANCIAL SERVICES",
+        "CONSENT ORDER UNDER NEW YORK BANKING LAW §§ 39 and 44"
+      ],
+      "corpus_ref": {
+        "id": "round-4-g1-nydfs-order",
+        "json_pointer": "/extensions/3/sources/0"
+      },
+      "qualification": "State-level regulatory context of the issuer. No claim that every respondent, transaction or alleged act occurred in New York State."
+    },
+    {
+      "id": "round-4-g2-usvi-jpm-release",
+      "role": "procedural_and_territorial_identity_evidence",
+      "url": "https://usvidoj.com/usvi-doj-achieves-historic-75-million-victim-supporting-settlement-with-jpmorganchase/",
+      "locator": "Publisher/title U.S. Virgin Islands DOJ and opening paragraph, institutional settlement clause",
+      "quote": "USVI Department of Justice has reached an historic victim-supporting settlement with JPMorgan Chase.",
+      "corpus_ref": {
+        "id": "round-4-g2-usvi-jpm-release",
+        "json_pointer": "/extensions/3/sources/1"
+      },
+      "qualification": "Institutional territorial identity only. The St. Thomas dateline is not used to locate the agreement, parties, underlying conduct or announcement participants."
+    }
+  ],
+  "anchors": [
+    {
+      "id": "anchor-scotus-washington-city",
+      "entity": {
+        "id": "round-1-actor-scotus-court",
+        "json_pointer": "/extensions/0/nodes/17"
+      },
+      "milestones": [
+        {
+          "id": "round-1-c18",
+          "json_pointer": "/extensions/0/milestones/17"
+        }
+      ],
+      "relations": [
+        {
+          "id": "round-1-r13",
+          "json_pointer": "/extensions/0/procedural_relations/12"
+        }
+      ],
+      "role": "institutional_city_context",
+      "label": "Supreme Court: Washington city context",
+      "precision_label": "City centroid; public institution city context, not a building or event location",
+      "evidence_ids": [
+        "round-1-g3-docket",
+        "scotus-institutional-city",
+        "scotus-building-context"
+      ],
+      "geography_assertion": "The Court lists Washington, DC as its institutional city. The point represents Washington city, not the Supreme Court building, a participant’s presence, or the place where a particular judicial act occurred.",
+      "city_qualification": "The Court’s nationwide authority is not represented by the Washington city boundary.",
+      "entity_kind": "court",
+      "review_status": "candidate_pending_independent_source_review",
+      "graph_admission": false,
+      "place_role": "institutional_city_context",
+      "event_location": null,
+      "person_presence": false,
+      "travel_inference": false,
+      "guilt_or_association_inference": false,
+      "geography": {
+        "provider_id": "geo-washington-2020",
+        "geoid": "1150000",
+        "name": "Washington city",
+        "level": "city",
+        "country_or_territory_context": "United States",
+        "geometry_file": "sources/washington-geometry.json",
+        "geometry_sha256": "66d1e652497d5ad17c840568ea629d4f2ceebd9a738df3c20dea11028124c2c2",
+        "source_feature_match": {
+          "field": "GEOID",
+          "value": "1150000",
+          "unique_matches": 1
+        },
+        "boundary_vintage": "2020-01-01",
+        "boundary_use": "Display context only. No claim these are historical boundaries on the procedural event date or legally definitive jurisdictional limits."
+      },
+      "coordinates": {
+        "latitude": 38.90477467,
+        "longitude": -77.01630245,
+        "order": [
+          "latitude",
+          "longitude"
+        ],
+        "geojson_coordinates": [
+          -77.01630245,
+          38.90477467
+        ],
+        "crs": "EPSG:4326",
+        "units": "decimal_degrees",
+        "method": "area_weighted_planar_centroid_of_returned_wgs84_polygon",
+        "method_detail": "Signed, translated shoelace formula over every ArcGIS polygon ring in the returned EPSG:4326 longitude/latitude plane. Holes subtract by orientation. This is a reproducible visual centroid, not a geodesic center, land-only center, population center or official Census CENTLAT/CENTLON. No address was geocoded.",
+        "display_decimal_places": 2,
+        "precision": "city_centroid",
+        "uncertainty_radius_m": null,
+        "uncertainty_note": "The point is a representative display location for the whole named geographic unit; no metric positional-accuracy claim is made. Decimal count is numerical storage precision, not source accuracy.",
+        "bounding_box_lon_lat": [
+          -77.11975900017987,
+          38.791644999914155,
+          -76.90939300018182,
+          38.99584500030949
+        ],
+        "source_published_centroid_not_used": {
+          "CENTLAT": "+38.9047587",
+          "CENTLON": "-077.0162860",
+          "reason": "Attribute datum is not expressly stated by the layer fields. Map coordinates instead derive from explicitly returned EPSG:4326 geometry."
+        }
+      },
+      "display_rules": {
+        "show_precision_label": true,
+        "map_edges_allowed": false,
+        "routes_allowed": false,
+        "company_or_person_coordinate_inheritance": false,
+        "timeline_usage": "May highlight this institutional-context anchor only when one of the exact linked milestone IDs is selected, while retaining the explicit geography role and the original milestone date role. Never write the anchor coordinates into the milestone event_location."
+      },
+      "procedural_assertions_preserved": [
+        {
+          "record_ref": {
+            "id": "round-1-c18",
+            "json_pointer": "/extensions/0/milestones/17"
+          },
+          "record_sha256": "4420555c2c6312f8f90c71233b76071e33eebf5e6e9850215be8706d31a72edc"
+        },
+        {
+          "record_ref": {
+            "id": "round-1-r13",
+            "json_pointer": "/extensions/0/procedural_relations/12"
+          },
+          "record_sha256": "add62d217c384faf33fe52374ca6de175c018c3c46889424154073de6f0754dc"
+        }
+      ]
+    },
+    {
+      "id": "anchor-nydfs-new-york-state",
+      "entity": {
+        "id": "round-4-nydfs",
+        "json_pointer": "/extensions/3/nodes/0"
+      },
+      "milestones": [
+        {
+          "id": "round-4-c02",
+          "json_pointer": "/extensions/3/milestones/1"
+        }
+      ],
+      "relations": [
+        {
+          "id": "round-4-r02",
+          "json_pointer": "/extensions/3/procedural_relations/1"
+        },
+        {
+          "id": "round-4-r03",
+          "json_pointer": "/extensions/3/procedural_relations/2"
+        }
+      ],
+      "role": "regulatory_state_context",
+      "label": "NYDFS: New York State regulatory context",
+      "precision_label": "State centroid; regulatory jurisdiction context, not an event location",
+      "evidence_ids": [
+        "round-4-g1-nydfs-order"
+      ],
+      "geography_assertion": "The consent order identifies its issuer as the New York State Department of Financial Services and invokes New York Banking Law. The state is the issuer’s regulatory context, not an asserted venue for every matter in the order.",
+      "city_qualification": "No city, office address, company headquarters or private-party location is assigned.",
+      "entity_kind": "regulator",
+      "review_status": "candidate_pending_independent_source_review",
+      "graph_admission": false,
+      "place_role": "regulatory_state_context",
+      "event_location": null,
+      "person_presence": false,
+      "travel_inference": false,
+      "guilt_or_association_inference": false,
+      "geography": {
+        "provider_id": "geo-states-2020",
+        "geoid": "36",
+        "name": "New York",
+        "level": "state",
+        "country_or_territory_context": "United States",
+        "geometry_file": "sources/states-geometry.json",
+        "geometry_sha256": "ae399d110a3e0e3628254fa11244d725b1ea9e52efa24ff21ca3b223d74bb672",
+        "source_feature_match": {
+          "field": "GEOID",
+          "value": "36",
+          "unique_matches": 1
+        },
+        "boundary_vintage": "2020-01-01",
+        "boundary_use": "Display context only. No claim these are historical boundaries on the procedural event date or legally definitive jurisdictional limits."
+      },
+      "coordinates": {
+        "latitude": 42.92106222,
+        "longitude": -75.59641833,
+        "order": [
+          "latitude",
+          "longitude"
+        ],
+        "geojson_coordinates": [
+          -75.59641833,
+          42.92106222
+        ],
+        "crs": "EPSG:4326",
+        "units": "decimal_degrees",
+        "method": "area_weighted_planar_centroid_of_returned_wgs84_polygon",
+        "method_detail": "Signed, translated shoelace formula over every ArcGIS polygon ring in the returned EPSG:4326 longitude/latitude plane. Holes subtract by orientation. This is a reproducible visual centroid, not a geodesic center, land-only center, population center or official Census CENTLAT/CENTLON. No address was geocoded.",
+        "display_decimal_places": 2,
+        "precision": "state_centroid",
+        "uncertainty_radius_m": null,
+        "uncertainty_note": "The point is a representative display location for the whole named geographic unit; no metric positional-accuracy claim is made. Decimal count is numerical storage precision, not source accuracy.",
+        "bounding_box_lon_lat": [
+          -79.76259000042532,
+          40.4765780002232,
+          -71.77749099965166,
+          45.01586499980938
+        ],
+        "source_published_centroid_not_used": {
+          "CENTLAT": "+42.9196161",
+          "CENTLON": "-075.5941471",
+          "reason": "Attribute datum is not expressly stated by the layer fields. Map coordinates instead derive from explicitly returned EPSG:4326 geometry."
+        }
+      },
+      "display_rules": {
+        "show_precision_label": true,
+        "map_edges_allowed": false,
+        "routes_allowed": false,
+        "company_or_person_coordinate_inheritance": false,
+        "timeline_usage": "May highlight this institutional-context anchor only when one of the exact linked milestone IDs is selected, while retaining the explicit geography role and the original milestone date role. Never write the anchor coordinates into the milestone event_location."
+      },
+      "procedural_assertions_preserved": [
+        {
+          "record_ref": {
+            "id": "round-4-c02",
+            "json_pointer": "/extensions/3/milestones/1"
+          },
+          "record_sha256": "546e0bd9a84e0fc81a246e3940ec4521295f439311335be062454964ad18eb25"
+        },
+        {
+          "record_ref": {
+            "id": "round-4-r02",
+            "json_pointer": "/extensions/3/procedural_relations/1"
+          },
+          "record_sha256": "b8c8764cb1117be92d9170445c071a23af7981a44c379d159876036204e56611"
+        },
+        {
+          "record_ref": {
+            "id": "round-4-r03",
+            "json_pointer": "/extensions/3/procedural_relations/2"
+          },
+          "record_sha256": "ecadfb6a148093d99f25a3b434483f29d1cccc559ec79c15b5649ffa3d4ef757"
+        }
+      ]
+    },
+    {
+      "id": "anchor-usvi-doj-territory",
+      "entity": {
+        "id": "round-4-jpm-government",
+        "json_pointer": "/extensions/3/nodes/4"
+      },
+      "milestones": [
+        {
+          "id": "round-4-c03",
+          "json_pointer": "/extensions/3/milestones/2"
+        }
+      ],
+      "relations": [
+        {
+          "id": "round-4-r04",
+          "json_pointer": "/extensions/3/procedural_relations/3"
+        }
+      ],
+      "role": "institutional_territory_context",
+      "label": "USVI DOJ: United States Virgin Islands context",
+      "precision_label": "Territory centroid; institutional jurisdiction context, not an event location",
+      "evidence_ids": [
+        "round-4-g2-usvi-jpm-release"
+      ],
+      "geography_assertion": "The reviewed announcement identifies the USVI Department of Justice as the government enforcement party. The point represents the U.S. Virgin Islands territory, without locating any settlement signing, payment, conduct, party or survivor.",
+      "city_qualification": "The announcement’s St. Thomas dateline is not promoted to an event or person location. The territorial centroid may lie over water.",
+      "entity_kind": "government_party",
+      "review_status": "candidate_pending_independent_source_review",
+      "graph_admission": false,
+      "place_role": "institutional_territory_context",
+      "event_location": null,
+      "person_presence": false,
+      "travel_inference": false,
+      "guilt_or_association_inference": false,
+      "geography": {
+        "provider_id": "geo-states-2020",
+        "geoid": "78",
+        "name": "United States Virgin Islands",
+        "level": "territory",
+        "country_or_territory_context": "United States / U.S. Virgin Islands territory",
+        "geometry_file": "sources/states-geometry.json",
+        "geometry_sha256": "ae399d110a3e0e3628254fa11244d725b1ea9e52efa24ff21ca3b223d74bb672",
+        "source_feature_match": {
+          "field": "GEOID",
+          "value": "78",
+          "unique_matches": 1
+        },
+        "boundary_vintage": "2020-01-01",
+        "boundary_use": "Display context only. No claim these are historical boundaries on the procedural event date or legally definitive jurisdictional limits."
+      },
+      "coordinates": {
+        "latitude": 18.05981791,
+        "longitude": -64.83903695,
+        "order": [
+          "latitude",
+          "longitude"
+        ],
+        "geojson_coordinates": [
+          -64.83903695,
+          18.05981791
+        ],
+        "crs": "EPSG:4326",
+        "units": "decimal_degrees",
+        "method": "area_weighted_planar_centroid_of_returned_wgs84_polygon",
+        "method_detail": "Signed, translated shoelace formula over every ArcGIS polygon ring in the returned EPSG:4326 longitude/latitude plane. Holes subtract by orientation. This is a reproducible visual centroid, not a geodesic center, land-only center, population center or official Census CENTLAT/CENTLON. No address was geocoded.",
+        "display_decimal_places": 2,
+        "precision": "territory_centroid",
+        "uncertainty_radius_m": null,
+        "uncertainty_note": "The point is a representative display location for the whole named geographic unit; no metric positional-accuracy claim is made. Decimal count is numerical storage precision, not source accuracy.",
+        "bounding_box_lon_lat": [
+          -65.15411799959702,
+          17.623467999752307,
+          -64.51267400006775,
+          18.464983999965646
+        ],
+        "source_published_centroid_not_used": {
+          "CENTLAT": "+18.0593788",
+          "CENTLON": "-064.8387617",
+          "reason": "Attribute datum is not expressly stated by the layer fields. Map coordinates instead derive from explicitly returned EPSG:4326 geometry."
+        }
+      },
+      "display_rules": {
+        "show_precision_label": true,
+        "map_edges_allowed": false,
+        "routes_allowed": false,
+        "company_or_person_coordinate_inheritance": false,
+        "timeline_usage": "May highlight this institutional-context anchor only when one of the exact linked milestone IDs is selected, while retaining the explicit geography role and the original milestone date role. Never write the anchor coordinates into the milestone event_location."
+      },
+      "procedural_assertions_preserved": [
+        {
+          "record_ref": {
+            "id": "round-4-c03",
+            "json_pointer": "/extensions/3/milestones/2"
+          },
+          "record_sha256": "72be206b83db4d399f9bc06510ceb011fb56d9c28ffe3dafd659801259bb2745"
+        },
+        {
+          "record_ref": {
+            "id": "round-4-r04",
+            "json_pointer": "/extensions/3/procedural_relations/3"
+          },
+          "record_sha256": "06661ff796a34b62ddb1b08a11c70b78e65e9ddc3991509fa9c851637d8f6159"
+        }
+      ]
+    }
+  ],
+  "excluded_candidates": [
+    {
+      "candidate": "SDNY / Manhattan",
+      "reason": "Not needed to meet the small pilot. No district-to-city equivalence or venue-to-presence inference is introduced. SDNY records remain unmapped."
+    },
+    {
+      "candidate": "DOJ / Washington",
+      "reason": "Not merged into the Supreme Court city anchor by source publisher or city name. No exact DOJ mapping approved here."
+    },
+    {
+      "candidate": "Company, estate, private address, island-property or person nodes",
+      "reason": "Excluded from this institutional geography packet; no location inference from names, alleged connections, addresses, trips or proximity."
+    }
+  ],
+  "coverage_note": "New acquisition was bounded to official institutional location/procedural passages and three official Census geography records. The full NYDFS PDF was transiently downloaded to extract its first-page institutional caption only; its remaining pages were not substantively read or retained by this pass. No email release corpus, archive, image/video release, software or model was acquired. Geodata is approximately 1.3 MB of JSON. Search snippets were discovery only.",
+  "limitations": [
+    "Source extraction and tests do not substitute for independent source review.",
+    "Census 2020 polygons are visual context, not a current legal-jurisdiction adjudication.",
+    "A centroid can be outside land or outside the institution’s actual premises.",
+    "The present institutional city page does not prove where any historical procedural event occurred.",
+    "The broad state/territory roles do not establish where a company acted, money moved or a person was present."
+  ],
+  "public_projection": {
+    "schema": "public-safe-metadata-projection-v1",
+    "source_sha256": "e0e11b6cea35d968127d11a8a12b5f4666e0598af8c567b03f5d36b20ca2fb78",
+    "conservation_review": "pending",
+    "publication_authorized": false,
+    "scope": "Metadata-only packaging projection of the historical locally reviewed candidate. This is not a new source review or geography approval."
+  }
+}

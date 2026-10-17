@@ -1,0 +1,331 @@
+{
+  "schema": "world-board-public-metadata-projection-v1",
+  "status": "PENDING_DISTINCT_CONSERVATION_REVIEW",
+  "publicationApproved": false,
+  "sourceHashes": {
+    "candidate": "e0e11b6cea35d968127d11a8a12b5f4666e0598af8c567b03f5d36b20ca2fb78",
+    "review": "b54f8c86b02e084a74f688088db36c17afb0fc17e9fe83eb4c0dd45c334b40f3",
+    "acceptedUIManifest": "98776713c6309efadac13968cb6350a72f83f2e8f627399ab1a175acdd126919"
+  },
+  "projectedHashes": {
+    "candidate": "3ef109703b95307fbd8ec79438ec9ceedf2eeda2395ce639d13004c2a1ccbb36",
+    "review": "8853a868eb26435775aa50b847bcb2da477ee26d287c9b68ef795d6720b4086e"
+  },
+  "allowlistedOperations": [
+    {
+      "file": "data/anchor-candidates.json",
+      "operation": "remove",
+      "pointer": "/prepared_by",
+      "beforeValueSha256": "a4afa4c2c40d0a0e46224a5885bed8b0219311e0bc87e84b4990ba34d57c6024",
+      "reason": "Internal preparation/cache/validation bookkeeping only"
+    },
+    {
+      "file": "data/anchor-candidates.json",
+      "operation": "replace",
+      "pointer": "/corpus/path",
+      "beforeValueSha256": "be2e8599f26d6fe26b60eda1186ddd5afb55030deb23882836d5014aef876abe",
+      "afterValue": "data/packet.json",
+      "reason": "Use the exact shipped package-relative file identity"
+    },
+    {
+      "file": "data/anchor-candidates.json",
+      "operation": "replace",
+      "pointer": "/sources/0/path",
+      "beforeValueSha256": "be2e8599f26d6fe26b60eda1186ddd5afb55030deb23882836d5014aef876abe",
+      "afterValue": "data/packet.json",
+      "reason": "Use the exact shipped package-relative file identity"
+    },
+    {
+      "file": "data/anchor-candidates.json",
+      "operation": "remove",
+      "pointer": "/sources/1/layer_cache",
+      "beforeValueSha256": "a99e171f82e810b392ad260831650a1af69e3b0c944e9aef6d15c6ec663b44b0",
+      "reason": "Internal preparation/cache/validation bookkeeping only"
+    },
+    {
+      "file": "data/anchor-candidates.json",
+      "operation": "remove",
+      "pointer": "/sources/1/geometry_cache",
+      "beforeValueSha256": "6d78003f09da0dfd4933c9ddf54a5b04c5eb97be62f86f2711be23fdbbd477ac",
+      "reason": "Internal preparation/cache/validation bookkeeping only"
+    },
+    {
+      "file": "data/anchor-candidates.json",
+      "operation": "remove",
+      "pointer": "/sources/2/layer_cache",
+      "beforeValueSha256": "e3f0c55ef631a75f22929c8b2366f5443435cbdb87df36822ab8324fdf093023",
+      "reason": "Internal preparation/cache/validation bookkeeping only"
+    },
+    {
+      "file": "data/anchor-candidates.json",
+      "operation": "remove",
+      "pointer": "/sources/2/geometry_cache",
+      "beforeValueSha256": "5a0d605810eebd6441e17cd72e72c4b954f35274064a1dbf509f6cecacbaf9e4",
+      "reason": "Internal preparation/cache/validation bookkeeping only"
+    },
+    {
+      "file": "data/anchor-candidates.json",
+      "operation": "remove",
+      "pointer": "/sources/4/cache",
+      "beforeValueSha256": "1a921581a37c6d8f3889f083b7df2bf89ada4729e2d0f561b1573f4a95b72ec0",
+      "reason": "Internal preparation/cache/validation bookkeeping only"
+    },
+    {
+      "file": "data/anchor-candidates.json",
+      "operation": "remove",
+      "pointer": "/sources/5/cache",
+      "beforeValueSha256": "96f433152f71c55149a54a36d2854fca84f959f0b2e9db3daff607cf628c3a23",
+      "reason": "Internal preparation/cache/validation bookkeeping only"
+    },
+    {
+      "file": "data/anchor-candidates.json",
+      "operation": "remove",
+      "pointer": "/sources/6/cache",
+      "beforeValueSha256": "bb2da0c735f43323dfe564688fc88afe29281d657625f132592574888ac1a6cf",
+      "reason": "Internal preparation/cache/validation bookkeeping only"
+    },
+    {
+      "file": "data/anchor-candidates.json",
+      "operation": "remove",
+      "pointer": "/sources/7/cache",
+      "beforeValueSha256": "401313c60a7cb600f0eaf818c1180d0aeb8bc484d6ce27ee3bfa82d355ec4df7",
+      "reason": "Internal preparation/cache/validation bookkeeping only"
+    },
+    {
+      "file": "data/anchor-candidates.json",
+      "operation": "remove",
+      "pointer": "/sources/8/cache",
+      "beforeValueSha256": "9bc6a7557fb17a15e818c5fb4116b854a30fff301ea96b2bfcc1d04d96ec08b4",
+      "reason": "Internal preparation/cache/validation bookkeeping only"
+    },
+    {
+      "file": "data/anchor-candidates.json",
+      "operation": "remove",
+      "pointer": "/validation_command",
+      "beforeValueSha256": "39990ab3bc17501a015e77f59f4a6aa81283b7d927e0a97851b06c9a31c42f82",
+      "reason": "Internal preparation/cache/validation bookkeeping only"
+    },
+    {
+      "file": "data/anchor-candidates.json",
+      "operation": "remove",
+      "pointer": "/validation_result_file",
+      "beforeValueSha256": "6fd23227a5ea390326390730e0de9df9cc82074afd7c948712497da7acb17329",
+      "reason": "Internal preparation/cache/validation bookkeeping only"
+    },
+    {
+      "file": "data/anchor-candidates.json",
+      "operation": "add",
+      "pointer": "/public_projection",
+      "afterValue": {
+        "schema": "public-safe-metadata-projection-v1",
+        "source_sha256": "e0e11b6cea35d968127d11a8a12b5f4666e0598af8c567b03f5d36b20ca2fb78",
+        "conservation_review": "pending",
+        "publication_authorized": false,
+        "scope": "Metadata-only packaging projection of the historical locally reviewed candidate. This is not a new source review or geography approval."
+      }
+    },
+    {
+      "file": "data/anchor-candidates.json",
+      "operation": "add-descendant",
+      "pointer": "/public_projection/schema",
+      "beforeValueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "afterValue": "public-safe-metadata-projection-v1"
+    },
+    {
+      "file": "data/anchor-candidates.json",
+      "operation": "add-descendant",
+      "pointer": "/public_projection/source_sha256",
+      "beforeValueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "afterValue": "e0e11b6cea35d968127d11a8a12b5f4666e0598af8c567b03f5d36b20ca2fb78"
+    },
+    {
+      "file": "data/anchor-candidates.json",
+      "operation": "add-descendant",
+      "pointer": "/public_projection/conservation_review",
+      "beforeValueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "afterValue": "pending"
+    },
+    {
+      "file": "data/anchor-candidates.json",
+      "operation": "add-descendant",
+      "pointer": "/public_projection/publication_authorized",
+      "beforeValueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "afterValue": false
+    },
+    {
+      "file": "data/anchor-candidates.json",
+      "operation": "add-descendant",
+      "pointer": "/public_projection/scope",
+      "beforeValueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "afterValue": "Metadata-only packaging projection of the historical locally reviewed candidate. This is not a new source review or geography approval."
+    },
+    {
+      "file": "data/anchor-review.json",
+      "operation": "remove",
+      "pointer": "/reviewer_id",
+      "beforeValueSha256": "e84c2b1c48d6eda3d5c181094488020ab7232207ac6972771f97944aa9de126c",
+      "reason": "Internal preparation/cache/validation bookkeeping only"
+    },
+    {
+      "file": "data/anchor-review.json",
+      "operation": "remove",
+      "pointer": "/notes",
+      "beforeValueSha256": "79371b12ba0eaf429e2fbb915be898f4f1b50b2b34ab043a1ea75f7750017bb5",
+      "reason": "Internal preparation/cache/validation bookkeeping only"
+    },
+    {
+      "file": "data/anchor-review.json",
+      "operation": "removed-container-descendant",
+      "pointer": "/notes/0",
+      "beforeValueSha256": "035f13cabb635d735a882f5bc4839e1d1897e24b876e1c46585cbf21cdc52d8f",
+      "afterValue": null,
+      "reason": "Internal review-order/validator bookkeeping only"
+    },
+    {
+      "file": "data/anchor-review.json",
+      "operation": "removed-container-descendant",
+      "pointer": "/notes/1",
+      "beforeValueSha256": "d292d9ae482b385ddef38b2bac94c062f623c24c147685c3a85e09b60b2a361b",
+      "afterValue": null,
+      "reason": "Retained verbatim under verification_scope"
+    },
+    {
+      "file": "data/anchor-review.json",
+      "operation": "removed-container-descendant",
+      "pointer": "/notes/2",
+      "beforeValueSha256": "16fcb8d746185818c5d6d01033471bef19a11d1269e984c32b77901886866c3f",
+      "afterValue": null,
+      "reason": "Retained verbatim under verification_scope"
+    },
+    {
+      "file": "data/anchor-review.json",
+      "operation": "removed-container-descendant",
+      "pointer": "/notes/3",
+      "beforeValueSha256": "13c282342ad8ffd6a8e05ca45e489c8a3a81b4150c78a841c3357424803f86ba",
+      "afterValue": null,
+      "reason": "Internal review-order/validator bookkeeping only"
+    },
+    {
+      "file": "data/anchor-review.json",
+      "operation": "removed-container-descendant",
+      "pointer": "/notes/4",
+      "beforeValueSha256": "2e232f27b20ea8dd943cd4a08274adc12dc8bb44cd1d1b75b1d7d02cb124389c",
+      "afterValue": null,
+      "reason": "Retained verbatim under verification_scope"
+    },
+    {
+      "file": "data/anchor-review.json",
+      "operation": "add",
+      "pointer": "/verification_scope",
+      "afterValue": [
+        "Primary institutional source pages reopened because only selected excerpts were retained locally.",
+        "Coordinates independently recomputed with 42-digit Decimal arithmetic; all rounded 8-decimal values match.",
+        "Root acceptance must be recorded separately; source review does not grant publication permission."
+      ]
+    },
+    {
+      "file": "data/anchor-review.json",
+      "operation": "add-descendant",
+      "pointer": "/verification_scope/0",
+      "beforeValueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "afterValue": "Primary institutional source pages reopened because only selected excerpts were retained locally."
+    },
+    {
+      "file": "data/anchor-review.json",
+      "operation": "add-descendant",
+      "pointer": "/verification_scope/1",
+      "beforeValueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "afterValue": "Coordinates independently recomputed with 42-digit Decimal arithmetic; all rounded 8-decimal values match."
+    },
+    {
+      "file": "data/anchor-review.json",
+      "operation": "add-descendant",
+      "pointer": "/verification_scope/2",
+      "beforeValueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "afterValue": "Root acceptance must be recorded separately; source review does not grant publication permission."
+    },
+    {
+      "file": "data/anchor-review.json",
+      "operation": "add",
+      "pointer": "/public_projection",
+      "afterValue": {
+        "schema": "public-safe-metadata-projection-v1",
+        "source_receipt_sha256": "b54f8c86b02e084a74f688088db36c17afb0fc17e9fe83eb4c0dd45c334b40f3",
+        "source_candidate_sha256": "e0e11b6cea35d968127d11a8a12b5f4666e0598af8c567b03f5d36b20ca2fb78",
+        "conservation_review": "pending",
+        "publication_authorized": false,
+        "verification_scope_attribution": "Statements retained verbatim from historical review notes at indices 1, 2 and 4. The historical approved decision applies to the original candidate hash; this metadata projection has not yet passed distinct conservation review."
+      }
+    },
+    {
+      "file": "data/anchor-review.json",
+      "operation": "add-descendant",
+      "pointer": "/public_projection/schema",
+      "beforeValueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "afterValue": "public-safe-metadata-projection-v1"
+    },
+    {
+      "file": "data/anchor-review.json",
+      "operation": "add-descendant",
+      "pointer": "/public_projection/source_receipt_sha256",
+      "beforeValueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "afterValue": "b54f8c86b02e084a74f688088db36c17afb0fc17e9fe83eb4c0dd45c334b40f3"
+    },
+    {
+      "file": "data/anchor-review.json",
+      "operation": "add-descendant",
+      "pointer": "/public_projection/source_candidate_sha256",
+      "beforeValueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "afterValue": "e0e11b6cea35d968127d11a8a12b5f4666e0598af8c567b03f5d36b20ca2fb78"
+    },
+    {
+      "file": "data/anchor-review.json",
+      "operation": "add-descendant",
+      "pointer": "/public_projection/conservation_review",
+      "beforeValueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "afterValue": "pending"
+    },
+    {
+      "file": "data/anchor-review.json",
+      "operation": "add-descendant",
+      "pointer": "/public_projection/publication_authorized",
+      "beforeValueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "afterValue": false
+    },
+    {
+      "file": "data/anchor-review.json",
+      "operation": "add-descendant",
+      "pointer": "/public_projection/verification_scope_attribution",
+      "beforeValueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "afterValue": "Statements retained verbatim from historical review notes at indices 1, 2 and 4. The historical approved decision applies to the original candidate hash; this metadata projection has not yet passed distinct conservation review."
+    }
+  ],
+  "retainedHistoricalReviewStatements": {
+    "sourceNoteIndices": [
+      1,
+      2,
+      4
+    ],
+    "destination": "data/anchor-review.json#/verification_scope",
+    "attribution": "Historical source review, not new approval of projected bytes"
+  },
+  "sourceQualifiedPacketUnchanged": "f365d7f785d54556759230f0c6c27e65ec41ec3ad885fdaee1f46f72860175b5",
+  "unchangedInputs": [
+    "data/packet.json",
+    "data/anchors.json",
+    "data/anchor-root-acceptance.json"
+  ],
+  "unchangedApplicationAreas": [
+    "src/world-ui.ts",
+    "src/world-view.ts",
+    "src/render.ts",
+    "src/presentation.ts",
+    "src/contract.ts",
+    "src/model.ts",
+    "src/ui.ts",
+    "src/main.ts",
+    "src/threadProjection.ts",
+    "all CSS and source contracts"
+  ],
+  "modelDelta": "Two projected input pins and a narrow conjunction validating historical original acceptance hashes plus explicitly pending projection lineage. No geographic, source-date, relation-capacity, controller or rendering logic changes."
+}

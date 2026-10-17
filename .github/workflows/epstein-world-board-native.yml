@@ -1,0 +1,83 @@
+name: Epstein world board native review
+
+on:
+  push:
+    branches: [feature/epstein-world-map]
+    paths:
+      - review-prototypes/epstein-world-map/**
+      - .github/workflows/epstein-world-board-native.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: epstein-world-board-native-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  frozen-review:
+    if: github.repository == 'occult-kranti/india-corporate-intelligence' && github.ref == 'refs/heads/feature/epstein-world-map' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      CI: 'true'
+      EPSTEIN_WORLD_BOARD_NATIVE: github-actions
+      REVIEW_BRANCH: ${{ github.ref_name }}
+      REVIEW_HEAD_SHA: ${{ github.sha }}
+      GITHUB_RUN_ATTEMPT: ${{ github.run_attempt }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Bind exact branch head and current invocation before native prerequisites
+        run: |
+          test "$GITHUB_REPOSITORY" = occult-kranti/india-corporate-intelligence
+          test "$GITHUB_REF" = refs/heads/feature/epstein-world-map
+          test "$(git rev-parse HEAD)" = "$REVIEW_HEAD_SHA"
+          git merge-base --is-ancestor cdc0f9fbe6748b7b459f4f4151cdb9b4e8a936b8 HEAD
+          printf "NATIVE_INVOCATION_ID=%s\n" "$(node -e 'console.log(require("node:crypto").randomUUID())')" >> "$GITHUB_ENV"
+      - name: Verify frozen inventory and portable contract
+        run: |
+          node review-prototypes/epstein-world-map/scripts/verify-package.mjs
+          node --max-old-space-size=384 --test --test-concurrency=1 review-prototypes/epstein-world-map/tests/portable.test.mjs review-prototypes/epstein-world-map/tests/producer-format.test.mjs review-prototypes/epstein-world-map/tests/har-metadata.test.mjs review-prototypes/epstein-world-map/tests/world-package.test.mjs review-prototypes/epstein-world-map/tests/api-inventory.test.mjs review-prototypes/epstein-world-map/tests/projection.test.mjs
+      - name: Install existing byte-pinned dependency lock without lifecycle scripts
+        run: |
+          echo 'a6e52ae408cbf957e3726601864d149703f1be96e13c607f16cdf8fd9f383134  spatial-prototype/package.json' | sha256sum -c -
+          echo '01e715955bbde6e3b4baf72ecfaaab25be89503fda4a992d8cd9b2e16c3c1926  spatial-prototype/package-lock.json' | sha256sum -c -
+          npm ci --ignore-scripts --prefix spatial-prototype
+      - name: Test exact local documents with installed Chrome and sandbox enabled
+        run: node --max-old-space-size=2048 review-prototypes/epstein-world-map/scripts/native-review.mjs
+      - name: Audit exact current-run evidence and bounded producer envelope
+        id: evidence_audit
+        if: always()
+        run: node review-prototypes/epstein-world-map/scripts/artifact-audit.mjs
+      - name: Recheck current audit and exact bytes before upload
+        id: evidence_release
+        if: always() && steps.evidence_audit.outcome == 'success' && steps.evidence_audit.outputs.approved == 'true'
+        env:
+          CURRENT_AUDIT_OUTCOME: ${{ steps.evidence_audit.outcome }}
+          CURRENT_AUDIT_MANIFEST_SHA256: ${{ steps.evidence_audit.outputs.manifest_sha256 }}
+          CURRENT_AUDIT_ID: ${{ steps.evidence_audit.outputs.audit_id }}
+        run: node review-prototypes/epstein-world-map/scripts/release-check.mjs
+      - name: Preserve complete bounded current-run evidence including failed checks
+        if: always() && steps.evidence_audit.outcome == 'success' && steps.evidence_audit.outputs.approved == 'true' && steps.evidence_release.outcome == 'success' && steps.evidence_release.outputs.approved == 'true' && steps.evidence_release.outputs.manifest_sha256 == steps.evidence_audit.outputs.manifest_sha256 && steps.evidence_release.outputs.audit_id == steps.evidence_audit.outputs.audit_id
+        uses: actions/upload-artifact@v4
+        with:
+          name: epstein-world-board-native-${{ github.run_id }}-${{ github.run_attempt }}
+          path: epstein-world-map-native-evidence/
+          if-no-files-found: error
+          retention-days: 7
+          include-hidden-files: false
+      - name: Publish only freshly revalidated summary or fixed unavailable message
+        if: always()
+        env:
+          CURRENT_AUDIT_OUTCOME: ${{ steps.evidence_audit.outcome }}
+          CURRENT_AUDIT_MANIFEST_SHA256: ${{ steps.evidence_audit.outputs.manifest_sha256 }}
+          CURRENT_AUDIT_ID: ${{ steps.evidence_audit.outputs.audit_id }}
+          CURRENT_RELEASE_OUTCOME: ${{ steps.evidence_release.outcome }}
+        run: node review-prototypes/epstein-world-map/scripts/publish-summary.mjs

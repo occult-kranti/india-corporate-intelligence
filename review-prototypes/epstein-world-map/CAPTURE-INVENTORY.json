@@ -1,0 +1,41 @@
+{
+  "schema": "world-native-captures-v1",
+  "state": "PLANNED_NOT_RUN",
+  "successfulCaptureOrder": [
+    "01-initial",
+    "07-critical-petition",
+    "08-schematic-relations",
+    "09-desktop-1024",
+    "02-source-narrow-390",
+    "02-source-narrow-320",
+    "03-forced-colors-capacities",
+    "04-anchor-scotus",
+    "05-anchor-nydfs",
+    "06-anchor-usvi"
+  ],
+  "terminalFailureCapture": "failure",
+  "perCaptureExtensions": [
+    "png",
+    "html",
+    "ax.json"
+  ],
+  "coreMembers": [
+    "report.json",
+    "summary.md",
+    "producer-receipt.json",
+    "trace.zip",
+    "network.har"
+  ],
+  "successfulPreAuditMemberCount": 35,
+  "maximumPreAuditMemberCount": 38,
+  "auditAdds": "artifact-manifest.json after full envelope validation; not a producer member",
+  "structuralCountDelta": "20 to 38 only to cover ten named representative sets plus one terminal failure set. Arbitrary names, duplicate capture sets and extras deny.",
+  "byteAndTimeLimitsUnchanged": {
+    "totalBytes": 536870912,
+    "memberBytes": 134217728,
+    "traceExpandedBytes": 536870912,
+    "imagePixels": 16777216,
+    "workflowMinutes": 35
+  },
+  "allOrHold": "Retain the full raw envelope, including failures; never selectively prune an unsupported member to get a release."
+}

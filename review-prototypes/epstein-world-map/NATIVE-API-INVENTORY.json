@@ -1,0 +1,468 @@
+{
+  "schema": "world-board-native-api-inventory-v1",
+  "scope": "Source/protocol-shape scenarios only, not native observations. Every actual harness API family and material option representation is enumerated.",
+  "playwrightVersion": "1.62.1",
+  "sourceFile": "playwright-core/lib/coreBundle.js",
+  "sourceSha256": "9393fa79e1c67c74edc26b610d65a4f7ed73d345a762465cc88340a33a2454ac",
+  "rows": [
+    {
+      "api": "context.newPage",
+      "traceClass": "BrowserContext",
+      "traceMethod": "newPage",
+      "params": {},
+      "sourceLines": "62140-62160",
+      "scope": "frozen delivered board, except setInputFiles on isolated fixture"
+    },
+    {
+      "api": "page.goto",
+      "traceClass": "Frame",
+      "traceMethod": "goto",
+      "params": {
+        "url": "http://127.0.0.1:1234/review-prototypes/epstein-world-map/index.html",
+        "waitUntil": "load",
+        "timeout": 15000
+      },
+      "sourceLines": "61192-61194",
+      "scope": "frozen delivered board, except setInputFiles on isolated fixture"
+    },
+    {
+      "api": "locator.waitFor",
+      "traceClass": "Frame",
+      "traceMethod": "waitForSelector",
+      "params": {
+        "selector": "#packet-filter",
+        "strict": true,
+        "timeout": 15000,
+        "omitReturnValue": true
+      },
+      "sourceLines": "58233-58235",
+      "scope": "frozen delivered board, except setInputFiles on isolated fixture"
+    },
+    {
+      "api": "locator.evaluate / scrollIntoViewIfNeeded first protocol call",
+      "traceClass": "Frame",
+      "traceMethod": "waitForSelector",
+      "params": {
+        "selector": "#packet-filter",
+        "strict": true,
+        "timeout": 15000,
+        "state": "attached"
+      },
+      "sourceLines": "57997-58008",
+      "scope": "frozen delivered board, except setInputFiles on isolated fixture"
+    },
+    {
+      "api": "locator.count",
+      "traceClass": "Frame",
+      "traceMethod": "queryCount",
+      "params": {
+        "selector": "#packet-filter"
+      },
+      "sourceLines": "60047-60049",
+      "scope": "frozen delivered board, except setInputFiles on isolated fixture"
+    },
+    {
+      "api": "page.selectOption",
+      "traceClass": "Frame",
+      "traceMethod": "selectOption",
+      "params": {
+        "selector": "#packet-filter",
+        "options": [
+          {
+            "value": "round-5"
+          }
+        ],
+        "timeout": 15000
+      },
+      "sourceLines": "60193-60195",
+      "scope": "frozen delivered board, except setInputFiles on isolated fixture"
+    },
+    {
+      "api": "locator.click",
+      "traceClass": "Frame",
+      "traceMethod": "click",
+      "params": {
+        "selector": "#packet-filter",
+        "strict": true,
+        "timeout": 15000
+      },
+      "sourceLines": "60088-60090",
+      "scope": "frozen delivered board, except setInputFiles on isolated fixture"
+    },
+    {
+      "api": "locator.getAttribute",
+      "traceClass": "Frame",
+      "traceMethod": "getAttribute",
+      "params": {
+        "selector": "#packet-filter",
+        "strict": true,
+        "timeout": 15000,
+        "name": "data-entry-identity"
+      },
+      "sourceLines": "60073-60075",
+      "scope": "frozen delivered board, except setInputFiles on isolated fixture"
+    },
+    {
+      "api": "locator.innerText",
+      "traceClass": "Frame",
+      "traceMethod": "innerText",
+      "params": {
+        "selector": "#packet-filter",
+        "strict": true,
+        "timeout": 15000
+      },
+      "sourceLines": "60108-60110",
+      "scope": "frozen delivered board, except setInputFiles on isolated fixture"
+    },
+    {
+      "api": "locator.innerHTML",
+      "traceClass": "Frame",
+      "traceMethod": "innerHTML",
+      "params": {
+        "selector": "#packet-filter",
+        "strict": true,
+        "timeout": 15000
+      },
+      "sourceLines": "60111-60113",
+      "scope": "frozen delivered board, except setInputFiles on isolated fixture"
+    },
+    {
+      "api": "locator.focus",
+      "traceClass": "Frame",
+      "traceMethod": "focus",
+      "params": {
+        "selector": "#packet-filter",
+        "strict": true,
+        "timeout": 15000
+      },
+      "sourceLines": "60152-60154",
+      "scope": "frozen delivered board, except setInputFiles on isolated fixture"
+    },
+    {
+      "api": "locator.evaluateAll / allTextContents",
+      "traceClass": "Frame",
+      "traceMethod": "evalOnSelectorAll",
+      "params": {
+        "selector": "#packet-filter",
+        "expression": "xs=>xs.length",
+        "isFunction": true,
+        "arg": {
+          "value": {
+            "v": "undefined"
+          },
+          "handles": []
+        }
+      },
+      "sourceLines": "60039-60042",
+      "scope": "frozen delivered board, except setInputFiles on isolated fixture"
+    },
+    {
+      "api": "page.evaluate",
+      "traceClass": "Frame",
+      "traceMethod": "evaluateExpression",
+      "params": {
+        "expression": "()=>true",
+        "isFunction": true,
+        "arg": {
+          "value": {
+            "v": "undefined"
+          },
+          "handles": []
+        }
+      },
+      "sourceLines": "60006-60012",
+      "scope": "frozen delivered board, except setInputFiles on isolated fixture"
+    },
+    {
+      "api": "page.keyboard.press",
+      "traceClass": "Page",
+      "traceMethod": "keyboardPress",
+      "params": {
+        "key": "Tab"
+      },
+      "sourceLines": "60660-60675",
+      "scope": "frozen delivered board, except setInputFiles on isolated fixture"
+    },
+    {
+      "api": "page.screenshot",
+      "traceClass": "Page",
+      "traceMethod": "screenshot",
+      "params": {
+        "type": "png",
+        "fullPage": false,
+        "timeout": 15000
+      },
+      "sourceLines": "61379-61397",
+      "scope": "frozen delivered board, except setInputFiles on isolated fixture"
+    },
+    {
+      "api": "page.content",
+      "traceClass": "Frame",
+      "traceMethod": "content",
+      "params": {},
+      "sourceLines": "60050-60052;61186-61188",
+      "scope": "frozen delivered board, except setInputFiles on isolated fixture"
+    },
+    {
+      "api": "context.newCDPSession",
+      "traceClass": "BrowserContext",
+      "traceMethod": "newCDPSession",
+      "params": {
+        "page": "<Page>"
+      },
+      "sourceLines": "62176-62182",
+      "scope": "frozen delivered board, except setInputFiles on isolated fixture"
+    },
+    {
+      "api": "session.send",
+      "traceClass": "CDPSession",
+      "traceMethod": "send",
+      "params": {
+        "method": "Accessibility.getFullAXTree"
+      },
+      "sourceLines": "57210-57213",
+      "scope": "frozen delivered board, except setInputFiles on isolated fixture"
+    },
+    {
+      "api": "session.detach",
+      "traceClass": "CDPSession",
+      "traceMethod": "detach",
+      "params": {},
+      "sourceLines": "57214-57216",
+      "scope": "frozen delivered board, except setInputFiles on isolated fixture"
+    },
+    {
+      "api": "page.setViewportSize",
+      "traceClass": "Page",
+      "traceMethod": "setViewportSize",
+      "params": {
+        "viewportSize": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "sourceLines": "61305-61308",
+      "scope": "frozen delivered board, except setInputFiles on isolated fixture"
+    },
+    {
+      "api": "page.emulateMedia",
+      "traceClass": "Page",
+      "traceMethod": "emulateMedia",
+      "params": {
+        "forcedColors": "active",
+        "reducedMotion": "reduce"
+      },
+      "sourceLines": "61296-61304",
+      "scope": "frozen delivered board, except setInputFiles on isolated fixture"
+    },
+    {
+      "api": "locator.setInputFiles",
+      "traceClass": "Frame",
+      "traceMethod": "setInputFiles",
+      "params": {
+        "selector": "#packet-filter",
+        "strict": true,
+        "timeout": 15000,
+        "payloads": [
+          {
+            "name": "packet.json",
+            "mimeType": "application/json",
+            "buffer": "<Buffer>"
+          }
+        ]
+      },
+      "sourceLines": "58206-58208;60196-60199;60372-60376",
+      "scope": "frozen delivered board, except setInputFiles on isolated fixture"
+    },
+    {
+      "api": "route.continue",
+      "traceClass": "Route",
+      "traceMethod": "continue",
+      "params": {
+        "isFallback": false
+      },
+      "sourceLines": "59411-59418;59429-59438",
+      "scope": "frozen delivered board, except setInputFiles on isolated fixture"
+    },
+    {
+      "api": "route.abort",
+      "traceClass": "Route",
+      "traceMethod": "abort",
+      "params": {
+        "errorCode": "blockedbyclient"
+      },
+      "sourceLines": "59348-59353",
+      "scope": "frozen delivered board, except setInputFiles on isolated fixture"
+    },
+    {
+      "api": "unexpected page close",
+      "traceClass": "Page",
+      "traceMethod": "close",
+      "params": {},
+      "sourceLines": "61433-61449",
+      "scope": "frozen delivered board, except setInputFiles on isolated fixture"
+    },
+    {
+      "api": "page.mouse.move",
+      "traceClass": "Page",
+      "traceMethod": "mouseMove",
+      "params": {
+        "x": 200,
+        "y": 100
+      },
+      "sourceLines": "60702-60705;17758-17763",
+      "scope": "new actual board interactions"
+    },
+    {
+      "api": "page.mouse.wheel",
+      "traceClass": "Page",
+      "traceMethod": "mouseWheel",
+      "params": {
+        "deltaX": 550,
+        "deltaY": 0
+      },
+      "sourceLines": "60719-60721;53421-53423",
+      "scope": "new actual board interactions"
+    },
+    {
+      "api": "page.goBack",
+      "traceClass": "Page",
+      "traceMethod": "goBack",
+      "params": {
+        "waitUntil": "load"
+      },
+      "sourceLines": "61285-61288;17616-17618",
+      "scope": "new actual board interactions"
+    },
+    {
+      "api": "page.goForward",
+      "traceClass": "Page",
+      "traceMethod": "goForward",
+      "params": {
+        "waitUntil": "load"
+      },
+      "sourceLines": "61289-61292;17622-17624",
+      "scope": "new actual board interactions"
+    },
+    {
+      "api": "page.emulateMedia reset",
+      "traceClass": "Page",
+      "traceMethod": "emulateMedia",
+      "params": {
+        "forcedColors": "none",
+        "reducedMotion": "no-preference"
+      },
+      "sourceLines": "61296-61304",
+      "scope": "media state reset"
+    },
+    {
+      "api": "locator.scrollIntoViewIfNeeded nested source operation",
+      "traceClass": "ElementHandle",
+      "traceMethod": "scrollIntoViewIfNeeded",
+      "params": {
+        "timeout": 15000
+      },
+      "sourceLines": "57997-58008;58177-58179",
+      "scope": "new actual board interactions"
+    },
+    {
+      "api": "fixture file corrupt.json",
+      "traceClass": "Frame",
+      "traceMethod": "setInputFiles",
+      "params": {
+        "selector": "#fixture-file",
+        "strict": true,
+        "timeout": 15000,
+        "payloads": [
+          {
+            "name": "corrupt.json",
+            "mimeType": "application/json",
+            "buffer": "<Buffer>"
+          }
+        ]
+      },
+      "sourceLines": "58206-58208;60196-60199;60372-60376",
+      "scope": "isolated fixture only"
+    },
+    {
+      "api": "fixture file unsupported.json",
+      "traceClass": "Frame",
+      "traceMethod": "setInputFiles",
+      "params": {
+        "selector": "#fixture-file",
+        "strict": true,
+        "timeout": 15000,
+        "payloads": [
+          {
+            "name": "unsupported.json",
+            "mimeType": "application/json",
+            "buffer": "<Buffer>"
+          }
+        ]
+      },
+      "sourceLines": "58206-58208;60196-60199;60372-60376",
+      "scope": "isolated fixture only"
+    },
+    {
+      "api": "fixture file changed.json",
+      "traceClass": "Frame",
+      "traceMethod": "setInputFiles",
+      "params": {
+        "selector": "#fixture-file",
+        "strict": true,
+        "timeout": 15000,
+        "payloads": [
+          {
+            "name": "changed.json",
+            "mimeType": "application/json",
+            "buffer": "<Buffer>"
+          }
+        ]
+      },
+      "sourceLines": "58206-58208;60196-60199;60372-60376",
+      "scope": "isolated fixture only"
+    },
+    {
+      "api": "fixture file empty.json",
+      "traceClass": "Frame",
+      "traceMethod": "setInputFiles",
+      "params": {
+        "selector": "#fixture-file",
+        "strict": true,
+        "timeout": 15000,
+        "payloads": [
+          {
+            "name": "empty.json",
+            "mimeType": "application/json",
+            "buffer": "<Buffer>"
+          }
+        ]
+      },
+      "sourceLines": "58206-58208;60196-60199;60372-60376",
+      "scope": "isolated fixture only"
+    }
+  ],
+  "notTraced": [
+    "chromium.launch and browser.newContext occur before tracing",
+    "context.route registration occurs before tracing; each route.continue remains traced",
+    "browser.version, locator()/first()/last(), request metadata getters and event subscriptions are local client operations",
+    "setDefaultTimeout uses internal setDefaultTimeoutNoReply",
+    "locator.evaluate/scroll methods wrap a waitForSelector; their subsequent evaluation and disposal calls are internal in the same API zone",
+    "tracing start/stop and final context/browser cleanup do not enter the retained trace after tracing has stopped"
+  ],
+  "newLaunchMetadata": {
+    "channel": "chrome",
+    "sandbox": true,
+    "expectedExecutable": "/opt/google/chrome/chrome",
+    "recordedOnFutureRun": [
+      "browserExecutable",
+      "browserExecutableSha256",
+      "browserVersion",
+      "browserChannel"
+    ],
+    "sourceLines": "32965-32973",
+    "browserContext": "fresh context, serviceWorkers block, acceptDownloads false, full embedded HAR; no stored state"
+  },
+  "geometryMechanism": "No locator.boundingBox API is used. getBoundingClientRect, scroll dimensions and hit testing are read inside the already-enumerated locator/page evaluations. Locator first/last/locator selectors and allTextContents do not add a new trace API class.",
+  "uncertainty": "Source-shaped compatibility does not prove emitted native runtime combinations, budget fit or browser startup. Unknown actual formats must hold the whole evidence envelope."
+}

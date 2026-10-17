@@ -1,0 +1,49 @@
+# Epstein world-board native review package
+
+Status: one local composition awaiting distinct harness/gate review and explicit public approval. No browser run, native acceptance, repository write or deployment is claimed.
+
+## Proposed destination
+
+Repository: `occult-kranti/india-corporate-intelligence`. Branch: `feature/epstein-world-map`, based on `cdc0f9fbe6748b7b459f4f4151cdb9b4e8a936b8`. New directory: `review-prototypes/epstein-world-map`. Dedicated workflow: `.github/workflows/epstein-world-board-native.yml`. The current app and Deploy workflow are outside this package and unchanged.
+
+The dedicated workflow uses only a push to this exact feature branch and the new package/workflow paths. After the single explicitly approved package upload, it automatically runs the reviewed native suite, audit and bounded evidence release. Exact checkout head and base-commit ancestry are checked. Publication and this automatic run still require actual user approval for the exact final inventory and complete public raw-evidence scope. No run occurs while the package remains local. No intermediate reader is to be published.
+
+## Source-conserved delivered content
+
+The exact source-qualified packet has 61 entries, 51 procedural relations, 112 selectable records, 152 source actions, 37 semantic source-owner occurrences, 50 extension-relation source capacity contexts, 83 date-role configurations and 625 date placements. Three reviewed pins provide Washington city, New York State regulatory and USVI territory institutional context. Three milestones and four relations have exact anchor links; 105 records remain visibly unmapped. Every event location is null. No person/company coordinate inheritance, routes, geographic relation edges or inferred travel/money flow is admitted. Email/Jmail coverage is zero.
+
+The factual packet, anchor table, historical root acceptance receipt, source contracts, controller/render/date/geography logic and readable fallback remain byte-identical. `PUBLIC-PROJECTION.json` enumerates every metadata-only removal, package-relative path replacement and added lineage pointer in the candidate/review documents. Three substantive historical review-scope statements are retained verbatim and attributed. `PROJECTION-CONSERVATION.json` records exact ordered-value conservation and the narrow model admission-binding change. The rebuilt index and isolated fixture have new exact pins; the original UI and historical receipt hashes remain explicitly distinct. This projection still awaits independent conservation review, including the complete decoded public tree. Historical pending/private/local labels and false posting flags are retained historical source text. If this package is later published, its GitHub audience is public; those labels do not make it private. The wrapper is authoritative about publication status.
+
+The Natural Earth world outline is local, public-domain display geometry. Generalized de facto boundaries do not adjudicate sovereignty. The admitted Census2020 city/state/territory centroids do not identify a building or event location; the territorial centroid may lie over water. The unrelated inherited corporate geography crosswalk was excluded.
+
+## What the proposed native run exercises
+
+`COVERAGE-MAPPING.json` preserves the exact 483 old source-derived case IDs and describes their new delivered-board interactions. It does not claim old reader controls are unchanged. There are 20 additional IDs: 19 actual-board cases and one isolated controller-race fixture case, for 503 planned executable cases across 17 groups. All native cases are currently not-run.
+
+The old reader's 75–200% spacing control has no one-to-one board interaction. Its disposition is explicit: the map is tested at every 100–500% step while schematic thread nodes, widths, endpoints, exact identities and source citations remain unchanged. The board is not expected to support the old minimum or to turn schematic threads into geographic routes.
+
+The delivered board has no file importer. `dist/controller-fixture.html` is a separate, visibly labeled test-only document built from the same delivered controller/model/contract/render source, including the declared metadata admission binding. Its File API adapter and malformed-input/latest-file tests are fixture-only. The extra concurrent-load case exercises the frozen controller's `load` sequencing through this isolated fixture. None of those probes is portrayed as an ordinary production user flow or installed as a hidden app hook.
+
+Actual-board coverage includes all exact record/source contexts, December petition versus January observation and nested as-of qualifications, source Back/Escape/focus restoration, D1/D2/D3 regressions, genuine wheel input, keyboard controls, history Back/Forward, modal inertness, map pan/zoom/focus, three exact anchors, all unmapped controls, narrow 390/320 reflow and reduced-motion/forced-color state. Viewport-width reduction remains a reflow proxy and does not prove browser-chrome zoom.
+
+## Native confinement and evidence trust
+
+A future authorized run uses one fresh credential-free browser context, the installed Chrome channel at the recorded executable path, and `chromiumSandbox:true`. It records its actual executable SHA-256 and browser version. There is no downloaded-browser fallback and no sandbox-disabling argument. Browser process environment is PATH/LANG only. Frontend inputs are the exact public data already embedded in the three pinned local documents; no runner environment or credential is injected into the page.
+
+The HTTP server permits only exact loopback GET/HEAD routes for the two delivered documents and the isolated controller fixture. Source URLs are checked without visiting them. No external runtime assets or automatic source fetches are allowed. Native history fragments are limited in evidence validation to canonical pointers for the exact 112 records.
+
+The evidence gate trusts the frozen reviewed producer, exact local inputs, explicit fixtures and isolated run. Hash/schema consistency is not an OS air gap, unforgeable producer identity or certification that arbitrary pixels/DOM text contain no sensitive information. Unknown or malformed schemas hold the entire envelope. It is not sanitized or selectively pruned into success.
+
+`CAPTURE-INVENTORY.json` enumerates ten representative PNG/DOM/accessibility sets and one possible terminal-failure set. The pre-audit structural member cap rises from 20 to 38 for these named captures only. The 512 MiB total and expanded-trace caps, 128 MiB member cap, 16,777,216-pixel image cap and 35-minute workflow budget are unchanged. Full trace size, decoder cost and run duration are unmeasured; failure is retained rather than relaxing limits.
+
+Current-run nonce, head/run/attempt/invocation binding, complete producer member hashes, fresh audit output and a second exact release recheck are all required for upload and the fixed-template summary. Old static grants are invalidated before early failures. Cleanup attempts trace, context, browser and server independently and attempts both receipts. A failure may be published only as a failure when its full bounded envelope is valid. Held ephemeral-runner raw evidence is unavailable after runner termination and cannot support later visual review. No private evidence destination has been authorized.
+
+## Reproduce without a local browser
+
+`node scripts/verify-package.mjs` verifies exact members, bytes, hashes, workflow pins, data and fixture pins. `node scripts/verify-projection.mjs` checks every loose and decoded embedded input, historical acceptance receipt, fallback and exact conservation pins. With the retained historical UI available locally, `node scripts/verify-projection-lineage.mjs <historical-ui-directory>` independently applies the closed metadata allowlist and compares every remaining value/type/order, unchanged source member and narrow model delta; it is read-only and copies no historical private metadata into this package. `node --max-old-space-size=384 --test --test-concurrency=1 tests/portable.test.mjs tests/producer-format.test.mjs tests/har-metadata.test.mjs tests/world-package.test.mjs tests/api-inventory.test.mjs tests/projection.test.mjs` runs dependency-free contract/gate-schema tests. `tests/evidence-gate.test.mjs` uses a temporary exact package copy to test current-run release, failure, freshness and cleanup controls; preserve its complete receipts.
+
+The unchanged 18 world tests require existing jsdom 26.1.0, TypeScript 5.6.3 and esbuild 0.25.12 dependency paths under a temporary `dependencies/` directory. Dependency links are local test setup, not package members, and must be removed before exact inventory verification. Do not install dependencies merely to run this local review. Run the world suite with `node --expose-gc --max-old-space-size=384 --test --test-concurrency=1 tests/world.test.mjs`; typecheck with the existing TypeScript executable and `tsconfig.fixture.json`. `scripts/build-app.mjs` is the accepted deterministic builder; use a new output directory. `scripts/build-fixture.mjs` rebuilds the isolated fixture to a new explicit filename. Compare resulting bytes, then keep generated verification output outside the publication inventory.
+
+## Remaining gates
+
+Distinct public-projection conservation and final producer/gate-extension review and explicit exact-scope public approval are required before publication or native execution. Native behavior and all 503 cases remain unproven until that run. Genuine browser-chrome 200/400% page/text zoom, human screen reader, file-origin policy, human visual/usability review, sustained-use performance, source authenticity/current status and real external navigation remain manual gates. This package does not deploy or make source claims current.
