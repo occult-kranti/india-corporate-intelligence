@@ -2,6 +2,7 @@
  * This module never imports Playwright or starts a browser. Node helpers are portable;
  * their success is not evidence that any browser acceptance scenario passed. */
 import assert from 'node:assert/strict';
+import { observeCaseFrame, waitForCaseFrame } from './case-frame-readiness.mjs';
 import { createHash } from 'node:crypto';
 import { readFile, readdir, stat, writeFile } from 'node:fs/promises';
 import { join, basename } from 'node:path';
@@ -333,17 +334,8 @@ export async function assertCompleteCaseReader(page, file) {
   return { id: file.id, profileId: file.profileId, claims: file.claims.map(claim => claim.claimId), sourceReferences: file.claims.reduce((total, claim) => total + claim.sourceIds.length, 0), nodes: file.nodes.length, edges: file.edges.length, readerOnly: file.readerFactIds.length };
 }
 
-export async function assertCaseFrame(page, file, until, result, phase = 'frame', labelCoverage = null, afterLabelCheck = null) {
-  await until(async () => Number(await caseSurface(page).getAttribute('data-case-frame-nodes')) === file.nodes.length &&
-    Number(await caseSurface(page).getAttribute('data-case-scene-draws')) > 0 && Number(await caseSurface(page).getAttribute('data-case-composite-draws')) > 0 &&
-    await caseWorkspace(page).getAttribute('data-case-motion') === 'false', `${file.id}: frame did not settle after physical draws`, 15000);
-  const sample = await caseSurface(page).evaluate(surface => {
-    const box = surface.getBoundingClientRect();
-    const label = element => { const rect = element.getBoundingClientRect(); return { id: element.dataset.caseNodeId ?? element.dataset.caseEdgeId,
-      text: element.textContent, selected: element.dataset.selected === 'true', x: rect.x, y: rect.y, width: rect.width, height: rect.height }; };
-    return { dataset: { ...surface.dataset }, rect: box.toJSON(), viewport: { width: innerWidth, height: innerHeight },
-      nodes: [...surface.querySelectorAll('[data-case-node-id]')].map(label), roles: [...surface.querySelectorAll('[data-case-edge-id]')].map(label) };
-  });
+export async function assertCaseFrame(page, file, until, result, phase = 'frame', labelCoverage = null, afterLabelCheck = null, readiness = {}) {
+  const sample = await waitForCaseFrame({ read: () => page.evaluate(observeCaseFrame), until, file, result, phase, ...readiness });
   assert.ok(sample.rect.width >= 240 && sample.rect.height >= 180);
   assert.ok(sample.rect.x >= 0 && sample.rect.y >= 0 && sample.rect.right <= sample.viewport.width + 1 && sample.rect.bottom <= sample.viewport.height + 1);
   assert.ok(sample.nodes.length > 0 && sample.nodes.length <= file.nodes.length, `${file.id}: no projected node labels`);
@@ -352,7 +344,7 @@ export async function assertCaseFrame(page, file, until, result, phase = 'frame'
   assert.equal(new Set(sample.roles.map(row => row.id)).size, sample.roles.length);
   for (const row of sample.nodes) assert.equal(row.text, file.nodes.find(node => node.id === row.id)?.label, `${file.id}: exact node label`);
   for (const row of sample.roles) assert.equal(row.text, file.edges.find(edge => edge.id === row.id)?.role, `${file.id}: exact role label`);
-  const selection = await caseWorkspace(page).getAttribute('data-case-selection');
+  const selection = sample.selection;
   const selectedEdge = file.edges.find(edge => edge.id === selection), selectedNode = file.nodes.find(node => node.id === selection);
   if (selectedEdge) {
     assert.deepEqual(sample.roles.filter(row => row.selected).map(row => row.id), [selection], 'Selected physical role label differs from exact retained edge');

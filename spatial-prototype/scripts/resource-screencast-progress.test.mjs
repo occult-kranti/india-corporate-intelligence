@@ -67,8 +67,27 @@ test('invalid counts fail before sampling and missing active surface cannot comp
   assert.equal(f.shared.timingProgress.completed, 1); assert.equal(f.shared.timingProgress.complete, false);
   assert.equal(f.events.length, 1); assert.equal(f.shared.frameTimes.length, 0);
 });
-test('native probe is byte-token conserved after only exact additive progress fields are removed', () => {
+test('native probe remains byte-token conserved after exact progress fields and read-only frame identity are removed', () => {
   let probe = graphics.slice(graphics.indexOf('export function installCaseGraphicsProbe'), graphics.indexOf('\nexport function selectCaseGraphicsFixtures'));
+  // Exact diagnostic-only method; all prior probe behavior stays pinned below.
+  const frameIdentity = [
+    "    /** Bounded read-only current-canvas pass identity; no GL calls or extra frames. */\n",
+    "    frameIdentity() {\n",
+    "      const canvas = document.querySelector('.webgl-host canvas');\n",
+    "      const row = contexts.find(item => item.canvas === canvas);\n",
+    "      if (!row) return null;\n",
+    "      const renderer = shared.renderers.find(item => item.contextId === row.id && item.canvasId === row.canvasId);\n",
+    "      const pass = type => { const value = row.passes.findLast(item => item.type === type); return value ? {\n",
+    "        id: value.id, contextId: value.contextId, rendererId: value.rendererId,\n",
+    "        nativeSucceeded: value.draws.some(draw => draw.nativeSucceeded && (type !== 'composite' || draw.shaderKind === 'composite')),\n",
+    "        restored: value.entryObserved === true && value.terminalRestoreObserved === true && value.changes.length === 0 && value.logicalChanges.length === 0,\n",
+    "      } : null; };\n",
+    "      return { sequence, contextId: row.id, canvasId: row.canvasId, rendererId: renderer?.id ?? null,\n",
+    "        pendingPass: row.active ? { id: row.active.id, type: row.active.type } : null,\n",
+    "        poisoned: row.poisoned, scene: pass('scene'), composite: pass('composite') };\n",
+    "    },\n",
+  ].join('');
+  assert.equal(probe.split(frameIdentity).length, 2); probe = probe.replace(frameIdentity, '');
   const additions = [
     'timingProgress: null, ',
     '      // Additive diagnostics only: actual RAF/input sequence and result stay unchanged.\n',

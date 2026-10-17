@@ -32,16 +32,35 @@ test('full standalone HAR starts before page/navigation without filtering or bod
   assert.ok(start < main.indexOf('await context.tracing.start(traceOptionsForScenario(name))') && start < main.indexOf('page = await context.newPage()'));
   assert.ok(main.indexOf('observeResourceNetwork(page, result)') < main.indexOf('const response = await page.goto(', start));
 });
-test('existing full review/native assertions/actions/observer transport are byte conserved after removing additive capture hooks', () => {
+test('original full-review/native assertions and actions remain byte conserved after exact capture and readiness deltas', () => {
   const start = main.indexOf('  await scenario("01-overview-and-source-trail"');
   const last = '  await runCaseGraphicsBrowserCases(caseReviewContext);';
   const end = main.indexOf(last, start) + last.length;
   assert.equal(sha(main.slice(start, end)), '0d5c51e6ec41602929676e316db19756407dd007c48d1e86e7511d563955dcda');
   const nativeStart = graphics.indexOf('  await run(GRAPHICS_SCENARIOS[7]');
   const nativeEnd = graphics.indexOf('  coverage.scenarios', nativeStart);
-  const conserved = graphics.slice(nativeStart, nativeEnd)
+  let conserved = graphics.slice(nativeStart, nativeEnd)
     .replace('      await captureResourceCheckpoint(page, output, result, phase, entry);\n', '')
     .replace('    assertResourceCheckpointCoverage(result);\n', '');
+  // Reverse only the exact reviewed readiness additions; keep the original body hash.
+  const selectedReadiness = [
+    "      const selectionBaseline = await page.evaluate(() => window.__caseGraphicsProbe.frameIdentity());\n",
+    "      assert.ok(selectionBaseline, 'Selection needs a native current-canvas baseline before input');\n",
+    "      await edgeButton(page, dense.edges[0].id).click();\n",
+    "      await assertCaseFrame(page, dense, until, result, `${warmup ? 'warmup' : 'cycle'}-${number}-selection`, null, null,\n",
+    "        { expectedSelection: dense.edges[0].id, afterNative: selectionBaseline });\n",
+  ].join('');
+  const reentryReadiness = [
+    "      const reentryBaseline = await page.evaluate(() => window.__caseGraphicsProbe.frameIdentity());\n",
+    "      assert.ok(reentryBaseline, 'Re-entry needs a native current-canvas baseline before input');\n",
+    "      await showCompleteCaseReader(page, until); await showCaseScene(page, until);\n",
+    "      await assertCaseFrame(page, dense, until, result, `${warmup ? 'warmup' : 'cycle'}-${number}-reentry`, null, null,\n",
+    "        { expectedSelection: dense.edges[0].id, afterNative: reentryBaseline });\n",
+  ].join('');
+  assert.equal(conserved.split(selectedReadiness).length, 2);
+  assert.equal(conserved.split(reentryReadiness).length, 2);
+  conserved = conserved.replace(selectedReadiness, "      await edgeButton(page, dense.edges[0].id).click(); await assertCaseFrame(page, dense, until);\n")
+    .replace(reentryReadiness, "      await showCompleteCaseReader(page, until); await showCaseScene(page, until); await assertCaseFrame(page, dense, until);\n");
   assert.equal(sha(conserved), 'c4689854c0bde8b5d7160984c53d78d511ddebe41582c74811b5a791c86c7fde');
   assert.match(conserved, /budgetMs: 300000/); assert.match(conserved, /frames\(120, true\)/);
   assert.match(graphics, /const pair = await page\.evaluate\(\(\) => \(\{ active:[\s\S]*readLifecyclePair\(\)/);

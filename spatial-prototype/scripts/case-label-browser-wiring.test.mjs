@@ -4,7 +4,11 @@ import { readFileSync } from 'node:fs';
 const harness = readFileSync(new URL('./case-workspace-browser.mjs', import.meta.url), 'utf8');
 test('every exact case frame passes actual full-label geometry after native drawing settles', () => {
   const frame = harness.slice(harness.indexOf('export async function assertCaseFrame'), harness.indexOf('async function geographySnapshot'));
-  assert.match(frame, /case-scene-draws/); assert.match(frame, /case-composite-draws/);
+  const readiness = readFileSync(new URL('./case-frame-readiness.mjs', import.meta.url), 'utf8');
+  assert.match(frame, /await waitForCaseFrame\(\{ read: \(\) => page.evaluate\(observeCaseFrame\)/);
+  assert.match(readiness, /Number\(sample.dataset.caseSceneDraws\) > 0/);
+  assert.match(readiness, /Number\(sample.dataset.caseCompositeDraws\) > 0/);
+  assert.match(readiness, /return caseFrameReadiness\(sample, file, \{ expectedSelection, afterNative \}\)/);
   assert.match(frame, /const checkLabels = async \(\) => \{\s*await assertCaseLabelReadability\(page, file, result \?\? \{\}, \{ phase, fit: phase === 'initial', requireReadablePolicy: true \}\);\s*if \(afterLabelCheck\) await afterLabelCheck\(\);/);
   assert.match(frame, /if \(labelCoverage\) await labelCoverage.observe\(file.id, phase, checkLabels\);\s*else await checkLabels\(\)/);
 });

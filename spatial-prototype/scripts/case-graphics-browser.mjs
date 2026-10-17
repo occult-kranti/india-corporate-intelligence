@@ -322,6 +322,21 @@ export function installCaseGraphicsProbe({ kinds, caseAssetPattern = '/attachSce
   window.__caseGraphicsProbe = {
     configure(options) { for (const [key, value] of Object.entries(options)) { if (!['challenge','fault','pixelReads'].includes(key)) throw new Error(`Unknown probe option ${key}`); shared[key] = value; } },
     read() { return { ...shared, sequence, contexts: contexts.map(row => ({ ...shared.contexts.find(info => info.id === row.id), ...row.export() })), renderers: [...shared.renderers], canvasCount: document.querySelectorAll('canvas').length }; },
+    /** Bounded read-only current-canvas pass identity; no GL calls or extra frames. */
+    frameIdentity() {
+      const canvas = document.querySelector('.webgl-host canvas');
+      const row = contexts.find(item => item.canvas === canvas);
+      if (!row) return null;
+      const renderer = shared.renderers.find(item => item.contextId === row.id && item.canvasId === row.canvasId);
+      const pass = type => { const value = row.passes.findLast(item => item.type === type); return value ? {
+        id: value.id, contextId: value.contextId, rendererId: value.rendererId,
+        nativeSucceeded: value.draws.some(draw => draw.nativeSucceeded && (type !== 'composite' || draw.shaderKind === 'composite')),
+        restored: value.entryObserved === true && value.terminalRestoreObserved === true && value.changes.length === 0 && value.logicalChanges.length === 0,
+      } : null; };
+      return { sequence, contextId: row.id, canvasId: row.canvasId, rendererId: renderer?.id ?? null,
+        pendingPass: row.active ? { id: row.active.id, type: row.active.type } : null,
+        poisoned: row.poisoned, scene: pass('scene'), composite: pass('composite') };
+    },
     identities() { return { contextIds: contexts.map(row => row.id), rendererIds: renderers.map(id), canvasIds: contexts.map(row => row.canvasId) }; },
     loseContext() { const row = contexts.find(item => item.canvas.isConnected); if (!row) throw new Error('No live context to lose'); const extension = row.native.getExtension('WEBGL_lose_context'); if (!extension) throw new Error('Required WEBGL_lose_context capability unavailable'); extension.loseContext(); return row.id; },
     async frames(count, driveCase = false) { if (!Number.isInteger(count) || count < 2 || count > 180) throw new Error('Invalid bounded frame sample'); const times = [];
@@ -881,9 +896,17 @@ export async function runCaseGraphicsBrowserCases({ root, output, scenario, capt
     async function cycle(number, warmup) {
       const before = await probe(page), start = performance.now();
       await openGraphicsWorkspace(page, until, result); await chooseCase(page, dense, until); await showCaseScene(page, until);
-      await edgeButton(page, dense.edges[0].id).click(); await assertCaseFrame(page, dense, until);
+      const selectionBaseline = await page.evaluate(() => window.__caseGraphicsProbe.frameIdentity());
+      assert.ok(selectionBaseline, 'Selection needs a native current-canvas baseline before input');
+      await edgeButton(page, dense.edges[0].id).click();
+      await assertCaseFrame(page, dense, until, result, `${warmup ? 'warmup' : 'cycle'}-${number}-selection`, null, null,
+        { expectedSelection: dense.edges[0].id, afterNative: selectionBaseline });
       await caseWorkspace(page).getByRole('button', { name: 'Low quality off', exact: true }).click(); await nativeLayout(page, result, `${warmup ? 'warmup' : 'cycle'}-${number}-low`, until);
-      await showCompleteCaseReader(page, until); await showCaseScene(page, until); await assertCaseFrame(page, dense, until);
+      const reentryBaseline = await page.evaluate(() => window.__caseGraphicsProbe.frameIdentity());
+      assert.ok(reentryBaseline, 'Re-entry needs a native current-canvas baseline before input');
+      await showCompleteCaseReader(page, until); await showCaseScene(page, until);
+      await assertCaseFrame(page, dense, until, result, `${warmup ? 'warmup' : 'cycle'}-${number}-reentry`, null, null,
+        { expectedSelection: dense.edges[0].id, afterNative: reentryBaseline });
       if (!warmup && [1, 15, 30].includes(number)) {
         await capture(page, result, `native-lifecycle-cycle-${number}`);
         await checkpoint(`cycle-${number}-before-close`);
