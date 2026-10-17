@@ -19,7 +19,7 @@ function fixture(){
   return{raw,images,binding:structuredClone(binding)};
 }
 const validate=f=>validateNativeReport(f.raw,f.images,manifest,matrix,f.binding);
-test('complete bounded envelope is allowed without release acceptance',()=>{const f=fixture();const out=JSON.parse(validate(f));assert.equal(out.release_acceptance,false);assert.equal(Object.keys(out.automated_gates).length,29);assert.equal(out.binding.commit,binding.commit);});
+test('complete bounded envelope is allowed without release acceptance',()=>{const f=fixture();const out=JSON.parse(validate(f));assert.equal(out.release_acceptance,false);assert.equal(Object.keys(out.automated_gates).length,30);assert.equal(out.binding.commit,binding.commit);});
 test('raw report additions are never copied to the public artifact',()=>{const f=fixture();f.raw.failure='SECRET DOM URL /private/path';f.raw.arbitrary='SENSITIVE';const out=validate(f).toString();assert.doesNotMatch(out,/SECRET|SENSITIVE|private/);});
 const mutations={
   'wrong commit':f=>f.binding.commit='latest',
@@ -30,6 +30,7 @@ const mutations={
   'external request':f=>f.raw.external_requests=['https://example.invalid/data'],
   'page error':f=>f.raw.errors=['raw source excerpt'],
   'missing automated gate':f=>delete f.raw.automated_gates[matrix.automated[0]],
+  'missing mobile methods gate':f=>delete f.raw.automated_gates['mobile methods opener is visible and keyboard-operable with focus return'],
   'failed case':f=>f.raw.automated_gates[matrix.automated[0]]='failed',
   'manual gate fabricated pass':f=>f.raw.manual_gates[matrix.manual[0]]='passed',
   'native failure':f=>f.raw.status='failed_browser_gate',
@@ -46,7 +47,7 @@ const mutations={
 for(const [name,mutate]of Object.entries(mutations))test(`reject ${name}`,()=>{const f=fixture();mutate(f);assert.throws(()=>validate(f));});
 test('failure summary preserves bounded case, owned line, pass count and native exit',()=>{
   const f=fixture();f.raw.automated_gates[matrix.automated[3]]='failed';f.raw.failure='Error SECRET DOM\n at file:///some/private/path/browser-flow.mjs:44:12';
-  const safe=safeFailure(f.raw,7,null,matrix,'native-suite');assert.equal(safe.case_id,'B04');assert.equal(safe.owned_line,44);assert.equal(safe.exit_code,7);assert.equal(safe.passed_cases,28);assert.doesNotMatch(JSON.stringify(safe),/SECRET|private\/path/);
+  const safe=safeFailure(f.raw,7,null,matrix,'native-suite');assert.equal(safe.case_id,'B04');assert.equal(safe.owned_line,44);assert.equal(safe.exit_code,7);assert.equal(safe.passed_cases,29);assert.doesNotMatch(JSON.stringify(safe),/SECRET|private\/path/);
 });
 test('early startup failure remains failed with no invented case',()=>{const s=safeFailure(undefined,1,null,matrix,'fixture');assert.equal(s.case_id,null);assert.equal(s.passed_cases,0);assert.equal(s.release_acceptance,false);});
 test('official pinned package metadata is required',()=>{

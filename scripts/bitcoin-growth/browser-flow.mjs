@@ -90,6 +90,21 @@ try{
     await page.setViewportSize({width,height:900});
     await check(`${width}px reflow has no document-level horizontal overflow`,async()=>assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)));
   }
+  await check('mobile methods opener is visible and keyboard-operable with focus return',async()=>{
+    for(const width of [850,720,390,320]){
+      await page.setViewportSize({width,height:900});
+      const opener=page.locator('#open-methods');assert.equal(await opener.count(),1);assert.equal(await opener.isVisible(),true);assert.equal(await opener.isEnabled(),true);
+    }
+    await page.setViewportSize({width:390,height:844});await page.goto(base,{waitUntil:'networkidle'});await page.locator('#atlas').waitFor({state:'visible'});
+    const opener=page.locator('#open-methods');
+    for(let i=0;i<12&&!(await opener.evaluate(e=>e===document.activeElement));i++)await page.keyboard.press('Tab');
+    assert.equal(await opener.evaluate(e=>e===document.activeElement),true);await page.keyboard.press('Enter');
+    assert.equal(await page.locator('#source-drawer').evaluate(e=>e.open),true);
+    const methods=await page.locator('#drawer-content').innerText();assert.match(methods,/Nine stronger inferences remain held/);assert.match(methods,/hash rate is null for the first six days/);assert.match(methods,/January 2009 and October 2026 are partial months/);assert.match(methods,/CC BY-NC 4.0/);
+    await page.keyboard.press('Escape');assert.equal(await page.locator('#source-drawer').evaluate(e=>e.open),false);assert.equal(await opener.evaluate(e=>e===document.activeElement),true);
+    await page.keyboard.press('Enter');assert.equal(await page.locator('#source-drawer').evaluate(e=>e.open),true);await page.locator('#close-drawer').click();
+    assert.equal(await page.locator('#source-drawer').evaluate(e=>e.open),false);assert.equal(await opener.evaluate(e=>e===document.activeElement),true);assert.equal(await opener.isVisible(),true);
+  });
   await page.setViewportSize({width:390,height:844});await page.screenshot({path:new URL('mobile-initial.png',out).pathname,fullPage:true});
   await check('runtime never requests an external origin',async()=>assert.deepEqual(report.external_requests,[]));
   await check('no JavaScript runtime errors',async()=>assert.deepEqual(report.errors,[]));

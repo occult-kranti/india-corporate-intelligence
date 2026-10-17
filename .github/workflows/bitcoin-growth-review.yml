@@ -25,7 +25,7 @@ jobs:
     env:
       CI: 'true'
       PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
-      EXPECTED_SOURCE_MANIFEST_SHA256: 0b584bed1c7701c21b95ae9d882ced7e75b66ae81b07e5caafdab92dd837efce
+      EXPECTED_SOURCE_MANIFEST_SHA256: d3770c57aefd1a44b14f0c139750649eb470b6261b95c36abbf4ec0e41369e69
     steps:
       - name: Require the bounded first attempt
         run: test "$GITHUB_RUN_ATTEMPT" = 1
