@@ -1,3 +1,4 @@
+import { serializeLifecycleValue } from './lifecycle-value-transport.mjs';
 /** CI-only observation projection. No browser launcher or application mutation.
  * Serialize inside the browser, retaining full native recording and raw exports.
  * Only scenario46 may use this narrowed observation shape. */
@@ -28,15 +29,19 @@ export function compactLifecycleObservation(data) {
 }
 
 /** Serialized after installCaseGraphicsProbe in the same init script. */
-export function installCaseLifecycleObservation(project) {
+export function installCaseLifecycleObservation(project, serialize) {
   const probe = window.__caseGraphicsProbe;
-  if (!probe || typeof probe.read !== 'function' || 'readLifecycle' in probe || 'readLifecyclePair' in probe)
+  if (!probe || typeof probe.read !== 'function' || 'readLifecycle' in probe || 'readLifecyclePair' in probe || 'readLifecycleJSON' in probe || 'readLeaseLifecycleJSON' in probe)
     throw new Error('Lifecycle observation requires the original unmodified native probe');
   Object.defineProperties(probe, {
     readLifecycle: { value() { return project(probe.read()); } },
     readLifecyclePair: { value() { const full = probe.read(); return { full, compact: project(full) }; } },
+    // The raw pair stays on the original object path as an independent oracle.
+    readLifecycleJSON: { value() { return serialize(probe.readLifecycle()); } },
+    readLeaseLifecycleJSON: { value() { return serialize({ active: document.querySelector('.webgl-host')?.dataset.geographicWorkspaceActive,
+      workspaceCount: document.querySelectorAll('[data-case-workspace]').length, data: probe.readLifecycle() }); } },
   });
 }
 export function caseLifecycleObservationInitSource() {
-  return `(${installCaseLifecycleObservation.toString()})(${compactLifecycleObservation.toString()});`;
+  return `(${installCaseLifecycleObservation.toString()})(${compactLifecycleObservation.toString()}, ${serializeLifecycleValue.toString()});`;
 }

@@ -361,7 +361,7 @@ export function selectCaseGraphicsFixtures(files) {
 const lifecycleObservationPages = new WeakSet();
 const fullProbe = page => page.evaluate(() => window.__caseGraphicsProbe.read());
 const probe = page => lifecycleObservationPages.has(page)
-  ? page.evaluate(() => window.__caseGraphicsProbe.readLifecycle()) : fullProbe(page);
+  ? page.evaluate(() => window.__caseGraphicsProbe.readLifecycleJSON()).then(JSON.parse) : fullProbe(page);
 const configure = (page, options) => page.evaluate(options => window.__caseGraphicsProbe.configure(options), options);
 const frames = (page, count = 8) => page.evaluate(count => window.__caseGraphicsProbe.frames(count), count);
 const geography = page => page.locator('.webgl-host').evaluate(element => Object.fromEntries(['centerLng','centerLat','zoom','pitch','bearing','selectedEdge'].map(key => [key, element.dataset[key] ?? null])));
@@ -380,8 +380,10 @@ export function assertCapturedGeographicPose(observation, opening, message) {
 }
 const activeLeaseBaselines = new WeakMap();
 const retiredLeaseBaselines = new WeakMap();
-const leaseSnapshot = page => page.evaluate(compact => ({ active: document.querySelector('.webgl-host')?.dataset.geographicWorkspaceActive,
-  workspaceCount: document.querySelectorAll('[data-case-workspace]').length, data: compact ? window.__caseGraphicsProbe.readLifecycle() : window.__caseGraphicsProbe.read() }), lifecycleObservationPages.has(page));
+const leaseSnapshot = page => lifecycleObservationPages.has(page)
+  ? page.evaluate(() => window.__caseGraphicsProbe.readLeaseLifecycleJSON()).then(JSON.parse)
+  : page.evaluate(() => ({ active: document.querySelector('.webgl-host')?.dataset.geographicWorkspaceActive,
+    workspaceCount: document.querySelectorAll('[data-case-workspace]').length, data: window.__caseGraphicsProbe.read() }));
 export function liveGraphicsIdentity(data) {
   const context = data.contexts.at(-1), renderer = data.renderers.find(row => row.contextId === context?.id);
   assert.ok(context && renderer, 'Current observed geographic graphics identity is missing');
