@@ -14,6 +14,7 @@ if (process.env.GITHUB_ACTIONS !== 'true' || process.env.SPATIAL_RELEASE_REVIEW 
 }
 // Deliberately import the browser runtime only after the CI-only authorization guard.
 const { chromium } = await import('playwright');
+const { runFeltReview } = await import('./spatial-release-felt.browser.mjs');
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 execFileSync(process.execPath, [join(root, 'scripts/spatial-release-validate.mjs'), '--verify-combined'], { cwd: root, stdio: 'inherit' });
 const dist = await realpath(join(root, 'dist'));
@@ -889,13 +890,15 @@ try {
     }
     result.notes=['Two original partner rows retain complete citations and legal-identity/currentness limits. The original energy claim uses qualified fiscal-year prose, retaining its reported amount. Served and offline global readers suppress the unsupported upstream amount and endpoints; immutable source datasets stay exact.'];
   });
+  // Separate additive evidence; the original eight scenarios stay unchanged.
+  report.feltUI = await runFeltReview({ browser, root, dist, output, origin, base });
 } catch (error) {
   report.error = error.stack ?? error.message;
 } finally {
   await browser?.close().catch(() => {});
   if (server) await new Promise(resolveClosed => server.close(resolveClosed));
   report.finishedAt = new Date().toISOString();
-  report.status = !report.error && report.scenarios.length === 8 && report.scenarios.every(result => result.status === 'passed') ? 'passed' : 'failed';
+  report.status = !report.error && report.scenarios.length === 8 && report.scenarios.every(result => result.status === 'passed') && report.feltUI?.status === 'passed' ? 'passed' : 'failed';
   await writeFile(join(output, 'report.json'), `${JSON.stringify(report, null, 2)}\n`);
   const lines = [
     '# Combined spatial release review', '', `Status: **${report.status}**`,
@@ -903,6 +906,7 @@ try {
     `Research activity as of: ${report.activity.asOf}; ${report.activity.taskCount} tasks; ${report.activity.milestoneCount} milestones. All five static runtime files require source/build/browser hash parity.`,
     'Clock-fixture screenshots change only the isolated test clock. Public-PR navigation uses an intercepted CI fixture; no live GitHub availability or worker activity is certified.', '',
     ...report.scenarios.map(result => `- ${result.status}: ${result.name} (${result.screenshots.length} screenshots)`), '',
+    `Additive felt UI: ${report.feltUI?.status ?? 'not run'}; see felt-ui/summary.md and felt-ui/artifacts.json.`,
     report.error ? `Setup failure: ${report.error}` : '', report.scope,
   ];
   await writeFile(join(output, 'summary.md'), `${lines.filter(line => line !== undefined).join('\n')}\n`);

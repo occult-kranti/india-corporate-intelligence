@@ -3,3 +3,26 @@
 .source{overflow-wrap:anywhere}.ledger-item{min-width:0}.ledger-item h3{overflow-wrap:anywhere}
 
 .connected-research{display:flex;flex-wrap:wrap;gap:12px 24px;padding:14px 5%;border-bottom:1px solid #ccc;font-size:14px}.connected-research a{color:inherit;text-underline-offset:4px}
+
+/* Shared felt host. Evidence, filters and research prose retain opaque paper. */
+:root{
+  --felt:#0a241c;
+  --felt-elevated:#0f3023;
+  --felt-text:#f2eddc;
+  --felt-muted:#b9c9b9;
+  --felt-accent:#e1c58e;
+  --felt-line:#7d9b89;
+}
+body{background:var(--felt)}
+header,.section-nav,.connected-research,.intro,footer{
+  --ink:var(--felt-text);
+  --muted:var(--felt-muted);
+  --teal:var(--felt-accent);
+  --line:var(--felt-line);
+  color:var(--ink);
+}
+.section-nav a,.connected-research a{color:inherit}
+.connected-research{border-color:var(--line)}
+.finance-scope,.media-scope{--muted:var(--felt-muted)}
+#filters,.workspace,.ledger,.principles,#loading,#error{background:var(--paper)}
+#geo-view{background:var(--felt-elevated)}
