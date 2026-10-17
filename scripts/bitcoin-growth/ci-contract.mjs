@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {readFileSync,lstatSync,readdirSync} from 'node:fs';
 import {join} from 'node:path';
 import {hash,expectedPaths} from './served-integrity.mjs';
-export const RELEASE_SHA='789fbc25d98709a29b093b7312c49c7db79e321163066278a434e8554679de29';
+export const RELEASE_SHA='1b6ccf1df0060ce191b6c52497b5802b77fd1072d84a907bfbc271c26f80e528';
 export const FROZEN_PACKAGE_SHA='5189ff45604402c95e4ccbf09a412d2400c47cf191a832f4f1570ebad3085bd2';
 export const PLAYWRIGHT_VERSION='1.62.1';
 export const ARTIFACTS=['browser-flow-result.json','desktop-initial.png','mobile-initial.png'];

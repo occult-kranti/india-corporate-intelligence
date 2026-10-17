@@ -20,6 +20,23 @@ function drawer(title,html,trigger=document.activeElement){
   $('close-drawer').focus();
 }
 function closeDrawer(){if($('source-drawer').open)$('source-drawer').close();}
+function trapDrawerTab(event){
+  const modal=$('source-drawer');
+  if(!modal.open||event.key!=='Tab'||event.altKey||event.ctrlKey||event.metaKey)return;
+  // Native modality keeps the background inert. Explicit endpoint wrapping also
+  // keeps sequential focus inside the document's modal rather than browser chrome.
+  const stops=[...modal.querySelectorAll('a[href],button,input,select,textarea,summary,[tabindex]')].filter(el=>
+    el.tabIndex>=0&&!el.matches(':disabled')&&!el.closest('[hidden],[inert]')&&el.getClientRects().length>0&&getComputedStyle(el).visibility!=='hidden');
+  const index=stops.indexOf(document.activeElement);
+  if(!stops.length){event.preventDefault();$('close-drawer').focus();return;}
+  if(event.shiftKey?index<=0:index<0||index===stops.length-1){
+    event.preventDefault();stops[event.shiftKey?stops.length-1:0].focus();
+  }
+}
+function containDrawerFocus(event){
+  const modal=$('source-drawer');
+  if(modal.open&&!modal.contains(event.target))$('close-drawer').focus();
+}
 function sourceHTML(s){return `<section class="source-item"><h3>${h(s.title)}</h3><p>${link(s.url,'Open original source')}</p><dl><dt>Source ID / kind</dt><dd>${h(s.id)} · ${h(words(s.source_kind))}</dd><dt>Document date</dt><dd>${h(s.document_or_publication_date||'Not established; do not substitute the event date')}</dd><dt>Exact locator</dt><dd>${h(s.locator||'Not supplied')}</dd><dt>Retrieved</dt><dd>${h(s.retrieved_at||s.retrieved_date)}</dd><dt>Reading coverage</dt><dd>${h(s.reading_coverage)}</dd></dl>${s.sha256?`<details><summary>Retained-source checksum</summary><p>${h(s.sha256)}</p></details>`:''}<p class="fine">The original is linked. No archival copy is served in this board. Source support is distinct from independent verification of the underlying event.</p></section>`;}
 function openSource(id){const s=sourceById(id);if(s)drawer(s.title,sourceHTML(s)+`<p class="mini-provenance">${h(provenance())}</p>`);}
 function openMethods(){drawer('How to read this atlas',`<h3>Two different kinds of evidence</h3><p>The map shows selected dated jurisdiction and institutional contexts. The charts show global Bitcoin measures. No country-level adoption, mining share, reachable-node series or wallet-to-person location was acquired.</p><h3>Review boundary</h3><p>${data.events.length} historical records, all ${data.nodes.length} reviewed node records and ${data.edges.length} typed relationships passed a source-first local review with their qualifications. Nine stronger inferences remain held outside the display. Review establishes narrow source support, not a full audit of underlying events.</p><ul>${data.limits.map(x=>`<li>${h(x)}</li>`).join('')}</ul><h3>Metric coverage & missingness</h3><p>${data.coverage.daily_rows.toLocaleString()} daily rows; ${data.coverage.monthly_rows} derived monthly observations. Coverage ${data.coverage.start} through ${data.coverage.end} UTC. No missing calendar dates; hash rate is null for the first six days (January 3–8, 2009), never zero-filled. January 2009 and October 2026 are partial months.</p><p>The provider reports zero supply on genesis day; this is retained in the source and not silently “repaired.” Monthly supply is the last daily observation. No historical user census is inferred.</p><p>Arithmetic was independently reconciled with the retained provider payload. Acquisition timing and the blockchain were not independently reconstructed.</p><h3>License & transformations</h3><p>${h(data.license.author)} Community Data. ${link(data.license.url,data.license.name)}. ${link(data.license.source_url,'Pinned source query')}.</p><p>${h(data.license.changes)}</p><p>${h(data.usage)} No provider endorsement is implied.</p><p class="mini-provenance">${h(provenance())}</p>`);}
@@ -88,6 +105,7 @@ async function init(){
   $('open-methods').addEventListener('click',openMethods);$('metric-source').addEventListener('click',openMetricSources);
   $('geography-source').addEventListener('click',()=>{const s=geography.sources[0];drawer('Geography provenance',`<p>${h(s.title)}. ${link(s.url,'Original dataset')} · ${link(s.licenseUrl,s.license)}.</p><p>Retained geometry retrieved ${h(s.retrievedAt)}. ${h(geography.transformation)}</p><ul>${s.limitations.map(l=>`<li>${h(l)}</li>`).join('')}</ul><p>Display uses equirectangular projection, not the Mercator option discussed in the upstream reuse notes. Current generalized boundaries are background context, not a reconstruction of historical borders.</p><p>No invented point coordinates, wallet locations, person origins or geographic relationship edges are rendered.</p><p class="mini-provenance">${h(provenance())}</p>`);});
   $('close-drawer').addEventListener('click',closeDrawer);$('source-drawer').addEventListener('close',()=>{if(lastTrigger?.isConnected)lastTrigger.focus();});
+  document.addEventListener('keydown',trapDrawerTab);document.addEventListener('focusin',containDrawerFocus);
   $('month').addEventListener('input',e=>updateMonth(monthFromIndex(Number(e.target.value))));
   $('latest').addEventListener('click',()=>updateMonth(monthKey(data.coverage.end)));
   $('include-context').addEventListener('change',e=>{closeDrawer();state.context=e.target.checked;state.country=null;if(!visibleEvents(data,state).some(e=>e.id===state.selected))state.selected=null;render();});
