@@ -11,7 +11,7 @@ import { runInNewContext } from 'node:vm';
 import { build } from 'esbuild';
 import { deflateSync, gunzipSync } from 'node:zlib';
 import { ATLAS_EDGE, CASE_EDGE, CROSSING_CENTER, REQUIRED_ZOOMS, BASELINE_COMMIT,
-  requireAuthorizedCI, parseMode, mercator, panDelta, clipSegment, assertRasterEvidence, recordCheck,
+  requireAuthorizedCI, parseMode, mercator, panDelta, clipSegment, assertRasterEvidence, recordCheck, resolveCaseSourceOpener,
   installThreadZoomProbe, dragOffsets, findClearGesture, navigationSnapshot, atlasCenterReached, ATLAS_CENTER_ERROR_PX,
   analyzePathRaster, assertPathEvidence, assertExactSourceLinks, decodeScreenshotPng, loadAtlasSourceReference, writeRasterReport,
   ATLAS_COINCIDENT_ORIGINALS, matchCoincidentOriginalPath, traceAtlasContributions, hasFreshSettledFrame } from './thread-zoom-browser.mjs';
@@ -294,9 +294,95 @@ test('source access requires exact IDs and usable URLs, not an unrelated HTTPS a
   const expected=[{sourceId:'selected-source',href:'https://source.example/original.pdf'}];
   assert.doesNotThrow(()=>assertExactSourceLinks(expected,expected,'selected'));
   for(const actual of [[],[{sourceId:'other-source',href:expected[0].href}],[{sourceId:'selected-source',href:null}],[{sourceId:'selected-source',href:'https://unrelated.example/'}]])assert.throws(()=>assertExactSourceLinks(actual,expected,'selected'));
-  assert.match(source,/Source trail/);assert.match(source,/article\[data-claim-id=/);assert.match(source,/Inspect selected claim/);
+  assert.match(source,/Source trail/);assert.match(source,/article\[data-claim-id=/);assert.match(source,/Inspect source and full claim/);assert.match(source,/ocd-selected-summary\[data-selected-claim-id=/);
   assert.doesNotMatch(source,/workspace-evidence.*a\[href\^=/);
 });
+// Mechanical Locator contract only: this does not simulate native DOM focus,
+// click delivery, layout, accessibility names, or dialog modality.
+function sourceOpenerFixture(layout,changes={}) {
+  const file={id:'case:india-ambani',label:'Mukesh Ambani'},edge={id:CASE_EDGE,claimId:'claim:1',role:'Original retained role'},
+    claim={claimId:'claim:1',number:1,proposedLabel:'Original retained claim'};
+  const nodes={
+    workspace:{attrs:{'data-case-id':file.id,'data-case-selection':edge.id}},rail:{},evidence:{},article:{},role:{},
+    selected:{attrs:{'aria-pressed':'true'}},summaries:{count:layout==='summary'?1:0},legacy:{count:layout==='legacy'?1:0},
+    summary:{attrs:{'data-selected-edge-id':edge.id}},context:{count:0},heading:{text:file.label},sourceHeading:{text:'Source evidence'},
+    opener:{text:layout==='summary'?`Inspect source and full claim ${claim.number}`:`Inspect selected claim ${claim.number}: ${claim.proposedLabel}`},
+  };
+  for(const [id,value]of Object.entries(changes))nodes[id]={...nodes[id],...value};
+  const routes=new Map([
+    ['page|[data-case-workspace]','workspace'],['workspace|[data-reader-scroll="workspace-evidence"]','rail'],
+    ['rail|:scope > section.ocv2-evidence','evidence'],
+    [`evidence|:scope > section > article[data-claim-id=${JSON.stringify(claim.claimId)}]`,'article'],
+    [`article|:scope > ul > li[data-edge-id=${JSON.stringify(edge.id)}]`,'role'],
+    [`role|button|Select relation: ${edge.role}|true`,'selected'],
+    ['rail|.ocd-selected-summary','summaries'],['rail|:scope > section.cw-sources[aria-label="Source dialog controls"]','legacy'],
+    [`evidence|:scope > .ocd-selected-summary[data-selected-claim-id=${JSON.stringify(claim.claimId)}]`,'summary'],
+    ['summary|:scope > .ocd-selected-source > button[type="button"][aria-haspopup="dialog"]','opener'],
+    ['evidence|:scope > header.ocv2-case-context','context'],['evidence|:scope > h2','heading'],['legacy|:scope > h2','sourceHeading'],
+    ['legacy|:scope > button[type="button"][aria-haspopup="dialog"]','opener'],
+  ]);
+  const queries=[];
+  function locate(key){queries.push(key);assert.ok(routes.has(key),`Unexpected nonstructural selector: ${key}`);return locator(routes.get(key));}
+  function locator(id){return {
+    locator:selector=>locate(`${id}|${selector}`),getByRole:(role,{name,exact})=>locate(`${id}|${role}|${name}|${exact}`),
+    count:async()=>nodes[id]?.count??1,getAttribute:async name=>nodes[id]?.attrs?.[name]??null,
+    textContent:async()=>nodes[id]?.text??'',isVisible:async()=>nodes[id]?.visible??true,isEnabled:async()=>nodes[id]?.enabled??true,
+  };}
+  return {page:locator('page'),file,edge,claim,queries};
+}
+async function resolveFixture(fixture){return resolveCaseSourceOpener(fixture.page,fixture.file,fixture.edge,fixture.claim);}
+
+test('both retained source-opener layouts resolve from exact actual structure without a mode flag',async()=>{
+  for(const [shape,contract]of [['summary','selected-summary-v1'],['legacy','host-selected-claim-v1']]) {
+    const fixture=sourceOpenerFixture(shape),result=await resolveFixture(fixture);
+    assert.equal(result.layout,contract);assert.equal(await result.opener.count(),1);
+    assert.ok(fixture.queries.includes(`article|:scope > ul > li[data-edge-id=${JSON.stringify(CASE_EDGE)}]`));
+  }
+  assert.doesNotMatch(resolveCaseSourceOpener.toString(),/diagnostic|BASELINE_COMMIT|report\.mode|process\.env|catch\s*\(|\.first\(|\.nth\(|\.focus\(|\.click\(/);
+});
+
+test('missing, duplicate and mixed source layouts cannot fall through to a convenient opener',async()=>{
+  for(const [shape,changes]of [
+    ['summary',{summaries:{count:0}}],['summary',{summaries:{count:2}}],['summary',{legacy:{count:1}}],
+    ['summary',{summary:{count:0}}],['summary',{summary:{count:2}}],
+    ['legacy',{legacy:{count:0}}],['legacy',{legacy:{count:2}}],['legacy',{context:{count:1}}],
+    ['legacy',{heading:{count:0}}],['legacy',{heading:{text:'Another case'}}],
+    ['legacy',{sourceHeading:{count:2}}],['legacy',{sourceHeading:{text:'Unrelated controls'}}],
+  ])await assert.rejects(()=>resolveFixture(sourceOpenerFixture(shape,changes)));
+});
+
+test('source-opener negotiation rejects wrong case, claim, exact role and selection in both layouts',async()=>{
+  for(const shape of ['summary','legacy'])for(const changes of [
+    {workspace:{count:0}},{workspace:{count:2}},{workspace:{attrs:{'data-case-id':'another-case','data-case-selection':CASE_EDGE}}},
+    {workspace:{attrs:{'data-case-id':'case:india-ambani','data-case-selection':'another-role'}}},
+    {rail:{count:2}},{evidence:{count:0}},{article:{count:0}},{article:{count:2}},
+    {role:{count:0}},{role:{count:2}},{selected:{count:2}},{selected:{attrs:{'aria-pressed':'false'}}},
+  ])await assert.rejects(()=>resolveFixture(sourceOpenerFixture(shape,changes)));
+  await assert.rejects(()=>resolveFixture(sourceOpenerFixture('summary',{summary:{attrs:{'data-selected-edge-id':'another-role'}}})));
+  const wrongClaim=sourceOpenerFixture('legacy');wrongClaim.edge.claimId='another-claim';await assert.rejects(()=>resolveFixture(wrongClaim));
+});
+
+test('source-opener negotiation rejects missing, ambiguous, hidden, disabled and mislabeled buttons',async()=>{
+  for(const shape of ['summary','legacy'])for(const changes of [
+    {opener:{count:0}},{opener:{count:2}},{opener:{visible:false}},{opener:{enabled:false}},
+    {opener:{text:'Inspect source and full claim 2'}},{opener:{text:'Claim 1: Original retained claim'}},
+  ])await assert.rejects(()=>resolveFixture(sourceOpenerFixture(shape,changes)));
+});
+
+test('both layouts share actual click, retained DOM opener, Close, Enter reopen and Escape assertions',()=>{
+  const flow=source.slice(source.indexOf('async function inspectCaseSources('),source.indexOf('async function runCase('));
+  assert.match(flow,/resolveCaseSourceOpener\(page,file,edge,claim\)/);
+  assert.match(flow,/const retainedOpener=await opener\.elementHandle\(\)/);
+  assert.match(flow,/await opener\.click\(\)/);
+  assert.match(flow,/name:'Close sources',exact:true/);
+  assert.match(flow,/await page\.keyboard\.press\('Enter'\)/);
+  assert.match(flow,/await page\.keyboard\.press\('Escape'\)/);
+  assert.equal((flow.match(/element\.isConnected&&document\.activeElement===element/g)||[]).length,2);
+  assert.equal((flow.match(/getAttribute\('data-case-selection'\),edge\.id/g)||[]).length,2);
+  assert.match(flow,/Reopened exact selected claim source dialog/);
+  assert.doesNotMatch(flow,/diagnostic|report\.mode|BASELINE_COMMIT|\.focus\(|dispatchEvent|force\s*:/);
+});
+
 test('PNG screenshot decoder preserves RGB/RGBA pixels and every standard filter',()=>{
   const chunk=(name,data)=>{const result=Buffer.alloc(12+data.length);result.writeUInt32BE(data.length);result.write(name,4);data.copy(result,8);return result;};
   for(const channels of [3,4]) {

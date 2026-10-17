@@ -11,7 +11,12 @@ test('exact research-jurisdiction label and no-inference qualification remain or
   const c=new CaseController(f,true);c.dispatch({type:'set-view',view},0);c.dispatch({type:'camera',patch:{zoom}},1);const html=render(f,c.model,c.state);
   const paragraph=`<p>Research jurisdiction: ${escape(f.researchJurisdiction.label)}. ${escape(f.researchJurisdiction.qualification)}</p>`;
   assert.ok(html.includes(paragraph),`${f.id}/${view}/${zoom}`);assert.equal(html.split(paragraph).length-1,1);
-  const index=html.indexOf(paragraph);assert.ok(index>html.indexOf('Case layout · not world locations.'));assert.ok(index<html.indexOf('<ul aria-label="Case qualifications">'));
+  const index=html.indexOf(paragraph),banner=html.indexOf('Case layout · not geographic locations.'),headerEnd=html.indexOf('</header>',banner);
+  assert.ok(banner>=0&&index>banner&&index<headerEnd,`${f.id}: exact expanded jurisdiction stays in banner header`);
+  assert.ok(index<html.indexOf('<details'),`${f.id}: jurisdiction is outside collapsed disclosures`);
+  const qualifications=html.indexOf('<ul aria-label="Case qualifications">');
+  if(f.constraints.length)assert.ok(qualifications>headerEnd,`${f.id}: nonempty qualifications stay after context`);
+  else assert.equal(qualifications,-1,`${f.id}: empty qualification list is omitted`);
   assert.ok(f.researchJurisdiction.qualification.length>0);fixtures++;
  }
  assert.equal(fixtures,114);
@@ -26,7 +31,7 @@ test('all 19 controlled views retain case title, historical/layout warning, juri
  }
 });
 
-test('correction is exactly one verified-field DOM paragraph; all other runtime files, source semantics and Ellison advisory wording remain unchanged',()=>{
+test('exact P1-A presentation sources are pinned; source semantics and Ellison advisory wording remain unchanged',()=>{
  for(const name of Object.keys(pins.runtimeSources).filter(name=>name.startsWith('case-scene/')))assertSourcePin(name);
  const ellison=files.find(f=>f.id==='case:usa-ellison');assert.ok(ellison.sharedBlocks.some(b=>b.qualification?.startsWith('Non-addition safeguard only: differently dated person/trust reports may overlap.')));
 });

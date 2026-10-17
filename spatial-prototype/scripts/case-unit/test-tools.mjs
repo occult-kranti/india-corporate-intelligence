@@ -18,6 +18,35 @@ export const pins=JSON.parse(fs.readFileSync(path.join(fixtures,'accepted-pins.j
 export const hash=value=>createHash('sha256').update(value).digest('hex');
 export const canonical=value=>Array.isArray(value)?'['+value.map(canonical).join(',')+']':value&&typeof value==='object'?'{'+Object.keys(value).sort().map(key=>JSON.stringify(key)+':'+canonical(value[key])).join(',')+'}':JSON.stringify(value);
 export const semanticHash=value=>hash(canonical(value));
+// Separate bounded presentation proposal. Historical acceptance fixtures stay immutable.
+export const P1_PRESENTATION_MANIFEST_SHA256='38cf239f8089ce4d2e8fcdd009b2547938a97146cf68722c0b355c81e389a53b';
+const presentationBytes=fs.readFileSync(path.join(fixtures,'p1-a-presentation-manifest.json'));
+assert.equal(hash(presentationBytes),P1_PRESENTATION_MANIFEST_SHA256,'Exact P1-A presentation manifest');
+export const p1Presentation=JSON.parse(presentationBytes);
+export const P1_PRESENTATION_PATHS=Object.freeze(["case-data/CaseDiagramPanel.tsx", "case-data/case-diagrams.css", "case-scene/CaseSceneEvidence.tsx", "case-scene/scene-evidence.css", "profile-host/CaseWorkspace.tsx"]);
+export function assertP1PresentationManifest(manifest=p1Presentation){
+ assert.equal(manifest.schemaVersion,1);
+ assert.equal(manifest.status,'local P1-A presentation contract proposal; native and release acceptance pending');
+ assert.equal(manifest.comparisonBaseCommit,'35267ec9611cc18a913298e10da4b05964616ef9');
+ for(const [filename,key] of [['accepted-pins.json','acceptedPinsSha256'],['accepted-baseline-sizes.json','acceptedBaselineSizesSha256'],['selected-rail-base-pins.json','sourceBodyBaselineFixtureSha256']])
+  assert.equal(hash(fs.readFileSync(path.join(fixtures,filename))),manifest[key],`${filename}: original fixture changed`);
+ assert.deepEqual(manifest.productionSources.map(row=>row.relative),P1_PRESENTATION_PATHS,'Exact five production presentation paths');
+ for(const row of manifest.productionSources){
+  if(Object.hasOwn(pins.runtimeSources,row.relative))assert.equal(row.baselineSha256,pins.runtimeSources[row.relative],row.relative);
+  for(const key of ['baselineSha256','candidateSha256'])assert.match(row[key],/^[a-f0-9]{64}$/);
+  assert.notEqual(row.baselineSha256,row.candidateSha256,row.relative);
+ }
+ const original=Object.entries(pins.transitions).flatMap(([caseId,entry])=>entry.steps.map((step,actionIndex)=>({caseId,actionIndex,action:step.action,stateSha256:step.stateSha256,baselineDomSha256:step.domSha256})));
+ assert.equal(manifest.transitions.length,348,'Exact original transition inventory');
+ assert.deepEqual(manifest.transitions.map(({candidateDomSha256,...old})=>old),original,'Original action index, action, state and DOM pins must remain exact');
+ for(const row of manifest.transitions)assert.match(row.candidateDomSha256,/^[a-f0-9]{64}$/);
+}
+assertP1PresentationManifest();
+export function p1DomPin(caseId,actionIndex){
+ const matches=p1Presentation.transitions.filter(row=>row.caseId===caseId&&row.actionIndex===actionIndex);
+ assert.equal(matches.length,1,`${caseId}/${actionIndex}: exact presentation transition`);
+ return matches[0].candidateDomSha256;
+}
 export const build=options=>esbuild.build({absWorkingDir:host,...options,nodePaths:[path.join(host,'node_modules')],logLevel:'silent'});
 export function assertSourcePin(relative){
   let source=fs.readFileSync(path.join(host,'src',relative),'utf8');
@@ -25,7 +54,9 @@ export function assertSourcePin(relative){
     assert.match(source,/^import reviewedTransport from '\.\/runtime-transport';/);
     source=source.replace("import reviewedTransport from './runtime-transport';","import reviewedTransport from './reviewed-transport.json';");
   }
-  assert.equal(hash(source),pins.runtimeSources[relative],relative);
+  const proposal=p1Presentation.productionSources.find(row=>row.relative===relative);
+  assert.ok(proposal||Object.hasOwn(pins.runtimeSources,relative),`${relative}: unpinned source`);
+  assert.equal(hash(source),proposal?.candidateSha256??pins.runtimeSources[relative],relative);
 }
 export function helpers(targetName){
  const dir=path.join(host,'src',targetName),runtime=dir;

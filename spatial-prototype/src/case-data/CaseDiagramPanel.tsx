@@ -38,6 +38,48 @@ function V2VisibleGuards({file,claim}:{file:CaseFile;claim:CaseClaim}) {
     {claim.v2.recursiveDependencyClaimIds.map(id=>{const dep=file.claims.find(c=>c.claimId===id)!;return <div key={id} className="ocd-mandatory"><p><strong>Required context {dep.number}:</strong> {dep.proposedLabel}. {dep.dateLabel}</p>{dep.v2&&Object.keys(dep.v2.flags).length>0&&<DetailFields fields={dep.v2.flags}/>}<p>The complete context is included in Inspect sources and full claim.</p></div>;})}
   </div>;
 }
+/** Selected-first context. The complete evidence body below remains byte-for-byte
+ * rendered evidence; this summary does not reinterpret dates, statuses or identities. */
+export function SelectedCaseEvidence({file,claim,edge,onInspectSource}:{
+  file:CaseFile;claim:CaseClaim;edge?:CaseEdge;onInspectSource?:(claimId:string)=>void;
+}) {
+  const from=edge?file.nodes.find(node=>node.id===edge.from):undefined;
+  const to=edge?file.nodes.find(node=>node.id===edge.to):undefined;
+  const sources=[...new Set(claim.sourceIds)].map(id=>file.sources.find(source=>source.id===id)!);
+  const publishers=[...new Set(sources.map(source=>source.publisher))];
+  return <section className="ocd-selected-summary" aria-label={edge?'Selected relation':'Selected reader-only fact'}
+    data-selected-claim-id={claim.claimId} data-selected-edge-id={edge?.id}>
+    <p className="ocd-selected-kind">{edge?'Selected relation':'Selected reader-only fact · no relationship arrow'} · Claim {claim.number}</p>
+    <h3>{edge?.role??claim.proposedLabel}</h3>
+    {from&&to&&<p className="ocd-selected-endpoints"><strong>{from.label} → {to.label}</strong></p>}
+    <p><strong>Source-attributed statement:</strong> {claim.statement}</p>
+    <p><strong>Date:</strong> {claim.dateLabel}<br/><strong>Date basis:</strong> {valueText(claim.dates.dateBasis??null)}
+      {edge?.v2&&edge.v2.dateLabel!==claim.dateLabel&&<><br/><strong>This role's date:</strong> {edge.v2.dateLabel}</>}
+    </p>
+    <p><strong>Source-reported status:</strong> {words(claim.financialStage)}{edge&&<><br/><strong>Relation type:</strong> {THREAD_STYLES[edge.kind].label}</>}</p>
+    <p className="ocd-mandatory"><strong>Required qualification:</strong> {claim.alwaysVisibleQualification}</p>
+    <div className="ocd-selected-source">
+      <p><strong>Sources:</strong> {publishers.join(' · ')}<br/>{sources.length} source{sources.length===1?'':'s'} · {publishers.length} distinct publisher{publishers.length===1?'':'s'}</p>
+      {onInspectSource&&<button type="button" aria-haspopup="dialog" onClick={()=>onInspectSource(claim.claimId)}>Inspect source and full claim {claim.number}</button>}
+    </div>
+    <div className="ocd-selected-qualifications" aria-label="Selected statement qualifications">
+      <p><strong>Capacity / directness:</strong> {claim.capacityAndDirectness}<br/><strong>Direction means:</strong> {claim.directionMeaning}</p>
+      <p className="ocd-mandatory"><strong>Boundary:</strong> {claim.mandatoryBoundary}</p>
+      {from&&to&&<ul aria-label="Endpoint identity scope"><li><strong>From:</strong> {from.qualification}</li><li><strong>To:</strong> {to.qualification}</li></ul>}
+      {edge?.v2&&<><p><strong>Exact predicate:</strong> {words(edge.v2.predicate)}<br/><strong>This role's capacity:</strong> {edge.v2.capacity}<br/><strong>This role's financial stage:</strong> {words(edge.v2.financialStage)}</p>
+        {edge.v2.alwaysVisibleQualification!==claim.alwaysVisibleQualification&&<p className="ocd-mandatory"><strong>This role's qualification:</strong> {edge.v2.alwaysVisibleQualification}</p>}
+        {edge.v2.amount!==null&&<p><strong>Source-qualified role amount:</strong> {valueText(edge.v2.amount)}</p>}</>}
+      <V2VisibleGuards file={file} claim={claim}/>
+      {claim.sharedBlockId&&<p className="ocd-mandatory">Shared block: {claim.sharedBlockId}. Non-additive; roles and spokes do not create extra holdings, transfers or individual allocations.</p>}
+      <ul aria-label="Claim qualifications and exclusions">{claim.qualifications.map((text,i)=><li key={i}>{text}</li>)}{claim.exclusions.map((item,i)=><li key={`x${i}`}>{item.statement}</li>)}</ul>
+      {file.constraints.length>0&&<ul aria-label="Case-wide source limits for this statement">{file.constraints.map((text,i)=><li key={i}>{text}</li>)}</ul>}
+      {claim.reviewLimitations.length>0&&<ul aria-label="Retained-source review limits">{claim.reviewLimitations.map((text,i)=><li key={i}>{text}</li>)}</ul>}
+      {sources.some(source=>source.exclusions.length>0)&&<ul aria-label="Source exclusions">{sources.flatMap(source=>source.exclusions.map((item,i)=><li key={`${source.id}:${i}`}>{source.publisher}: {item.statement}</li>))}</ul>}
+      <p className="ocd-attribution"><strong>Locator:</strong> {claim.reviewedSourceLocator}</p>
+      <p>{CASE_WARNING}</p>
+    </div>
+  </section>;
+}
 function RelationCard({file,edge,selectedNodeId,selectedEdgeId,onAction,onEvidence,mode}:{file:CaseFile;edge:CaseEdge;selectedNodeId:string|null;selectedEdgeId:string|null;onAction:(a:CaseAction)=>void;onEvidence:(c:CaseClaim)=>void;mode:'diagram'|'list'}) {
   const claim=file.claims.find(c=>c.claimId===edge.claimId)!;
   const from=file.nodes.find(n=>n.id===edge.from)!;const to=file.nodes.find(n=>n.id===edge.to)!;
@@ -120,22 +162,23 @@ function ValidCaseDiagram({caseFile:file,initialView='diagram',onClose,returnFoc
   const card=(edge:CaseEdge,mode:'diagram'|'list')=><RelationCard key={edge.id} file={file} edge={edge} selectedNodeId={state.nodeId} selectedEdgeId={state.edgeId} onAction={act} onEvidence={showEvidence} mode={mode}/>;
   return <article className="ocd-panel" aria-labelledby={titleId} data-case-id={file.id} data-public-graph-eligible="false" data-path-eligible="false" data-aggregate-eligible="false" onKeyDown={e=>{if(e.key==='Escape'&&!modalClaim&&onClose){e.stopPropagation();onClose();returnFocusRef?.current?.focus();}}}>
     <header className="ocd-header"><div><p className="ocd-eyebrow">Case diagram · source-qualified historical statements</p><h2 id={titleId}>{file.label}</h2></div>{onClose&&<button type="button" onClick={()=>{onClose();returnFocusRef?.current?.focus();}}>Close case</button>}</header>
+    <p className="ocd-layout-banner"><strong>Case layout · not geographic locations.</strong></p>
+    <section className="ocd-selected-detail" aria-labelledby={detailId}><h3 id={detailId} ref={detailHeading} tabIndex={-1}>Selected detail</h3>
+      {selectedNode?<><h4>{selectedNode.label}</h4><p>{words(selectedNode.kind)}. {selectedNode.qualification}</p><p>No canonical registry identity or location assigned.</p><ul>{selectedNode.claimIds.map(id=>{const claim=file.claims.find(c=>c.claimId===id)!;return <li key={id}><button type="button" onClick={()=>showEvidence(claim)} aria-haspopup="dialog">Inspect claim {claim.number}: {claim.proposedLabel}</button></li>;})}</ul></>:selectedClaim?<><SelectedCaseEvidence file={file} claim={selectedClaim} edge={selectedEdge} onInspectSource={id=>showEvidence(file.claims.find(claim=>claim.claimId===id)!)}/><details className="ocd-disclosure"><summary>Full selected claim, date fields and source records</summary><ClaimEvidence file={file} claim={selectedClaim}/></details></>:<p>Select a node or a relation to inspect its source-bound detail. No profile-to-company relation is presumed.</p>}
+    </section>
     <p>Research jurisdiction: {file.researchJurisdiction.label}. {file.researchJurisdiction.qualification}</p>
     <p className="ocd-warning">{CASE_WARNING}</p><p className="ocd-warning">Case-local labels only. Global identities, geography and path admission remain blocked. No map location or camera movement is attached to this view.</p>
     {file.constraints.length>0&&<section className="ocd-boundaries" aria-label="Case-wide source limits"><h3>Keep these boundaries in view</h3><ul>{file.constraints.map((v,i)=><li key={i}>{v}</li>)}</ul></section>}
     <nav className="ocd-toolbar" aria-label="Case navigation"><button type="button" disabled={!state.history.length} onClick={()=>act({type:'back'})}>Back</button><button type="button" onClick={()=>act({type:'reset'})}>Reset case</button><a href={`#${detailId}`}>Jump to selected detail</a></nav>
     {file.v2&&<p className="ocd-warning">{file.v2.legacySceneHoldReason}</p>}
     <p className="ocd-counts">{file.claims.length} source claims · {file.claims.filter(c=>c.classCode!=='R').length} drawable claims · {file.readerFactIds.length} reader-only facts. {file.edges.length} explicit spokes; spokes are not additional claims or payments.</p>
-    <section aria-label="Case nodes"><h3>Select a case-local node</h3><ul className="ocd-node-index">{file.nodes.map(n=><li key={n.id}><button type="button" aria-pressed={state.nodeId===n.id} onClick={()=>act({type:'select-node',id:n.id})}>{n.label}</button></li>)}</ul>{!file.nodes.length&&<p>No reviewed relation in this case.</p>}</section>
+    <details className="ocd-disclosure"><summary>All case nodes · select a case-local node</summary><section aria-label="Case nodes"><ul className="ocd-node-index">{file.nodes.map(n=><li key={n.id}><button type="button" aria-pressed={state.nodeId===n.id} onClick={()=>act({type:'select-node',id:n.id})}>{n.label}</button></li>)}</ul>{!file.nodes.length&&<p>No reviewed relation in this case.</p>}</section></details>
     <div className="ocd-toolbar" role="group" aria-label="Relationship view"><button type="button" aria-pressed={view==='diagram'} aria-controls={viewId} onClick={()=>setView('diagram')}>Diagram</button><button type="button" aria-pressed={view==='list'} aria-controls={viewId} onClick={()=>setView('list')}>Full accessible list</button></div>
     <section id={viewId} aria-label={view==='diagram'?'Source-qualified case diagram':'Complete accessible relationship list'}>
       <h3>{view==='diagram'?'Documentary connections':'Full relationship list'}</h3>
       <p>{view==='diagram'?'Strings follow each statement’s direction. Incoming and outgoing neighbors are retained; selection never reverses a predicate. Uniform width has no amount or certainty meaning.':`All ${file.edges.length} explicit spokes, with the same node selection, relation selection, dates, qualifications and source details. This list works without a graphic, WebGL or map tiles.`}</p>
       <ul className={view==='diagram'?'ocd-diagram':'ocd-full-list'}>{(view==='diagram'?visibleEdges:file.edges).map(e=>card(e,view))}</ul>
       {view==='diagram'&&<>{!visibleEdges.length&&<p>No reviewed relation in this case. This does not establish zero ownership.</p>}<p role="status" aria-live="polite">{visibleEdges.length} of {available.length} eligible adjacent spokes shown. {hidden} hidden. Switch to Full accessible list to inspect every reviewed spoke.</p><button type="button" disabled={hidden===0||state.visibleEdgeIds.length>=MAX_REVEAL} onClick={()=>act({type:'reveal-more'})}>Reveal up to 4 more neighbors</button></>}
-    </section>
-    <section className="ocd-selected-detail" aria-labelledby={detailId}><h3 id={detailId} ref={detailHeading} tabIndex={-1}>Selected detail</h3>
-      {selectedNode?<><h4>{selectedNode.label}</h4><p>{words(selectedNode.kind)}. {selectedNode.qualification}</p><p>No canonical registry identity or location assigned.</p><ul>{selectedNode.claimIds.map(id=>{const claim=file.claims.find(c=>c.claimId===id)!;return <li key={id}><button type="button" onClick={()=>showEvidence(claim)} aria-haspopup="dialog">Inspect claim {claim.number}: {claim.proposedLabel}</button></li>;})}</ul></>:selectedClaim?<ClaimEvidence file={file} claim={selectedClaim}/>:<p>Select a node or a relation to inspect its source-bound detail. No profile-to-company relation is presumed.</p>}
     </section>
     <section aria-label="Reader-only source facts"><h3>Reader-only facts</h3><p>These facts do not create nodes, arrows, allocations or payments.</p><ul className="ocd-facts">{file.readerFactIds.map(id=>{const c=file.claims.find(v=>v.claimId===id)!;return <li key={id}><h4>{c.proposedLabel}</h4><p>{c.alwaysVisibleQualification}</p><p>{c.dateLabel}</p><p>{c.mandatoryBoundary}</p><V2VisibleGuards file={file} claim={c}/>{c.exclusions.map((v,i)=><p key={i}>{v.statement}</p>)}<button type="button" onClick={()=>act({type:'select-fact',id})}>Select reader fact {c.number}</button><button type="button" onClick={()=>showEvidence(c)} aria-haspopup="dialog">Inspect fact sources</button></li>;})}</ul>{!file.readerFactIds.length&&<p>No additional reader-only facts in this reviewed case.</p>}</section>
     <dialog className="ocd-evidence-dialog" ref={dialog} aria-labelledby={dialogTitle} onCancel={e=>{e.preventDefault();closeEvidence();}} onClose={()=>{if(dialog.current?.open)return;setModalClaim(null);evidenceFocus.current.restore();}}>

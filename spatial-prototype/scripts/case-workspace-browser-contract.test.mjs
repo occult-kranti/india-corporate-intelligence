@@ -5,7 +5,7 @@ import { readFile, mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { resolve, dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { loadCaseExpectation, normalizedAdapterSource, ACCEPTED_CASE_TRANSPORT_SHA256, CASE_COUNTS } from './case-workspace-browser.mjs';
+import { loadCaseExpectation, normalizedAdapterSource, ACCEPTED_CASE_TRANSPORT_SHA256, CASE_COUNTS, expectedCaseReaderOrder, tabWithinCaseRailTo } from './case-workspace-browser.mjs';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const script = await readFile(join(root, 'scripts/case-workspace-browser.mjs'), 'utf8');
 const workspace = await readFile(join(root, 'src/profile-host/CaseWorkspace.tsx'), 'utf8');
@@ -140,4 +140,80 @@ test('native source keyboard acceptance checks exact retained controls in both d
   assert.match(script, /await page\.keyboard\.press\('Escape'\)/);
   assert.match(workspace, /const scope = dialog\.current\?\.open \? dialog\.current : root\.current/);
   assert.doesNotMatch(workspace, /event\.key === 'Tab' && !dialog\.current\?\.open/);
+});
+
+
+test('native non-first selected role and reader-fact coverage keeps exact reader order and both source opener identities', async () => {
+  const temporary = await mkdtemp(join(tmpdir(), 'case-reader-order-contract-'));
+  try {
+    const { catalog } = await loadCaseExpectation(root, temporary);
+    let selections = 0;
+    for (const file of catalog.cases) {
+      const original = file.claims.map(claim => claim.claimId);
+      assert.deepEqual(expectedCaseReaderOrder(file, ''), original);
+      for (const node of file.nodes) assert.deepEqual(expectedCaseReaderOrder(file, node.id), original);
+      for (const [selection, claimId] of [...file.edges.map(edge => [edge.id, edge.claimId]), ...file.readerFactIds.map(id => [id, id])]) {
+        assert.deepEqual(expectedCaseReaderOrder(file, selection), [claimId, ...original.filter(id => id !== claimId)]); selections++;
+      }
+      assert.throws(() => expectedCaseReaderOrder(file, 'unknown-exact-id'), /unknown exact selection/);
+    }
+    assert.equal(selections, 86);
+  } finally { await rm(temporary, { recursive: true, force: true }); }
+  for (const marker of ['Non-first exact role selection did not arrive', 'Non-first reader-only fact selection did not arrive',
+    'exact selected-first reader order and multiplicity', 'same DOM opener did not regain focus', 'caseReorderedSourceChecks',
+    "['selected-summary', summary]", "['full-article', caseArticle(page, claim.claimId)]", "['close', 'escape']"])
+    assert.ok(script.includes(marker), marker);
+});
+
+test('native source traversal has a finite visible-structure bound and real Tab diagnostics without direct target focus', () => {
+  const helper = tabWithinCaseRailTo.toString();
+  assert.match(helper, /step <= trace\.controls\.length/);
+  assert.match(helper, /await page\.keyboard\.press\('Tab'\)/);
+  assert.match(helper, /current\.inRail && current\.connected/);
+  assert.match(helper, /!seen\.has\(current\.focusedIndex\)/);
+  assert.match(helper, /caseRailTabTraversals/);
+  assert.match(helper, /parent\.tagName === 'DETAILS' && !parent\.open/);
+  assert.doesNotMatch(helper, /\.focus\(|\.click\(|dispatchEvent|scrollIntoView|scrollTop\s*=/);
+  assert.doesNotMatch(script, /step < 4 && !await summary/);
+});
+
+test('native node test opens the exact disclosure ordinarily before clicking visible node, including Enter and Space paths', () => {
+  for (const marker of ['await openCaseNodeIndex(page, file)', 'await summary.click()',
+    'Exact node control must be visible before ordinary selection', 'await exactNodeButton.click()',
+    "[['Enter', true], ['Space', false], ['Space', true]]", 'Closed node controls entered native tab traversal',
+    'Expanded node control is not natively reachable', 'Node identity inspection did not restore disclosure state'])
+    assert.ok(script.includes(marker), marker);
+  assert.doesNotMatch(script, /force:\s*true|setAttribute\(['"]open/);
+});
+
+test('portable traversal mechanics reach the fifteenth stop and reject no-op, escape, hidden-stop and unreachable routes with traces', async () => {
+  // A deterministic helper unit test, not a browser receipt or native-focus proof.
+  const savedDocument=globalThis.document,savedStyle=globalThis.getComputedStyle;
+  async function run(mode) {
+    const rail={tagName:'DIV',textContent:'Rail',getAttribute:()=>null,contains:item=>item===rail||controls.includes(item)},controls=Array.from({length:16},(_,index)=>({
+      tagName:'BUTTON',textContent:`Control ${index+1}`,tabIndex:0,isConnected:true,parentElement:rail,
+      matches:()=>false,closest:()=>null,getClientRects:()=>[{}],getAttribute:()=>null,
+    }));
+    rail.querySelectorAll=()=>controls;
+    globalThis.document={activeElement:rail};
+    globalThis.getComputedStyle=()=>({visibility:'visible',display:'block'});
+    let position=-1,disposed=false;const keys=[];
+    const retained={evaluate:async fn=>fn({rail,controls}),dispose:async()=>{disposed=true;}};
+    const page={locator:()=>({evaluateHandle:async fn=>{assert.deepEqual(fn(rail),{rail,controls});return retained;}}),keyboard:{press:async key=>{
+      keys.push(key);position++;
+      document.activeElement=mode==='no-op'?rail:mode==='escape'?{getAttribute:()=>null}:mode==='hidden'?{parentElement:rail,getAttribute:()=>null}:controls[position];
+      if(mode==='hidden')rail.contains=item=>item===document.activeElement||item===rail||controls.includes(item);
+    }}};
+    const target=mode==='unreachable'?{}:controls[14],result={};
+    try {
+      if(mode==='success'){
+        const trace=await tabWithinCaseRailTo(page,{evaluate:async fn=>fn(target)},result,mode);
+        assert.equal(trace.steps.length,16);assert.equal(keys.length,15);assert.equal(trace.steps.at(-1).focusedIndex,14);
+      }else await assert.rejects(()=>tabWithinCaseRailTo(page,{evaluate:async fn=>fn(target)},result,mode),/Real Tab|not keyboard-reachable/);
+      assert.ok(keys.length<=controls.length);assert.ok(keys.every(key=>key==='Tab'));
+      assert.equal(result.caseRailTabTraversals.length,1);assert.ok(result.caseRailTabTraversals[0].steps.length>=2);
+    } finally {assert.equal(disposed,true);}
+  }
+  try {for(const mode of ['success','no-op','escape','hidden','unreachable'])await run(mode);}
+  finally {if(savedDocument===undefined)delete globalThis.document;else globalThis.document=savedDocument;if(savedStyle===undefined)delete globalThis.getComputedStyle;else globalThis.getComputedStyle=savedStyle;}
 });

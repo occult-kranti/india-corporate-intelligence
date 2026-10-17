@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {STATUSES,GROUPS,GROUP_LABELS,statusGroup,groupCounts,validateSnapshot,safeURL,selectTasks,counts,freshness} from '../../public/research-activity/model.mjs';
-const source=JSON.parse(await readFile(new URL('../../public/research-activity/snapshot.json',import.meta.url),'utf8'));
+const source=JSON.parse(await readFile(new URL('../../public/research-activity/snapshots/2026-10-16T112700Z.json',import.meta.url),'utf8'));
 const mutate=fn=>{const value=structuredClone(source);fn(value);return value;};
 const rejects=fn=>assert.equal(validateSnapshot(mutate(fn)).valid,false);
 test('dated snapshot distinguishes three live releases from pending workspace review',()=>{

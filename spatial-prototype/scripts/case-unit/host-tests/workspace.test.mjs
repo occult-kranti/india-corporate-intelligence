@@ -87,7 +87,7 @@ async function harness(graphics,viewport={width:1280,height:900}){
   const mockPlugin={name:'mock-only-graphics-boundary',setup(build){build.onResolve({filter:/^\.\/attachScene$/},args=>args.importer===source?{path:'attachScene',namespace:'test'}:null);build.onLoad({filter:/.*/,namespace:'test'},()=>({contents:'export const attachCaseScene = options => require("test-attach")(options)',loader:'js'}));}};
   const Component=(await moduleFrom(source,{external:['react','react/jsx-runtime','react-dom','test-attach'],plugins:[mockPlugin]},name=>name==='react'?react:name==='react/jsx-runtime'?{jsx,jsxs:jsx,Fragment:Symbol.for('fragment')}:name==='react-dom'?{flushSync(fn){fn();if(dirty)render();}}:name==='test-attach'?attach:require(name))).default;
   let props={graphics,reducedMotion:false,onClose(){closed++;},onRecreateGraphics(){recreated++;}};
-  function allNodes(){const nodes=[];function visit(node){if(!node||typeof node!=='object')return;if(Array.isArray(node)){node.forEach(visit);return;}if(node.props){nodes.push(node);visit(node.props.children);}}visit(tree);return nodes;}
+  function allNodes(){const nodes=[];function visit(node){if(!node||typeof node!=='object')return;if(Array.isArray(node)){node.forEach(visit);return;}if(node.props){nodes.push(node);if(typeof node.type==='function'){node.rendered??=node.type(node.props);visit(node.rendered);}else visit(node.props.children);}}visit(tree);return nodes;}
   function text(node){if(node==null||typeof node==='boolean')return '';if(Array.isArray(node))return node.map(text).join('');return typeof node==='object'?text(node.props?.children):String(node);}
   function render(){cursor=0;effects=[];dirty=false;tree=Component(props);const activeRefs=new Set();for(const node of allNodes()){if(typeof node.type==='string'){const ref=node.props.ref;if(ref){activeRefs.add(ref);if(!elementByRef.has(ref))elementByRef.set(ref,new Element());ref.current=elementByRef.get(ref);node.element=ref.current;}else node.element=new Element();for(const [key,value]of Object.entries(node.props))if(key.startsWith('data-'))node.element.dataset[key.slice(5).replace(/-([a-z])/g,(_,letter)=>letter.toUpperCase())]=String(value);}}for(const [ref] of elementByRef)if(!activeRefs.has(ref))ref.current=null;for(const effect of effects)effect();}
   async function flush(){for(let i=0;i<20;i++){if(dirty||!tree)render();await Promise.resolve();}assert.equal(dirty,false,'hook harness must settle');}
@@ -119,7 +119,7 @@ test('source dialog and selection survive graphics failure; Escape dismisses sou
     await h.act({type:'set-view',view:'scene'});assert.equal(h.attached,1);
     await h.act({type:'select-edge',id:edge.id});assert.ok(h.evidence().state.motion);
     await h.click('Pause travel');assert.equal(h.evidence().state.motion,null);await h.click('Resume travel');assert.ok(h.evidence().state.motion);
-    await h.click('Inspect selected claim');assert.equal(h.find(node=>'data-case-source-dialog' in node.props).props.ref.current.open,true);
+    await h.click('Inspect source and full claim');assert.equal(h.find(node=>'data-case-source-dialog' in node.props).props.ref.current.open,true);
     h.sessionOptions.onFailure('test failure');await h.flush();assert.equal(h.evidence().state.view,'list');assert.equal(h.evidence().model,original);assert.equal(h.evidence().state.navigation.edgeId,edge.id);assert.equal(h.disposed,1);
     await h.patch({graphics:null});assert.equal(h.find(node=>'data-case-source-dialog' in node.props).props.ref.current.open,true);
     await h.patch({graphics:{isUsable:()=>true,map:graphics.map}});assert.equal(h.find(node=>'data-case-source-dialog' in node.props).props.ref.current.open,true);assert.equal(h.evidence().model,original);
@@ -204,7 +204,7 @@ test('source dialog owns Tab boundaries while interior native navigation is left
   try{
     await h.click(index[0].label);
     await h.act({type:'select-edge',id:h.evidence().caseFile.edges[0].id});
-    const opener=(await h.click('Inspect selected claim')).element;
+    const opener=(await h.click('Inspect source and full claim')).element;
     const dialog=h.find(node=>'data-case-source-dialog' in node.props).props.ref.current;
     const close=h.find(node=>node.type==='button'&&h.text(node)==='Close sources').element;
     const body=h.find(node=>node.props['data-reader-scroll']==='case-evidence').element;
@@ -249,7 +249,7 @@ test('settled missing-label fallback transfers only removed-surface focus and pr
       const camera=h.find(node=>node.type==='button'&&h.text(node)==='Fit case').element;
       surface.closest=()=>({contains:target=>target===surface||target===camera});
       let focused;
-      if(focusOwner==='source-dialog'){await h.click('Inspect selected claim');focused=h.find(node=>node.type==='button'&&h.text(node)==='Close sources').element;focused.focus();}
+      if(focusOwner==='source-dialog'){await h.click('Inspect source and full claim');focused=h.find(node=>node.type==='button'&&h.text(node)==='Close sources').element;focused.focus();}
       else{focused=focusOwner==='surface'?surface:focusOwner==='camera'?camera:focusOwner==='rail'?h.find(node=>node.props['data-reader-scroll']==='workspace-evidence').element:h.find(node=>node.type==='h1').element;focused.focus();}
       await h.paint();await h.paint();
       assert.equal(h.evidence().state.view,'list');assert.equal(h.evidence().state.navigation.edgeId,edge.id);assert.equal(h.disposed,1);
@@ -293,5 +293,24 @@ test('paused travel does not trigger a missing-label fallback and Resume and Clo
     assert.equal(h.find(node=>'data-case-workspace' in node.props).props['data-case-readable-label-report'],undefined);
     await h.click('Resume travel');assert.ok(h.evidence().state.motion);
     await h.click('Close workspace');await h.paint();await h.paint();assert.equal(h.closed,1);assert.equal(h.disposed,1);
+  }finally{h.destroy();}
+});
+
+// P1-A uses the real nested evidence tree in the hook harness. This verifies the
+// host's ordinary source callback and focus return, not native dialog geometry.
+test('selected-rail sources repeatedly return to their exact opener and use the heading when that opener is gone',async()=>{
+  const h=await harness(null);
+  try{
+    await h.click(index[0].label);const edge=h.evidence().caseFile.edges[0];await h.act({type:'select-edge',id:edge.id});
+    const selected=h.evidence().state.navigation.edgeId;
+    for(let attempt=0;attempt<3;attempt++){
+      const opener=(await h.click('Inspect source and full claim')).element;
+      assert.equal(h.find(node=>'data-case-source-dialog' in node.props).props.ref.current.open,true);
+      await h.click('Close sources');assert.equal(document.activeElement,opener,'the exact ordinary opener regains focus');
+      assert.equal(h.evidence().state.navigation.edgeId,selected);assert.equal(h.closed,0);
+    }
+    const opener=(await h.click('Inspect source and full claim')).element;opener.isConnected=false;
+    await h.escape();assert.equal(document.activeElement,h.find(node=>node.type==='h1').element,'removed opener uses the deterministic workspace heading');
+    assert.equal(h.evidence().state.navigation.edgeId,selected);assert.equal(h.attached,0,'source reading requires no graphics');
   }finally{h.destroy();}
 });
