@@ -1,0 +1,12 @@
+{
+  "schema": "baseline-native-focus-successor-v1",
+  "predecessorCommit": "b3d103fbd9b70156dc6207f20af5400a6ea51fb5",
+  "sourcePayloadSha256": "3c1998d85054daac0033cca1803ad7bfaf8f6692db02f14c11851327b117f498",
+  "priorNativeRun": 38993681368,
+  "priorFailure": "Sequential Tab left the source dialog after the second Tab; the old test did not record document focus or its destination.",
+  "repairScope": "Wrap only source-dialog Tab/Shift+Tab endpoints; interior movement and modifier/browser shortcuts remain native. No source content, contract, CSS or static render changes.",
+  "portableTests": 26,
+  "sourceRenderReviewSha256": "3ba659203ff407a85e97425c88af8e9bad45253a8e2ee3a13e55b22cfc37179c",
+  "nativeAcceptance": "pending",
+  "productionAdmission": false
+}
