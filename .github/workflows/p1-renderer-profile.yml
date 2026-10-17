@@ -1,0 +1,182 @@
+name: P1 one renderer-main profile (diagnostic only)
+on:
+  push:
+    branches: [diagnostic/pr16-p1-lifecycle-profile]
+permissions:
+  contents: read
+concurrency:
+  group: p1-renderer-profile-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  one-profiled-candidate:
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/diagnostic/pr16-p1-lifecycle-profile' && github.run_attempt == 1 && github.event.created == true && github.event.deleted == false && github.event.forced == false && github.event.before == '0000000000000000000000000000000000000000' && github.event.after == github.sha }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    defaults:
+      run:
+        shell: bash
+    env:
+      CI: "true"
+      SPATIAL_BROWSER_REVIEW: github-actions
+      SPATIAL_EXPECT_HISTORICAL_REVIEW: "true"
+      SPATIAL_PROFILE_ONCE: renderer-main-v1
+      SPATIAL_DIAGNOSTIC_HARNESS_SHA: ${{ github.sha }}
+      SPATIAL_P1_PAIR_DRIVER: ${{ github.workspace }}/spatial-prototype/scripts/p1-lifecycle-diagnostic.mjs
+      SPATIAL_P1_CANDIDATE_SCRIPTS: ${{ github.workspace }}/pinned-candidate/spatial-prototype/scripts
+    steps:
+      - name: Require the first explicitly reviewed attempt
+        run: test "$GITHUB_RUN_ATTEMPT" = 1
+      - name: Check out reviewed diagnostic harness
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Use Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Verify initial branch creation and exact reviewed parent
+        run: |
+          node --input-type=module <<'NODE'
+          import {verifyHarnessLaunch} from './spatial-prototype/scripts/p1-renderer-profile-driver.mjs';
+          await verifyHarnessLaunch(process.env);
+          NODE
+      - name: Check out exact frozen candidate runtime
+        uses: actions/checkout@v4
+        with:
+          ref: dcb5119f37680888b3fb5175626ac62448584417
+          path: pinned-candidate
+          persist-credentials: false
+      - name: Install existing lockfile-pinned runtime dependencies
+        run: npm ci --prefix pinned-candidate/spatial-prototype
+      - name: Verify source conservation and fake-session controls
+        run: node --test spatial-prototype/scripts/p1-renderer-profile.test.mjs
+      - name: Build pinned runtime without application or oracle changes
+        id: prepare
+        run: |
+          set -o pipefail
+          npm run build --prefix pinned-candidate/spatial-prototype
+          for name in p1-lifecycle-diagnostic.mjs p1-renderer-profile.mjs p1-renderer-profile-driver.mjs; do
+            test ! -e "pinned-candidate/spatial-prototype/scripts/$name"
+            cp "spatial-prototype/scripts/$name" "pinned-candidate/spatial-prototype/scripts/$name"
+            cmp "spatial-prototype/scripts/$name" "pinned-candidate/spatial-prototype/scripts/$name"
+          done
+          test -z "$(git -C pinned-candidate diff HEAD --name-only)"
+          cd pinned-candidate/spatial-prototype
+          npx --no-install playwright install --with-deps chromium
+      - name: Run the one profiled candidate lifecycle observation
+        id: profile_run
+        if: always() && steps.prepare.outcome == 'success'
+        working-directory: pinned-candidate/spatial-prototype
+        run: node scripts/p1-renderer-profile-driver.mjs
+      - name: Validate only capped sanitized profile artifacts
+        id: profile_safe
+        if: always() && steps.prepare.outcome == 'success'
+        run: |
+          node --input-type=module <<'NODE'
+          import {readFile} from 'node:fs/promises';
+          import {validateArtifactBytes} from './spatial-prototype/scripts/p1-renderer-profile.mjs';
+          const root='pinned-candidate/spatial-prototype/browser-profile/';
+          validateArtifactBytes('profile-metadata.json',await readFile(root+'profile-metadata.json','utf8'));
+          for(const name of ['renderer-main.cpuprofile','profile-summary.json']) {
+            let text;try{text=await readFile(root+name,'utf8');}catch(error){if(error.code==='ENOENT')continue;throw error;}
+            validateArtifactBytes(name,text);
+          }
+          NODE
+      - name: Preserve bounded sanitized sampling evidence
+        if: always() && steps.profile_safe.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: p1-renderer-main-profile-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            pinned-candidate/spatial-prototype/browser-profile/renderer-main.cpuprofile
+            pinned-candidate/spatial-prototype/browser-profile/profile-summary.json
+            pinned-candidate/spatial-prototype/browser-profile/profile-metadata.json
+          if-no-files-found: error
+          retention-days: 14
+      - name: Refuse raw profiler data in the existing native trace
+        id: trace_safe
+        if: always() && steps.prepare.outcome == 'success'
+        run: |
+          node --input-type=module <<'NODE'
+          import {auditTraceProfileSeparation} from './spatial-prototype/scripts/p1-renderer-profile-driver.mjs';
+          console.log(JSON.stringify(auditTraceProfileSeparation('pinned-candidate/spatial-prototype/browser-review')));
+          NODE
+      - name: Partition unchanged complete native evidence
+        id: native_parts
+        if: always() && steps.trace_safe.outcome == 'success'
+        working-directory: pinned-candidate/spatial-prototype
+        run: node scripts/partition-browser-artifacts.mjs
+      - name: Preserve native evidence part 01
+        if: always() && steps.native_parts.outcome == 'success' && steps.native_parts.outputs.part_01 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: p1-profile-native-${{ github.run_id }}-${{ github.run_attempt }}-part-01
+          path: pinned-candidate/spatial-prototype/browser-artifact-parts/01/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve native evidence part 02
+        if: always() && steps.native_parts.outcome == 'success' && steps.native_parts.outputs.part_02 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: p1-profile-native-${{ github.run_id }}-${{ github.run_attempt }}-part-02
+          path: pinned-candidate/spatial-prototype/browser-artifact-parts/02/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve native evidence part 03
+        if: always() && steps.native_parts.outcome == 'success' && steps.native_parts.outputs.part_03 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: p1-profile-native-${{ github.run_id }}-${{ github.run_attempt }}-part-03
+          path: pinned-candidate/spatial-prototype/browser-artifact-parts/03/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve native evidence part 04
+        if: always() && steps.native_parts.outcome == 'success' && steps.native_parts.outputs.part_04 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: p1-profile-native-${{ github.run_id }}-${{ github.run_attempt }}-part-04
+          path: pinned-candidate/spatial-prototype/browser-artifact-parts/04/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve native evidence part 05
+        if: always() && steps.native_parts.outcome == 'success' && steps.native_parts.outputs.part_05 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: p1-profile-native-${{ github.run_id }}-${{ github.run_attempt }}-part-05
+          path: pinned-candidate/spatial-prototype/browser-artifact-parts/05/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve native evidence part 06
+        if: always() && steps.native_parts.outcome == 'success' && steps.native_parts.outputs.part_06 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: p1-profile-native-${{ github.run_id }}-${{ github.run_attempt }}-part-06
+          path: pinned-candidate/spatial-prototype/browser-artifact-parts/06/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve native evidence part 07
+        if: always() && steps.native_parts.outcome == 'success' && steps.native_parts.outputs.part_07 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: p1-profile-native-${{ github.run_id }}-${{ github.run_attempt }}-part-07
+          path: pinned-candidate/spatial-prototype/browser-artifact-parts/07/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve native evidence part 08
+        if: always() && steps.native_parts.outcome == 'success' && steps.native_parts.outputs.part_08 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: p1-profile-native-${{ github.run_id }}-${{ github.run_attempt }}-part-08
+          path: pinned-candidate/spatial-prototype/browser-artifact-parts/08/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
