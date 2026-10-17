@@ -805,8 +805,8 @@
     {
       "path": "scripts/run-world-portable.mjs",
       "bytes": 4003,
-      "sha256": "167ebe4bf4957f0b8176ec81dc6459b81ff5275f1e61d6f7aa1be332f2979004",
-      "gitBlob": "4d207aff99c3581586de4ecdd737e02ed695d490"
+      "sha256": "104173fc7e5a39cf10da3effc9fbe9f574418b21fbfea4589fd9e2e0c4cdcc22",
+      "gitBlob": "7182865eed0d90c53506175d56228d1fb02e7bf6"
     },
     {
       "path": "scripts/server.mjs",
@@ -1010,8 +1010,8 @@
     }
   ],
   "successorScope": {
-    "baseHead": "e95e50b58aad3f84053d7bd771148db00e9ecfbc",
-    "baseManifestSha256": "19e39b4ffd8541681e9eb284989a6a14997227d3e69cccd5a4f3b4e2ffa438bb",
+    "baseHead": "a4adf779bf32d5962c3c660c79675f0da19c633d",
+    "baseManifestSha256": "15e4c059e0d47eca86f4c555be7cbc28224411210e9d5b7ad88a53f05f3c2ce7",
     "controllerRepair": "PROJECTION-CONSERVATION.json#controllerDelta",
     "AXSupport": "Canonical JSON equal complete repeats only; validate and preserve every raw row; conflicting ID reuse still denied",
     "mandatoryCIReplay": {
@@ -1020,7 +1020,9 @@
       "typing": "Strict source and controller-fixture TypeScript 5.6.3",
       "jsdom": "26.1.0",
       "installation": "Official-registry integrity-pinned dev-test lock, lifecycle scripts disabled, temporary copy only",
-      "modalFocusTests": 10
+      "modalFocusTests": 10,
+      "originalWorldTestHeapMiB": 768,
+      "heapAllocationReason": "Run39057242575 exhausted its explicit384MiB jsdom unit-process heap after16 passed cases. Only this test process allocation changes; all assertions, native and evidence limits, workflow timeout and other process allocations remain unchanged."
     },
     "nativeCases": 503,
     "nativeAcceptance": false,

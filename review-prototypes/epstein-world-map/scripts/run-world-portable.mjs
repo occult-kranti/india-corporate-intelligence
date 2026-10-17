@@ -29,7 +29,7 @@ try{
  const typescript=resolve(ROOT,'../../spatial-prototype/node_modules/typescript');assert.equal(JSON.parse(await readFile(resolve(typescript,'package.json'))).version,'5.6.3');
  await mkdir(resolve(working,'dependencies'));await symlink(resolve(deps,'node_modules/jsdom'),resolve(working,'dependencies/jsdom'),'dir');
  run('strict original source and isolated fixture types',process.execPath,['--max-old-space-size=768','--max-semi-space-size=1',resolve(typescript,'bin/tsc'),'--noEmit','-p',resolve(working,'tsconfig.fixture.json')],working);
- run('unchanged original 18 world tests',process.execPath,['--expose-gc','--max-old-space-size=384','--max-semi-space-size=1','--test','--test-concurrency=1','tests/world.test.mjs'],working);
+ run('unchanged original 18 world tests',process.execPath,['--expose-gc','--max-old-space-size=768','--max-semi-space-size=1','--test','--test-concurrency=1','tests/world.test.mjs'],working);
  run('three exact-bundle selection race regressions',process.execPath,['--expose-gc','--max-old-space-size=384','--max-semi-space-size=1','--test','--test-concurrency=1','tests/selection-race.test.mjs'],working);
  run('ten exact-bundle modal focus regressions',process.execPath,['--expose-gc','--max-old-space-size=384','--max-semi-space-size=1','--test','--test-concurrency=1','tests/modal-focus.test.mjs'],working);
 }finally{
