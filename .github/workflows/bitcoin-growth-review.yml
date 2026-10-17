@@ -1,0 +1,77 @@
+name: Bitcoin growth native review (no deployment)
+on:
+  push:
+    branches: [feature/bitcoin-growth-map]
+    paths:
+      - 'public/bitcoin-growth/**'
+      - 'scripts/bitcoin-growth/**'
+      - '.github/workflows/bitcoin-growth-review.yml'
+      - 'package.json'
+      - 'package-lock.json'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: bitcoin-growth-review-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  native-review:
+    if: github.repository == 'occult-kranti/india-corporate-intelligence' && github.ref == 'refs/heads/feature/bitcoin-growth-map'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        shell: bash
+    env:
+      CI: 'true'
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+      EXPECTED_SOURCE_MANIFEST_SHA256: d3770c57aefd1a44b14f0c139750649eb470b6261b95c36abbf4ec0e41369e69
+    steps:
+      - name: Require the bounded first attempt
+        run: test "$GITHUB_RUN_ATTEMPT" = 1
+      - name: Check out the exact candidate commit
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Use the repository Node runtime
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '20'
+      - name: Verify reviewed source and existing official dependency pins
+        run: node scripts/bitcoin-growth/ci-wrapper.mjs preflight
+      - name: Install only existing locked project dependencies without lifecycle scripts
+        run: |
+          if ! npm ci --ignore-scripts --no-audit --no-fund >/dev/null 2>&1; then
+            echo 'EXISTING_LOCKFILE_INSTALL_FAILED: no dependency or browser fallback attempted.'
+            exit 1
+          fi
+      - name: Check bounded evidence and exact serving contracts
+        run: node --test scripts/bitcoin-growth/ci-contract.test.mjs scripts/bitcoin-growth/served-integrity.test.mjs
+      - name: Run exact-source sandboxed Chrome flows on the loopback fixture
+        id: native
+        run: node scripts/bitcoin-growth/ci-wrapper.mjs run
+      - name: Recheck exact three-file upload envelope and source binding
+        id: envelope
+        if: success() && steps.native.outcome == 'success'
+        env:
+          EXPECTED_REPORT_SHA256: ${{ steps.native.outputs.report_sha }}
+          EXPECTED_DESKTOP_SHA256: ${{ steps.native.outputs.desktop_sha }}
+          EXPECTED_MOBILE_SHA256: ${{ steps.native.outputs.mobile_sha }}
+        run: node scripts/bitcoin-growth/ci-wrapper.mjs verify-upload
+      - name: Preserve only the validated bounded evidence
+        if: success() && steps.envelope.outputs.upload_allowed == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: bitcoin-growth-native-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/bitcoin-growth-upload-${{ github.run_id }}-${{ github.run_attempt }}/browser-flow-result.json
+            ${{ runner.temp }}/bitcoin-growth-upload-${{ github.run_id }}-${{ github.run_attempt }}/desktop-initial.png
+            ${{ runner.temp }}/bitcoin-growth-upload-${{ github.run_id }}-${{ github.run_attempt }}/mobile-initial.png
+          if-no-files-found: error
+          include-hidden-files: false
+          compression-level: 0
+          retention-days: 7
+      - name: Record the remaining manual gate
+        if: success()
+        run: echo 'Automated evidence is ready for human review. Manual gates and release acceptance remain pending; this workflow never deploys.' >> "$GITHUB_STEP_SUMMARY"
