@@ -1,6 +1,6 @@
 {
   "schema": "public-projection-source-conservation-v2",
-  "scope": "Exact original metadata projection plus one separately declared controller selection-race repair; native acceptance remains open.",
+  "scope": "Exact original metadata projection, retained selection-race repair, and declared modal focus eligibility/containment correction; native acceptance remains open.",
   "projectedDocuments": [
     {
       "path": "data/anchor-candidates.json",
@@ -148,13 +148,13 @@
   "rebuiltDocuments": [
     {
       "path": "dist/index.html",
-      "bytes": 3669304,
-      "sha256": "b35c834dc39cc4f84f9ef8e63e3d9c2e105825d71bf9525c689bdd17af2042fd"
+      "bytes": 3669810,
+      "sha256": "5db4a1567b88fbe2fbe81d4e1e47cf62e904b436bab0681ebf00c79153d54b21"
     },
     {
       "path": "dist/controller-fixture.html",
-      "bytes": 3669541,
-      "sha256": "3eda48a2284d847a584b95b4d2c4708c75ba4a7657ee1ebd8b9582020506692b"
+      "bytes": 3670047,
+      "sha256": "df94482b42c13c0aebdcea5fcdf92244aae06924a6dfb48b8e99fcd7e574b1a4"
     }
   ],
   "rootAcceptanceReceiptScanned": true,
@@ -164,8 +164,8 @@
     "path": "src/world-ui.ts",
     "historicalBytes": 21183,
     "historicalSha256": "a4f687e80147b0148d8a394e750e5f2b8e73a4cd43f5319eb345b624d3d26b1b",
-    "currentBytes": 21562,
-    "currentSha256": "305580ba01ad4760a5e10f841f83204c2f39e415c6929ef993c7f77ad08047fa",
+    "currentBytes": 22362,
+    "currentSha256": "b836958aab264fca9d2bf9cec074ca565ef7dda7afd1803e4a4099fcaaac0aff",
     "replacements": [
       {
         "before": "keepModal=false){if(!model)",
@@ -182,9 +182,17 @@
       {
         "before": "select(initial,'replace');renderTimeline()",
         "after": "select(initial,'replace',false,false);renderTimeline()"
+      },
+      {
+        "before": " function key(event:KeyboardEvent){if(!modal)return;if(event.key==='Escape'){event.preventDefault();close();return;}if(event.key!=='Tab')return;const items=[...dialog.querySelectorAll<HTMLElement>('button:not([disabled]),a[href],summary,input,select,[tabindex=\"0\"]')].filter(el=>{for(let p=el.parentElement;p&&p!==dialog;p=p.parentElement)if(p.tagName==='DETAILS'&&!(p as HTMLDetailsElement).open&&p.querySelector(':scope > summary')!==el)return false;return !el.hidden;});const first=items[0],last=items.at(-1);if(event.shiftKey&&(doc.activeElement===first||doc.activeElement===detail.querySelector('#drawer-title'))){event.preventDefault();(doc.activeElement===first?last:first)?.focus();}else if(!event.shiftKey&&doc.activeElement===last){event.preventDefault();first?.focus();}}\n",
+        "after": " function focusStops():HTMLElement[]{return [...dialog.querySelectorAll<HTMLElement>('button,a[href],input,select,textarea,summary,[tabindex]')].filter(el=>{if(el.tabIndex<0||el.matches(':disabled')||el.closest('[hidden],[inert]')||!el.getClientRects().length)return false;const style=win.getComputedStyle(el);if(style.visibility==='hidden'||style.visibility==='collapse'||style.display==='none')return false;for(let p=el.parentElement;p&&p!==dialog;p=p.parentElement)if(p.tagName==='DETAILS'&&!(p as HTMLDetailsElement).open){const summary=[...p.children].find(child=>child.tagName==='SUMMARY');if(!summary?.contains(el))return false;}return true;});}\n function containFocus(event:FocusEvent){if(destroyed||!modal||dialog.contains(event.target as Node))return;(detail.querySelector<HTMLElement>('#drawer-title')??q('#close-sheet'))?.focus();}\n function key(event:KeyboardEvent){if(!modal||event.altKey||event.ctrlKey||event.metaKey)return;if(event.key==='Escape'){event.preventDefault();close();return;}if(event.key!=='Tab')return;const items=focusStops(),first=items[0],last=items.at(-1),title=detail.querySelector<HTMLElement>('#drawer-title'),active=doc.activeElement,index=items.indexOf(active as HTMLElement);if(!first){event.preventDefault();(title??q('#close-sheet'))?.focus();return;}if(event.shiftKey&&(index<=0||active===title)){event.preventDefault();(active===title?first:last)?.focus();}else if(!event.shiftKey&&(index<0||active===last)){event.preventDefault();first.focus();}}\n"
+      },
+      {
+        "before": " host.addEventListener('click',click);host.addEventListener('change',change);host.addEventListener('keydown',key);win.addEventListener('popstate',pop);\n return Object.freeze({load,state:():BoardState|null=>selected?Object.freeze({pointer:selected.pointer,zoom,component,dateRole,dialog:modal}):null,destroy:()=>{destroyed=true;++sequence;clearTimeout(scrollTimer);host.replaceChildren();model=null;selected=null;host.removeEventListener('click',click);host.removeEventListener('change',change);host.removeEventListener('keydown',key);win.removeEventListener('popstate',pop);}});\n",
+        "after": " host.addEventListener('click',click);host.addEventListener('change',change);doc.addEventListener('keydown',key);doc.addEventListener('focusin',containFocus);win.addEventListener('popstate',pop);\n return Object.freeze({load,state:():BoardState|null=>selected?Object.freeze({pointer:selected.pointer,zoom,component,dateRole,dialog:modal}):null,destroy:()=>{destroyed=true;++sequence;clearTimeout(scrollTimer);host.replaceChildren();model=null;selected=null;host.removeEventListener('click',click);host.removeEventListener('change',change);doc.removeEventListener('keydown',key);doc.removeEventListener('focusin',containFocus);win.removeEventListener('popstate',pop);}});\n"
       }
     ],
-    "scope": "Explicit selection retains its current rail offset; boot and scroll-derived selection remain unlocked. Original same-offset tolerance, manual-intent release, source content and history policy are retained.",
+    "scope": "Explicit selection retains its current rail offset; boot and scroll-derived selection remain unlocked. Original same-offset tolerance, manual-intent release, source content and history policy are retained. Modal focus eligibility and containment are tightened; modifier shortcuts are preserved. The actual prior native focus destination is unknown.",
     "nativeEventOrderProven": false
   }
 }

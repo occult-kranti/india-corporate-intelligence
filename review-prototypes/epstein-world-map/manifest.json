@@ -25,7 +25,7 @@
       "scope": "Bounded gate-format/freshness/cleanup acceptance only; not this new harness"
     },
     "packetSha256": "f365d7f785d54556759230f0c6c27e65ec41ec3ad885fdaee1f46f72860175b5",
-    "appSourceConservation": "All application source except the declared world-model.ts metadata-admission binding and the reversible world-ui.ts selection-race repair remains byte-identical to the accepted historical UI. All source contracts, factual packet, anchors, projected metadata, root acceptance, CSS, geometry and readable fallback are unchanged. The interactive index and fixture are rebuilt with current pins; no production importer or runtime test hooks were added.",
+    "appSourceConservation": "All application source except the declared world-model.ts metadata-admission binding and the reversible world-ui.ts selection-race and modal focus repairs remains byte-identical to the accepted historical UI. All source contracts, factual packet, anchors, projected metadata, root acceptance, CSS, geometry and readable fallback are unchanged. The interactive index and fixture are rebuilt with current pins; no production importer or runtime test hooks were added.",
     "launchLineage": {
       "historicalBaselineHead": "578d6df168140d885268aca821a506acf5451bfe",
       "historicalRunId": "39000580224",
@@ -47,13 +47,13 @@
       "historicalReviewSha256": "b54f8c86b02e084a74f688088db36c17afb0fc17e9fe83eb4c0dd45c334b40f3",
       "shippedCandidateSha256": "3ef109703b95307fbd8ec79438ec9ceedf2eeda2395ce639d13004c2a1ccbb36",
       "shippedReviewSha256": "8853a868eb26435775aa50b847bcb2da477ee26d287c9b68ef795d6720b4086e",
-      "shippedHTMLSha256": "b35c834dc39cc4f84f9ef8e63e3d9c2e105825d71bf9525c689bdd17af2042fd",
-      "shippedFixtureSha256": "3eda48a2284d847a584b95b4d2c4708c75ba4a7657ee1ebd8b9582020506692b"
+      "shippedHTMLSha256": "5db4a1567b88fbe2fbe81d4e1e47cf62e904b436bab0681ebf00c79153d54b21",
+      "shippedFixtureSha256": "df94482b42c13c0aebdcea5fcdf92244aae06924a6dfb48b8e99fcd7e574b1a4"
     },
     "controllerSuccessor": {
       "baseHead": "f33bcdb760d58702c5aeffaaa120b8a39e4cfc38",
       "historicalControllerSha256": "a4f687e80147b0148d8a394e750e5f2b8e73a4cd43f5319eb345b624d3d26b1b",
-      "currentControllerSha256": "305580ba01ad4760a5e10f841f83204c2f39e415c6929ef993c7f77ad08047fa",
+      "currentControllerSha256": "b836958aab264fca9d2bf9cec074ca565ef7dda7afd1803e4a4099fcaaac0aff",
       "conservation": "PROJECTION-CONSERVATION.json",
       "originalProjectionReviewReceiptSha256": "8aa888c89f1afadb2b0a1ecc0b00f8985b9950f01e3c6e00584447aa29550e4d",
       "nativeAcceptance": false,
@@ -69,7 +69,25 @@
       "scope": "Every raw row remains intact and receives the original content, size and recursion validation. Only canonical-JSON-equal complete repeated rows are supported; conflicting ID reuse still fails. This is a bounded producer-format rule, not arbitrary-content privacy certification."
     },
     "historicalGateDelta": "GATE-DELTA.json is the retained original composition proposal. Current manifest.json is authoritative for current shipped bytes; later diagnostic and selection-race changes are separately declared here.",
-    "historicalProjectionDeclaration": "PUBLIC-PROJECTION.json is the unchanged initial metadata-only proposal. Its unchangedApplicationAreas describe that historical delta. Current controller conservation is separately defined in PROJECTION-CONSERVATION.json v2."
+    "historicalProjectionDeclaration": "PUBLIC-PROJECTION.json is the unchanged initial metadata-only proposal. Its unchangedApplicationAreas describe that historical delta. Current controller conservation is separately defined in PROJECTION-CONSERVATION.json v2.",
+    "focusSuccessor": {
+      "baseHead": "e95e50b58aad3f84053d7bd771148db00e9ecfbc",
+      "previousNativeRun": 39054355882,
+      "previousNativePassed": 488,
+      "nativeCases": 503,
+      "sourceRepairManifestSha256": "e9f146e7f7e732bacf019d5a7a1cceaf73cf6333dcb9e385549e61a1b3aea600",
+      "sourceRepairReceiptSha256": "e91101e5c64f7f4c66031de310f7e3e9da39b3e3f49f648b405e9761ef42703d",
+      "actualNativeCauseProven": false,
+      "modeledOldControllerGaps": 3,
+      "newModalFocusTests": 10,
+      "scope": "Focusable eligibility, document-level modal containment, preserved modifier shortcuts, Escape, return focus and selection lock. Original lazy renderer wraps in the model; adversarial eligibility cases do not identify the actual failed native focus destination."
+    },
+    "boundedFailureDiagnostics": {
+      "sizeParentReviewSha256": "67e0dab59286701cb8172d6ed8d2f4aae0da9a1fd77b4f8c631b55e3527078e1",
+      "focusParentReviewSha256": "01088a3054fbd566e5e961005b4bed599d59cac755497c06725287ef24894ee7",
+      "scope": "Failure-only fixed member classes and safe integer sizes; fixed focus phase, bounded control ordinals and boolean eligibility/containment flags. No raw text, IDs, selectors, paths or URLs in these diagnostics. Original assertion rethrows, artifact admission and budgets retained.",
+      "nativeAcceptance": false
+    }
   },
   "scope": {
     "entries": 61,
@@ -522,9 +540,9 @@
     },
     {
       "path": "PROJECTION-CONSERVATION.json",
-      "bytes": 7153,
-      "sha256": "63e999df3a1293a4a59323925446b528d11f8423d95ad72ce8da04a46844cb58",
-      "gitBlob": "91979d2aacc85f55379b52d76e31b47a77b18e7a"
+      "bytes": 10979,
+      "sha256": "f8056408f7250eda7259fafcedb62c02e6d93fc358cb35beb12eaa702af6b2be",
+      "gitBlob": "fd52587fbb37afe00358e48a1c4116c767ef51f0"
     },
     {
       "path": "PUBLIC-PROJECTION.json",
@@ -540,15 +558,15 @@
     },
     {
       "path": "README.md",
-      "bytes": 12437,
-      "sha256": "70ef5992c84613f6a8d1140757e6b0107be3937b7cf9ca7462a0bab395b8d622",
-      "gitBlob": "6c57b31c253fbac360f7f5ab1fec0b27c0fa29dc"
+      "bytes": 14160,
+      "sha256": "7c5df2de824b6242e95c7406a7ec5e148230d980106062e2a800bc2088e68be0",
+      "gitBlob": "3e30b02e7d2aeebd10e1d3d223c54f92047d4021"
     },
     {
       "path": "SOURCE-LINEAGE.json",
-      "bytes": 4870,
-      "sha256": "e7d07866483315aa77b70678422b51136a4cbbb1ed60d5fd856eb8ed7a90af40",
-      "gitBlob": "d0146170757a90d44d8861b07e54eeb7e3e44a98"
+      "bytes": 6212,
+      "sha256": "8dc4f53c913c9702de996a53d89cb00b1500f2f79d081b505851eecedc92cb2d",
+      "gitBlob": "6f5d58fbfd303e18f38e7c749c9e468520580968"
     },
     {
       "path": "assets/world-countries-50m.json",
@@ -636,15 +654,15 @@
     },
     {
       "path": "dist/controller-fixture.html",
-      "bytes": 3669541,
-      "sha256": "3eda48a2284d847a584b95b4d2c4708c75ba4a7657ee1ebd8b9582020506692b",
-      "gitBlob": "1662c3cf7af7f13e10adad3b1e4f5634fc96d830"
+      "bytes": 3670047,
+      "sha256": "df94482b42c13c0aebdcea5fcdf92244aae06924a6dfb48b8e99fcd7e574b1a4",
+      "gitBlob": "447521d911a4f62d78097327b85c009cb6b77110"
     },
     {
       "path": "dist/index.html",
-      "bytes": 3669304,
-      "sha256": "b35c834dc39cc4f84f9ef8e63e3d9c2e105825d71bf9525c689bdd17af2042fd",
-      "gitBlob": "3d8a0f6b1e26ef57cda17c12d7f0a20866f17b8c"
+      "bytes": 3669810,
+      "sha256": "5db4a1567b88fbe2fbe81d4e1e47cf62e904b436bab0681ebf00c79153d54b21",
+      "gitBlob": "5cb125deb8bb0e31a45b0e1a5fdd559a96e3c4bd"
     },
     {
       "path": "dist/readable.html",
@@ -672,9 +690,9 @@
     },
     {
       "path": "scripts/artifact-audit.mjs",
-      "bytes": 5320,
-      "sha256": "20e6e9c49c8a9d51d164f67ceb14921f9933083f583db5d827940cb763cc96ca",
-      "gitBlob": "26069dc9ad0e67e9a4e551d2d39e4ba53e109b40"
+      "bytes": 5551,
+      "sha256": "7605b362602291b5d9b826fae3116eddb0dd5eccabcabd1e085939b468c4ded9",
+      "gitBlob": "b9b8b92c091de9b93fc0acd0a04d10dfd71bdab2"
     },
     {
       "path": "scripts/assert-context.mjs",
@@ -691,8 +709,8 @@
     {
       "path": "scripts/audit-trace.py",
       "bytes": 23505,
-      "sha256": "8f9934b516dd588053a55d33bea0c7b5ab2ff726c5af64671977bd56929033ab",
-      "gitBlob": "8e2076effe32736efbb49fe6d9ab40e4577312d1"
+      "sha256": "e9b73b59aeb9bf38c0d3d17fbb12cecf844eef7d8aabf5894b4525183bf3c95b",
+      "gitBlob": "f6083dba5db5fd085e99787128ef711586c0d580"
     },
     {
       "path": "scripts/build-app.mjs",
@@ -709,8 +727,8 @@
     {
       "path": "scripts/contract.mjs",
       "bytes": 6342,
-      "sha256": "fa1ca4b5b7d61772b1e77698a3f634f3a3b2ee9b94aed910f5fc157d0761333f",
-      "gitBlob": "41265a8e1dc672161d23f61717cee26ed7fc24fc"
+      "sha256": "a82e654909fe17336feced69570160715533e51fa6faf262142bccb135a43d23",
+      "gitBlob": "3b27a8c9024803bbf3f68c25dc3b6d4edf4dd384"
     },
     {
       "path": "scripts/decode-image.mjs",
@@ -738,9 +756,9 @@
     },
     {
       "path": "scripts/failure-diagnostic.mjs",
-      "bytes": 3947,
-      "sha256": "c3845d0660502bac38e315084f777300df6e1d30323f40cd4650a25b4dfca52c",
-      "gitBlob": "a5d28a26bf6dd6739ecfd10b246184d8e5cc08c4"
+      "bytes": 7352,
+      "sha256": "ce26fff9902e4bb9e86df858037ea81d71f94da3d7b0c1e04347d1bb73dd1811",
+      "gitBlob": "b54a9bce478b030b0b46eb96a82b024e8ad692ec"
     },
     {
       "path": "scripts/har-schema.py",
@@ -756,9 +774,9 @@
     },
     {
       "path": "scripts/native-review.mjs",
-      "bytes": 28786,
-      "sha256": "8ff5e22acc5f852b0d75fddbe666b6a06be244fc904957c1b1e695908038bc29",
-      "gitBlob": "edc2189918810ce6b8f8b8270ce0afcd43c5b60b"
+      "bytes": 30125,
+      "sha256": "e0ed0d4365aea891f77bfbfedbb6966781d71ebe0942541bc2395a93eb77a329",
+      "gitBlob": "d4aca60ad9cc338b1e02868a0f2d78d3dab4de43"
     },
     {
       "path": "scripts/portable-dom.mjs",
@@ -786,9 +804,9 @@
     },
     {
       "path": "scripts/run-world-portable.mjs",
-      "bytes": 3798,
-      "sha256": "9c0eeefbf68c65547d7a1266af9d503fe7417567671a7b27244f6adb661a8e9c",
-      "gitBlob": "7dcbd9fef8d92fda165e839ffeab5665599bfe36"
+      "bytes": 4003,
+      "sha256": "167ebe4bf4957f0b8176ec81dc6459b81ff5275f1e61d6f7aa1be332f2979004",
+      "gitBlob": "4d207aff99c3581586de4ecdd737e02ed695d490"
     },
     {
       "path": "scripts/server.mjs",
@@ -811,8 +829,8 @@
     {
       "path": "scripts/verify-projection.mjs",
       "bytes": 6873,
-      "sha256": "8077667036c72f60e4c9bd529f293ec1f38be5aac81f872a753d9b3c36312379",
-      "gitBlob": "c654a7c414b2f5d6cd0a23ea2e111a665f86f895"
+      "sha256": "0a359b1c663c02f33fbf46a3551caba750a4a9d3e8e8a0c8e3bf91dd0cae81da",
+      "gitBlob": "3554a0cefde9cd8692bd15b364b375dc529e1264"
     },
     {
       "path": "scripts/world-cases.mjs",
@@ -882,9 +900,9 @@
     },
     {
       "path": "src/world-ui.ts",
-      "bytes": 21562,
-      "sha256": "305580ba01ad4760a5e10f841f83204c2f39e415c6929ef993c7f77ad08047fa",
-      "gitBlob": "4ec9e76720b64144a7aa630cc591f7b25287bd40"
+      "bytes": 22362,
+      "sha256": "b836958aab264fca9d2bf9cec074ca565ef7dda7afd1803e4a4099fcaaac0aff",
+      "gitBlob": "276ba0eedc4db5b94f8ccda36578577b5b20ae72"
     },
     {
       "path": "src/world-view.ts",
@@ -912,9 +930,9 @@
     },
     {
       "path": "tests/api-inventory.test.mjs",
-      "bytes": 14487,
-      "sha256": "4de16b9a15097c6ca42e07de8411de7386bef260af1f57de6ed9d7cba9308f71",
-      "gitBlob": "7e680904e96cc7f5a67e74101fce8df5eafc6085"
+      "bytes": 21945,
+      "sha256": "a4abe2045986e6e9337f08012f6fda3714a7ff3d930d8939c3dfd92a30812eda",
+      "gitBlob": "1e3caec845a11a80766b283712526a5dee6349fc"
     },
     {
       "path": "tests/evidence-gate.test.mjs",
@@ -927,6 +945,12 @@
       "bytes": 1951,
       "sha256": "8425bd32a16ce31c22577fc8390f88c3158d8cff13f58da6ab7e7260d3e02604",
       "gitBlob": "3df7d68e29e692fe097e70b22e0637c39688c4aa"
+    },
+    {
+      "path": "tests/modal-focus.test.mjs",
+      "bytes": 10600,
+      "sha256": "bc12287a43f8d88e9275f0a18a0ff929a30b46007a3a1fb7ff1b1d03c02851c3",
+      "gitBlob": "0c5c119c3366402d70563334f63b38184ef0b004"
     },
     {
       "path": "tests/portable.test.mjs",
@@ -980,14 +1004,14 @@
   "workflowMembers": [
     {
       "path": ".github/workflows/epstein-world-board-native.yml",
-      "bytes": 4980,
-      "sha256": "ea21a69ebb5dd85066bc30b651f2f1c798a58da0416f4dbd158a5aa874337a93",
-      "gitBlob": "56aeed30f2f0fc1dcd58415376df44e0faef943e"
+      "bytes": 4991,
+      "sha256": "970709a806435bd900659b46fcbc29b2619132c0a69e32fe5ed52825d9d02154",
+      "gitBlob": "812231aad77e959ed4a07df762851c1cfbe0e8aa"
     }
   ],
   "successorScope": {
-    "baseHead": "f33bcdb760d58702c5aeffaaa120b8a39e4cfc38",
-    "baseManifestSha256": "117c7f378a992e09becfd54a2e98f23fb31e1757a61517499f728da2b99e028e",
+    "baseHead": "e95e50b58aad3f84053d7bd771148db00e9ecfbc",
+    "baseManifestSha256": "19e39b4ffd8541681e9eb284989a6a14997227d3e69cccd5a4f3b4e2ffa438bb",
     "controllerRepair": "PROJECTION-CONSERVATION.json#controllerDelta",
     "AXSupport": "Canonical JSON equal complete repeats only; validate and preserve every raw row; conflicting ID reuse still denied",
     "mandatoryCIReplay": {
@@ -995,11 +1019,13 @@
       "selectionRaceTests": 3,
       "typing": "Strict source and controller-fixture TypeScript 5.6.3",
       "jsdom": "26.1.0",
-      "installation": "Official-registry integrity-pinned dev-test lock, lifecycle scripts disabled, temporary copy only"
+      "installation": "Official-registry integrity-pinned dev-test lock, lifecycle scripts disabled, temporary copy only",
+      "modalFocusTests": 10
     },
     "nativeCases": 503,
     "nativeAcceptance": false,
     "newResearch": false,
-    "historicalDeclarations": "PUBLIC-PROJECTION.json and GATE-DELTA.json describe the initial proposal; sourceIdentity and this exact manifest describe current bytes."
+    "historicalDeclarations": "PUBLIC-PROJECTION.json and GATE-DELTA.json describe the initial proposal; sourceIdentity and this exact manifest describe current bytes.",
+    "failureDiagnostics": "Closed size and focus metadata only; existing admission, budgets and assertions unchanged"
   }
 }

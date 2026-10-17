@@ -7,13 +7,13 @@ import {ROOT,inventory,requireNativeCI,readInputs,sha} from './contract.mjs';
 import {AUTOMATIC_PUBLICATION_ENABLED,HOLD_REASON} from './evidence-policy.mjs';
 import {evidenceRoot,invalidateGrants,runBinding,validateProducer} from './evidence-binding.mjs';
 import {validateReport,summaryFor} from './report-contract.mjs';
-import {axDuplicateDiagnostic} from './failure-diagnostic.mjs';
-let root,decision={schema:'native-evidence-audit-v2',auditId:randomUUID(),status:'DENY',publicationApproved:false,diagnostics:[]};
+import {axDuplicateDiagnostic,evidenceSizeDiagnostic} from './failure-diagnostic.mjs';
+let root,sizeDiagnostic=null,decision={schema:'native-evidence-audit-v2',auditId:randomUUID(),status:'DENY',publicationApproved:false,diagnostics:[]};
 try{
  root=evidenceRoot();await invalidateGrants(root); // Before CI/input/report checks can fail.
  requireNativeCI();assert.equal(spawnSync(process.execPath,[resolve(ROOT,'scripts/verify-package.mjs')],{stdio:'ignore'}).status,0,'EXACT_PACKAGE_REQUIRED');const inputs=await readInputs();const manifestSha256=sha(await readFile(resolve(ROOT,'manifest.json'))),binding=runBinding(process.env,manifestSha256);decision={...decision,...binding};
  const rows=await inventory(root);const allowed=/^(report\.json|summary\.md|producer-receipt\.json|trace\.zip|network\.har|(?:01-initial|02-source-narrow-(?:320|390)|03-forced-colors-capacities|04-anchor-scotus|05-anchor-nydfs|06-anchor-usvi|07-critical-petition|08-schematic-relations|09-desktop-1024|failure)\.(?:png|html|ax\.json))$/;
- assert(rows.every(r=>allowed.test(r.path)),'UNEXPECTED_EVIDENCE_MEMBER');assert(rows.length<=38,'EVIDENCE_MEMBER_COUNT');assert(rows.reduce((n,r)=>n+r.bytes,0)<=512*1024*1024,'EVIDENCE_BUDGET');assert(rows.every(r=>r.bytes<=128*1024*1024),'EVIDENCE_MEMBER_BUDGET');decision.members=rows;
+ assert(rows.every(r=>allowed.test(r.path)),'UNEXPECTED_EVIDENCE_MEMBER');assert(rows.length<=38,'EVIDENCE_MEMBER_COUNT');sizeDiagnostic=evidenceSizeDiagnostic(rows);assert(rows.reduce((n,r)=>n+r.bytes,0)<=512*1024*1024,'EVIDENCE_BUDGET');assert(rows.every(r=>r.bytes<=128*1024*1024),'EVIDENCE_MEMBER_BUDGET');decision.members=rows;
  const report=JSON.parse(await readFile(resolve(root,'report.json'),'utf8'));
  decision.report=validateReport(report,{...inputs,env:process.env,manifestSha256,memberPaths:rows.map(r=>r.path)});
  assert(!report.cleanupErrors?.length&&!report.receiptErrors?.length&&!report.traceError&&!report.closeError,'PRODUCER_CLEANUP_OR_RECEIPTS_INCOMPLETE');
@@ -31,3 +31,5 @@ try{if(root)await writeFile(resolve(root,'artifact-manifest.json'),JSON.stringif
 if(process.env.GITHUB_OUTPUT)try{await appendFile(process.env.GITHUB_OUTPUT,decision.publicationApproved?`approved=true\nmanifest_sha256=${sha(await readFile(resolve(root,'artifact-manifest.json')))}\naudit_id=${decision.auditId}\n`:'approved=false\n');}catch{process.exitCode=1;}
 console.log(JSON.stringify({status:decision.status,reason:decision.reason,validationCode:decision.validationCode,rawSchemaCodes:decision.diagnostics.map(d=>d.code).filter(Boolean),publicationApproved:decision.publicationApproved}));
 for(const d of decision.diagnostics){const counts=axDuplicateDiagnostic(d.axDuplicates&&Object.fromEntries(['nodes','uniqueNodes','duplicateRows','identicalRows','conflictingRows'].map(k=>[k,d.axDuplicates[k]])));if(counts)console.log(JSON.stringify(counts));}
+
+if(['EVIDENCE_BUDGET','EVIDENCE_MEMBER_BUDGET'].includes(decision.validationCode)&&sizeDiagnostic)console.log(JSON.stringify(sizeDiagnostic));

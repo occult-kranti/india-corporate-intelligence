@@ -12,7 +12,7 @@ export function verifyControllerDelta(bytes,delta){
  assert.equal(delta.path,'src/world-ui.ts');assert.equal(delta.historicalBytes,21183);
  assert.equal(delta.historicalSha256,'a4f687e80147b0148d8a394e750e5f2b8e73a4cd43f5319eb345b624d3d26b1b');
  assert.equal(bytes.length,delta.currentBytes);assert.equal(sha(bytes),delta.currentSha256);
- assert.equal(delta.replacements.length,4);let historical=bytes.toString('utf8');
+ assert.equal(delta.replacements.length,6);let historical=bytes.toString('utf8');
  for(const edit of [...delta.replacements].reverse()){
   assert.equal(typeof edit.before,'string');assert.equal(typeof edit.after,'string');assert(edit.before.length&&edit.after.length);assert.notEqual(edit.before,edit.after);
   assert.equal(historical.split(edit.after).length-1,1,'Each declared replacement must occur exactly once');historical=historical.replace(edit.after,edit.before);

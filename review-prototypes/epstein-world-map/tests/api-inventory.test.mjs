@@ -102,3 +102,54 @@ print(json.dumps({'equalDuplicateProbes':2,'conflictingDuplicateProbes':len(vari
 `;
  const r=spawnSync('python3',['-c',code],{encoding:'utf8'});assert.equal(r.status,0,r.stdout+'\n'+r.stderr);assert(!r.stdout.includes('SECRET'));const result=JSON.parse(r.stdout);assert.equal(result.conflictingDuplicateProbes,9);assert.equal(result.onlyIdenticalDuplicatesAccepted,true);assert.equal(result.rawRowsUnchanged,true);
 });
+
+import {evidenceSizeDiagnostic} from '../scripts/failure-diagnostic.mjs';
+const row=(path,bytes)=>({path,bytes,sha256:'a'.repeat(64),gitBlob:'b'.repeat(40)});
+test('size diagnostic identifies only fixed member classes and exact bytes',()=>{
+ const out=evidenceSizeDiagnostic([row('trace.zip',134217729),row('report.json',12),row('failure.ax.json',42)]);
+ assert.deepEqual(out,{schema:'world-evidence-size-diagnostic-v1',memberCount:3,totalBytes:134217783,memberLimitBytes:134217728,totalLimitBytes:536870912,members:[{memberIndex:0,memberClass:'report',bytes:12},{memberIndex:3,memberClass:'trace',bytes:134217729},{memberIndex:37,memberClass:'accessibility',bytes:42}],nativeAcceptance:false,artifactApproval:false});
+ assert(!JSON.stringify(out).includes('trace.zip'));assert(!JSON.stringify(out).includes('a'.repeat(64)));
+});
+test('size diagnostic covers the complete closed 38-member inventory without a grant',()=>{
+ const names=['report.json','summary.md','producer-receipt.json','trace.zip','network.har',...['01-initial','02-source-narrow-320','02-source-narrow-390','03-forced-colors-capacities','04-anchor-scotus','05-anchor-nydfs','06-anchor-usvi','07-critical-petition','08-schematic-relations','09-desktop-1024','failure'].flatMap(p=>['png','html','ax.json'].map(s=>p+'.'+s))];
+ const out=evidenceSizeDiagnostic(names.map((p,i)=>row(p,i)));assert.equal(out.memberCount,38);assert.equal(out.totalBytes,703);assert.deepEqual(out.members.map(r=>r.memberIndex),Array.from({length:38},(_,i)=>i));assert.equal(out.artifactApproval,false);
+});
+test('unknown, duplicate or excessive members produce no diagnostic',()=>{
+ for(const rows of [[row('/private/SECRET',1)],[row('trace.zip',1),row('trace.zip',2)],Array.from({length:39},()=>row('trace.zip',1)),[],null,{}])assert.equal(evidenceSizeDiagnostic(rows),null);
+});
+test('invalid numeric sizes never reach public diagnostics',()=>{
+ for(const size of [-1,.5,NaN,Infinity,-Infinity,'SECRET',true,null,Number.MAX_SAFE_INTEGER+1])assert.equal(evidenceSizeDiagnostic([row('trace.zip',size)]),null);
+ assert.equal(evidenceSizeDiagnostic([row('trace.zip',Number.MAX_SAFE_INTEGER),row('report.json',1)]),null);
+ assert.equal(evidenceSizeDiagnostic([row('trace.zip',0)]).totalBytes,0);
+});
+test('malformed inventory rows and unexpected data never escape',()=>{
+ for(const bad of [null,[],{}, {...row('trace.zip',1),body:'SECRET'}, {...row('trace.zip',1),sha256:'SECRET'}, {...row('trace.zip',1),gitBlob:'SECRET'}, {path:'trace.zip',bytes:1,sha256:'a'.repeat(64)}])assert.equal(evidenceSizeDiagnostic([bad]),null);
+ const throwing={...row('trace.zip',1),get bytes(){throw Error('SECRET')}};assert.equal(evidenceSizeDiagnostic([throwing]),null);
+});
+
+import {focusBoundaryDiagnostic} from '../scripts/failure-diagnostic.mjs';
+const focusFlags=()=>({hasRect:true,visible:true,disabled:false,hidden:false,inert:false,closedDetails:false});
+const focusValue=()=>({phase:'forward-wrap',controlCount:3,expectedOrdinal:0,activeOrdinal:2,activeContained:true,first:focusFlags(),last:focusFlags(),active:focusFlags()});
+test('focus diagnostic emits only fixed phase, ordinals and boolean flags',()=>{const v=focusValue(),out=focusBoundaryDiagnostic(v);assert.deepEqual(out,{schema:'world-focus-boundary-diagnostic-v1',...v,nativeAcceptance:false,artifactApproval:false});assert.deepEqual(Object.keys(out),['schema','phase','controlCount','expectedOrdinal','activeOrdinal','activeContained','first','last','active','nativeAcceptance','artifactApproval']);});
+test('reverse and off-list focus metadata remain observational without admission',()=>{const v=focusValue();v.phase='reverse-wrap';v.expectedOrdinal=2;v.activeOrdinal=-1;v.activeContained=false;v.active.hasRect=false;v.last.inert=true;assert.deepEqual(focusBoundaryDiagnostic(v),{schema:'world-focus-boundary-diagnostic-v1',...v,nativeAcceptance:false,artifactApproval:false});});
+test('focus diagnostic refuses unknown phase, field, raw error and nonobject input',()=>{for(const v of [null,[],{},'SECRET',{...focusValue(),phase:'SECRET'},{...focusValue(),error:'SECRET'},{...focusValue(),selector:'#SECRET'},{...focusValue(),path:'/private/SECRET'}])assert.equal(focusBoundaryDiagnostic(v),null);});
+test('focus count and ordinal boundaries are strict safe integers',()=>{for(const count of [0,-1,10001,.5,NaN,Infinity,'SECRET',true])assert.equal(focusBoundaryDiagnostic({...focusValue(),controlCount:count}),null);for(const active of [-2,3,Number.MAX_SAFE_INTEGER,.5,NaN,'SECRET'])assert.equal(focusBoundaryDiagnostic({...focusValue(),activeOrdinal:active}),null);for(const expected of [1,-1,'0',NaN])assert.equal(focusBoundaryDiagnostic({...focusValue(),expectedOrdinal:expected}),null);assert.equal(focusBoundaryDiagnostic({...focusValue(),activeContained:false}),null);});
+test('focus flags require exact boolean schema and never leak arbitrary strings',()=>{for(const name of ['first','last','active'])for(const flags of [null,[],{...focusFlags(),text:'SECRET'},{...focusFlags(),visible:'SECRET'},{...focusFlags(),visible:1},{...focusFlags(),visible:null}])assert.equal(focusBoundaryDiagnostic({...focusValue(),[name]:flags}),null);const v=focusValue();delete v.first.inert;assert.equal(focusBoundaryDiagnostic(v),null);});
+test('focus diagnostic bounds are inclusive and getters fail closed',()=>{assert(focusBoundaryDiagnostic({...focusValue(),controlCount:10000,activeOrdinal:9999}));assert(focusBoundaryDiagnostic({...focusValue(),controlCount:1,activeOrdinal:0}));assert.equal(focusBoundaryDiagnostic({...focusValue(),get active(){throw Error('SECRET')}}),null);});
+test('actual failure probe logs only a validated observation and swallows probe errors',async()=>{
+ const source=await readFile(new URL('../scripts/native-review.mjs',import.meta.url),'utf8'),probe=source.slice(source.indexOf('async function logFocusFailure(phase)'));
+ const AsyncFunction=Object.getPrototypeOf(async function(){}).constructor,run=new AsyncFunction('page','focusBoundaryDiagnostic','console',probe+';await logFocusFailure("forward-wrap");');
+ const logs=[],v=focusValue();delete v.phase;delete v.expectedOrdinal;
+ await run({locator:()=>({evaluate:async()=>v})},focusBoundaryDiagnostic,{log:s=>logs.push(JSON.parse(s))});assert.equal(logs.length,1);assert.equal(logs[0].activeOrdinal,2);
+ await run({locator:()=>({evaluate:async()=>({...v,text:'SECRET'})})},focusBoundaryDiagnostic,{log:s=>logs.push(s)});
+ await run({locator:()=>({evaluate:async()=>{throw Error('SECRET')}})},focusBoundaryDiagnostic,{log:s=>logs.push(s)});assert.equal(logs.length,1);
+});
+test('each actual wrapper retains its original assertion and rethrows that same failure',async()=>{
+ const source=await readFile(new URL('../scripts/native-review.mjs',import.meta.url),'utf8'),AsyncFunction=Object.getPrototypeOf(async function(){}).constructor;
+ for(const [which,phase]of [['first','forward-wrap'],['last','reverse-wrap']]){
+  const body=`try{assert.equal(await ${which}.evaluate(e=>document.activeElement===e),true);}catch(error){await logFocusFailure('${phase}');throw error;}`;assert(source.includes(body));
+  const original=Error('original assertion'),phases=[],run=new AsyncFunction('assert',which,'logFocusFailure',body);
+  await assert.rejects(run({equal:()=>{throw original}},{evaluate:async()=>false},async p=>phases.push(p)),e=>e===original);assert.deepEqual(phases,[phase]);
+  await run(assert,{evaluate:async()=>true},async()=>{throw Error('must not diagnose a pass')});
+ }
+});

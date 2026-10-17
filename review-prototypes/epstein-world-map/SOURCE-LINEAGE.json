@@ -14,7 +14,7 @@
     "scope": "Bounded gate-format/freshness/cleanup acceptance only; not this new harness"
   },
   "packetSha256": "f365d7f785d54556759230f0c6c27e65ec41ec3ad885fdaee1f46f72860175b5",
-  "appSourceConservation": "All application source except the declared world-model.ts metadata-admission binding and the reversible world-ui.ts selection-race repair remains byte-identical to the accepted historical UI. All source contracts, factual packet, anchors, projected metadata, root acceptance, CSS, geometry and readable fallback are unchanged. The interactive index and fixture are rebuilt with current pins; no production importer or runtime test hooks were added.",
+  "appSourceConservation": "All application source except the declared world-model.ts metadata-admission binding and the reversible world-ui.ts selection-race and modal focus repairs remains byte-identical to the accepted historical UI. All source contracts, factual packet, anchors, projected metadata, root acceptance, CSS, geometry and readable fallback are unchanged. The interactive index and fixture are rebuilt with current pins; no production importer or runtime test hooks were added.",
   "launchLineage": {
     "historicalBaselineHead": "578d6df168140d885268aca821a506acf5451bfe",
     "historicalRunId": "39000580224",
@@ -36,13 +36,13 @@
     "historicalReviewSha256": "b54f8c86b02e084a74f688088db36c17afb0fc17e9fe83eb4c0dd45c334b40f3",
     "shippedCandidateSha256": "3ef109703b95307fbd8ec79438ec9ceedf2eeda2395ce639d13004c2a1ccbb36",
     "shippedReviewSha256": "8853a868eb26435775aa50b847bcb2da477ee26d287c9b68ef795d6720b4086e",
-    "shippedHTMLSha256": "b35c834dc39cc4f84f9ef8e63e3d9c2e105825d71bf9525c689bdd17af2042fd",
-    "shippedFixtureSha256": "3eda48a2284d847a584b95b4d2c4708c75ba4a7657ee1ebd8b9582020506692b"
+    "shippedHTMLSha256": "5db4a1567b88fbe2fbe81d4e1e47cf62e904b436bab0681ebf00c79153d54b21",
+    "shippedFixtureSha256": "df94482b42c13c0aebdcea5fcdf92244aae06924a6dfb48b8e99fcd7e574b1a4"
   },
   "controllerSuccessor": {
     "baseHead": "f33bcdb760d58702c5aeffaaa120b8a39e4cfc38",
     "historicalControllerSha256": "a4f687e80147b0148d8a394e750e5f2b8e73a4cd43f5319eb345b624d3d26b1b",
-    "currentControllerSha256": "305580ba01ad4760a5e10f841f83204c2f39e415c6929ef993c7f77ad08047fa",
+    "currentControllerSha256": "b836958aab264fca9d2bf9cec074ca565ef7dda7afd1803e4a4099fcaaac0aff",
     "conservation": "PROJECTION-CONSERVATION.json",
     "originalProjectionReviewReceiptSha256": "8aa888c89f1afadb2b0a1ecc0b00f8985b9950f01e3c6e00584447aa29550e4d",
     "nativeAcceptance": false,
@@ -58,5 +58,23 @@
     "scope": "Every raw row remains intact and receives the original content, size and recursion validation. Only canonical-JSON-equal complete repeated rows are supported; conflicting ID reuse still fails. This is a bounded producer-format rule, not arbitrary-content privacy certification."
   },
   "historicalGateDelta": "GATE-DELTA.json is the retained original composition proposal. Current manifest.json is authoritative for current shipped bytes; later diagnostic and selection-race changes are separately declared here.",
-  "historicalProjectionDeclaration": "PUBLIC-PROJECTION.json is the unchanged initial metadata-only proposal. Its unchangedApplicationAreas describe that historical delta. Current controller conservation is separately defined in PROJECTION-CONSERVATION.json v2."
+  "historicalProjectionDeclaration": "PUBLIC-PROJECTION.json is the unchanged initial metadata-only proposal. Its unchangedApplicationAreas describe that historical delta. Current controller conservation is separately defined in PROJECTION-CONSERVATION.json v2.",
+  "focusSuccessor": {
+    "baseHead": "e95e50b58aad3f84053d7bd771148db00e9ecfbc",
+    "previousNativeRun": 39054355882,
+    "previousNativePassed": 488,
+    "nativeCases": 503,
+    "sourceRepairManifestSha256": "e9f146e7f7e732bacf019d5a7a1cceaf73cf6333dcb9e385549e61a1b3aea600",
+    "sourceRepairReceiptSha256": "e91101e5c64f7f4c66031de310f7e3e9da39b3e3f49f648b405e9761ef42703d",
+    "actualNativeCauseProven": false,
+    "modeledOldControllerGaps": 3,
+    "newModalFocusTests": 10,
+    "scope": "Focusable eligibility, document-level modal containment, preserved modifier shortcuts, Escape, return focus and selection lock. Original lazy renderer wraps in the model; adversarial eligibility cases do not identify the actual failed native focus destination."
+  },
+  "boundedFailureDiagnostics": {
+    "sizeParentReviewSha256": "67e0dab59286701cb8172d6ed8d2f4aae0da9a1fd77b4f8c631b55e3527078e1",
+    "focusParentReviewSha256": "01088a3054fbd566e5e961005b4bed599d59cac755497c06725287ef24894ee7",
+    "scope": "Failure-only fixed member classes and safe integer sizes; fixed focus phase, bounded control ordinals and boolean eligibility/containment flags. No raw text, IDs, selectors, paths or URLs in these diagnostics. Original assertion rethrows, artifact admission and budgets retained.",
+    "nativeAcceptance": false
+  }
 }

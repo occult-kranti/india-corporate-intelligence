@@ -38,3 +38,37 @@ export function axDuplicateDiagnostic(value){
   return {schema:'world-ax-duplicate-counts-v1',nodes,uniqueNodes,duplicateRows,identicalRows,conflictingRows,nativeAcceptance:false,artifactApproval:false};
  }catch{return null;}
 }
+
+// Closed size metadata from the trusted inventory, never an artifact grant.
+const SIZE_CAPTURES=Object.freeze(['01-initial','02-source-narrow-320','02-source-narrow-390','03-forced-colors-capacities','04-anchor-scotus','05-anchor-nydfs','06-anchor-usvi','07-critical-petition','08-schematic-relations','09-desktop-1024','failure']);
+const SIZE_MEMBERS=Object.freeze([
+ ...['report.json','summary.md','producer-receipt.json','trace.zip','network.har'].map((path,i)=>({path,kind:['report','summary','producer','trace','network'][i]})),
+ ...SIZE_CAPTURES.flatMap(path=>[['png','image'],['html','dom'],['ax.json','accessibility']].map(([suffix,kind])=>({path:path+'.'+suffix,kind}))),
+]);
+export function evidenceSizeDiagnostic(rows){
+ try{
+  if(!Array.isArray(rows)||rows.length<1||rows.length>38)return null;
+  const seen=new Set(),members=[];let totalBytes=0;
+  for(const row of rows){
+   if(!row||typeof row!=='object'||Array.isArray(row)||Object.keys(row).length!==4||!['path','bytes','sha256','gitBlob'].every(k=>own(row,k)))return null;
+   const index=SIZE_MEMBERS.findIndex(v=>v.path===row.path);
+   if(index<0||seen.has(index)||!Number.isSafeInteger(row.bytes)||row.bytes<0||typeof row.sha256!=='string'||!/^[a-f0-9]{64}$/.test(row.sha256)||typeof row.gitBlob!=='string'||!/^[a-f0-9]{40}$/.test(row.gitBlob))return null;
+   seen.add(index);totalBytes+=row.bytes;if(!Number.isSafeInteger(totalBytes))return null;
+   members.push({memberIndex:index,memberClass:SIZE_MEMBERS[index].kind,bytes:row.bytes});
+  }
+  return {schema:'world-evidence-size-diagnostic-v1',memberCount:members.length,totalBytes,memberLimitBytes:134217728,totalLimitBytes:536870912,members:members.sort((a,b)=>a.memberIndex-b.memberIndex),nativeAcceptance:false,artifactApproval:false};
+ }catch{return null;}
+}
+
+// Failure-only focus metadata. Content, IDs, selectors and paths are excluded.
+export function focusBoundaryDiagnostic(value){
+ try{
+  const names=['phase','controlCount','expectedOrdinal','activeOrdinal','activeContained','first','last','active'];
+  const flags=['hasRect','visible','disabled','hidden','inert','closedDetails'];
+  if(!value||typeof value!=='object'||Array.isArray(value)||Object.keys(value).length!==names.length||!names.every(k=>own(value,k)))return null;
+  if(!['forward-wrap','reverse-wrap'].includes(value.phase)||!Number.isSafeInteger(value.controlCount)||value.controlCount<1||value.controlCount>10000)return null;
+  if(value.expectedOrdinal!==(value.phase==='forward-wrap'?0:value.controlCount-1)||!Number.isSafeInteger(value.activeOrdinal)||value.activeOrdinal< -1||value.activeOrdinal>=value.controlCount||typeof value.activeContained!=='boolean'||(value.activeOrdinal>=0&&!value.activeContained))return null;
+  for(const name of ['first','last','active']){const v=value[name];if(!v||typeof v!=='object'||Array.isArray(v)||Object.keys(v).length!==flags.length||!flags.every(k=>own(v,k)&&typeof v[k]==='boolean'))return null;}
+  return {schema:'world-focus-boundary-diagnostic-v1',phase:value.phase,controlCount:value.controlCount,expectedOrdinal:value.expectedOrdinal,activeOrdinal:value.activeOrdinal,activeContained:value.activeContained,first:Object.fromEntries(flags.map(k=>[k,value.first[k]])),last:Object.fromEntries(flags.map(k=>[k,value.last[k]])),active:Object.fromEntries(flags.map(k=>[k,value.active[k]])),nativeAcceptance:false,artifactApproval:false};
+ }catch{return null;}
+}
