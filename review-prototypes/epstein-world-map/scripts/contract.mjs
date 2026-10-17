@@ -5,9 +5,9 @@ import {resolve,relative,sep} from 'node:path';
 export const ROOT=resolve(new URL('..',import.meta.url).pathname);
 export const PINS=Object.freeze({
  'data/packet.json':'f365d7f785d54556759230f0c6c27e65ec41ec3ad885fdaee1f46f72860175b5',
- 'dist/index.html':'383f017e8b50eefd0f86f43e262b3fbec6b465d7aac8d539181f896be852f7bf',
+ 'dist/index.html':'b35c834dc39cc4f84f9ef8e63e3d9c2e105825d71bf9525c689bdd17af2042fd',
  'dist/readable.html':'d6dd8bd6af2c768c2549a46a40d6bf7f6f904e65457a79fe899afaab41577b27'});
-export const FIXTURE_PIN='732fe531828d07b2fad45d7dc25fa73436518422b63dbbb27add56487140dae7';
+export const FIXTURE_PIN='3eda48a2284d847a584b95b4d2c4708c75ba4a7657ee1ebd8b9582020506692b';
 export const SOURCE_MANIFEST='98776713c6309efadac13968cb6350a72f83f2e8f627399ab1a175acdd126919';
 export const sha=b=>createHash('sha256').update(b).digest('hex');
 export const gitBlob=b=>createHash('sha1').update(`blob ${b.length}\0`).update(b).digest('hex');

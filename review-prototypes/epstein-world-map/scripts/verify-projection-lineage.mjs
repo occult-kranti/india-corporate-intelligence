@@ -2,6 +2,7 @@
 // No source body or machine-specific path is copied into the publication package.
 import assert from 'node:assert/strict';import {readFile} from 'node:fs/promises';import {resolve} from 'node:path';
 import {ROOT,sha} from './contract.mjs';
+import {verifyControllerDelta} from './verify-projection.mjs';
 assert(process.argv[2],'Supply the retained historical UI directory explicitly');
 const old=resolve(process.argv[2]),read=(root,path)=>readFile(resolve(root,path)),p=JSON.parse(await read(ROOT,'PUBLIC-PROJECTION.json')),proof=JSON.parse(await read(ROOT,'PROJECTION-CONSERVATION.json'));
 assert.equal(sha(await read(old,'manifest.json')),p.sourceHashes.acceptedUIManifest);
@@ -19,6 +20,7 @@ for(const row of proof.projectedDocuments){
  if(row.path.endsWith('anchor-review.json'))assert.deepEqual(projected.verification_scope,[source.notes[1],source.notes[2],source.notes[4]]);checked++;
 }
 for(const row of proof.unchangedMembers){const before=await read(old,row.path),after=await read(ROOT,row.path);assert.deepEqual(after,before,row.path);assert.equal(sha(before),row.sha256);}
+assert.equal(verifyControllerDelta(await read(ROOT,'src/world-ui.ts'),proof.controllerDelta),(await read(old,'src/world-ui.ts')).toString('utf8'));
 const before=(await read(old,'src/world-model.ts')).toString(),after=(await read(ROOT,'src/world-model.ts')).toString();
 assert.equal(sha(before),proof.modelBindingDelta.historicalSha256);assert.equal(sha(after),proof.modelBindingDelta.projectedSha256);
 const expression=/ if\(table\.packet_sha256.*?throw Error\('Map admission conjunction failed'\);/;

@@ -8,9 +8,23 @@ export function scanDocument(value,label='document'){
  const values=typed(value);for(const row of values)if(row.kind==='string')assert(!privateMarker.test(row.value),label+' private metadata at '+row.path);
  return {label,typedValues:values.length,strings:values.filter(x=>x.kind==='string').length};
 }
+export function verifyControllerDelta(bytes,delta){
+ assert.equal(delta.path,'src/world-ui.ts');assert.equal(delta.historicalBytes,21183);
+ assert.equal(delta.historicalSha256,'a4f687e80147b0148d8a394e750e5f2b8e73a4cd43f5319eb345b624d3d26b1b');
+ assert.equal(bytes.length,delta.currentBytes);assert.equal(sha(bytes),delta.currentSha256);
+ assert.equal(delta.replacements.length,4);let historical=bytes.toString('utf8');
+ for(const edit of [...delta.replacements].reverse()){
+  assert.equal(typeof edit.before,'string');assert.equal(typeof edit.after,'string');assert(edit.before.length&&edit.after.length);assert.notEqual(edit.before,edit.after);
+  assert.equal(historical.split(edit.after).length-1,1,'Each declared replacement must occur exactly once');historical=historical.replace(edit.after,edit.before);
+ }
+ assert.equal(Buffer.byteLength(historical),delta.historicalBytes);assert.equal(sha(historical),delta.historicalSha256);
+ return historical;
+}
 export async function verifyProjection(){
  const get=async f=>readFile(resolve(ROOT,f)),json=async f=>JSON.parse(await get(f));
  const p=await json('PUBLIC-PROJECTION.json'),proof=await json('PROJECTION-CONSERVATION.json');
+ assert.equal(proof.schema,'public-projection-source-conservation-v2');assert.equal(proof.unchangedMembers.length,23);assert(!proof.unchangedMembers.some(x=>x.path==='src/world-ui.ts'));
+ verifyControllerDelta(await get('src/world-ui.ts'),proof.controllerDelta);
  assert.equal(p.status,'PENDING_DISTINCT_CONSERVATION_REVIEW');assert.equal(p.publicationApproved,false);
  assert.equal(p.allowlistedOperations.length,38);
  const seen=new Set();for(const x of p.allowlistedOperations){const k=x.file+'#'+x.pointer;assert(!seen.has(k),k);seen.add(k);assert(['data/anchor-candidates.json','data/anchor-review.json'].includes(x.file));assert(['add','add-descendant','remove','replace','removed-container-descendant'].includes(x.operation));}
@@ -36,6 +50,6 @@ export async function verifyProjection(){
   const m=scripts.find(x=>x[1].includes('id="world-geometry"'));assert(m);const b=Buffer.from(m[2],'base64');assert.equal(b.toString('base64'),m[2]);assert(!privateMarker.test(b.toString()));assert(!/<(?:script|a|image|foreignObject)\b/i.test(b.toString()));if(geometry)assert.deepEqual(b,geometry);else geometry=b;decoded.push({document:f,input:'world-geometry',bytes:b.length,sha256:sha(b)});
  }
  const fallback=(await get('dist/readable.html')).toString();assert(!privateMarker.test(fallback));assert(!/<script\b/i.test(fallback));
- return {status:'PASS_COMPLETE_DECODED_INPUT_SCAN_AND_EXACT_CONSERVATION',distinctReview:'pending',publicationApproved:false,decoded,scans,unchangedMembers:proof.unchangedMembers.length,nativeExecuted:false,limitation:'Marker scanning and exact comparison are reproducible checks, not arbitrary-content privacy certification. Independent review must inspect the full public tree.'};
+ return {status:'PASS_COMPLETE_DECODED_INPUT_SCAN_AND_EXACT_CONSERVATION',distinctReview:'pending',publicationApproved:false,decoded,scans,unchangedMembers:proof.unchangedMembers.length,controllerDelta:1,nativeExecuted:false,limitation:'Marker scanning and exact comparison are reproducible checks, not arbitrary-content privacy certification. Independent review must inspect the full public tree.'};
 }
 if(process.argv[1]&&pathToFileURL(resolve(process.argv[1])).href===import.meta.url)console.log(JSON.stringify(await verifyProjection(),null,2));

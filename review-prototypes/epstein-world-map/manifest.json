@@ -10,7 +10,7 @@
     "deployment": false
   },
   "sourceIdentity": {
-    "schema": "world-board-native-lineage-v1",
+    "schema": "world-board-native-lineage-v2",
     "acceptedUI": {
       "manifestSha256": "98776713c6309efadac13968cb6350a72f83f2e8f627399ab1a175acdd126919",
       "distinctReviewReceiptSha256": "f1084d72b81fd42630f94387fe7ed4748b491a9da45dd275da23b2cabce2c666",
@@ -25,7 +25,7 @@
       "scope": "Bounded gate-format/freshness/cleanup acceptance only; not this new harness"
     },
     "packetSha256": "f365d7f785d54556759230f0c6c27e65ec41ec3ad885fdaee1f46f72860175b5",
-    "appSourceConservation": "All application source except the explicitly declared world-model.ts admission binding, all source contracts, factual packet, anchors, root acceptance and readable fallback remain byte-identical. Candidate/review metadata and index/fixture are projected/rebuilt with their own pins. No production importer or runtime test hooks were added.",
+    "appSourceConservation": "All application source except the declared world-model.ts metadata-admission binding and the reversible world-ui.ts selection-race repair remains byte-identical to the accepted historical UI. All source contracts, factual packet, anchors, projected metadata, root acceptance, CSS, geometry and readable fallback are unchanged. The interactive index and fixture are rebuilt with current pins; no production importer or runtime test hooks were added.",
     "launchLineage": {
       "historicalBaselineHead": "578d6df168140d885268aca821a506acf5451bfe",
       "historicalRunId": "39000580224",
@@ -47,9 +47,29 @@
       "historicalReviewSha256": "b54f8c86b02e084a74f688088db36c17afb0fc17e9fe83eb4c0dd45c334b40f3",
       "shippedCandidateSha256": "3ef109703b95307fbd8ec79438ec9ceedf2eeda2395ce639d13004c2a1ccbb36",
       "shippedReviewSha256": "8853a868eb26435775aa50b847bcb2da477ee26d287c9b68ef795d6720b4086e",
-      "shippedHTMLSha256": "383f017e8b50eefd0f86f43e262b3fbec6b465d7aac8d539181f896be852f7bf",
-      "shippedFixtureSha256": "732fe531828d07b2fad45d7dc25fa73436518422b63dbbb27add56487140dae7"
-    }
+      "shippedHTMLSha256": "b35c834dc39cc4f84f9ef8e63e3d9c2e105825d71bf9525c689bdd17af2042fd",
+      "shippedFixtureSha256": "3eda48a2284d847a584b95b4d2c4708c75ba4a7657ee1ebd8b9582020506692b"
+    },
+    "controllerSuccessor": {
+      "baseHead": "f33bcdb760d58702c5aeffaaa120b8a39e4cfc38",
+      "historicalControllerSha256": "a4f687e80147b0148d8a394e750e5f2b8e73a4cd43f5319eb345b624d3d26b1b",
+      "currentControllerSha256": "305580ba01ad4760a5e10f841f83204c2f39e415c6929ef993c7f77ad08047fa",
+      "conservation": "PROJECTION-CONSERVATION.json",
+      "originalProjectionReviewReceiptSha256": "8aa888c89f1afadb2b0a1ecc0b00f8985b9950f01e3c6e00584447aa29550e4d",
+      "nativeAcceptance": false,
+      "scope": "Controlled-layout old-bundle reproduction and successor regression; actual browser validation is still required."
+    },
+    "axFormatSuccessor": {
+      "observedRunId": 39050899989,
+      "observedRawNodes": 2895,
+      "observedUniqueNodes": 2894,
+      "observedIdenticalRows": 1,
+      "observedConflictingRows": 0,
+      "observedActualBrowserVersionAvailable": false,
+      "scope": "Every raw row remains intact and receives the original content, size and recursion validation. Only canonical-JSON-equal complete repeated rows are supported; conflicting ID reuse still fails. This is a bounded producer-format rule, not arbitrary-content privacy certification."
+    },
+    "historicalGateDelta": "GATE-DELTA.json is the retained original composition proposal. Current manifest.json is authoritative for current shipped bytes; later diagnostic and selection-race changes are separately declared here.",
+    "historicalProjectionDeclaration": "PUBLIC-PROJECTION.json is the unchanged initial metadata-only proposal. Its unchangedApplicationAreas describe that historical delta. Current controller conservation is separately defined in PROJECTION-CONSERVATION.json v2."
   },
   "scope": {
     "entries": 61,
@@ -502,9 +522,9 @@
     },
     {
       "path": "PROJECTION-CONSERVATION.json",
-      "bytes": 5669,
-      "sha256": "fc31660df27fa59ae6745ad82f8a2735380546a56de751c37a6eb0b25b66b5ea",
-      "gitBlob": "87274f5d17ee9f10e71f516ecce56ddae8b73683"
+      "bytes": 7153,
+      "sha256": "63e999df3a1293a4a59323925446b528d11f8423d95ad72ce8da04a46844cb58",
+      "gitBlob": "91979d2aacc85f55379b52d76e31b47a77b18e7a"
     },
     {
       "path": "PUBLIC-PROJECTION.json",
@@ -520,15 +540,15 @@
     },
     {
       "path": "README.md",
-      "bytes": 9839,
-      "sha256": "7489b36f10aa5ac52cede49d6a97543aaa0d23cc9afa0384ad4b93bec8f6c267",
-      "gitBlob": "7eb2e6aae46c2acccb308dcebaa86f71e6ddc487"
+      "bytes": 12437,
+      "sha256": "70ef5992c84613f6a8d1140757e6b0107be3937b7cf9ca7462a0bab395b8d622",
+      "gitBlob": "6c57b31c253fbac360f7f5ab1fec0b27c0fa29dc"
     },
     {
       "path": "SOURCE-LINEAGE.json",
-      "bytes": 3111,
-      "sha256": "0c9d9392285bbb83cb1cda8fcc4a41e78713bbcb8372f3226f4dd296c0afe455",
-      "gitBlob": "c1797e417bc69fdfe477b4b6fefe3704dc4ec4d9"
+      "bytes": 4870,
+      "sha256": "e7d07866483315aa77b70678422b51136a4cbbb1ed60d5fd856eb8ed7a90af40",
+      "gitBlob": "d0146170757a90d44d8861b07e54eeb7e3e44a98"
     },
     {
       "path": "assets/world-countries-50m.json",
@@ -616,15 +636,15 @@
     },
     {
       "path": "dist/controller-fixture.html",
-      "bytes": 3669460,
-      "sha256": "732fe531828d07b2fad45d7dc25fa73436518422b63dbbb27add56487140dae7",
-      "gitBlob": "af0971b17a37febf83e8fa1b520c65b6d2dc321e"
+      "bytes": 3669541,
+      "sha256": "3eda48a2284d847a584b95b4d2c4708c75ba4a7657ee1ebd8b9582020506692b",
+      "gitBlob": "1662c3cf7af7f13e10adad3b1e4f5634fc96d830"
     },
     {
       "path": "dist/index.html",
-      "bytes": 3669223,
-      "sha256": "383f017e8b50eefd0f86f43e262b3fbec6b465d7aac8d539181f896be852f7bf",
-      "gitBlob": "cba0804f093b0440194e10f71a5ac8617a4444d9"
+      "bytes": 3669304,
+      "sha256": "b35c834dc39cc4f84f9ef8e63e3d9c2e105825d71bf9525c689bdd17af2042fd",
+      "gitBlob": "3d8a0f6b1e26ef57cda17c12d7f0a20866f17b8c"
     },
     {
       "path": "dist/readable.html",
@@ -664,15 +684,15 @@
     },
     {
       "path": "scripts/audit-raw.py",
-      "bytes": 8890,
-      "sha256": "5d1c52097e60b2071b6dfdb20e22cb27992f3ca47da712195f63b74f8d79cb01",
-      "gitBlob": "e251f64b4c29d6cb29fcdc58011435753dfac169"
+      "bytes": 8947,
+      "sha256": "a613c67642e5bb67b70847c2d3678097bc0ba7a300d9d2c0a1e6cc4fd43a0afd",
+      "gitBlob": "2278d20f80569b472e5e843efca995931edc8f5f"
     },
     {
       "path": "scripts/audit-trace.py",
       "bytes": 23505,
-      "sha256": "cfc8637431a1849159581cd04a1e6408aa3ee0ec14030d1738c6540ea3416e82",
-      "gitBlob": "ffe31e724e5bc82e7e3625a1444c72925be6709e"
+      "sha256": "8f9934b516dd588053a55d33bea0c7b5ab2ff726c5af64671977bd56929033ab",
+      "gitBlob": "8e2076effe32736efbb49fe6d9ab40e4577312d1"
     },
     {
       "path": "scripts/build-app.mjs",
@@ -689,8 +709,8 @@
     {
       "path": "scripts/contract.mjs",
       "bytes": 6342,
-      "sha256": "d637a73e889bb6c72e3433f4fa02bba298d8f16fd4c37d49a3044d69a8e2c43f",
-      "gitBlob": "41356d491db17f78794c82d0a2ffaf6b993a3406"
+      "sha256": "fa1ca4b5b7d61772b1e77698a3f634f3a3b2ee9b94aed910f5fc157d0761333f",
+      "gitBlob": "41265a8e1dc672161d23f61717cee26ed7fc24fc"
     },
     {
       "path": "scripts/decode-image.mjs",
@@ -765,6 +785,12 @@
       "gitBlob": "968f8998f232909a2c535f4bd1552217bc40dcd4"
     },
     {
+      "path": "scripts/run-world-portable.mjs",
+      "bytes": 3798,
+      "sha256": "9c0eeefbf68c65547d7a1266af9d503fe7417567671a7b27244f6adb661a8e9c",
+      "gitBlob": "7dcbd9fef8d92fda165e839ffeab5665599bfe36"
+    },
+    {
       "path": "scripts/server.mjs",
       "bytes": 1520,
       "sha256": "d534ca4056775ee88652887188ac890bea051cfd85bc4e3ab2dc306ed12133cc",
@@ -778,15 +804,15 @@
     },
     {
       "path": "scripts/verify-projection-lineage.mjs",
-      "bytes": 3841,
-      "sha256": "21e0505d5e9dda99cf3f21b612dc924dc106d31d4f54098fceb1c000f2f97c55",
-      "gitBlob": "cb819019bf5041034c18e7151191b9549fab0141"
+      "bytes": 4052,
+      "sha256": "69062079377ae120373bb8e4f02f8cf19f2fa097481213458c4c4e77217bb6e7",
+      "gitBlob": "6665b73502f48e71f72fbc5efde430d40ef61acf"
     },
     {
       "path": "scripts/verify-projection.mjs",
-      "bytes": 5636,
-      "sha256": "77169e9227652abf192a1dd33bf44b7f18830d4f46ed4bc53ded029d3a940c32",
-      "gitBlob": "4b60087552ae5bd9a2c1cc5d5518175dcb651737"
+      "bytes": 6873,
+      "sha256": "8077667036c72f60e4c9bd529f293ec1f38be5aac81f872a753d9b3c36312379",
+      "gitBlob": "c654a7c414b2f5d6cd0a23ea2e111a665f86f895"
     },
     {
       "path": "scripts/world-cases.mjs",
@@ -856,9 +882,9 @@
     },
     {
       "path": "src/world-ui.ts",
-      "bytes": 21183,
-      "sha256": "a4f687e80147b0148d8a394e750e5f2b8e73a4cd43f5319eb345b624d3d26b1b",
-      "gitBlob": "13e7d8c0af6bcc300e75df9e52f1f7a0e7ef495e"
+      "bytes": 21562,
+      "sha256": "305580ba01ad4760a5e10f841f83204c2f39e415c6929ef993c7f77ad08047fa",
+      "gitBlob": "4ec9e76720b64144a7aa630cc591f7b25287bd40"
     },
     {
       "path": "src/world-view.ts",
@@ -873,10 +899,22 @@
       "gitBlob": "824f1e9814d9bf2d07ccde81ede7baa0facf6c34"
     },
     {
+      "path": "test-dependencies/package-lock.json",
+      "bytes": 18690,
+      "sha256": "9514550391c421bfec3fb8cd8d98c7f2c30d0ba65c26a24e8de068081e9b97a2",
+      "gitBlob": "02c8390e7461e048b644ef1ce1137af8a587f508"
+    },
+    {
+      "path": "test-dependencies/package.json",
+      "bytes": 181,
+      "sha256": "626813e1727d7640330ce48e466e33d237d5b8e49f4e5efc4335ede6d9e425c4",
+      "gitBlob": "aa3c87df3652056f1a295cf959ff31dcd987c52f"
+    },
+    {
       "path": "tests/api-inventory.test.mjs",
-      "bytes": 14255,
-      "sha256": "35c26dd84ce66a16eb42c70415828cbee0996403a90e0b926fe2fc39f730faf2",
-      "gitBlob": "687cd944b238cb7cefa4f5117397bcbfd5c4b8a6"
+      "bytes": 14487,
+      "sha256": "4de16b9a15097c6ca42e07de8411de7386bef260af1f57de6ed9d7cba9308f71",
+      "gitBlob": "7e680904e96cc7f5a67e74101fce8df5eafc6085"
     },
     {
       "path": "tests/evidence-gate.test.mjs",
@@ -904,9 +942,15 @@
     },
     {
       "path": "tests/projection.test.mjs",
-      "bytes": 1925,
-      "sha256": "42f3fc5b02efb48ea080ad5e0cf6386c407b954a49ec3ad13017b833c174d850",
-      "gitBlob": "48fc74ae0b04b43262480dc0958a0bf9f4ce5f97"
+      "bytes": 3108,
+      "sha256": "f806c5123d8a05b4029dcb9dbae5ae0556e7340928bb0dd0ce30e32fe69817df",
+      "gitBlob": "a1908e3dc2f2d0fadc172c709e67166c134684e3"
+    },
+    {
+      "path": "tests/selection-race.test.mjs",
+      "bytes": 9605,
+      "sha256": "ff53b340fa25f69f2dbb0d081921a90b351be51bd8b98cca7e00627a01028883",
+      "gitBlob": "e65b7eb59d294f041e44f29732a1f7da250153b8"
     },
     {
       "path": "tests/world-package.test.mjs",
@@ -936,9 +980,26 @@
   "workflowMembers": [
     {
       "path": ".github/workflows/epstein-world-board-native.yml",
-      "bytes": 4797,
-      "sha256": "2ac07d36ee56e6a59cca9d5473588bd405b3ccc7d325d099af9cccdc0df7db05",
-      "gitBlob": "8f3b60ab80935bbe59b91d7024b3b1871fafbe71"
+      "bytes": 4980,
+      "sha256": "ea21a69ebb5dd85066bc30b651f2f1c798a58da0416f4dbd158a5aa874337a93",
+      "gitBlob": "56aeed30f2f0fc1dcd58415376df44e0faef943e"
     }
-  ]
+  ],
+  "successorScope": {
+    "baseHead": "f33bcdb760d58702c5aeffaaa120b8a39e4cfc38",
+    "baseManifestSha256": "117c7f378a992e09becfd54a2e98f23fb31e1757a61517499f728da2b99e028e",
+    "controllerRepair": "PROJECTION-CONSERVATION.json#controllerDelta",
+    "AXSupport": "Canonical JSON equal complete repeats only; validate and preserve every raw row; conflicting ID reuse still denied",
+    "mandatoryCIReplay": {
+      "originalWorldTests": 18,
+      "selectionRaceTests": 3,
+      "typing": "Strict source and controller-fixture TypeScript 5.6.3",
+      "jsdom": "26.1.0",
+      "installation": "Official-registry integrity-pinned dev-test lock, lifecycle scripts disabled, temporary copy only"
+    },
+    "nativeCases": 503,
+    "nativeAcceptance": false,
+    "newResearch": false,
+    "historicalDeclarations": "PUBLIC-PROJECTION.json and GATE-DELTA.json describe the initial proposal; sourceIdentity and this exact manifest describe current bytes."
+  }
 }

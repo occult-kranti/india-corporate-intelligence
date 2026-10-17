@@ -1,6 +1,6 @@
 {
-  "schema": "public-projection-source-conservation-v1",
-  "scope": "Local reproducible source comparison; distinct review and publication approval remain pending",
+  "schema": "public-projection-source-conservation-v2",
+  "scope": "Exact original metadata projection plus one separately declared controller selection-race repair; native acceptance remains open.",
   "projectedDocuments": [
     {
       "path": "data/anchor-candidates.json",
@@ -57,11 +57,6 @@
       "path": "src/ui.ts",
       "bytes": 11170,
       "sha256": "41f06d4aa5dc776aa4b56299fb17614f3eb88075ec04dd3fa28f063642cbfeed"
-    },
-    {
-      "path": "src/world-ui.ts",
-      "bytes": 21183,
-      "sha256": "a4f687e80147b0148d8a394e750e5f2b8e73a4cd43f5319eb345b624d3d26b1b"
     },
     {
       "path": "src/world-view.ts",
@@ -153,15 +148,43 @@
   "rebuiltDocuments": [
     {
       "path": "dist/index.html",
-      "bytes": 3669223,
-      "sha256": "383f017e8b50eefd0f86f43e262b3fbec6b465d7aac8d539181f896be852f7bf"
+      "bytes": 3669304,
+      "sha256": "b35c834dc39cc4f84f9ef8e63e3d9c2e105825d71bf9525c689bdd17af2042fd"
     },
     {
       "path": "dist/controller-fixture.html",
-      "bytes": 3669460,
-      "sha256": "732fe531828d07b2fad45d7dc25fa73436518422b63dbbb27add56487140dae7"
+      "bytes": 3669541,
+      "sha256": "3eda48a2284d847a584b95b4d2c4708c75ba4a7657ee1ebd8b9582020506692b"
     }
   ],
   "rootAcceptanceReceiptScanned": true,
-  "historicalApprovalAppliesOnlyToOriginalHashes": true
+  "historicalApprovalAppliesOnlyToOriginalHashes": true,
+  "historicalProjectionProofSha256": "fc31660df27fa59ae6745ad82f8a2735380546a56de751c37a6eb0b25b66b5ea",
+  "controllerDelta": {
+    "path": "src/world-ui.ts",
+    "historicalBytes": 21183,
+    "historicalSha256": "a4f687e80147b0148d8a394e750e5f2b8e73a4cd43f5319eb345b624d3d26b1b",
+    "currentBytes": 21562,
+    "currentSha256": "305580ba01ad4760a5e10f841f83204c2f39e415c6929ef993c7f77ad08047fa",
+    "replacements": [
+      {
+        "before": "keepModal=false){if(!model)",
+        "after": "keepModal=false,protectSelection=true){if(!model)"
+      },
+      {
+        "before": "mark();if(history!=='none')",
+        "after": "mark();\n // Click/focus may already have moved the rail while its scroll event is still\n // queued. Keep this exact explicit selection at that offset. A new position or\n // the existing wheel/pointer/touch/key handlers still resumes scroll selection.\n if(protectSelection)centerLock={left:q('#timeline-track').scrollLeft,pointer:s.pointer};if(history!=='none')"
+      },
+      {
+        "before": "select(nearest.dataset.timelinePointer,'replace');",
+        "after": "select(nearest.dataset.timelinePointer,'replace',false,false);"
+      },
+      {
+        "before": "select(initial,'replace');renderTimeline()",
+        "after": "select(initial,'replace',false,false);renderTimeline()"
+      }
+    ],
+    "scope": "Explicit selection retains its current rail offset; boot and scroll-derived selection remain unlocked. Original same-offset tolerance, manual-intent release, source content and history policy are retained.",
+    "nativeEventOrderProven": false
+  }
 }

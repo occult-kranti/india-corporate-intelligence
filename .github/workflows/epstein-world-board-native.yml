@@ -50,6 +50,8 @@ jobs:
           echo 'a6e52ae408cbf957e3726601864d149703f1be96e13c607f16cdf8fd9f383134  spatial-prototype/package.json' | sha256sum -c -
           echo '01e715955bbde6e3b4baf72ecfaaab25be89503fda4a992d8cd9b2e16c3c1926  spatial-prototype/package-lock.json' | sha256sum -c -
           npm ci --ignore-scripts --prefix spatial-prototype
+      - name: Replay unchanged world tests, race regressions and strict types in an isolated copy
+        run: node review-prototypes/epstein-world-map/scripts/run-world-portable.mjs
       - name: Test exact local documents with installed Chrome and sandbox enabled
         run: node --max-old-space-size=2048 review-prototypes/epstein-world-map/scripts/native-review.mjs
       - name: Audit exact current-run evidence and bounded producer envelope

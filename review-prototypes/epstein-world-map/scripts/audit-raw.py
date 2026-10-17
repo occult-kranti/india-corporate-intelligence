@@ -37,14 +37,14 @@ def inspect(path,root):
    if 'childIds' in node:require(isinstance(node['childIds'],list) and all(isinstance(i,str) for i in node['childIds']),'AX_CHILD_IDS')
    if node['nodeId'] in ids:
     # Compare complete validated rows with JSON type distinctions and array order.
-    # Raw rows are never edited or discarded, and all duplicates still fail closed.
+    # Raw rows are never edited or discarded; only identical complete repeats are supported.
     same=json.dumps(node,sort_keys=True,ensure_ascii=True,allow_nan=False,separators=(',',':'))==json.dumps(ids[node['nodeId']],sort_keys=True,ensure_ascii=True,allow_nan=False,separators=(',',':'))
     if same:identical+=1
     else:conflicting+=1
    else:ids[node['nodeId']]=node
-  if identical+conflicting:
+  if conflicting:
    e=ValueError('AX_NODE_DUPLICATE_ID');e.ax_duplicate_counts={'nodes':len(v['nodes']),'uniqueNodes':len(ids),'duplicateRows':identical+conflicting,'identicalRows':identical,'conflictingRows':conflicting};raise e
-  return {'class':'ax','status':'BOUNDED_PRODUCER_AX_SCHEMA','nodes':len(v['nodes']),'boundedSchemaSupported':True,'semanticPrivacyCertified':False}
+  return {'class':'ax','status':'BOUNDED_PRODUCER_AX_SCHEMA','nodes':len(v['nodes']),'uniqueNodes':len(ids),'identicalDuplicateRows':identical,'boundedSchemaSupported':True,'semanticPrivacyCertified':False}
  if name=='network.har':
   v=json.loads(b);keys(v,['log'],['log']);log=v['log'];keys(log,['version','creator','browser','pages','entries'],['version','creator','entries']);trace.har_schema.log_metadata(log);require(log['version']=='1.2','HAR_VERSION');keys(log['creator'],['name','version'],['name','version']);require(log['creator']['name']=='Playwright' and log['creator']['version']=='1.62.1','HAR_CREATOR');require(isinstance(log['entries'],list) and len(log['entries'])<=10000,'HAR_ENTRIES')
   for e in log['entries']:

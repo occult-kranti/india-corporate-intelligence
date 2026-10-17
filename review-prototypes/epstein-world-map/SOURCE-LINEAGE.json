@@ -1,5 +1,5 @@
 {
-  "schema": "world-board-native-lineage-v1",
+  "schema": "world-board-native-lineage-v2",
   "acceptedUI": {
     "manifestSha256": "98776713c6309efadac13968cb6350a72f83f2e8f627399ab1a175acdd126919",
     "distinctReviewReceiptSha256": "f1084d72b81fd42630f94387fe7ed4748b491a9da45dd275da23b2cabce2c666",
@@ -14,7 +14,7 @@
     "scope": "Bounded gate-format/freshness/cleanup acceptance only; not this new harness"
   },
   "packetSha256": "f365d7f785d54556759230f0c6c27e65ec41ec3ad885fdaee1f46f72860175b5",
-  "appSourceConservation": "All application source except the explicitly declared world-model.ts admission binding, all source contracts, factual packet, anchors, root acceptance and readable fallback remain byte-identical. Candidate/review metadata and index/fixture are projected/rebuilt with their own pins. No production importer or runtime test hooks were added.",
+  "appSourceConservation": "All application source except the declared world-model.ts metadata-admission binding and the reversible world-ui.ts selection-race repair remains byte-identical to the accepted historical UI. All source contracts, factual packet, anchors, projected metadata, root acceptance, CSS, geometry and readable fallback are unchanged. The interactive index and fixture are rebuilt with current pins; no production importer or runtime test hooks were added.",
   "launchLineage": {
     "historicalBaselineHead": "578d6df168140d885268aca821a506acf5451bfe",
     "historicalRunId": "39000580224",
@@ -36,7 +36,27 @@
     "historicalReviewSha256": "b54f8c86b02e084a74f688088db36c17afb0fc17e9fe83eb4c0dd45c334b40f3",
     "shippedCandidateSha256": "3ef109703b95307fbd8ec79438ec9ceedf2eeda2395ce639d13004c2a1ccbb36",
     "shippedReviewSha256": "8853a868eb26435775aa50b847bcb2da477ee26d287c9b68ef795d6720b4086e",
-    "shippedHTMLSha256": "383f017e8b50eefd0f86f43e262b3fbec6b465d7aac8d539181f896be852f7bf",
-    "shippedFixtureSha256": "732fe531828d07b2fad45d7dc25fa73436518422b63dbbb27add56487140dae7"
-  }
+    "shippedHTMLSha256": "b35c834dc39cc4f84f9ef8e63e3d9c2e105825d71bf9525c689bdd17af2042fd",
+    "shippedFixtureSha256": "3eda48a2284d847a584b95b4d2c4708c75ba4a7657ee1ebd8b9582020506692b"
+  },
+  "controllerSuccessor": {
+    "baseHead": "f33bcdb760d58702c5aeffaaa120b8a39e4cfc38",
+    "historicalControllerSha256": "a4f687e80147b0148d8a394e750e5f2b8e73a4cd43f5319eb345b624d3d26b1b",
+    "currentControllerSha256": "305580ba01ad4760a5e10f841f83204c2f39e415c6929ef993c7f77ad08047fa",
+    "conservation": "PROJECTION-CONSERVATION.json",
+    "originalProjectionReviewReceiptSha256": "8aa888c89f1afadb2b0a1ecc0b00f8985b9950f01e3c6e00584447aa29550e4d",
+    "nativeAcceptance": false,
+    "scope": "Controlled-layout old-bundle reproduction and successor regression; actual browser validation is still required."
+  },
+  "axFormatSuccessor": {
+    "observedRunId": 39050899989,
+    "observedRawNodes": 2895,
+    "observedUniqueNodes": 2894,
+    "observedIdenticalRows": 1,
+    "observedConflictingRows": 0,
+    "observedActualBrowserVersionAvailable": false,
+    "scope": "Every raw row remains intact and receives the original content, size and recursion validation. Only canonical-JSON-equal complete repeated rows are supported; conflicting ID reuse still fails. This is a bounded producer-format rule, not arbitrary-content privacy certification."
+  },
+  "historicalGateDelta": "GATE-DELTA.json is the retained original composition proposal. Current manifest.json is authoritative for current shipped bytes; later diagnostic and selection-race changes are separately declared here.",
+  "historicalProjectionDeclaration": "PUBLIC-PROJECTION.json is the unchanged initial metadata-only proposal. Its unchangedApplicationAreas describe that historical delta. Current controller conservation is separately defined in PROJECTION-CONSERVATION.json v2."
 }

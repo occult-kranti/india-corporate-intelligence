@@ -24,11 +24,11 @@ function diagnosticReport(){return {status:'failed',completedCases:264,plannedCa
 test('diagnostic emits only bounded enum/index/location values, never text or record identifiers',()=>{const r=diagnosticReport(),d=failureDiagnostic(r,diagnosticOptions);assert.deepEqual(d,{schema:'world-native-bounded-diagnostic-v1',status:'failed',passedCases:264,totalCases:503,failedGroupIndices:[1],failedCaseIndices:[],errorKind:'assertion',ownedSourceLocation:{scriptIndex:0,line:57,column:4},nativeAcceptance:false,artifactApproval:false});assert(!JSON.stringify(d).includes('secret'));assert(!JSON.stringify(d).includes('fixture'));r.plannedCases[264].status='failed';assert.deepEqual(failureDiagnostic(r,diagnosticOptions).failedCaseIndices,[264]);});
 test('diagnostic rejects altered coverage, status, counts and malformed input rather than printing it',()=>{const mutations=[r=>r.plannedCases.pop(),r=>r.plannedCases[0].id='SECRET',r=>r.plannedCases[0].status='SECRET',r=>r.plannedCheckGroups[1].name='SECRET',r=>r.plannedCheckGroups[1].status='SECRET',r=>r.completedCases=265,r=>r.completedCases=NaN,r=>r.status='SECRET',r=>r.status='automated-native-checks-passed-manual-gates-open'];for(const mutate of mutations){const r=diagnosticReport();mutate(r);assert.equal(failureDiagnostic(r,diagnosticOptions).status,'unavailable');}for(const r of [null,{},[],new Proxy({},{get(){throw Error('SECRET')}})])assert.equal(failureDiagnostic(r,diagnosticOptions).status,'unavailable');assert.equal(failureDiagnostic(diagnosticReport(),{...diagnosticOptions,plannedIds:['SECRET']}).status,'unavailable');});
 test('diagnostic cannot emit arbitrary error text, paths, filenames, huge locations or control characters',()=>{for(const error of ['SECRET','Error: SECRET\n    at file:///other/private/native-review.mjs:1:2','Error: SECRET\n    at file:///fixture/approved/scripts/secret.mjs:1:2','Error: SECRET\n    at file:///fixture/approved/scripts/native-review.mjs:101:2','Error: SECRET\n    at file:///fixture/approved/scripts/native-review.mjs:1:999999','Error: SECRET\n    at file:///fixture/approved/scripts/native-review.mjs:0:2','Error: SECRET\n    at file:///fixture/approved/scripts/native-review.mjs:1:2 SECRET','x'.repeat(65537),{secret:'SECRET'}]){const r=diagnosticReport();r.error=error;const d=failureDiagnostic(r,diagnosticOptions);assert.equal(d.ownedSourceLocation,null);assert(!/SECRET|fixture|private|secret/.test(JSON.stringify(d)));assert.equal(d.nativeAcceptance,false);assert.equal(d.artifactApproval,false);}const r=diagnosticReport();r.error='TimeoutError: SECRET';assert.equal(failureDiagnostic(r,diagnosticOptions).errorKind,'timeout');});
-test('AX diagnosis splits rejection reasons without accepting duplicate or ill-typed node identities',()=>{const code=`import pathlib,json,sys,tempfile,importlib.util
+test('AX diagnosis supports only identical repeated rows and rejects ill-typed node identities',()=>{const code=`import pathlib,json,sys,tempfile,importlib.util
 sys.dont_write_bytecode=True
 r=pathlib.Path(${JSON.stringify(ROOT)});s=importlib.util.spec_from_file_location('raw',r/'scripts/audit-raw.py');m=importlib.util.module_from_spec(s);s.loader.exec_module(m)
 valid={'nodeId':'1','ignored':False}
-cases=[([valid],None),([valid,{'nodeId':'2','ignored':True}],None),([valid,valid],'AX_NODE_DUPLICATE_ID'),([{'nodeId':1,'ignored':False}],'AX_NODE_ID_TYPE'),([{'nodeId':None,'ignored':False}],'AX_NODE_ID_TYPE'),([{'nodeId':[],'ignored':False}],'AX_NODE_ID_TYPE'),([{'nodeId':'1','ignored':'false'}],'AX_IGNORED_TYPE'),([{'nodeId':'1','ignored':0}],'AX_IGNORED_TYPE'),([{'nodeId':'1','ignored':None}],'AX_IGNORED_TYPE')]
+cases=[([valid],None),([valid,{'nodeId':'2','ignored':True}],None),([valid,valid],None),([{'nodeId':1,'ignored':False}],'AX_NODE_ID_TYPE'),([{'nodeId':None,'ignored':False}],'AX_NODE_ID_TYPE'),([{'nodeId':[],'ignored':False}],'AX_NODE_ID_TYPE'),([{'nodeId':'1','ignored':'false'}],'AX_IGNORED_TYPE'),([{'nodeId':'1','ignored':0}],'AX_IGNORED_TYPE'),([{'nodeId':'1','ignored':None}],'AX_IGNORED_TYPE')]
 with tempfile.TemporaryDirectory() as d:
  p=pathlib.Path(d)/'01-initial.ax.json'
  for nodes,expected in cases:
@@ -36,8 +36,8 @@ with tempfile.TemporaryDirectory() as d:
   try:m.inspect(p,r)
   except ValueError as e:actual=str(e)
   assert actual==expected,(expected,actual)
-print(json.dumps({'cases':len(cases),'acceptances':2,'rejections':7,'rawBodiesLogged':False}))
-`;const r=spawnSync('python3',['-c',code],{encoding:'utf8'});assert.equal(r.status,0,r.stdout+'\n'+r.stderr);assert.deepEqual(JSON.parse(r.stdout),{cases:9,acceptances:2,rejections:7,rawBodiesLogged:false});});
+print(json.dumps({'cases':len(cases),'acceptances':3,'rejections':6,'rawBodiesLogged':False}))
+`;const r=spawnSync('python3',['-c',code],{encoding:'utf8'});assert.equal(r.status,0,r.stdout+'\n'+r.stderr);assert.deepEqual(JSON.parse(r.stdout),{cases:9,acceptances:3,rejections:6,rawBodiesLogged:false});});
 
 import {readFile} from 'node:fs/promises';
 import {readInputs,records,at,typed,ownerPaths,ownerKind} from '../scripts/contract.mjs';
@@ -67,24 +67,25 @@ test('AX duplicate counts never grant acceptance or disclose row values and reje
  assert.deepEqual(axDuplicateDiagnostic(good),{schema:'world-ax-duplicate-counts-v1',...good,nativeAcceptance:false,artifactApproval:false});
  for(const v of [null,[],{}, {...good,nodeId:'SECRET'}, {...good,nodes:'SECRET'}, {...good,nodes:100001}, {...good,nodes:NaN}, {...good,nodes:Infinity}, {...good,nodes:4.5}, {...good,nodes:true}, {...good,nodes:0}, {...good,uniqueNodes:0}, {...good,duplicateRows:0}, {...good,identicalRows:-1}, {...good,conflictingRows:2},new Proxy({},{ownKeys(){throw Error('SECRET')}})])assert.equal(axDuplicateDiagnostic(v),null);
 });
-test('every duplicate remains denied while complete validated row equality is counted without raw output',()=>{
+test('only exact complete AX repeats are supported, with raw rows and all conflict/budget refusals retained',()=>{
  const code=`import pathlib,json,sys,tempfile,importlib.util,copy,hashlib
 sys.dont_write_bytecode=True
 r=pathlib.Path(${JSON.stringify(ROOT)});s=importlib.util.spec_from_file_location('raw',r/'scripts/audit-raw.py');m=importlib.util.module_from_spec(s);s.loader.exec_module(m)
-base={'nodeId':'opaque-fixture-id','ignored':False,'name':{'type':'computedString','value':'synthetic-only-secret'},'role':{'type':'role','value':'generic'},'value':{'type':'integer','value':1},'childIds':['child'],'properties':[{'name':'focusable','value':{'type':'boolean','value':True}}]}
+base={'nodeId':'opaque-fixture-id','ignored':False,'name':{'type':'computedString','value':'synthetic-only-secret'},'role':{'type':'role','value':'generic'},'value':{'type':'integer','value':1},'childIds':['child-a','child-b'],'properties':[{'name':'focusable','value':{'type':'boolean','value':True}}]}
 variants=[]
-for key,value in [('name',{'type':'computedString','value':'different-secret'}),('value',{'type':'integer','value':2}),('role',{'type':'role','value':'button'}),('childIds',['other']),('ignored',True),('properties',[{'name':'focusable','value':{'type':'boolean','value':False}}]),('value',{'type':'integer','value':True}),('value',{'type':'integer','value':1.0})]:
+for key,value in [('name',{'type':'computedString','value':'different-secret'}),('value',{'type':'integer','value':2}),('role',{'type':'role','value':'button'}),('childIds',['other']),('childIds',['child-b','child-a']),('ignored',True),('properties',[{'name':'focusable','value':{'type':'boolean','value':False}}]),('value',{'type':'integer','value':True}),('value',{'type':'integer','value':1.0})]:
  n=copy.deepcopy(base);n[key]=value;variants.append(n)
 with tempfile.TemporaryDirectory() as d:
  p=pathlib.Path(d)/'01-initial.ax.json'
  def run(nodes):
   p.write_text(json.dumps({'nodes':nodes}));before=hashlib.sha256(p.read_bytes()).hexdigest();code=None;counts=None
-  try:m.inspect(p,r)
+  try:
+   result=m.inspect(p,r);counts={'nodes':result['nodes'],'uniqueNodes':result['uniqueNodes'],'duplicateRows':result['identicalDuplicateRows'],'identicalRows':result['identicalDuplicateRows'],'conflictingRows':0}
   except ValueError as e:code=str(e);counts=getattr(e,'ax_duplicate_counts',None)
   assert hashlib.sha256(p.read_bytes()).hexdigest()==before
   return code,counts
  for variant in [copy.deepcopy(base),dict(reversed(list(base.items())))]:
-  code,counts=run([base,variant]);assert code=='AX_NODE_DUPLICATE_ID';assert counts=={'nodes':2,'uniqueNodes':1,'duplicateRows':1,'identicalRows':1,'conflictingRows':0}
+  code,counts=run([base,variant]);assert code is None;assert counts=={'nodes':2,'uniqueNodes':1,'duplicateRows':1,'identicalRows':1,'conflictingRows':0}
  for variant in variants:
   code,counts=run([base,variant]);assert code=='AX_NODE_DUPLICATE_ID';assert counts['conflictingRows']==1 and counts['identicalRows']==0
  code,counts=run([base,copy.deepcopy(base),variants[0],{'nodeId':'second','ignored':False}]);assert code=='AX_NODE_DUPLICATE_ID';assert counts=={'nodes':4,'uniqueNodes':2,'duplicateRows':2,'identicalRows':1,'conflictingRows':1}
@@ -97,7 +98,7 @@ with tempfile.TemporaryDirectory() as d:
  cycle={};cycle['cycle']=cycle
  try:m.bounded(cycle);raise AssertionError('Cycle accepted')
  except ValueError as e:assert str(e)=='JSON_DEPTH'
-print(json.dumps({'equalDuplicateProbes':2,'conflictingDuplicateProbes':len(variants),'mixedDuplicateProbes':1,'laterInvalidRowProbes':len(bad),'nodeCapProbes':1,'cycleBoundProbes':1,'allDuplicatesDenied':True,'rawRowsUnchanged':True,'rawBodiesLogged':False}))
+print(json.dumps({'equalDuplicateProbes':2,'conflictingDuplicateProbes':len(variants),'mixedDuplicateProbes':1,'laterInvalidRowProbes':len(bad),'nodeCapProbes':1,'cycleBoundProbes':1,'onlyIdenticalDuplicatesAccepted':True,'rawRowsUnchanged':True,'rawBodiesLogged':False}))
 `;
- const r=spawnSync('python3',['-c',code],{encoding:'utf8'});assert.equal(r.status,0,r.stdout+'\n'+r.stderr);assert(!r.stdout.includes('SECRET'));const result=JSON.parse(r.stdout);assert.equal(result.conflictingDuplicateProbes,8);assert.equal(result.allDuplicatesDenied,true);assert.equal(result.rawRowsUnchanged,true);
+ const r=spawnSync('python3',['-c',code],{encoding:'utf8'});assert.equal(r.status,0,r.stdout+'\n'+r.stderr);assert(!r.stdout.includes('SECRET'));const result=JSON.parse(r.stdout);assert.equal(result.conflictingDuplicateProbes,9);assert.equal(result.onlyIdenticalDuplicatesAccepted,true);assert.equal(result.rawRowsUnchanged,true);
 });

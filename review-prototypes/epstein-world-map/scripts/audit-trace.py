@@ -9,7 +9,7 @@ import sys,json,re,zipfile,stat,hashlib,struct,zlib,binascii,subprocess,base64,p
 _hspec=importlib.util.spec_from_file_location("har_schema",pathlib.Path(__file__).with_name("har-schema.py"));har_schema=importlib.util.module_from_spec(_hspec);sys.dont_write_bytecode=True;_hspec.loader.exec_module(har_schema)
 ALLOWED_URL=re.compile(r'^http://127\.0\.0\.1:[1-9]\d{0,4}/review-prototypes/epstein-world-map/(index|readable|controller-fixture)\.html$')
 MEMBER=re.compile(r'^(trace\.(trace|network|stacks)|resources/(?!src@)[A-Za-z0-9@_.-]+)$')
-HTML_HASHES={'732fe531828d07b2fad45d7dc25fa73436518422b63dbbb27add56487140dae7','383f017e8b50eefd0f86f43e262b3fbec6b465d7aac8d539181f896be852f7bf','d6dd8bd6af2c768c2549a46a40d6bf7f6f904e65457a79fe899afaab41577b27'}
+HTML_HASHES={'3eda48a2284d847a584b95b4d2c4708c75ba4a7657ee1ebd8b9582020506692b','b35c834dc39cc4f84f9ef8e63e3d9c2e105825d71bf9525c689bdd17af2042fd','d6dd8bd6af2c768c2549a46a40d6bf7f6f904e65457a79fe899afaab41577b27'}
 # Only canonical hashes of the exact 112 reviewed record pointers are supported.
 from urllib.parse import quote
 _PACKET=json.loads((pathlib.Path(__file__).resolve().parent.parent/'data/packet.json').read_bytes())
