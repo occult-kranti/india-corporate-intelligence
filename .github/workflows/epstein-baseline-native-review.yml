@@ -1,0 +1,61 @@
+name: Epstein baseline native review
+
+on:
+  push:
+    branches: [review/epstein-baseline-native]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: epstein-baseline-native-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  baseline-reader:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      CI: 'true'
+      EPSTEIN_BASELINE_NATIVE_REVIEW: github-actions
+      REVIEW_HEAD_SHA: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: spatial-prototype/package-lock.json
+      - name: Install the existing locked toolchain
+        run: npm ci --prefix spatial-prototype
+      - name: Link only the installed toolchain to the isolated review stage
+        run: |
+          ln -s "$GITHUB_WORKSPACE/spatial-prototype/node_modules" review-prototypes/epstein-baseline/node_modules
+          mkdir -p review-prototypes/epstein-baseline/review
+      - name: Build and verify the exact source-bound standalone reader
+        working-directory: review-prototypes/epstein-baseline
+        run: |
+          set -o pipefail
+          npm run build 2>&1 | tee review/build.log
+          npm test 2>&1 | tee review/portable-tests.log
+      - name: Install official Chromium for native review
+        working-directory: spatial-prototype
+        run: npx --no-install playwright install --with-deps chromium
+      - name: Check source drawers, navigation, dates, reflow and failure recovery
+        working-directory: review-prototypes/epstein-baseline
+        run: node scripts/native-review.mjs .
+      - name: Preserve exact-candidate native evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: epstein-baseline-native-${{ github.run_id }}-${{ github.run_attempt }}
+          retention-days: 14
+          if-no-files-found: error
+          path: |
+            review-prototypes/epstein-baseline/native-review/
+            review-prototypes/epstein-baseline/review/
+            review-prototypes/epstein-baseline/publication-manifest.json
+            review-prototypes/epstein-baseline/current-approval.json
