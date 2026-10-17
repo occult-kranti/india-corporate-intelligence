@@ -44,18 +44,24 @@ for (const file of activityFiles) {
   const contentType = file.endsWith('.html') ? 'text/html' : file.endsWith('.css') ? 'text/css' : file.endsWith('.json') ? 'application/json' : 'text/javascript';
   expectedActivityData.set(file === 'index.html' ? activity : `${activity}${file}`, { sha256: hash(source), bytes: source.length, contentType });
 }
+const archivedActivityPath = 'research-activity/snapshots/2026-10-16T112700Z.json';
+const archivedActivityBytes = await readFile(join(root, 'public', archivedActivityPath));
+assert.equal(hash(archivedActivityBytes), '0b829cbdc70ed0a48e5fa1fa2bec4f05a0e895e6852f3de5213454f5201e1a01', 'Historical activity checkpoint stays byte-identical');
+assert.deepEqual(await readFile(join(dist, archivedActivityPath)), archivedActivityBytes, 'Historical activity checkpoint build/source parity');
 const activitySnapshot = JSON.parse(await readFile(join(root, 'public/research-activity/snapshot.json')));
 const { validateSnapshot, GROUPS: activityGroups, GROUP_LABELS: activityLabels } = await import(pathToFileURL(join(root, 'public/research-activity/model.mjs')).href);
 assert.deepEqual(validateSnapshot(activitySnapshot), { valid: true, errors: [] }, 'The published activity snapshot must validate before browser review');
 assert.deepEqual(activityGroups, ['completed', 'working', 'planned', 'blocked']);
 assert.deepEqual(activityLabels, { completed: 'Done', working: 'Working on', planned: 'Next', blocked: 'Blocked' });
 const requiredActivityStates = {
-  'base-release': 'completed', 'historical-tutorial': 'completed',
-  'research-methods': 'review-pending', 'repository-audit': 'review-pending', 'source-reviews': 'completed',
-  'cross-border-finance': 'review-pending', 'public-program-records': 'review-pending',
+  'zoom-release': 'completed', 'epstein-world-board': 'review-pending',
+  'epstein-publication': 'blocked', 'epstein-email-coverage': 'blocked',
 };
+assert.deepEqual(activitySnapshot.tasks.map(task => task.id).sort(), Object.keys(requiredActivityStates).sort(), 'Exact dated activity task inventory');
 for (const [id, status] of Object.entries(requiredActivityStates)) assert.equal(activitySnapshot.tasks.find(task => task.id === id)?.status, status, `Dated release/review state: ${id}`);
-for (const id of ['public-program-records']) assert.equal(activitySnapshot.tasks.find(task => task.id === id)?.reviewStage, 'source-review', `Source-review qualification: ${id}`);
+assert.equal(activitySnapshot.asOf, '2026-10-17T06:55:00Z', 'Exact editorial checkpoint');
+assert.equal(activitySnapshot.tasks.find(task => task.id === 'zoom-release').completion.verifiedAt, '2026-10-17T06:45:49Z');
+assert.equal(activitySnapshot.tasks.filter(task => task.reviewStage !== undefined).length, 0, 'No new source-review or publication grant is implied');
 assert.equal(activitySnapshot.tasks.filter(task => task.status === 'running').length, 0, 'Reviewed work must not remain indefinitely running in this dated snapshot');
 
 const report = {

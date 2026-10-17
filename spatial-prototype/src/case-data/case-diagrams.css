@@ -56,3 +56,16 @@
 @media(max-width:900px) {.ocd-relation {grid-template-columns:minmax(0,1fr);}.ocd-panel .ocd-node {box-shadow:none;}.ocd-string {height:12px;}.ocd-fields>div {grid-template-columns:minmax(0,1fr);gap:2px;}}
 @media(prefers-reduced-motion:reduce) {.ocd-panel,.ocd-panel *,.ocd-evidence-dialog,.ocd-evidence-dialog * {scroll-behavior:auto!important;animation:none!important;transition:none!important;}}
 @media(forced-colors:active) {.ocd-panel,.ocd-relation-body,.ocd-panel .ocd-node,.ocd-selected-detail,.ocd-facts>li,.ocd-evidence-dialog {background:Canvas;color:CanvasText;box-shadow:none;border:1px solid CanvasText;}.ocd-string path {stroke:CanvasText;}.ocd-relation.ocd-qualified {border-style:dashed;}.ocd-panel :focus-visible,.ocd-evidence-dialog :focus-visible {outline:3px solid Highlight;}.ocd-panel .ocd-selected {outline:3px double Highlight;}}
+
+/* Selected context precedes navigation and the full evidence body. All material
+ * qualifications wrap naturally; no clamping, sticky overlays or hidden guards. */
+.ocd-selected-summary {min-width:0;overflow-wrap:anywhere;}
+.ocd-selected-summary h3 {font-size:1.2rem;line-height:1.3;}
+.ocd-selected-summary .ocd-selected-kind {font-size:.8rem;margin-bottom:.35rem;}
+.ocd-selected-summary .ocd-selected-endpoints {line-height:1.4;}
+.ocd-selected-source {padding-block:.65rem;border-block:1px solid #879174;margin-block:.65rem;}
+.ocd-selected-source p {font-size:.85rem;margin-bottom:.5rem;}
+.ocd-selected-source button {font-weight:700;}
+.ocd-selected-qualifications {font-size:.9rem;}
+.ocd-disclosure {margin-block:1rem;}
+.ocd-disclosure>summary {min-height:44px;padding-block:.6rem;cursor:pointer;font-weight:700;}

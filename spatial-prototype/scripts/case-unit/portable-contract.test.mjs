@@ -18,10 +18,11 @@ test('runtime compact decoder, digest implementation, pins and payload remain by
  assert.match(source,/export default decodeReviewedTransport\(/);
  assert.doesNotMatch(source,/decodeKeyDictionary|fetch\(|eval\(|new Function/);
 });
-test('repository fixture set contains only accepted hashes and labeled historical sizes; canonical raw remains in src',()=>{
- assert.deepEqual(fs.readdirSync(fixtures).sort(),['accepted-baseline-sizes.json','accepted-pins.json']);
- for(const file of ['accepted-pins.json','accepted-baseline-sizes.json']){
+test('fixture inventory permits only original accepted pins, historical sizes and two exact P1-A hash manifests',()=>{
+ assert.deepEqual(fs.readdirSync(fixtures).sort(),['accepted-baseline-sizes.json','accepted-pins.json','p1-a-presentation-manifest.json','selected-rail-base-pins.json']);
+ for(const file of ['accepted-pins.json','accepted-baseline-sizes.json','p1-a-presentation-manifest.json','selected-rail-base-pins.json']){
   const source=fs.readFileSync(path.join(fixtures,file),'utf8');
+  assert.doesNotMatch(source,/"(?:[^"\n]*\/)?(?:review|private|agent_notes|dream_notes)\//);
   assert.doesNotMatch(source,/"originalClaimRecord"\s*:\s*\{|"readerClaimRecord"\s*:\s*\{/);
  }
 });
