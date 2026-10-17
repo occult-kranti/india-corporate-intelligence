@@ -996,6 +996,59 @@ async function runLive(page, output, report) {
   }
 }
 
+/** Read-only structural negotiation for the two retained source-opener layouts.
+ * The workflow copies this harness into the frozen runtime. Choose from actual
+ * DOM structure, never the run mode or an expected pass/failure. Any mixed,
+ * missing, duplicate or mismatched selection fails before a real click. */
+export async function resolveCaseSourceOpener(page,file,edge,claim) {
+  assert.equal(edge.claimId,claim.claimId,'Source opener edge/claim mapping changed');
+  const workspace=page.locator('[data-case-workspace]');
+  assert.equal(await workspace.count(),1,'Source opener requires one case workspace');
+  assert.equal(await workspace.getAttribute('data-case-id'),file.id,'Source opener case identity changed');
+  assert.equal(await workspace.getAttribute('data-case-selection'),edge.id,'Source opener exact edge selection changed');
+  const rail=workspace.locator('[data-reader-scroll="workspace-evidence"]');
+  assert.equal(await rail.count(),1,'Source opener requires one evidence rail');
+  const evidence=rail.locator(':scope > section.ocv2-evidence');
+  assert.equal(await evidence.count(),1,'Source opener requires the retained case reader');
+  const article=evidence.locator(`:scope > section > article[data-claim-id=${JSON.stringify(claim.claimId)}]`);
+  assert.equal(await article.count(),1,'Source opener exact selected claim is missing or ambiguous');
+  const role=article.locator(`:scope > ul > li[data-edge-id=${JSON.stringify(edge.id)}]`);
+  assert.equal(await role.count(),1,'Source opener exact original role is missing or ambiguous');
+  const selected=role.getByRole('button',{name:`Select relation: ${edge.role}`,exact:true});
+  assert.equal(await selected.count(),1,'Source opener exact role selector is missing or ambiguous');
+  assert.equal(await selected.getAttribute('aria-pressed'),'true','Source opener original role is not selected');
+  const summaries=rail.locator('.ocd-selected-summary');
+  const legacy=rail.locator(':scope > section.cw-sources[aria-label="Source dialog controls"]');
+  const summaryCount=await summaries.count(),legacyCount=await legacy.count();
+  assert.ok((summaryCount===1&&legacyCount===0)||(summaryCount===0&&legacyCount===1),
+    `Unrecognized or ambiguous source-opener layout: ${summaryCount} selected summaries, ${legacyCount} legacy controls`);
+  let opener,layout,name;
+  if(summaryCount===1) {
+    const summary=evidence.locator(`:scope > .ocd-selected-summary[data-selected-claim-id=${JSON.stringify(claim.claimId)}]`);
+    assert.equal(await summary.count(),1,'Selected source summary has wrong claim or placement');
+    assert.equal(await summary.getAttribute('data-selected-edge-id'),edge.id,'Source summary changed exact edge identity');
+    opener=summary.locator(':scope > .ocd-selected-source > button[type="button"][aria-haspopup="dialog"]');
+    layout='selected-summary-v1';name=`Inspect source and full claim ${claim.number}`;
+  } else {
+    // The frozen host owns this direct button. Do not substitute an arbitrary
+    // claim-list button, hidden disclosure, or a same-labelled reader control.
+    assert.equal(await evidence.locator(':scope > header.ocv2-case-context').count(),0,'Mixed modern reader and legacy source controls');
+    const heading=evidence.locator(':scope > h2');
+    assert.equal(await heading.count(),1,'Legacy case reader heading is missing or ambiguous');
+    assert.equal(await heading.textContent(),file.label,'Legacy case reader identity changed');
+    const sourceHeading=legacy.locator(':scope > h2');
+    assert.equal(await sourceHeading.count(),1,'Legacy source controls heading is missing or ambiguous');
+    assert.equal(await sourceHeading.textContent(),'Source evidence','Legacy source controls identity changed');
+    opener=legacy.locator(':scope > button[type="button"][aria-haspopup="dialog"]');
+    layout='host-selected-claim-v1';name=`Inspect selected claim ${claim.number}: ${claim.proposedLabel}`;
+  }
+  assert.equal(await opener.count(),1,'Exact selected source opener is missing or ambiguous');
+  assert.equal(await opener.textContent(),name,'Exact selected source opener label changed');
+  assert.equal(await opener.isVisible(),true,'Exact selected source opener is hidden');
+  assert.equal(await opener.isEnabled(),true,'Exact selected source opener is disabled');
+  return {opener,layout};
+}
+
 async function inspectCaseSources(page,file,openDialog=false) {
   const edge=file.edges.find(row=>row.id===CASE_EDGE),claim=file.claims.find(row=>row.claimId===edge.claimId);
   assert.deepEqual(claim.sourceIds,['source:india-ambani:ambani:s1'],'Pinned Ambani source mapping changed');
@@ -1007,17 +1060,31 @@ async function inspectCaseSources(page,file,openDialog=false) {
   const actual=hrefs.map((href,i)=>({sourceId:claim.sourceIds[i],href}));
   assertExactSourceLinks(actual,expected,'Exact selected case claim source links');
   assert.ok((await article.textContent()).includes(`Claim reference: ${claim.claimId}`),'Selected reader claim identity changed');
-  let dialogLinks=null;
+  let dialogLinks=null,sourceOpenerContract=null;
   if(openDialog) {
-    await page.locator('[data-case-workspace]').getByRole('button',{name:`Inspect selected claim ${claim.number}: ${claim.proposedLabel}`,exact:true}).click();
+    const {opener,layout}=await resolveCaseSourceOpener(page,file,edge,claim);
+    sourceOpenerContract=layout;
+    const retainedOpener=await opener.elementHandle();
+    assert.ok(retainedOpener,'Exact selected source opener has no DOM handle');
+    await opener.click();
     const dialog=page.locator('[data-case-source-dialog]');await dialog.waitFor({state:'visible'});
     const content=dialog.locator('[data-reader-scroll="case-evidence"] > .ocd-evidence-content');
     assert.ok((await content.textContent()).includes(`Claim reference: ${claim.claimId}`),'Selected source dialog opened another claim');
     const urls=await content.locator(':scope > .ocd-sources > li > a').evaluateAll(links=>links.map(link=>link.getAttribute('href')));
     dialogLinks=urls.map((href,i)=>({sourceId:claim.sourceIds[i],href}));assertExactSourceLinks(dialogLinks,expected,'Exact selected claim source dialog');
     await dialog.getByRole('button',{name:'Close sources',exact:true}).click();
+    await until(async()=>!await dialog.isVisible()&&await retainedOpener.evaluate(element=>element.isConnected&&document.activeElement===element),'Exact selected source Close did not restore the same DOM opener');
+    assert.equal(await page.locator('[data-case-workspace]').getAttribute('data-case-selection'),edge.id);
+    await page.keyboard.press('Enter');await dialog.waitFor({state:'visible'});
+    assert.ok((await content.textContent()).includes(`Claim reference: ${claim.claimId}`),'Reopened selected source dialog changed claim');
+    const reopenedUrls=await content.locator(':scope > .ocd-sources > li > a').evaluateAll(links=>links.map(link=>link.getAttribute('href')));
+    assertExactSourceLinks(reopenedUrls.map((href,i)=>({sourceId:claim.sourceIds[i],href})),expected,'Reopened exact selected claim source dialog');
+    await page.keyboard.press('Escape');
+    await until(async()=>!await dialog.isVisible()&&await retainedOpener.evaluate(element=>element.isConnected&&document.activeElement===element),'Exact selected source Escape did not restore the same DOM opener');
+    assert.equal(await page.locator('[data-case-workspace]').getAttribute('data-case-selection'),edge.id);
+    await retainedOpener.dispose();
   }
-  return {edgeId:edge.id,claimId:claim.claimId,sourceLinks:actual,dialogLinks};
+  return {edgeId:edge.id,claimId:claim.claimId,sourceLinks:actual,dialogLinks,sourceOpenerContract};
 }
 
 async function runCase(page, output, report) {

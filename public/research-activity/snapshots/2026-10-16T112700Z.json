@@ -1,0 +1,211 @@
+{
+  "schemaVersion": 1,
+  "asOf": "2026-10-16T11:27:00Z",
+  "checkpointTitle": "Source corrections live and selected-case workspace review · 16 October 2026, 11:27 UTC",
+  "freshnessHours": 24,
+  "scope": "Nine curated work items, next steps and dated roadmap milestones. Updated after reviewed progress; this is a snapshot, not live worker telemetry.",
+  "tasks": [
+    {
+      "id": "base-release",
+      "title": "Felt atlas base release",
+      "status": "completed",
+      "role": "Release verification",
+      "question": "Is the retained atlas published and reconciled with its release tree?",
+      "lastChecked": "2026-10-16T03:44:12Z",
+      "nextAction": "Keep this baseline intact while reviewing the next release.",
+      "summary": "PR9 merged into master 6e4d6512. The base evidence atlas is deployed and live.",
+      "evidence": [
+        {
+          "title": "PR9 · base release",
+          "url": "https://github.com/occult-kranti/india-corporate-intelligence/pull/9"
+        },
+        {
+          "title": "Base release and deployment verification · 16 October 2026"
+        }
+      ],
+      "privateProjectLink": null,
+      "completion": {
+        "evidenceIndex": 0,
+        "verifiedAt": "2026-10-16T03:22:00Z",
+        "note": "The supplied release verification records PR9 merged and the base atlas deployed. PR9 is the completion reference; this console does not independently monitor deployment."
+      }
+    },
+    {
+      "id": "historical-tutorial",
+      "title": "Field guide and activity release",
+      "status": "completed",
+      "role": "Release verification",
+      "question": "Are the field guide and simple activity page published after their browser repair?",
+      "lastChecked": "2026-10-16T09:12:40Z",
+      "nextAction": "Keep the published guide, activity page and original-route navigation covered by release checks.",
+      "summary": "PR11 merged at 81b0e3b9 after all three exact-head CI gates and assistant screenshot review. Its deployment and published reader, guide, activity and navigation were verified. The guide is explicitly opened by the reader; audio remains optional.",
+      "evidence": [
+        {
+          "title": "PR10 · guide and activity implementation",
+          "url": "https://github.com/occult-kranti/india-corporate-intelligence/pull/10"
+        },
+        {
+          "title": "PR11 · input-aware browser-test repair",
+          "url": "https://github.com/occult-kranti/india-corporate-intelligence/pull/11"
+        }
+      ],
+      "privateProjectLink": null,
+      "completion": {
+        "evidenceIndex": 1,
+        "verifiedAt": "2026-10-16T07:03:10Z",
+        "note": "Published route/assets and all 96 raw registry chunks matched the release tree; separate live fallback navigation and guide checks passed. This dated console does not monitor deployments."
+      }
+    },
+    {
+      "id": "original-guides",
+      "title": "Original-route guides",
+      "status": "planned",
+      "role": "Route acceptance",
+      "question": "Do all staged original-application guides work on their actual routes?",
+      "lastChecked": "2026-10-16T03:22:00Z",
+      "nextAction": "Run route-by-route browser acceptance for 59 original and three workbench guides.",
+      "summary": "Source checks and 41 Node/SSR tests passed in the checkpoint; browser acceptance is pending.",
+      "evidence": [
+        {
+          "title": "Release and research checkpoint · 03:22 UTC"
+        }
+      ],
+      "privateProjectLink": null
+    },
+    {
+      "id": "federation",
+      "title": "Opt-in federation proposal",
+      "status": "blocked",
+      "role": "Semantic and publication review",
+      "question": "Can the separate workbenches be integrated without losing source, privacy or qualification boundaries?",
+      "lastChecked": "2026-10-16T03:22:00Z",
+      "nextAction": "Complete semantic, privacy, source and publication review before any public integration.",
+      "summary": "Local proposal only. Imported non-source rows remain reader-only; adapter tests do not authorize publication.",
+      "evidence": [
+        {
+          "title": "Federation proposal · publication review"
+        },
+        {
+          "title": "Release and research checkpoint · 03:22 UTC"
+        }
+      ],
+      "privateProjectLink": null
+    },
+    {
+      "id": "source-reviews",
+      "title": "Qualified readers and source corrections",
+      "status": "completed",
+      "role": "Reader and source-scope review",
+      "question": "Do the approved reader panels retain their dates, qualifications and responses without becoming factual paths?",
+      "lastChecked": "2026-10-16T11:27:00Z",
+      "nextAction": "Keep the live qualified readers and source-scope holds covered by release checks while reviewing the separate selected-case workspace.",
+      "summary": "PR13 merged at a4f6a04b and its source-correction release is live, retaining PR12’s nine historical issuer-disclosure claims and twenty sector panels with reader-only publication approval in explicit opt-in readers. Published parity covered six routes, fourteen assets, five activity files, twenty-nine lazy bundles and all 96 raw registry chunks. Live no-WebGL source-hold and navigation checks passed at 11:27 UTC. Four further inherited relationship interpretations remain held, and dated Sarda/Progressive text retains its qualifications. Raw baseline bytes and all research graph/path holds remain intact.",
+      "evidence": [
+        {
+          "title": "PR12 · 29 qualified readers and first source corrections, publication verified",
+          "url": "https://github.com/occult-kranti/india-corporate-intelligence/pull/12"
+        },
+        {
+          "title": "PR13 · bounded source-scope corrections, publication verified",
+          "url": "https://github.com/occult-kranti/india-corporate-intelligence/pull/13"
+        }
+      ],
+      "privateProjectLink": null,
+      "completion": {
+        "evidenceIndex": 1,
+        "verifiedAt": "2026-10-16T11:27:00Z",
+        "note": "Supplied release verification records PR13 merged, Pages run 38893115494 succeeded, published route/asset parity passed and live no-WebGL source-hold/navigation checks passed. PR13 is the completion reference; this dated console does not independently monitor deployment."
+      }
+    },
+    {
+      "id": "research-methods",
+      "title": "Research methods and question discipline",
+      "status": "review-pending",
+      "role": "Research-methods review",
+      "question": "How should research questions, evidence standards and review gates be made repeatable?",
+      "lastChecked": "2026-10-16T03:44:12Z",
+      "nextAction": "Review the locally prepared methods and apply the evidence and stopping conditions to the next scoped research step.",
+      "summary": "Research-methods setup has received local review. The remaining review and adoption decision is pending; this item does not report a running worker.",
+      "evidence": [
+        {
+          "title": "Research-methods setup · local review"
+        }
+      ],
+      "privateProjectLink": null
+    },
+    {
+      "id": "repository-audit",
+      "title": "Repository and corpus audit",
+      "status": "review-pending",
+      "role": "Repository audit",
+      "question": "How should the reviewed repository and corpus findings guide the next safe, additive integration?",
+      "lastChecked": "2026-10-16T03:44:12Z",
+      "nextAction": "Review the repository and corpus findings, then approve the next bounded integration step.",
+      "summary": "Repository and corpus assessments have been prepared for review. They are locally reviewed or review pending; no active audit process or release approval is implied.",
+      "evidence": [
+        {
+          "title": "Repository and corpus assessments · review checkpoint"
+        }
+      ],
+      "privateProjectLink": null
+    },
+    {
+      "id": "cross-border-finance",
+      "title": "Selected ownership and public-office profiles",
+      "status": "review-pending",
+      "role": "Profile integration and source review",
+      "question": "Can selected profiles retain dated ownership, voting, financial-stage and role qualifications in a clear reader?",
+      "lastChecked": "2026-10-16T11:27:00Z",
+      "nextAction": "Create the next draft review candidate and complete its actual browser and visual gates. Source, build and portable tests have passed; no pull request exists yet.",
+      "summary": "21 selected billionaire and public-office case packets have scoped source reviews and verified dedicated case chats. The separate 19-case, 72-core-claim reader and non-geographic scene is under browser review. Huang and Tencent remain outside this UI cohort. Eighteen dated wealth observations remain a follow-on feature. This is selected-case coverage, not complete worldwide mapping.",
+      "evidence": [
+        {
+          "title": "Selected-case review checkpoint · 16 October 2026, 11:27 UTC"
+        },
+        {
+          "title": "Workspace source, build and portable tests passed; actual browser gates await draft review. Global geographic admission remains separate."
+        }
+      ],
+      "privateProjectLink": null
+    },
+    {
+      "id": "public-program-records",
+      "title": "Public government programs and later roles",
+      "status": "review-pending",
+      "reviewStage": "source-review",
+      "role": "Public-record provenance review",
+      "question": "What do public and declassified records establish about government programs and later publicly documented roles?",
+      "lastChecked": "2026-10-16T03:49:31Z",
+      "nextAction": "Review record provenance, dates and scope; distinguish documented roles from unsupported connections before considering any publication.",
+      "summary": "This requested research lane is limited to public and declassified records. Bounded packets await source review; no restricted access, inferred allegation or public graph admission is claimed.",
+      "evidence": [
+        {
+          "title": "Public and declassified program records · scoped source review"
+        }
+      ],
+      "privateProjectLink": null
+    }
+  ],
+  "milestones": [
+    {
+      "title": "Base atlas published",
+      "taskId": "base-release",
+      "detail": "Retained original evidence and live reader verified"
+    },
+    {
+      "title": "Guide and activity published",
+      "taskId": "historical-tutorial",
+      "detail": "PR11 publication parity and live fallback guide/navigation verified"
+    },
+    {
+      "title": "Source corrections and qualified readers live",
+      "taskId": "source-reviews",
+      "detail": "PR13: six routes, fourteen assets, five activity files, twenty-nine lazy bundles and 96 registry chunks verified; live source-hold/navigation checks passed at 11:27 UTC"
+    },
+    {
+      "title": "Selected-case workspace review",
+      "taskId": "cross-border-finance",
+      "detail": "21 reviewed packets; separate 19-case / 72-core-claim reader and non-geographic scene under browser review; actual browser gates await draft"
+    }
+  ]
+}

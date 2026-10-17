@@ -2,7 +2,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-const source=JSON.parse(await readFile(new URL('../../public/research-activity/snapshot.json',import.meta.url),'utf8'));
+const source=JSON.parse(await readFile(new URL('../../public/research-activity/snapshots/2026-10-16T112700Z.json',import.meta.url),'utf8'));
 class Node {
  constructor(tag='div'){this.tagName=tag;this.children=[];this.attributes={};this.listeners={};this.dataset={};this.value='';this.hidden=false;this._text='';this.classList={toggle:()=>{}};}
  set textContent(text){this._text=String(text);this.children=[];}

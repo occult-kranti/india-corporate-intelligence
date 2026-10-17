@@ -306,17 +306,117 @@ async function readEvidenceDOM(locator) {
     return read(root);
   });
 }
+/** Selection is the exact retained role/fact/node identity, never a guessed claim label. */
+export function expectedCaseReaderOrder(file, selection) {
+  const original = file.claims.map(claim => claim.claimId);
+  assert.equal(new Set(original).size, original.length, `${file.id}: duplicate source claim ID`);
+  const edge = file.edges.find(item => item.id === selection);
+  const factId = file.readerFactIds.includes(selection) ? selection : null;
+  assert.ok(!selection || edge || factId || file.nodes.some(node => node.id === selection), `${file.id}: unknown exact selection ${selection}`);
+  const claimId = edge?.claimId ?? factId;
+  if (!claimId) return original;
+  assert.ok(original.includes(claimId), `${file.id}: selected claim is absent`);
+  return [claimId, ...original.filter(id => id !== claimId)];
+}
+function caseNodeDisclosure(page, file) {
+  const summary = evidence(page).locator('summary').filter({ hasText: new RegExp(`^All case nodes \\(${file.nodes.length}\\)$`) });
+  return { summary, details: summary.locator('..') };
+}
+export async function openCaseNodeIndex(page, file) {
+  const { summary, details } = caseNodeDisclosure(page, file);
+  assert.equal(await summary.count(), 1, `${file.id}: exact native node summary`);
+  assert.equal(await details.evaluate(element => element.tagName), 'DETAILS');
+  if (await details.getAttribute('open') === null) await summary.click();
+  assert.equal(await details.evaluate(element => element.open), true, `${file.id}: node disclosure did not open by ordinary interaction`);
+  for (const node of file.nodes)
+    assert.equal(await details.locator(`[data-node-id=${quoted(node.id)}] button`).isVisible(), true, `${node.id}: expanded node control is not visible`);
+  return { summary, details };
+}
+/** The structural snapshot bounds real Tab input. It never focuses or clicks the
+ * destination, injects a key event, opens a disclosure, or scrolls the target. */
+export async function tabWithinCaseRailTo(page, target, result, phase) {
+  const rail = caseRail(page);
+  const retained = await rail.evaluateHandle(element => {
+    const visibleTabStop = control => {
+      if (control.tabIndex < 0 || control.matches(':disabled') || control.closest('[hidden],[inert]') || !control.getClientRects().length) return false;
+      const style = getComputedStyle(control);
+      if (style.visibility === 'hidden' || style.visibility === 'collapse' || style.display === 'none') return false;
+      for (let parent = control.parentElement; parent && parent !== element; parent = parent.parentElement) {
+        if (parent.tagName === 'DETAILS' && !parent.open && !parent.querySelector(':scope > summary')?.contains(control)) return false;
+      }
+      return true;
+    };
+    return { rail: element, controls: [...element.querySelectorAll('button,a[href],input,select,textarea,summary,[tabindex]')].filter(visibleTabStop) };
+  });
+  const trace = { phase, controls: [], steps: [] };
+  (result.caseRailTabTraversals ??= []).push(trace);
+  try {
+    trace.controls = await retained.evaluate(({ controls }) => controls.map(control => ({
+      tag: control.tagName, name: (control.getAttribute('aria-label') || control.textContent || '').trim().slice(0, 180),
+      nodeId: control.closest('[data-node-id]')?.getAttribute('data-node-id') ?? null,
+      edgeId: control.closest('[data-edge-id]')?.getAttribute('data-edge-id') ?? null, tabIndex: control.tabIndex,
+    })));
+    assert.ok(trace.controls.length > 0, `${phase}: no visible native rail tab stops`);
+    assert.ok(trace.controls.every(control => control.tabIndex === 0), `${phase}: positive tabindex changes native DOM traversal`);
+    const sample = () => retained.evaluate(({ rail, controls }) => ({
+      inRail: rail.contains(document.activeElement), focusedIndex: controls.indexOf(document.activeElement),
+      activeTag: document.activeElement?.tagName ?? null,
+      activeName: (document.activeElement?.getAttribute('aria-label') || document.activeElement?.textContent || '').trim().slice(0, 180),
+      connected: controls.every(control => control.isConnected && rail.contains(control)),
+    }));
+    const initial = await sample(); trace.steps.push({ step: 0, ...initial });
+    assert.ok(initial.inRail && initial.connected, `${phase}: traversal must start in the retained rail`);
+    const seen = new Set(initial.focusedIndex >= 0 ? [initial.focusedIndex] : []);
+    for (let step = 1; step <= trace.controls.length; step++) {
+      await page.keyboard.press('Tab');
+      const current = await sample(); trace.steps.push({ step, ...current });
+      const diagnostic = `${phase}: ${JSON.stringify(trace)}`;
+      assert.ok(current.inRail && current.connected, `Real Tab left or changed the case rail: ${diagnostic}`);
+      assert.ok(current.focusedIndex >= 0, `Real Tab reached an excluded/hidden rail control: ${diagnostic}`);
+      assert.ok(!seen.has(current.focusedIndex), `Real Tab cycled before its intended destination: ${diagnostic}`);
+      seen.add(current.focusedIndex);
+      if (await target.evaluate(element => document.activeElement === element)) return trace;
+    }
+    assert.fail(`Source summary is not keyboard-reachable from the scrolled case reader (or another exact rail destination failed): ${JSON.stringify(trace)}`);
+  } finally { await retained.dispose(); }
+}
+async function exerciseCaseNodeDisclosure(page, file, result) {
+  const { summary, details } = caseNodeDisclosure(page, file);
+  if (await details.getAttribute('open') !== null) await summary.click();
+  for (const node of file.nodes) assert.equal(await details.locator(`[data-node-id=${quoted(node.id)}] button`).isVisible(), false);
+  await caseRail(page).focus();
+  const trace = await tabWithinCaseRailTo(page, summary, result, `${file.id}:closed-node-disclosure`);
+  assert.ok(trace.controls.every(control => control.nodeId === null), 'Closed node controls entered native tab traversal');
+  for (const [key, open] of [['Enter', true], ['Space', false], ['Space', true]]) {
+    await page.keyboard.press(key);
+    assert.equal(await details.evaluate(element => element.open), open, `${file.id}: native ${key} disclosure operation failed`);
+    assert.equal(await summary.evaluate(element => document.activeElement === element), true, 'Native disclosure toggling moved focus');
+    for (const node of file.nodes) assert.equal(await details.locator(`[data-node-id=${quoted(node.id)}] button`).isVisible(), open);
+  }
+  const firstNode = details.locator(`[data-node-id=${quoted(file.nodes[0].id)}] button`);
+  await page.keyboard.press('Tab');
+  assert.equal(await firstNode.evaluate(element => document.activeElement === element), true, 'Expanded node control is not natively reachable');
+  (result.caseNodeDisclosureChecks ??= []).push({ caseId: file.id, keys: ['Enter', 'Space', 'Space', 'Tab'], firstNode: file.nodes[0].id });
+}
 export async function assertCompleteCaseReader(page, file) {
   assert.equal(await caseWorkspace(page).getAttribute('data-case-id'), file.id);
   assert.equal(await caseWorkspace(page).getAttribute('data-case-view'), 'list');
   const articles = caseRail(page).locator('article[data-claim-id]');
-  assert.deepEqual(await articles.evaluateAll(items => items.map(item => item.dataset.claimId)), file.claims.map(claim => claim.claimId));
+  const selection = await caseWorkspace(page).getAttribute('data-case-selection');
+  const expectedOrder = expectedCaseReaderOrder(file, selection);
+  assert.deepEqual(await articles.evaluateAll(items => items.map(item => item.dataset.claimId)), expectedOrder, `${file.id}: exact selected-first reader order and multiplicity`);
+  const nodeDisclosure = caseNodeDisclosure(page, file), nodesWereOpen = await nodeDisclosure.details.getAttribute('open') !== null;
+  await openCaseNodeIndex(page, file);
   assert.deepEqual(await evidence(page).locator('[data-node-id]').evaluateAll(items => items.map(item => item.dataset.nodeId)), file.nodes.map(node => node.id));
   const text = await evidence(page).innerText();
   for (const required of [file.label, file.researchJurisdiction.label, file.researchJurisdiction.qualification, ...file.constraints]) includesText(text, required, file.id);
   for (const node of file.nodes) {
     const row = evidence(page).locator(`[data-node-id=${quoted(node.id)}]`);
     includesText(await row.innerText(), node.label, node.id); includesText(await row.innerText(), node.qualification, node.id);
+  }
+  if (!nodesWereOpen) {
+    await nodeDisclosure.summary.click();
+    assert.equal(await nodeDisclosure.details.getAttribute('open'), null, 'Node identity inspection did not restore disclosure state');
   }
   for (const claim of file.claims) {
     const article = caseArticle(page, claim.claimId);
@@ -332,7 +432,37 @@ export async function assertCompleteCaseReader(page, file) {
     }
     assertClaimEvidence(await readEvidenceDOM(article.locator(':scope > .ocd-evidence-content')), claim, file);
   }
-  return { id: file.id, profileId: file.profileId, claims: file.claims.map(claim => claim.claimId), sourceReferences: file.claims.reduce((total, claim) => total + claim.sourceIds.length, 0), nodes: file.nodes.length, edges: file.edges.length, readerOnly: file.readerFactIds.length };
+  return { id: file.id, profileId: file.profileId, claims: expectedOrder, selection, sourceReferences: file.claims.reduce((total, claim) => total + claim.sourceIds.length, 0), nodes: file.nodes.length, edges: file.edges.length, readerOnly: file.readerFactIds.length };
+}
+
+/** Native selected-summary and full-article openers retain the same DOM node
+ * through selected-first reordering, both native dismissal paths and reopening. */
+async function exerciseReorderedClaimSources(page, file, selection, result, until, phase) {
+  const edge = file.edges.find(item => item.id === selection);
+  const claim = file.claims.find(item => item.claimId === (edge?.claimId ?? selection));
+  assert.ok(claim);
+  const summary = caseRail(page).locator(`.ocd-selected-summary[data-selected-claim-id=${quoted(claim.claimId)}]`);
+  assert.equal(await summary.count(), 1);
+  assert.equal(await summary.getAttribute('data-selected-edge-id'), edge?.id ?? null, 'Selected summary must retain exact role/fact identity');
+  const buttonName = `Inspect source and full claim ${claim.number}`;
+  for (const [entryPoint, parent] of [['selected-summary', summary], ['full-article', caseArticle(page, claim.claimId)]]) {
+    const opener = parent.getByRole('button', { name: buttonName, exact: true });
+    const retained = await opener.elementHandle();
+    try {
+      for (const dismissal of ['close', 'escape']) {
+        await opener.click();
+        const dialog = caseSourceDialog(page); await dialog.waitFor({ state: 'visible' });
+        assert.equal(await dialog.evaluate(element => element.open && element.matches(':modal')), true);
+        assertClaimEvidence(await readEvidenceDOM(dialog.locator('[data-reader-scroll] > .ocd-evidence-content')), claim, file);
+        if (dismissal === 'close') await dialog.getByRole('button', { name: 'Close sources', exact: true }).click();
+        else await page.keyboard.press('Escape');
+        await until(async () => !await dialog.isVisible() && await retained.evaluate(element => element.isConnected && document.activeElement === element), `${phase}/${entryPoint}/${dismissal}: same DOM opener did not regain focus`);
+        assert.equal(await caseWorkspace(page).getAttribute('data-case-selection'), selection, 'Source inspection changed exact retained selection');
+        assert.deepEqual(await caseRail(page).locator('article[data-claim-id]').evaluateAll(items => items.map(item => item.dataset.claimId)), expectedCaseReaderOrder(file, selection));
+        (result.caseReorderedSourceChecks ??= []).push({ phase, entryPoint, dismissal, selection, claimId: claim.claimId });
+      }
+    } finally { await retained.dispose(); }
+  }
 }
 
 export async function assertCaseFrame(page, file, until, result, phase = 'frame', labelCoverage = null, afterLabelCheck = null, readiness = {}) {
@@ -505,11 +635,8 @@ async function openClaimSourcesByKeyboard(page, claim, result, phase) {
   await scroll.evaluate(element => { element.scrollTop = element.scrollHeight; element.focus({ preventScroll: true }); });
   const details = scroll.getByRole('region', { name: 'Source dialog controls' }).locator('details');
   const summary = details.locator('summary');
-  // From the scrolled rail's own tab stop, the browser must bring its first source
-  // controls back into view. No click or programmatic focus on the action masks it.
-  for (let step = 0; step < 4 && !await summary.evaluate(element => document.activeElement === element); step++)
-    await page.keyboard.press('Tab');
-  assert.equal(await summary.evaluate(element => document.activeElement === element), true, 'Source summary is not keyboard-reachable from the scrolled case reader');
+  // Start only at the rail's own stop; the browser must find the exact summary.
+  await tabWithinCaseRailTo(page, summary, result, `${phase}:source-summary`);
   async function assertActionVisible(action, label) {
     const sample = await action.evaluate(element => {
       const scroll = element.closest('[data-reader-scroll]'), rect = item => item.getBoundingClientRect().toJSON();
@@ -523,9 +650,7 @@ async function openClaimSourcesByKeyboard(page, claim, result, phase) {
   await assertActionVisible(summary, 'source-summary');
   if (await details.getAttribute('open') === null) await page.keyboard.press('Enter');
   const opener = details.getByRole('button', { name: `Claim ${claim.number}: ${claim.proposedLabel}`, exact: true });
-  const count = await details.getByRole('button').count();
-  for (let step = 0; step < count && !await opener.evaluate(element => document.activeElement === element); step++)
-    await page.keyboard.press('Tab');
+  await tabWithinCaseRailTo(page, opener, result, `${phase}:claim-source-opener`);
   await assertActionVisible(opener, 'claim-source-opener');
   await page.keyboard.press('Enter');
   await caseSourceDialog(page).waitFor({ state: 'visible' });
@@ -777,7 +902,11 @@ export async function runCaseWorkspaceBrowserCases({ root, dist, output, scenari
       await capture(page, result, `${safeName(file.id)}-scene-with-evidence-rail`);
       coverage.captures.push({ caseId: file.id, band: 'case-scene-and-evidence-rail', file: result.screenshots.at(-1) });
       const edge = file.edges[0], node = file.nodes.find(item => item.id === edge.from);
-      await evidence(page).locator(`[data-node-id=${quoted(node.id)}] button`).click();
+      if (file.profileId === 'profile:usa-alphabet-founders') await exerciseCaseNodeDisclosure(page, file, result);
+      const nodeIndex = await openCaseNodeIndex(page, file);
+      const exactNodeButton = nodeIndex.details.locator(`[data-node-id=${quoted(node.id)}] button`);
+      assert.equal(await exactNodeButton.isVisible(), true, 'Exact node control must be visible before ordinary selection');
+      await exactNodeButton.click();
       await until(async () => await caseWorkspace(page).getAttribute('data-case-selection') === node.id, 'Exact node selection did not reach the workspace');
       await assertCaseFrame(page, file, until, result, 'selected-node', labelCoverage);
       if (file.id === 'case:usa-koch') {
@@ -811,7 +940,7 @@ export async function runCaseWorkspaceBrowserCases({ root, dist, output, scenari
       if (['case:usa-musk', 'case:public-office%2Findia-modi'].includes(file.id)) {
         // Repaired dense labels must retain exact selected-source access too.
         const claim = file.claims.find(item => item.claimId === edge.claimId);
-        const opener = caseWorkspace(page).getByRole('button', { name: `Inspect selected claim ${claim.number}: ${claim.proposedLabel}`, exact: true });
+        const opener = caseWorkspace(page).locator(`.ocd-selected-summary[data-selected-claim-id=${quoted(claim.claimId)}]`).getByRole('button', { name: `Inspect source and full claim ${claim.number}`, exact: true });
         await opener.click(); const dialog = caseSourceDialog(page); await dialog.waitFor({ state: 'visible' });
         assertClaimEvidence(await readEvidenceDOM(dialog.locator('[data-reader-scroll] > .ocd-evidence-content')), claim, file);
         await dialog.getByRole('button', { name: 'Close sources', exact: true }).click();
@@ -851,10 +980,12 @@ export async function runCaseWorkspaceBrowserCases({ root, dist, output, scenari
     const claim = [...file.claims].sort((a, b) => (b.v2?.recursiveDependencyClaimIds.length ?? 0) - (a.v2?.recursiveDependencyClaimIds.length ?? 0))[0];
     await openCaseWorkspace(page, until); await chooseCase(page, file, until);
     const baseline = await geographySnapshot(page);
-    await showCaseScene(page, until, result);
-    assert.equal(await caseWorkspace(page).getAttribute('data-case-motion'), 'false');
-    const edge = file.edges[0];
+    // Select from the complete reader so any non-first role is ordinarily available.
+    const edge = file.edges.find((item, index) => index > 0 && item.claimId !== file.claims[0].claimId);
+    assert.ok(edge, 'Native order coverage needs a non-first exact role with a non-first claim');
     await evidence(page).locator(`[data-edge-id=${quoted(edge.id)}] button`).click();
+    await until(async () => await caseWorkspace(page).getAttribute('data-case-selection') === edge.id, 'Non-first exact role selection did not arrive');
+    await showCaseScene(page, until, result);
     assert.equal(await caseWorkspace(page).getAttribute('data-case-motion'), 'false', 'Reduced-motion selection started travel');
     await assertCaseFrame(page, file, until, result, 'reduced-motion-selection');
     const beforeQuality = await caseSurface(page).evaluate(element => ({ width: Number(element.dataset.caseTargetWidth), height: Number(element.dataset.caseTargetHeight) }));
@@ -874,6 +1005,14 @@ export async function runCaseWorkspaceBrowserCases({ root, dist, output, scenari
     await assertNoAdmission(page, baseline);
     await showCompleteCaseReader(page, until);
     await assertCompleteCaseReader(page, file);
+    await exerciseReorderedClaimSources(page, file, edge.id, result, until, 'non-first-role');
+    const factId = file.readerFactIds.find((id, index) => index > 0 && id !== file.claims[0].claimId);
+    assert.ok(factId, 'Native order coverage needs a non-first reader-only fact');
+    const fact = file.claims.find(item => item.claimId === factId);
+    await caseArticle(page, factId).getByRole('button', { name: `Select reader-only fact: ${fact.proposedLabel}`, exact: true }).click();
+    await until(async () => await caseWorkspace(page).getAttribute('data-case-selection') === factId, 'Non-first reader-only fact selection did not arrive');
+    await assertCompleteCaseReader(page, file);
+    await exerciseReorderedClaimSources(page, file, factId, result, until, 'non-first-reader-fact');
     for (const [phase, viewport] of [['desktop', { width: 1440, height: 1000 }], ['compact-320', { width: 320, height: 844 }], ['effective-640x450', { width: 640, height: 450 }]]) {
       await page.setViewportSize(viewport);
       await until(async () => await caseWorkspace(page).getAttribute('data-case-compact') === String(phase !== 'desktop'), `${phase}: responsive compact state missing`);

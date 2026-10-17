@@ -6,3 +6,12 @@
 .ocv2-evidence article { margin-block: 1.5rem; border-block-start: 1px solid currentColor; padding-block-start: 1rem; }
 .ocv2-evidence [aria-pressed="true"] { font-weight: bold; text-decoration: underline; }
 @media (forced-colors: active) { .ocv2-evidence [aria-pressed="true"] { border: 2px solid Highlight; } }
+.ocv2-case-context {font-size:.85rem;margin-bottom:.8rem;border-bottom:1px solid #879174;}
+.ocv2-case-context p {margin-bottom:.35rem;}
+.ocv2-evidence>.ocd-selected-summary {margin-block-start:0;}
+.ocv2-evidence .ocd-selected-summary p {margin-block-end:.55rem;}
+.ocv2-evidence .ocd-selected-summary .ocd-mandatory {padding:.45rem .6rem;}
+.ocv2-evidence .ocv2-disclosure {margin-block:1rem;}
+.ocv2-disclosure>summary {min-height:44px;padding-block:.6rem;cursor:pointer;font-weight:700;}
+.ocv2-relation-choices {list-style:none;padding:0;}
+.ocv2-relation-choices button {width:100%;}

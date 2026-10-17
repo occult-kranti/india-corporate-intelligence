@@ -301,7 +301,6 @@ export default function CaseWorkspace({ graphics, reducedMotion, onClose, onRecr
     onRecreateGraphics();
   }
   const file = active?.controller.file;
-  const selected = file?.claims.find(claim => claim.claimId === (state?.navigation.factId ?? file.edges.find(edge => edge.id === state?.navigation.edgeId)?.claimId));
   const sourceClaim = file?.claims.find(claim => claim.claimId === claimId);
   const Evidence = active?.reader.CaseSceneEvidence, Details = active?.reader.CaseEvidenceDetails;
 
@@ -368,12 +367,7 @@ export default function CaseWorkspace({ graphics, reducedMotion, onClose, onRecr
           const edge = file.edges.find(item => item.id === id);
           return edge && <li key={id}><button type="button" onClick={() => act({ type: 'select-edge', id })}>{file.nodes.find(n => n.id === edge.from)?.label} → {file.nodes.find(n => n.id === edge.to)?.label}: {edge.role}</button></li>;
         })}</ul></section>}
-        <section className="cw-sources" aria-label="Source dialog controls">
-          <h2>Source evidence</h2>
-          {selected ? <button type="button" aria-haspopup="dialog" onClick={() => openSources(selected.claimId)}>Inspect selected claim {selected.number}: {selected.proposedLabel}</button> : <p>Select a relation or reader-only fact, or inspect any case claim below.</p>}
-          <details><summary>Inspect sources for any of the {file.claims.length} core claims</summary><ul>{file.claims.map(claim => <li key={claim.claimId}><button type="button" aria-haspopup="dialog" onClick={() => openSources(claim.claimId)}>Claim {claim.number}: {claim.proposedLabel}</button></li>)}</ul></details>
-        </section>
-        <Evidence caseFile={file} model={active.controller.model} state={state} onAction={act}/>
+        <Evidence caseFile={file} model={active.controller.model} state={state} onAction={act} onInspectSource={openSources}/>
       </div>
     </div> : null}
     <dialog ref={dialog} data-case-source-dialog="" className="cw-source-dialog" aria-labelledby={sourceTitle}
