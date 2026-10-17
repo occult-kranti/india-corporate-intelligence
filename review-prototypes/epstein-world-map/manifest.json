@@ -558,9 +558,9 @@
     },
     {
       "path": "README.md",
-      "bytes": 14160,
-      "sha256": "7c5df2de824b6242e95c7406a7ec5e148230d980106062e2a800bc2088e68be0",
-      "gitBlob": "3e30b02e7d2aeebd10e1d3d223c54f92047d4021"
+      "bytes": 16751,
+      "sha256": "8b98079622b395b9072f13a984e4641e496bffe3977e64fd681fabbfcf8d1119",
+      "gitBlob": "1a24b3bc8aee345117dbfc0a246b3c4d23c67df1"
     },
     {
       "path": "SOURCE-LINEAGE.json",
@@ -690,9 +690,9 @@
     },
     {
       "path": "scripts/artifact-audit.mjs",
-      "bytes": 5551,
-      "sha256": "7605b362602291b5d9b826fae3116eddb0dd5eccabcabd1e085939b468c4ded9",
-      "gitBlob": "b9b8b92c091de9b93fc0acd0a04d10dfd71bdab2"
+      "bytes": 6146,
+      "sha256": "99a5154ba97891bcdc1f6f5fcdf5af1988941f2593b361ba9fa762fe370d97d3",
+      "gitBlob": "9f52b4d9e9047c408d3b98efc10b0aa72631eec6"
     },
     {
       "path": "scripts/assert-context.mjs",
@@ -756,9 +756,9 @@
     },
     {
       "path": "scripts/failure-diagnostic.mjs",
-      "bytes": 7352,
-      "sha256": "ce26fff9902e4bb9e86df858037ea81d71f94da3d7b0c1e04347d1bb73dd1811",
-      "gitBlob": "b54a9bce478b030b0b46eb96a82b024e8ad692ec"
+      "bytes": 9698,
+      "sha256": "497fa6ec24fe04f3d6989cde22c0b3e9a54373f4bd25a8fb26ccb81a3934f56d",
+      "gitBlob": "789682121555e22426e7a7174505b092bf28c5cf"
     },
     {
       "path": "scripts/har-schema.py",
@@ -774,9 +774,9 @@
     },
     {
       "path": "scripts/native-review.mjs",
-      "bytes": 30125,
-      "sha256": "e0ed0d4365aea891f77bfbfedbb6966781d71ebe0942541bc2395a93eb77a329",
-      "gitBlob": "d4aca60ad9cc338b1e02868a0f2d78d3dab4de43"
+      "bytes": 30970,
+      "sha256": "7b1daa5dce51c49b16a7ee88b4895911e7bd39592d1f191772826c70ece38847",
+      "gitBlob": "eec0364ac8d402035831ab43730f28bfd757685d"
     },
     {
       "path": "scripts/portable-dom.mjs",
@@ -813,6 +813,12 @@
       "bytes": 1520,
       "sha256": "d534ca4056775ee88652887188ac890bea051cfd85bc4e3ab2dc306ed12133cc",
       "gitBlob": "70d22957699d05992bff0958811a97cf3ae6c205"
+    },
+    {
+      "path": "scripts/trace-header-diagnostic.py",
+      "bytes": 4931,
+      "sha256": "89e731e5d4f900de3966bcb8a0338163d54956f9b66a136b67a6ffe63fd4f1c5",
+      "gitBlob": "dfe714f21a87a67d7cdef299a3d0b730908f3a26"
     },
     {
       "path": "scripts/verify-package.mjs",
@@ -930,9 +936,9 @@
     },
     {
       "path": "tests/api-inventory.test.mjs",
-      "bytes": 21945,
-      "sha256": "a4abe2045986e6e9337f08012f6fda3714a7ff3d930d8939c3dfd92a30812eda",
-      "gitBlob": "1e3caec845a11a80766b283712526a5dee6349fc"
+      "bytes": 30259,
+      "sha256": "22923f98b9639596dc9218b82ce8723c6e92af2c2b5c71c91023306193492f26",
+      "gitBlob": "c075aa66fb012a3188ff0033b5c2057fa11cf681"
     },
     {
       "path": "tests/evidence-gate.test.mjs",
@@ -1010,8 +1016,8 @@
     }
   ],
   "successorScope": {
-    "baseHead": "a4adf779bf32d5962c3c660c79675f0da19c633d",
-    "baseManifestSha256": "15e4c059e0d47eca86f4c555be7cbc28224411210e9d5b7ad88a53f05f3c2ce7",
+    "baseHead": "90a0d4d482798997d3e0a5c1295d67cc86f84ae3",
+    "baseManifestSha256": "ad1352a859e6f0927410a2da1283c8698e4f25d936483399a6a7691c709c3698",
     "controllerRepair": "PROJECTION-CONSERVATION.json#controllerDelta",
     "AXSupport": "Canonical JSON equal complete repeats only; validate and preserve every raw row; conflicting ID reuse still denied",
     "mandatoryCIReplay": {
@@ -1028,6 +1034,27 @@
     "nativeAcceptance": false,
     "newResearch": false,
     "historicalDeclarations": "PUBLIC-PROJECTION.json and GATE-DELTA.json describe the initial proposal; sourceIdentity and this exact manifest describe current bytes.",
-    "failureDiagnostics": "Closed size and focus metadata only; existing admission, budgets and assertions unchanged"
+    "failureDiagnostics": "Closed size and focus metadata only; existing admission, budgets and assertions unchanged",
+    "endpointSetup": {
+      "observedRun": 39057796139,
+      "observedNativePassed": 488,
+      "chosenLastHadRectangle": true,
+      "chosenLastWasClosedDetailsDescendant": true,
+      "applicationChanged": false,
+      "originalWrapAssertionsChanged": false,
+      "regressionTests": 3
+    },
+    "traceHeaderDiagnostic": {
+      "failureOnly": true,
+      "memberBodiesOpenedOrDecompressed": false,
+      "boundedArchiveTailMayIncludeCompressedBodyBytes": true,
+      "contentIdentityClaim": false,
+      "duplicateMeaning": "repeated member names only",
+      "classes": "trace stream/network stream/stacks stream/image name convention/pinned local HTML name convention/other",
+      "originalMemberLimitBytes": 134217728,
+      "originalEnvelopeLimitBytes": 536870912,
+      "nativeAcceptance": false,
+      "artifactApproval": false
+    }
   }
 }

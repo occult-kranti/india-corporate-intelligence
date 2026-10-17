@@ -7,7 +7,7 @@ import {ROOT,inventory,requireNativeCI,readInputs,sha} from './contract.mjs';
 import {AUTOMATIC_PUBLICATION_ENABLED,HOLD_REASON} from './evidence-policy.mjs';
 import {evidenceRoot,invalidateGrants,runBinding,validateProducer} from './evidence-binding.mjs';
 import {validateReport,summaryFor} from './report-contract.mjs';
-import {axDuplicateDiagnostic,evidenceSizeDiagnostic} from './failure-diagnostic.mjs';
+import {axDuplicateDiagnostic,evidenceSizeDiagnostic,traceHeaderDiagnostic} from './failure-diagnostic.mjs';
 let root,sizeDiagnostic=null,decision={schema:'native-evidence-audit-v2',auditId:randomUUID(),status:'DENY',publicationApproved:false,diagnostics:[]};
 try{
  root=evidenceRoot();await invalidateGrants(root); // Before CI/input/report checks can fail.
@@ -33,3 +33,11 @@ console.log(JSON.stringify({status:decision.status,reason:decision.reason,valida
 for(const d of decision.diagnostics){const counts=axDuplicateDiagnostic(d.axDuplicates&&Object.fromEntries(['nodes','uniqueNodes','duplicateRows','identicalRows','conflictingRows'].map(k=>[k,d.axDuplicates[k]])));if(counts)console.log(JSON.stringify(counts));}
 
 if(['EVIDENCE_BUDGET','EVIDENCE_MEMBER_BUDGET'].includes(decision.validationCode)&&sizeDiagnostic)console.log(JSON.stringify(sizeDiagnostic));
+
+// Failure-only metadata probe. Raw stdout/stderr is never logged or admitted.
+if(['EVIDENCE_BUDGET','EVIDENCE_MEMBER_BUDGET'].includes(decision.validationCode)&&root){
+ try{
+  const result=spawnSync('python3',[resolve(ROOT,'scripts/trace-header-diagnostic.py'),resolve(root,'trace.zip'),ROOT],{encoding:'utf8',maxBuffer:16384,timeout:10000});
+  if(result.status===0){const diagnostic=traceHeaderDiagnostic(JSON.parse(result.stdout));if(diagnostic)console.log(JSON.stringify(diagnostic));}
+ }catch{} // The original denied decision and exit status remain authoritative.
+}

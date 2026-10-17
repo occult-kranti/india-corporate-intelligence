@@ -72,3 +72,22 @@ export function focusBoundaryDiagnostic(value){
   return {schema:'world-focus-boundary-diagnostic-v1',phase:value.phase,controlCount:value.controlCount,expectedOrdinal:value.expectedOrdinal,activeOrdinal:value.activeOrdinal,activeContained:value.activeContained,first:Object.fromEntries(flags.map(k=>[k,value.first[k]])),last:Object.fromEntries(flags.map(k=>[k,value.last[k]])),active:Object.fromEntries(flags.map(k=>[k,value.active[k]])),nativeAcceptance:false,artifactApproval:false};
  }catch{return null;}
 }
+
+// Header classifications are names only; member bodies are never inspected here.
+export function traceHeaderDiagnostic(value){
+ try{
+  const closed=(v,keys)=>v&&typeof v==='object'&&!Array.isArray(v)&&Object.keys(v).length===keys.length&&keys.every(k=>own(v,k));
+  const integer=(v,max)=>Number.isSafeInteger(v)&&v>=0&&v<=max;
+  if(closed(value,['status','code'])&&value.status==='unavailable'&&['archive_budget','header_budget','entry_budget','expanded_budget','malformed','unsupported','input_pin','unavailable'].includes(value.code))return {schema:'world-trace-header-diagnostic-v1',status:'unavailable',code:value.code,nativeAcceptance:false,artifactApproval:false};
+  if(!closed(value,['status','archiveBytes','entryCount','centralDirectoryBytes','compressedBytes','uncompressedBytes','duplicateMemberNameCount','classes'])||value.status!=='headers_only')return null;
+  if(!integer(value.archiveBytes,536870912)||value.archiveBytes<22||!integer(value.entryCount,49999)||!integer(value.centralDirectoryBytes,16777216)||!integer(value.compressedBytes,536870912)||!integer(value.uncompressedBytes,536870912)||!integer(value.duplicateMemberNameCount,value.entryCount)||!Array.isArray(value.classes)||value.classes.length!==6)return null;
+  let entries=0,compressed=0,uncompressed=0,duplicates=0;
+  for(const [i,r] of value.classes.entries()){
+   if(!closed(r,['classIndex','entryCount','compressedBytes','uncompressedBytes','duplicateMemberNameCount'])||r.classIndex!==i||!integer(r.entryCount,49999)||!integer(r.compressedBytes,536870912)||!integer(r.uncompressedBytes,536870912)||!integer(r.duplicateMemberNameCount,r.entryCount))return null;
+   if(!r.entryCount&&(r.compressedBytes||r.uncompressedBytes||r.duplicateMemberNameCount))return null;
+   entries+=r.entryCount;compressed+=r.compressedBytes;uncompressed+=r.uncompressedBytes;duplicates+=r.duplicateMemberNameCount;
+  }
+  if(entries!==value.entryCount||compressed!==value.compressedBytes||uncompressed!==value.uncompressedBytes||duplicates!==value.duplicateMemberNameCount||compressed+value.centralDirectoryBytes+22>value.archiveBytes)return null;
+  return {schema:'world-trace-header-diagnostic-v1',...value,classification:'member_names_only_no_content_identity',duplicateMeaning:'repeated_member_names_only',nativeAcceptance:false,artifactApproval:false};
+ }catch{return null;}
+}

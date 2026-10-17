@@ -153,3 +153,47 @@ test('each actual wrapper retains its original assertion and rethrows that same 
   await run(assert,{evaluate:async()=>true},async()=>{throw Error('must not diagnose a pass')});
  }
 });
+
+import {traceHeaderDiagnostic} from '../scripts/failure-diagnostic.mjs';
+async function endpointFixture(){
+ const source=await readFile(resolve(ROOT,'scripts/native-review.mjs'),'utf8');
+ const body=source.slice(source.lastIndexOf('\nfunction markNativeTabEndpoints('));
+ const mark=new Function('getComputedStyle',body+';return markNativeTabEndpoints;')(el=>el.style);
+ const dialog={nodes:[],querySelectorAll(selector){return selector==='[data-native-focus-index]'?this.nodes.filter(x=>x.marker!==null):this.nodes;}};
+ function node(opts={}){const n={parentElement:dialog,tagName:'BUTTON',tabIndex:0,disabled:false,blocked:false,rect:true,marker:null,style:{visibility:'visible',display:'block'},matches(){return this.disabled;},closest(){return this.blocked;},getClientRects(){return this.rect?[{}]:[];},setAttribute(k,v){assert.equal(k,'data-native-focus-index');this.marker=v;},removeAttribute(k){assert.equal(k,'data-native-focus-index');this.marker=null;},...opts};dialog.nodes.push(n);return n;}
+ function details(open=false,parent=dialog){const d={tagName:'DETAILS',open,parentElement:parent,querySelector(){return this.summary;}};d.summary=node({tagName:'SUMMARY',parentElement:d,contains(el){for(let p=el;p&&p!==dialog;p=p.parentElement)if(p===this)return true;return false;}});return d;}
+ return {mark,dialog,node,details};
+}
+test('endpoint setup excludes observed closed-details descendant despite its nonempty Chrome-style rectangle',async()=>{const {mark,dialog,node,details}=await endpointFixture();const first=node(),d=details(),last=node({parentElement:d});assert.equal(last.getClientRects().length,1);const old=dialog.nodes.filter(e=>e.getClientRects().length&&e.style.visibility!=='hidden');assert.equal(old.at(-1),last);assert.deepEqual(mark(dialog),[0,1]);assert.equal(first.marker,'0');assert.equal(d.summary.marker,'1');assert.equal(last.marker,null);});
+test('endpoint setup keeps open details and first-summary descendants but rejects nested closed descendants',async()=>{const {mark,dialog,node,details}=await endpointFixture();const outer=details(),summaryChild=node({parentElement:outer.summary}),hiddenInner=details(true,outer),hiddenChild=node({parentElement:hiddenInner}),opened=details(true),visible=node({parentElement:opened});mark(dialog);assert.notEqual(summaryChild.marker,null);assert.equal(hiddenInner.summary.marker,null);assert.equal(hiddenChild.marker,null);assert.notEqual(visible.marker,null);});
+test('endpoint setup excludes hidden/inert disabled negative-tabindex and CSS nonvisible controls and clears stale markers',async()=>{const {mark,dialog,node}=await endpointFixture();const a=node();for(const opts of [{blocked:true},{disabled:true},{tabIndex:-1},{rect:false},{style:{visibility:'hidden',display:'block'}},{style:{visibility:'collapse',display:'block'}},{style:{visibility:'visible',display:'none'}}])node({...opts,marker:'99'});const z=node();assert.deepEqual(mark(dialog),[0,1]);assert.equal(a.marker,'0');assert.equal(z.marker,'1');assert(dialog.nodes.slice(1,-1).every(n=>n.marker===null));});
+function headerValue(){return {status:'headers_only',archiveBytes:1000,entryCount:2,centralDirectoryBytes:200,compressedBytes:100,uncompressedBytes:200,duplicateMemberNameCount:1,classes:Array.from({length:6},(_,classIndex)=>({classIndex,entryCount:classIndex===0?2:0,compressedBytes:classIndex===0?100:0,uncompressedBytes:classIndex===0?200:0,duplicateMemberNameCount:classIndex===0?1:0}))};}
+test('trace-header log validator emits only qualified fixed classes and bounded metadata',()=>{const v=headerValue(),r=traceHeaderDiagnostic(v);assert.equal(r.classification,'member_names_only_no_content_identity');assert.equal(r.duplicateMeaning,'repeated_member_names_only');assert.equal(r.artifactApproval,false);assert.equal(r.nativeAcceptance,false);assert.equal(traceHeaderDiagnostic({status:'unavailable',code:'expanded_budget'}).status,'unavailable');});
+test('trace-header log validator refuses names errors bad enums unsafe integers malformed counts and totals',()=>{for(const mutate of [v=>v.path='SECRET',v=>v.error='SECRET',v=>v.status='SECRET',v=>v.archiveBytes=Number.MAX_SAFE_INTEGER+1,v=>v.entryCount=-1,v=>v.entryCount=50000,v=>v.centralDirectoryBytes=16777217,v=>v.uncompressedBytes=536870913,v=>v.compressedBytes=NaN,v=>v.classes.pop(),v=>v.classes[0].classIndex=1,v=>v.classes[0].name='SECRET',v=>v.classes[0].entryCount=1,v=>v.classes[0].duplicateMemberNameCount=3,v=>v.classes[1].compressedBytes=1,v=>v.duplicateMemberNameCount=0,v=>v.archiveBytes=100]){const v=headerValue();mutate(v);assert.equal(traceHeaderDiagnostic(v),null);}for(const v of [null,[],{status:'unavailable',code:'SECRET'},{status:'unavailable',code:'malformed',error:'SECRET'},new Proxy({},{get(){throw Error('SECRET')}})])assert.equal(traceHeaderDiagnostic(v),null);});
+test('bounded ZIP metadata parser handles duplicates unknown names and malformed headers without opening bodies',()=>{const code=`import pathlib,sys,tempfile,zipfile,importlib.util,struct,json,warnings
+sys.dont_write_bytecode=True
+s=importlib.util.spec_from_file_location('headers',pathlib.Path(${JSON.stringify(ROOT)})/'scripts/trace-header-diagnostic.py');m=importlib.util.module_from_spec(s);s.loader.exec_module(m)
+with tempfile.TemporaryDirectory() as d:
+ p=pathlib.Path(d)/'fixture.zip'
+ with warnings.catch_warnings():
+  warnings.simplefilter('ignore')
+  with zipfile.ZipFile(p,'w',compression=zipfile.ZIP_DEFLATED) as z:
+   for name,body in [('trace.trace',b'A'*1000),('trace.trace',b'B'*1000),('trace.network',b'C'*1000),('trace.stacks',b'D'),('resources/fixture.jpeg',b'not an image'),('resources/pinned.html',b'not approved HTML'),('SECRET/private.txt',b'SECRET')]:z.writestr(name,body)
+ r=m.inspect(p,{'resources/pinned.html'});assert r['entryCount']==7 and r['duplicateMemberNameCount']==1;assert [x['entryCount'] for x in r['classes']]==[2,1,1,1,1,1];assert 'SECRET' not in json.dumps(r)
+ # Stored CRC/body content is not examined: this is deliberately only a header diagnosis.
+ b=p.read_bytes();bad=bytearray(b);body_start=30+struct.unpack_from('<H',b,26)[0]+struct.unpack_from('<H',b,28)[0];bad[body_start]^=255;p.write_bytes(bad);assert m.inspect(p,{'resources/pinned.html'})==r
+ def denied(data,expected=None):
+  p.write_bytes(data)
+  try:m.inspect(p,set());raise AssertionError('accepted malformed header')
+  except m.HeaderFailure as e:assert expected is None or str(e)==expected
+ denied(b'no zip')
+ for offset,value,fmt,code in [(b.rfind(b'PK\\x05\\x06')+10,50000,'<H','unsupported'),(b.rfind(b'PK\\x05\\x06')+12,16777217,'<I','header_budget'),(b.find(b'PK\\x01\\x02')+8,1,'<H','unsupported'),(b.find(b'PK\\x01\\x02')+10,99,'<H','unsupported'),(b.find(b'PK\\x01\\x02')+28,4097,'<H','header_budget')]:
+  v=bytearray(b);struct.pack_into(fmt,v,offset,value);denied(v,code)
+ v=bytearray(b);c=b.find(b'PK\\x01\\x02');struct.pack_into('<I',v,c+24,536870913);denied(v)
+ # A huge sparse physical archive is rejected before central-directory allocation.
+ p.write_bytes(b'');f=p.open('r+b');f.truncate(m.PHYSICAL_LIMIT+1);f.close();
+ try:m.inspect(p,set());raise AssertionError('accepted oversized archive')
+ except m.HeaderFailure as e:assert str(e)=='archive_budget'
+print(json.dumps({'checks':'passed','bodyDecompression':False,'contentIdentityClaim':False}))
+`;const r=spawnSync('python3',['-c',code],{encoding:'utf8',maxBuffer:16384,timeout:10000});assert.equal(r.status,0,r.stdout+'\n'+r.stderr);assert.equal(JSON.parse(r.stdout).contentIdentityClaim,false);});
+test('endpoint and header deltas preserve wrap assertions and failure-only admission boundaries',async()=>{const native=await readFile(resolve(ROOT,'scripts/native-review.mjs'),'utf8'),audit=await readFile(resolve(ROOT,'scripts/artifact-audit.mjs'),'utf8');assert(native.includes('dialog.evaluate(markNativeTabEndpoints)'));assert(native.includes("await page.keyboard.press('Tab')"));assert(native.includes("await page.keyboard.press('Shift+Tab')"));assert(audit.includes("assert(rows.every(r=>r.bytes<=128*1024*1024),'EVIDENCE_MEMBER_BUDGET')"));assert(audit.includes("assert(rows.reduce((n,r)=>n+r.bytes,0)<=512*1024*1024,'EVIDENCE_BUDGET')"));assert(audit.includes("if(['EVIDENCE_BUDGET','EVIDENCE_MEMBER_BUDGET'].includes(decision.validationCode)&&root)"));assert(audit.includes('maxBuffer:16384,timeout:10000'));});
