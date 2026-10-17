@@ -1,0 +1,265 @@
+name: P1 lifecycle paired diagnostic (not release acceptance)
+on:
+  push:
+    branches: [diagnostic/pr16-p1-lifecycle-pair]
+permissions:
+  contents: read
+concurrency:
+  group: p1-lifecycle-paired-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  one-control-one-candidate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    defaults:
+      run:
+        shell: bash
+    env:
+      CI: "true"
+      SPATIAL_BROWSER_REVIEW: github-actions
+      SPATIAL_EXPECT_HISTORICAL_REVIEW: "true"
+      SPATIAL_DIAGNOSTIC_HARNESS_SHA: ${{ github.sha }}
+      SPATIAL_DIAGNOSTIC_PAIR_DIRECTORY: ${{ github.workspace }}/p1-lifecycle-pair
+      SPATIAL_P1_CONTROL_SCRIPTS: ${{ github.workspace }}/pinned-control/spatial-prototype/scripts
+      SPATIAL_P1_CANDIDATE_SCRIPTS: ${{ github.workspace }}/pinned-candidate/spatial-prototype/scripts
+    steps:
+      - name: Require the bounded first attempt
+        run: test "$GITHUB_RUN_ATTEMPT" = 1
+      - name: Check out exact diagnostic harness
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Check out exact released control
+        uses: actions/checkout@v4
+        with:
+          ref: cdc0f9fbe6748b7b459f4f4151cdb9b4e8a936b8
+          path: pinned-control
+          persist-credentials: false
+      - name: Check out exact P1 candidate
+        uses: actions/checkout@v4
+        with:
+          ref: dcb5119f37680888b3fb5175626ac62448584417
+          path: pinned-candidate
+          persist-credentials: false
+      - name: Use Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Record startup worker and verify diagnostic contracts
+        run: |
+          mkdir p1-lifecycle-pair
+          node --input-type=module <<'NODE'
+          import {environment, LIMITATION, RUNTIMES, ORDER} from './spatial-prototype/scripts/p1-lifecycle-diagnostic.mjs';
+          import {writeFile} from 'node:fs/promises';
+          await writeFile('p1-lifecycle-pair/startup.json', JSON.stringify({environment:await environment(), runtimes:RUNTIMES, order:ORDER, limitation:LIMITATION},null,2)+'\n');
+          NODE
+          { uname -a; lscpu; df -h; uptime; } > p1-lifecycle-pair/startup-system.txt
+          node --test spatial-prototype/scripts/p1-lifecycle-diagnostic.test.mjs
+      - name: Build both pinned runtimes without application or oracle overlays
+        id: prepare
+        run: |
+          set -o pipefail
+          for variant in control candidate; do
+            npm ci --prefix "pinned-$variant/spatial-prototype" 2>&1 | tee "p1-lifecycle-pair/$variant-install.log"
+            npm run build --prefix "pinned-$variant/spatial-prototype" 2>&1 | tee "p1-lifecycle-pair/$variant-build.log"
+            cp spatial-prototype/scripts/p1-lifecycle-diagnostic.mjs "pinned-$variant/spatial-prototype/scripts/p1-lifecycle-diagnostic.mjs"
+            cmp spatial-prototype/scripts/p1-lifecycle-diagnostic.mjs "pinned-$variant/spatial-prototype/scripts/p1-lifecycle-diagnostic.mjs"
+            test -z "$(git -C "pinned-$variant" diff HEAD --name-only)"
+          done
+          cd pinned-control/spatial-prototype
+          npx --no-install playwright install --with-deps chromium
+      - name: Run one complete released-control lifecycle observation
+        id: control_run
+        if: always() && steps.prepare.outcome == 'success'
+        working-directory: pinned-control/spatial-prototype
+        run: node scripts/p1-lifecycle-diagnostic.mjs control
+      - name: Run one complete P1 lifecycle observation after control
+        id: candidate_run
+        if: always() && steps.prepare.outcome == 'success'
+        working-directory: pinned-candidate/spatial-prototype
+        run: node scripts/p1-lifecycle-diagnostic.mjs candidate
+      - name: Summarize the single pair without changing native outcomes
+        if: always() && steps.prepare.outcome == 'success'
+        run: |
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import {readFile,writeFile} from 'node:fs/promises';
+          import {validatePairOrder,LIMITATION} from './spatial-prototype/scripts/p1-lifecycle-diagnostic.mjs';
+          const result={release_acceptance:false,full_acceptance:false,limitation:LIMITATION,observations:[]};
+          try {
+            const control=JSON.parse(await readFile('p1-lifecycle-pair/control-finished.json','utf8'));
+            const candidate=JSON.parse(await readFile('p1-lifecycle-pair/candidate-finished.json','utf8'));
+            validatePairOrder(control,candidate);
+            for(const variant of ['control','candidate']) result.observations.push(JSON.parse(await readFile(`pinned-${variant}/spatial-prototype/browser-review/p1-lifecycle-diagnostic/${variant}/diagnostic-observation.json`,'utf8')));
+            result.order_verified=true;
+            result.both_native_passed=result.observations.every(row=>row.observation==='native-passed'&&row.raw_process_exit_code===0);
+            if(!result.both_native_passed)process.exitCode=1;
+          } catch(error) {result.error=error.stack??String(error);process.exitCode=1;}
+          await writeFile('p1-lifecycle-pair/comparison.json',JSON.stringify(result,null,2)+'\n');
+          console.log(JSON.stringify(result,null,2));
+          await writeFile(process.env.GITHUB_STEP_SUMMARY, 'One released control, then one P1 candidate. Native outcomes are retained in comparison.json. No release acceptance is granted. '+LIMITATION+'\n',{flag:'a'});
+          NODE
+      - name: Preserve startup, ordering, build and comparison evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: p1-lifecycle-pair-metadata-${{ github.run_id }}-${{ github.run_attempt }}
+          path: p1-lifecycle-pair/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Partition complete control evidence
+        id: control_parts
+        if: always() && steps.prepare.outcome == 'success'
+        working-directory: pinned-control/spatial-prototype
+        run: node scripts/partition-browser-artifacts.mjs
+      - name: Preserve control evidence part 01
+        if: always() && steps.control_parts.outcome == 'success' && steps.control_parts.outputs.part_01 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: p1-lifecycle-control-${{ github.run_id }}-${{ github.run_attempt }}-part-01
+          path: pinned-control/spatial-prototype/browser-artifact-parts/01/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve control evidence part 02
+        if: always() && steps.control_parts.outcome == 'success' && steps.control_parts.outputs.part_02 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: p1-lifecycle-control-${{ github.run_id }}-${{ github.run_attempt }}-part-02
+          path: pinned-control/spatial-prototype/browser-artifact-parts/02/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve control evidence part 03
+        if: always() && steps.control_parts.outcome == 'success' && steps.control_parts.outputs.part_03 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: p1-lifecycle-control-${{ github.run_id }}-${{ github.run_attempt }}-part-03
+          path: pinned-control/spatial-prototype/browser-artifact-parts/03/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve control evidence part 04
+        if: always() && steps.control_parts.outcome == 'success' && steps.control_parts.outputs.part_04 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: p1-lifecycle-control-${{ github.run_id }}-${{ github.run_attempt }}-part-04
+          path: pinned-control/spatial-prototype/browser-artifact-parts/04/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve control evidence part 05
+        if: always() && steps.control_parts.outcome == 'success' && steps.control_parts.outputs.part_05 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: p1-lifecycle-control-${{ github.run_id }}-${{ github.run_attempt }}-part-05
+          path: pinned-control/spatial-prototype/browser-artifact-parts/05/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve control evidence part 06
+        if: always() && steps.control_parts.outcome == 'success' && steps.control_parts.outputs.part_06 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: p1-lifecycle-control-${{ github.run_id }}-${{ github.run_attempt }}-part-06
+          path: pinned-control/spatial-prototype/browser-artifact-parts/06/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve control evidence part 07
+        if: always() && steps.control_parts.outcome == 'success' && steps.control_parts.outputs.part_07 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: p1-lifecycle-control-${{ github.run_id }}-${{ github.run_attempt }}-part-07
+          path: pinned-control/spatial-prototype/browser-artifact-parts/07/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve control evidence part 08
+        if: always() && steps.control_parts.outcome == 'success' && steps.control_parts.outputs.part_08 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: p1-lifecycle-control-${{ github.run_id }}-${{ github.run_attempt }}-part-08
+          path: pinned-control/spatial-prototype/browser-artifact-parts/08/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Partition complete candidate evidence
+        id: candidate_parts
+        if: always() && steps.prepare.outcome == 'success'
+        working-directory: pinned-candidate/spatial-prototype
+        run: node scripts/partition-browser-artifacts.mjs
+      - name: Preserve candidate evidence part 01
+        if: always() && steps.candidate_parts.outcome == 'success' && steps.candidate_parts.outputs.part_01 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: p1-lifecycle-candidate-${{ github.run_id }}-${{ github.run_attempt }}-part-01
+          path: pinned-candidate/spatial-prototype/browser-artifact-parts/01/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve candidate evidence part 02
+        if: always() && steps.candidate_parts.outcome == 'success' && steps.candidate_parts.outputs.part_02 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: p1-lifecycle-candidate-${{ github.run_id }}-${{ github.run_attempt }}-part-02
+          path: pinned-candidate/spatial-prototype/browser-artifact-parts/02/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve candidate evidence part 03
+        if: always() && steps.candidate_parts.outcome == 'success' && steps.candidate_parts.outputs.part_03 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: p1-lifecycle-candidate-${{ github.run_id }}-${{ github.run_attempt }}-part-03
+          path: pinned-candidate/spatial-prototype/browser-artifact-parts/03/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve candidate evidence part 04
+        if: always() && steps.candidate_parts.outcome == 'success' && steps.candidate_parts.outputs.part_04 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: p1-lifecycle-candidate-${{ github.run_id }}-${{ github.run_attempt }}-part-04
+          path: pinned-candidate/spatial-prototype/browser-artifact-parts/04/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve candidate evidence part 05
+        if: always() && steps.candidate_parts.outcome == 'success' && steps.candidate_parts.outputs.part_05 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: p1-lifecycle-candidate-${{ github.run_id }}-${{ github.run_attempt }}-part-05
+          path: pinned-candidate/spatial-prototype/browser-artifact-parts/05/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve candidate evidence part 06
+        if: always() && steps.candidate_parts.outcome == 'success' && steps.candidate_parts.outputs.part_06 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: p1-lifecycle-candidate-${{ github.run_id }}-${{ github.run_attempt }}-part-06
+          path: pinned-candidate/spatial-prototype/browser-artifact-parts/06/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve candidate evidence part 07
+        if: always() && steps.candidate_parts.outcome == 'success' && steps.candidate_parts.outputs.part_07 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: p1-lifecycle-candidate-${{ github.run_id }}-${{ github.run_attempt }}-part-07
+          path: pinned-candidate/spatial-prototype/browser-artifact-parts/07/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve candidate evidence part 08
+        if: always() && steps.candidate_parts.outcome == 'success' && steps.candidate_parts.outputs.part_08 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: p1-lifecycle-candidate-${{ github.run_id }}-${{ github.run_attempt }}-part-08
+          path: pinned-candidate/spatial-prototype/browser-artifact-parts/08/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
