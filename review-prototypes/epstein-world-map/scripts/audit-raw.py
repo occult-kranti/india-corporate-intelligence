@@ -19,8 +19,12 @@ class DOM(HTMLParser):
  def __init__(self):super().__init__(convert_charrefs=True);self.tags=[];self.bad=False
  def handle_starttag(self,tag,attrs):
   self.tags.append(tag);require(len(attrs)==len({k for k,v in attrs}),'DOM_DUPLICATE_ATTRIBUTE');require(tag not in ['iframe','object','embed','form','img','audio','video','link'],'DOM_UNEXPECTED_RESOURCE');require(not any(k.lower().startswith('on') or k in ['srcdoc','src'] for k,v in attrs),'DOM_ACTIVE_ATTRIBUTE')
-def inspect(path,root):
- name=path.name;b=path.read_bytes();require(len(b)<=128*1024**2,'RAW_MEMBER_BUDGET')
+def inspect(path,root,expected=None,budget=None,decoder=None):
+ name=path.name
+ # Dispatch the ZIP before any full-file read; all other raw classes keep 128 MiB.
+ if name=='trace.zip':
+  require(expected is not None,'TRACE_ARCHIVE_INVENTORY_BINDING_REQUIRED');return trace.audit(path,expected,budget=budget,decoder=decoder)
+ require(path.stat().st_size<=128*1024**2,'RAW_MEMBER_BUDGET');b=path.read_bytes();require(len(b)<=128*1024**2,'RAW_MEMBER_BUDGET')
  if name.endswith('.png'):return {'class':'png','structure':trace.png(b),'decoded':trace.image_decode(b),'status':'BOUNDED_PNG_SCHEMA','boundedSchemaSupported':True,'semanticPrivacyCertified':False}
  if name.endswith('.html'):
   text=b.decode('utf-8');require('<html' in text.lower() and '<body' in text.lower() and '</html>' in text.lower(),'DOM_DOCUMENT_SCHEMA');d=DOM();d.feed(text);d.close();require(d.tags.count('html')==1 and d.tags.count('body')==1,'DOM_DOCUMENT_ROOTS');digest=hashlib.sha256(b).hexdigest();return {'class':'dom','status':'EXACT_APPROVED_INPUT' if digest in trace.HTML_HASHES else 'BOUNDED_PRODUCER_DOM_SCHEMA','tagCount':len(d.tags),'boundedSchemaSupported':True,'semanticPrivacyCertified':False}
@@ -55,12 +59,22 @@ def inspect(path,root):
    keys(e['cache'],[]);keys(e['timings'],['blocked','dns','connect','send','wait','receive','ssl']);require(all(isinstance(n,(int,float)) and n>=-1 for n in e['timings'].values()),'HAR_TIMING');require(e.get('serverIPAddress','127.0.0.1')=='127.0.0.1','HAR_REMOTE_ADDRESS')
    require(not any(h['name'].lower() in ['authorization','cookie','set-cookie','proxy-authorization'] for h in q['headers']+r['headers']),'HAR_CREDENTIAL_HEADER')
   return {'class':'har','status':'EXACT_HTML_BODIES_BOUNDED_HAR_SCHEMA','entries':len(log['entries']),'boundedSchemaSupported':True,'semanticPrivacyCertified':False}
- if name=='trace.zip':return trace.audit(path)
  raise ValueError('UNSUPPORTED_RAW_CLASS')
 if __name__=='__main__':
- try:print(json.dumps(inspect(pathlib.Path(sys.argv[1]),pathlib.Path(sys.argv[2])),separators=(',',':')))
+ from persistent_decoder import Decoder,DecoderDenied
+ try:
+  budget=trace.budget_module.Budget();path=pathlib.Path(sys.argv[1]);root=pathlib.Path(sys.argv[2])
+  expected={'bytes':int(sys.argv[3]),'sha256':sys.argv[4]} if len(sys.argv)==5 else None
+  if path.name=='trace.zip' or path.name.endswith('.png'):
+   with Decoder(deadline=budget.deadline) as decoder:
+    trace._active_budget=budget;trace._active_decoder=decoder
+    result=inspect(path,root,expected,budget=budget,decoder=decoder)
+    decoder.finish();budget.check()
+  else:
+   trace.budget_module.apply_runtime_limits();result=inspect(path,root,expected,budget=budget);budget.check()
+  print(json.dumps(result,separators=(',',':')))
  except Exception as e:
-  code=str(e) if isinstance(e,ValueError) and re.fullmatch('[A-Z_]+',str(e)) else 'MALFORMED_RAW_EVIDENCE'
+  code=str(e) if isinstance(e,(ValueError,DecoderDenied)) and re.fullmatch('[A-Z_]+',str(e)) else 'MALFORMED_RAW_EVIDENCE'
   out={'status':'DENY_RAW_STRUCTURE_OR_CONTENT','code':code,'publicationApproved':False}
   if code=='AX_NODE_DUPLICATE_ID' and hasattr(e,'ax_duplicate_counts'):out['axDuplicateCounts']=e.ax_duplicate_counts
   print(json.dumps(out));sys.exit(1)

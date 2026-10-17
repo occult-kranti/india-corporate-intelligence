@@ -2,6 +2,8 @@
 // not authorize publication or execution. Exact data-bearing approval is external.
 // This certifies schema/current-run byte consistency, never semantic pixel privacy
 // or unforgeable Actions identity. Unsupported fields hold the entire envelope.
+// Local activated composition pending independent package review and external publication authorization.
+// This capability remains conditional on complete schema, source, current-run and producer admission.
 export const AUTOMATIC_PUBLICATION_ENABLED = true;
 export const UNAVAILABLE = 'Native evidence is unavailable or unverified. No native acceptance is claimed. Raw evidence publication is held; an ephemeral runner cannot provide later artifact review.\n';
 export const HOLD_REASON = 'RAW_SCHEMA_AND_PRODUCER_PROVENANCE_REVIEW_REQUIRED';

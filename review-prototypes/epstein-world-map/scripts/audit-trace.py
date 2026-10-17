@@ -6,6 +6,10 @@ material. The externally approved raw-evidence scope and frozen producer are the
 provenance model; unsupported structures are held intact, not stripped.
 """
 import sys,json,re,zipfile,stat,hashlib,struct,zlib,binascii,subprocess,base64,pathlib,os,importlib.util
+_bspec=importlib.util.spec_from_file_location('streaming_budget_proposal',pathlib.Path(__file__).with_name('streaming-budget-proposal.py'));budget_module=importlib.util.module_from_spec(_bspec);sys.dont_write_bytecode=True;_bspec.loader.exec_module(budget_module)
+_aspec=importlib.util.spec_from_file_location('bound_trace_archive_proposal',pathlib.Path(__file__).with_name('bound-trace-archive-proposal.py'));archive_module=importlib.util.module_from_spec(_aspec);_aspec.loader.exec_module(archive_module)
+_active_budget=None
+_active_decoder=None
 _hspec=importlib.util.spec_from_file_location("har_schema",pathlib.Path(__file__).with_name("har-schema.py"));har_schema=importlib.util.module_from_spec(_hspec);sys.dont_write_bytecode=True;_hspec.loader.exec_module(har_schema)
 ALLOWED_URL=re.compile(r'^http://127\.0\.0\.1:[1-9]\d{0,4}/review-prototypes/epstein-world-map/(index|readable|controller-fixture)\.html$')
 MEMBER=re.compile(r'^(trace\.(trace|network|stacks)|resources/(?!src@)[A-Za-z0-9@_.-]+)$')
@@ -85,8 +89,9 @@ def image_decode(b):
  require(len(b)<=32*1024**2,'IMAGE_BUDGET')
  if b.startswith(b'\x89PNG\r\n\x1a\n'):png(b)
  else:require(b.startswith(b'\xff\xd8\xff') and b.endswith(b'\xff\xd9'),'JPEG_FRAMING')
- result=subprocess.run(['node',str(pathlib.Path(__file__).with_name('decode-image.mjs'))],input=base64.b64encode(b).decode()+'\n',capture_output=True,text=True,timeout=20)
- require(result.returncode==0,'IMAGE_DECODER_UNAVAILABLE');v=json.loads(result.stdout);require(v.get('ok') is True,'IMAGE_DECODE');return v
+ require(_active_decoder is not None,'QUALIFIED_IMAGE_DECODER_REQUIRED')
+ return {'ok':True,**_active_decoder.decode(b)}
+
 
 def tree(node,depth=0):
  require(depth<150,'FRAME_TREE_DEPTH')
@@ -100,15 +105,20 @@ def tree(node,depth=0):
   i=2
  for child in node[i:]:tree(child,depth+1)
 
-def audit(path):
+def audit(path,expected=None,budget=None,decoder=None):
+ global _active_budget,_active_decoder
+ _active_budget=budget if budget is not None else budget_module.Budget()
+ _active_decoder=decoder
+ if decoder is not None:require(budget is not None and decoder.deadline==budget.deadline,'SHARED_DECODER_DEADLINE_REQUIRED')
  rows=[];events=0;types=set();resources={};image_refs=set();html_refs=set();html_sizes={};calls=set();after=set();context_seen=False;frame_seen=False;network_seen=False
- with zipfile.ZipFile(path) as z:
+ with archive_module.Archive(path,_active_budget,budget_module.POLICY,expected) as z:
   infos=z.infolist();require(len(infos)<50000,'TRACE_MEMBER_COUNT');require(len({i.filename for i in infos})==len(infos),'DUPLICATE_TRACE_MEMBER');require(sum(i.file_size for i in infos)<=512*1024**2,'TRACE_EXPANSION_BUDGET')
   for i in infos:
-   require(bool(MEMBER.fullmatch(i.filename)),'TRACE_MEMBER_NAME');require(not stat.S_ISLNK(i.external_attr>>16),'TRACE_SYMLINK');require(i.file_size<=128*1024**2,'TRACE_MEMBER_BUDGET');require(not i.flag_bits&1,'TRACE_ENCRYPTED');b=z.read(i);rows.append({'path':i.filename,'bytes':len(b),'sha256':hashlib.sha256(b).hexdigest()})
+   require(bool(MEMBER.fullmatch(i.filename)),'TRACE_MEMBER_NAME');require(not stat.S_ISLNK(i.external_attr>>16),'TRACE_SYMLINK');require(i.file_size<=budget_module.member_limit(i.filename),'TRACE_MEMBER_BUDGET');require(not i.flag_bits&1,'TRACE_ENCRYPTED');reader=budget_module.Member(z.open(i),i.file_size,budget_module.member_limit(i.filename),_active_budget)
+   if not i.filename.endswith(('.trace','.network')):b=reader.all()
    if i.filename.endswith(('.trace','.network')):
-    for line in b.splitlines():
-     require(len(line)<=16*1024**2,'TRACE_LINE_BUDGET');event=json.loads(line);bounded(event);require(isinstance(event,dict),'TRACE_EVENT_OBJECT');kind=event.get('type');events+=1;types.add(kind)
+    for line in reader.lines():
+     _active_budget.event();require(len(line)<=16*1024**2,'TRACE_LINE_BUDGET');event=json.loads(line);bounded(event);require(isinstance(event,dict),'TRACE_EVENT_OBJECT');kind=event.get('type');events+=1;types.add(kind)
      shapes={
       'context-options':(['version','type','origin','browserName','playwrightVersion','options','platform','wallTime','monotonicTime','sdkLanguage','testIdAttributeName','contextId','channel','title'],['version','type','origin','browserName','playwrightVersion','options','platform','wallTime','monotonicTime','sdkLanguage','contextId']),
       'before':(['type','callId','startTime','title','class','method','params','stepId','pageId','parentId','beforeSnapshot'],['type','callId','startTime','class','method','params']),
@@ -152,7 +162,7 @@ def audit(path):
       if event['class']=='Route':
        if event['method']=='continue':keys(event['params'],['isFallback'],['isFallback']);require(event['params']['isFallback'] is False,'ROUTE_OVERRIDE_UNSUPPORTED')
        else:keys(event['params'],['errorCode'],['errorCode']);require(event['params']['errorCode']=='blockedbyclient','ROUTE_ABORT_CODE_UNSUPPORTED')
-      require(event['class']!='CDPSession' or event['method']!='send' or event['params'].get('method')=='Accessibility.getFullAXTree','CDP_METHOD_UNSUPPORTED');require(event['callId'] not in calls,'TRACE_DUPLICATE_CALL');calls.add(event['callId'])
+      require(event['class']!='CDPSession' or event['method']!='send' or event['params'].get('method')=='Accessibility.getFullAXTree','CDP_METHOD_UNSUPPORTED');require(event['callId'] not in calls,'TRACE_DUPLICATE_CALL');calls.add(event['callId']);require(len(calls)<=budget_module.POLICY['maxCalls'],'TRACE_CALL_COUNT')
      elif kind=='after':
       require(event['callId'] in calls and event['callId'] not in after,'TRACE_AFTER_WITHOUT_BEFORE');after.add(event['callId'])
       if 'result' in event:keys(event['result'],['value','values','element','elements','response','result','session','page','count','handle','disposable','binary','matches','log','file','noReply']);bounded(event['result'])
@@ -173,10 +183,17 @@ def audit(path):
     name=i.filename.split('/',1)[1]
     if b.startswith((b'\x89PNG\r\n\x1a\n',b'\xff\xd8\xff')):resources[name]={'kind':'image','decoded':image_decode(b)}
     else:require(hashlib.sha256(b).hexdigest() in HTML_HASHES,'TRACE_RESOURCE_NOT_APPROVED_INPUT');require(name==hashlib.sha1(b).hexdigest()+'.html','TRACE_HTML_RESOURCE_NAME');resources[name]={'kind':'html','bytes':len(b)}
+   rows.append({'path':i.filename,**reader.receipt()});reader.handle.close()
   require('trace.trace' in {i.filename for i in infos},'TRACE_STREAM_MISSING');require(events>0 and context_seen,'TRACE_CONTEXT_MISSING');require(image_refs=={n for n,r in resources.items() if r['kind']=='image'},'TRACE_IMAGE_REFERENCE_CLOSURE');require(html_refs=={n for n,r in resources.items() if r['kind']=='html'},'TRACE_HTML_REFERENCE_CLOSURE');require(all(sizes=={resources[name]['bytes']} for name,sizes in html_sizes.items()),'TRACE_DOCUMENT_SIZE')
- return {'status':'BOUNDED_TRACE_SCHEMA','members':rows,'eventCount':events,'eventTypes':sorted(types),'frameSnapshots':frame_seen,'networkObserved':network_seen,'actionCalls':len(calls),'completedCalls':len(after),'screencastImages':len(image_refs),'boundedSchemaSupported':True,'semanticPrivacyCertified':False,'provenanceRequirement':'outer exact producer receipt and current-run manifest binding required'}
+ _active_budget.check()
+ return {'status':'BOUNDED_TRACE_SCHEMA','archive':z.receipt,'members':rows,'eventCount':events,'eventTypes':sorted(types),'frameSnapshots':frame_seen,'networkObserved':network_seen,'actionCalls':len(calls),'completedCalls':len(after),'screencastImages':len(image_refs),'boundedSchemaSupported':True,'semanticPrivacyCertified':False,'provenanceRequirement':'outer exact producer receipt and current-run manifest binding required'}
 if __name__=='__main__':
- try:print(json.dumps(audit(sys.argv[1]),separators=(',',':')))
+ from persistent_decoder import Decoder,DecoderDenied
+ try:
+  budget=budget_module.Budget()
+  with Decoder(deadline=budget.deadline) as decoder:
+   result=audit(sys.argv[1],budget=budget,decoder=decoder);decoder.finish();budget.check()
+  print(json.dumps(result,separators=(',',':')))
  except Exception as e:
-  code=str(e) if isinstance(e,ValueError) and re.fullmatch('[A-Z_]+',str(e)) else 'MALFORMED_TRACE'
+  code=str(e) if isinstance(e,(ValueError,DecoderDenied)) and re.fullmatch('[A-Z_]+',str(e)) else 'MALFORMED_TRACE'
   print(json.dumps({'status':'DENY_TRACE_STRUCTURE_OR_UNSUPPORTED_SCHEMA','code':code,'boundedSchemaSupported':False}));sys.exit(1)

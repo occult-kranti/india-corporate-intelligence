@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {requireImageRuntime} from './image-runtime.mjs';
 import {readFile,writeFile,mkdir,realpath} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {createRequire} from 'node:module';
@@ -15,6 +16,7 @@ import {failureDiagnostic,DIAGNOSTIC_SOURCE_FILES,focusBoundaryDiagnostic} from 
 // Deliberately precedes any Playwright import, browser process, server or evidence write.
 if(process.env.GITHUB_WORKSPACE)await invalidateGrants(evidenceRoot());
 requireNativeCI();
+await requireImageRuntime();
 const {raw,fixture}=await readInputs();
 const workspace=resolve(process.env.GITHUB_WORKSPACE);
 for(const [name,pin]of [['package.json','a6e52ae408cbf957e3726601864d149703f1be96e13c607f16cdf8fd9f383134'],['package-lock.json','01e715955bbde6e3b4baf72ecfaaab25be89503fda4a992d8cd9b2e16c3c1926']])assert.equal(sha(await readFile(resolve(workspace,'spatial-prototype',name))),pin,'Existing dependency contract changed');
@@ -27,7 +29,7 @@ const binding=runBinding(process.env,packageManifestSha256);
 const report={schema:'cumulative-native-review-v2',startedAt:new Date().toISOString(),headCommit:process.env.REVIEW_HEAD_SHA,runId:process.env.GITHUB_RUN_ID,runAttempt:process.env.GITHUB_RUN_ATTEMPT,invocationId:process.env.NATIVE_INVOCATION_ID,packageManifestSha256,sourceManifestSha256:SOURCE_MANIFEST,pins:PINS,scope:REPORT_SCOPE,historicalLabels:HISTORICAL_LABELS,manualGates:MANUAL_GATES,checks:[],cases:[],requests:[],pageErrors:[],screenshots:[],captures:[],browserAttempts:[]};
 const inventory=allPlannedCases(raw,fixture);report.plannedCases=inventory;report.plannedCheckGroups=CHECK_GROUPS.map(name=>({name,status:'not-run'}));
 const anchors=JSON.parse(await readFile(resolve(ROOT,'data/anchors.json'))).anchors,candidates=JSON.parse(await readFile(resolve(ROOT,'data/anchor-candidates.json'))).anchors;
-let browser,context,page,http;const allowedRequests=new Set();
+let browser,context,page,http,coordinateFailure;const allowedRequests=new Set();
 async function check(name,fn){const planned=report.plannedCheckGroups.find(x=>x.name===name);assert(planned,name);planned.status='running';const start=performance.now();try{await fn();planned.status='passed';report.checks.push({name,status:'passed',durationMs:Math.round(performance.now()-start)});}catch(e){planned.status='failed';report.checks.push({name,status:'failed',durationMs:Math.round(performance.now()-start),error:String(e.stack??e)});throw e;}}
 async function caseCheck(id,fn){const row=inventory.find(x=>x.id===id);assert(row,id);try{await fn();row.status='passed';}catch(e){row.status='failed';row.error=String(e);throw e;}}
 async function ready(fixtureOnly=false){await page.goto(http.base+(fixtureOnly?'controller-fixture.html':'index.html'));await page.locator('#packet-filter').waitFor();assert.equal(await page.locator('.blocked').count(),0);}
@@ -66,13 +68,13 @@ try{
  await runWorldInteractions({page,raw,records,anchors,candidates,check,caseCheck,ready,choose,opened,close,audit,capture,geometry,settle,selected});
  assert.equal(report.unexpectedPage,undefined);assert.equal(report.pageErrors.length,0);assert(report.requests.every(r=>allowedRequests.has(r.url)&&r.method==='GET'));assert(http.requests.every(r=>['GET','HEAD'].includes(r.method)&&[http.base+'index.html',http.base+'readable.html',http.base+'controller-fixture.html'].includes(http.origin+r.path)));
  assert(inventory.every(x=>x.status==='passed'));report.status='automated-native-checks-passed-manual-gates-open';
-}catch(e){report.status='failed';report.error=String(e.stack??e);process.exitCode=1;if(page)try{await capture('failure');}catch(c){report.captureError=String(c);}}
+}catch(e){try{const metadata=Object.getOwnPropertyDescriptor(e,'coordinateFailure');if(metadata&&Object.hasOwn(metadata,'value'))coordinateFailure=metadata.value;}catch{}report.status='failed';report.error=String(e.stack??e);process.exitCode=1;if(page)try{await capture('failure');}catch(c){report.captureError=String(c);}}
 finally{
  await finalizeNative({context,browser,http,report,inventory,output});
  try{await writeProducerReceipt(output,binding);}catch(e){process.exitCode=1;console.log('Native producer receipt unavailable; evidence is unverified.');}
  console.log(JSON.stringify({status:report.status,cases:report.completedCases,total:inventory.length,manualGates:report.manualGates}));
  const diagnosticLines=Object.fromEntries(await Promise.all(DIAGNOSTIC_SOURCE_FILES.map(async name=>[name,(await readFile(resolve(ROOT,'scripts',name),'utf8')).split('\n').length])));
- console.log(JSON.stringify(failureDiagnostic(report,{plannedIds:allPlannedCases(raw,fixture).map(x=>x.id),groupNames:CHECK_GROUPS,root:ROOT,sourceLineCounts:diagnosticLines})));
+ console.log(JSON.stringify(failureDiagnostic(report,{plannedIds:allPlannedCases(raw,fixture).map(x=>x.id),groupNames:CHECK_GROUPS,root:ROOT,sourceLineCounts:diagnosticLines,coordinateFailure})));
 }
 
 async function logFocusFailure(phase){

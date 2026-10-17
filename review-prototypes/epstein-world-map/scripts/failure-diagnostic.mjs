@@ -1,10 +1,13 @@
+import {PROPOSED_BUDGET} from './evidence-budget-proposal.mjs';
+import {coordinateFailureEnvelope} from './world-coordinate-diagnostic.mjs';
 // A bounded diagnostic only. This never authorizes an artifact or native pass.
-// Raw error text, IDs, DOM, accessibility values and paths never leave this function.
+// Raw error text, arbitrary IDs/paths, DOM bodies and accessibility values never leave this function.
+// Optional coordinate metadata uses a separately validated fixed anchor-ID vocabulary.
 const STATUS=new Set(['passed','failed','not-run','running']);
 const FILES=Object.freeze(['native-review.mjs','world-interactions.mjs','assert-context.mjs','dom-audit.mjs']);
 const unavailable=()=>({schema:'world-native-bounded-diagnostic-v1',status:'unavailable',nativeAcceptance:false,artifactApproval:false});
 const own=(v,k)=>Object.prototype.hasOwnProperty.call(v,k);
-export function failureDiagnostic(report,{plannedIds,groupNames,root,sourceLineCounts}){
+export function failureDiagnostic(report,{plannedIds,groupNames,root,sourceLineCounts,coordinateFailure}){
  try{
   if(!report||!Array.isArray(plannedIds)||plannedIds.length!==503||new Set(plannedIds).size!==503||!Array.isArray(groupNames)||groupNames.length!==17||new Set(groupNames).size!==17||typeof root!=='string'||!root.startsWith('/'))return unavailable();
   if(!Array.isArray(report.plannedCases)||report.plannedCases.length!==503||!Array.isArray(report.plannedCheckGroups)||report.plannedCheckGroups.length!==17)return unavailable();
@@ -23,6 +26,7 @@ export function failureDiagnostic(report,{plannedIds,groupNames,root,sourceLineC
    if(index<0||!sourceLineCounts||!own(sourceLineCounts,match[1])||!Number.isSafeInteger(sourceLineCounts[match[1]])||row>sourceLineCounts[match[1]]||column>65536)continue;
    out.ownedSourceLocation={scriptIndex:index,line:row,column};break;
   }
+  if(coordinateFailure!==undefined&&report.status==='failed')out.coordinateFailure=coordinateFailureEnvelope(coordinateFailure,report);
   return out;
  }catch{return unavailable();}
 }
@@ -45,18 +49,25 @@ const SIZE_MEMBERS=Object.freeze([
  ...['report.json','summary.md','producer-receipt.json','trace.zip','network.har'].map((path,i)=>({path,kind:['report','summary','producer','trace','network'][i]})),
  ...SIZE_CAPTURES.flatMap(path=>[['png','image'],['html','dom'],['ax.json','accessibility']].map(([suffix,kind])=>({path:path+'.'+suffix,kind}))),
 ]);
-export function evidenceSizeDiagnostic(rows){
+// Metadata-only form is closed and allowlisted before any large body hash/read.
+export function evidenceSizeMetadataDiagnostic(rows){
  try{
   if(!Array.isArray(rows)||rows.length<1||rows.length>38)return null;
   const seen=new Set(),members=[];let totalBytes=0;
   for(const row of rows){
-   if(!row||typeof row!=='object'||Array.isArray(row)||Object.keys(row).length!==4||!['path','bytes','sha256','gitBlob'].every(k=>own(row,k)))return null;
+   if(!row||typeof row!=='object'||Array.isArray(row)||Object.keys(row).length!==2||!['path','bytes'].every(k=>own(row,k)))return null;
    const index=SIZE_MEMBERS.findIndex(v=>v.path===row.path);
-   if(index<0||seen.has(index)||!Number.isSafeInteger(row.bytes)||row.bytes<0||typeof row.sha256!=='string'||!/^[a-f0-9]{64}$/.test(row.sha256)||typeof row.gitBlob!=='string'||!/^[a-f0-9]{40}$/.test(row.gitBlob))return null;
+   if(index<0||seen.has(index)||!Number.isSafeInteger(row.bytes)||row.bytes<0)return null;
    seen.add(index);totalBytes+=row.bytes;if(!Number.isSafeInteger(totalBytes))return null;
    members.push({memberIndex:index,memberClass:SIZE_MEMBERS[index].kind,bytes:row.bytes});
   }
-  return {schema:'world-evidence-size-diagnostic-v1',memberCount:members.length,totalBytes,memberLimitBytes:134217728,totalLimitBytes:536870912,members:members.sort((a,b)=>a.memberIndex-b.memberIndex),nativeAcceptance:false,artifactApproval:false};
+  return {schema:'world-evidence-size-diagnostic-proposal-v2',policyApproval:PROPOSED_BUDGET.approval,memberCount:members.length,totalBytes,defaultMemberLimitBytes:PROPOSED_BUDGET.outerMemberDefaultBytes,traceZipLimitBytes:PROPOSED_BUDGET.outerTraceZipBytes,totalLimitBytes:PROPOSED_BUDGET.outerTotalBytes,members:members.sort((a,b)=>a.memberIndex-b.memberIndex),nativeAcceptance:false,artifactApproval:false};
+ }catch{return null;}
+}
+export function evidenceSizeDiagnostic(rows){
+ try{
+  if(!Array.isArray(rows)||!rows.every(row=>row&&typeof row==='object'&&!Array.isArray(row)&&Object.keys(row).length===4&&['path','bytes','sha256','gitBlob'].every(k=>own(row,k))&&typeof row.sha256==='string'&&/^[a-f0-9]{64}$/.test(row.sha256)&&typeof row.gitBlob==='string'&&/^[a-f0-9]{40}$/.test(row.gitBlob)))return null;
+  return evidenceSizeMetadataDiagnostic(rows.map(({path,bytes})=>({path,bytes})));
  }catch{return null;}
 }
 
