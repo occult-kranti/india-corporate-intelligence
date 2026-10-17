@@ -27,7 +27,7 @@ def inspect(path,root):
  if name.endswith('.ax.json'):
   v=json.loads(b);keys(v,['nodes'],['nodes']);require(isinstance(v['nodes'],list) and 0<len(v['nodes'])<=100000,'AX_NODES');ids=set()
   for node in v['nodes']:
-   keys(node,['nodeId','ignored','ignoredReasons','role','chromeRole','name','description','value','properties','parentId','childIds','backendDOMNodeId','frameId'],['nodeId','ignored']);require(isinstance(node['nodeId'],str) and node['nodeId'] not in ids and isinstance(node['ignored'],bool),'AX_NODE_SCHEMA');ids.add(node['nodeId']);bounded(node)
+   keys(node,['nodeId','ignored','ignoredReasons','role','chromeRole','name','description','value','properties','parentId','childIds','backendDOMNodeId','frameId'],['nodeId','ignored']);require(isinstance(node['nodeId'],str),'AX_NODE_ID_TYPE');require(node['nodeId'] not in ids,'AX_NODE_DUPLICATE_ID');require(isinstance(node['ignored'],bool),'AX_IGNORED_TYPE');ids.add(node['nodeId']);bounded(node)
    for k in ['role','chromeRole','name','description','value']:
     if k in node:axvalue(node[k])
    for k in ['properties','ignoredReasons']:

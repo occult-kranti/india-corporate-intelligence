@@ -11,6 +11,7 @@ import {evidenceRoot,invalidateGrants,runBinding,writeProducerReceipt} from './e
 import {runWorldInteractions} from './world-interactions.mjs';
 import {allPlannedCases} from './report-contract.mjs';
 import {finalizeNative} from './native-finalize.mjs';
+import {failureDiagnostic,DIAGNOSTIC_SOURCE_FILES} from './failure-diagnostic.mjs';
 // Deliberately precedes any Playwright import, browser process, server or evidence write.
 if(process.env.GITHUB_WORKSPACE)await invalidateGrants(evidenceRoot());
 requireNativeCI();
@@ -70,4 +71,6 @@ finally{
  await finalizeNative({context,browser,http,report,inventory,output});
  try{await writeProducerReceipt(output,binding);}catch(e){process.exitCode=1;console.log('Native producer receipt unavailable; evidence is unverified.');}
  console.log(JSON.stringify({status:report.status,cases:report.completedCases,total:inventory.length,manualGates:report.manualGates}));
+ const diagnosticLines=Object.fromEntries(await Promise.all(DIAGNOSTIC_SOURCE_FILES.map(async name=>[name,(await readFile(resolve(ROOT,'scripts',name),'utf8')).split('\n').length])));
+ console.log(JSON.stringify(failureDiagnostic(report,{plannedIds:allPlannedCases(raw,fixture).map(x=>x.id),groupNames:CHECK_GROUPS,root:ROOT,sourceLineCounts:diagnosticLines})));
 }
