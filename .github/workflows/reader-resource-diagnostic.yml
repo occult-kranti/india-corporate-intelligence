@@ -1,0 +1,245 @@
+name: Pinned reader and resource diagnostic (not release acceptance)
+on:
+  push:
+    branches: [diagnostic/pr15-reader-resource]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: reader-resource-diagnostic-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  sequential-control-candidate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    defaults:
+      run:
+        shell: bash
+    env:
+      CI: "true"
+      SPATIAL_BROWSER_REVIEW: github-actions
+      SPATIAL_EXPECT_HISTORICAL_REVIEW: "true"
+      SPATIAL_DIAGNOSTIC_HARNESS_SHA: ${{ github.sha }}
+    steps:
+      - name: Check out exact diagnostic harness
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Check out frozen control runtime
+        uses: actions/checkout@v4
+        with:
+          ref: 5f2f3e882e8d8090d7576c5047434b45a0c99474
+          path: pinned-control
+          persist-credentials: false
+      - name: Check out identical frozen candidate runtime
+        uses: actions/checkout@v4
+        with:
+          ref: 5f2f3e882e8d8090d7576c5047434b45a0c99474
+          path: pinned-candidate
+          persist-credentials: false
+      - name: Use Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install and verify portable harness contracts
+        run: |
+          npm ci --prefix spatial-prototype
+          node --test spatial-prototype/scripts/reader-scroll-settlement.test.mjs spatial-prototype/scripts/reader-resource-diagnostic.test.mjs
+      - name: Prepare identical runtime builds with isolated observer overlay
+        id: prepare
+        run: |
+          for variant in control candidate; do
+            cp spatial-prototype/scripts/reader-resource-diagnostic.mjs "pinned-$variant/spatial-prototype/scripts/reader-resource-diagnostic.mjs"
+            npm ci --prefix "pinned-$variant/spatial-prototype"
+            npm run build --prefix "pinned-$variant/spatial-prototype"
+          done
+          cp spatial-prototype/scripts/reader-scroll-settlement.mjs pinned-candidate/spatial-prototype/scripts/reader-scroll-settlement.mjs
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import {readFile,readdir,writeFile} from 'node:fs/promises';
+          import {createHash} from 'node:crypto';
+          import {join} from 'node:path';
+          const hash=b=>createHash('sha256').update(b).digest('hex');
+          async function tree(root, relative='') {const out=[];for(const item of await readdir(join(root,relative),{withFileTypes:true})){const path=join(relative,item.name);if(item.isDirectory())out.push(...await tree(root,path));else out.push({path,sha256:hash(await readFile(join(root,path)))});}return out.sort((a,b)=>a.path.localeCompare(b.path));}
+          const control=await tree('pinned-control/spatial-prototype/dist'),candidate=await tree('pinned-candidate/spatial-prototype/dist');
+          assert.deepEqual(control,candidate,'Both variants must serve byte-identical runtime builds');
+          const receipt=JSON.stringify({identical:true,runtime_sha:'5f2f3e882e8d8090d7576c5047434b45a0c99474',harness_sha:process.env.SPATIAL_DIAGNOSTIC_HARNESS_SHA,order:['control','candidate'],tree_sha256:hash(JSON.stringify(control)),files:control},null,2)+'\n';
+          for(const variant of ['control','candidate'])await writeFile(`pinned-${variant}/spatial-prototype/reader-resource-build.json`,receipt);
+          NODE
+          cd pinned-control/spatial-prototype
+          npx --no-install playwright install --with-deps chromium
+      - name: Observe frozen negative control; preserve real failed scenario status
+        id: control_run
+        if: always() && steps.prepare.outcome == 'success'
+        working-directory: pinned-control/spatial-prototype
+        run: node scripts/reader-resource-diagnostic.mjs control
+      - name: Run candidate on the same runner after the control
+        id: candidate_run
+        if: always() && steps.prepare.outcome == 'success'
+        working-directory: pinned-candidate/spatial-prototype
+        run: node scripts/reader-resource-diagnostic.mjs candidate
+      - name: Partition control diagnostic evidence
+        id: control_parts
+        if: always() && steps.prepare.outcome == 'success'
+        working-directory: pinned-control/spatial-prototype
+        run: node scripts/partition-browser-artifacts.mjs
+      - name: Preserve control evidence part 01
+        if: always() && steps.control_parts.outcome == 'success' && steps.control_parts.outputs.part_01 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: reader-resource-control-${{ github.run_id }}-${{ github.run_attempt }}-part-01
+          path: pinned-control/spatial-prototype/browser-artifact-parts/01/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve control evidence part 02
+        if: always() && steps.control_parts.outcome == 'success' && steps.control_parts.outputs.part_02 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: reader-resource-control-${{ github.run_id }}-${{ github.run_attempt }}-part-02
+          path: pinned-control/spatial-prototype/browser-artifact-parts/02/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve control evidence part 03
+        if: always() && steps.control_parts.outcome == 'success' && steps.control_parts.outputs.part_03 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: reader-resource-control-${{ github.run_id }}-${{ github.run_attempt }}-part-03
+          path: pinned-control/spatial-prototype/browser-artifact-parts/03/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve control evidence part 04
+        if: always() && steps.control_parts.outcome == 'success' && steps.control_parts.outputs.part_04 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: reader-resource-control-${{ github.run_id }}-${{ github.run_attempt }}-part-04
+          path: pinned-control/spatial-prototype/browser-artifact-parts/04/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve control evidence part 05
+        if: always() && steps.control_parts.outcome == 'success' && steps.control_parts.outputs.part_05 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: reader-resource-control-${{ github.run_id }}-${{ github.run_attempt }}-part-05
+          path: pinned-control/spatial-prototype/browser-artifact-parts/05/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve control evidence part 06
+        if: always() && steps.control_parts.outcome == 'success' && steps.control_parts.outputs.part_06 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: reader-resource-control-${{ github.run_id }}-${{ github.run_attempt }}-part-06
+          path: pinned-control/spatial-prototype/browser-artifact-parts/06/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve control evidence part 07
+        if: always() && steps.control_parts.outcome == 'success' && steps.control_parts.outputs.part_07 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: reader-resource-control-${{ github.run_id }}-${{ github.run_attempt }}-part-07
+          path: pinned-control/spatial-prototype/browser-artifact-parts/07/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve control evidence part 08
+        if: always() && steps.control_parts.outcome == 'success' && steps.control_parts.outputs.part_08 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: reader-resource-control-${{ github.run_id }}-${{ github.run_attempt }}-part-08
+          path: pinned-control/spatial-prototype/browser-artifact-parts/08/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Partition candidate diagnostic evidence
+        id: candidate_parts
+        if: always() && steps.prepare.outcome == 'success'
+        working-directory: pinned-candidate/spatial-prototype
+        run: node scripts/partition-browser-artifacts.mjs
+      - name: Preserve candidate evidence part 01
+        if: always() && steps.candidate_parts.outcome == 'success' && steps.candidate_parts.outputs.part_01 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: reader-resource-candidate-${{ github.run_id }}-${{ github.run_attempt }}-part-01
+          path: pinned-candidate/spatial-prototype/browser-artifact-parts/01/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve candidate evidence part 02
+        if: always() && steps.candidate_parts.outcome == 'success' && steps.candidate_parts.outputs.part_02 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: reader-resource-candidate-${{ github.run_id }}-${{ github.run_attempt }}-part-02
+          path: pinned-candidate/spatial-prototype/browser-artifact-parts/02/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve candidate evidence part 03
+        if: always() && steps.candidate_parts.outcome == 'success' && steps.candidate_parts.outputs.part_03 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: reader-resource-candidate-${{ github.run_id }}-${{ github.run_attempt }}-part-03
+          path: pinned-candidate/spatial-prototype/browser-artifact-parts/03/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve candidate evidence part 04
+        if: always() && steps.candidate_parts.outcome == 'success' && steps.candidate_parts.outputs.part_04 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: reader-resource-candidate-${{ github.run_id }}-${{ github.run_attempt }}-part-04
+          path: pinned-candidate/spatial-prototype/browser-artifact-parts/04/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve candidate evidence part 05
+        if: always() && steps.candidate_parts.outcome == 'success' && steps.candidate_parts.outputs.part_05 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: reader-resource-candidate-${{ github.run_id }}-${{ github.run_attempt }}-part-05
+          path: pinned-candidate/spatial-prototype/browser-artifact-parts/05/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve candidate evidence part 06
+        if: always() && steps.candidate_parts.outcome == 'success' && steps.candidate_parts.outputs.part_06 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: reader-resource-candidate-${{ github.run_id }}-${{ github.run_attempt }}-part-06
+          path: pinned-candidate/spatial-prototype/browser-artifact-parts/06/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve candidate evidence part 07
+        if: always() && steps.candidate_parts.outcome == 'success' && steps.candidate_parts.outputs.part_07 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: reader-resource-candidate-${{ github.run_id }}-${{ github.run_attempt }}-part-07
+          path: pinned-candidate/spatial-prototype/browser-artifact-parts/07/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Preserve candidate evidence part 08
+        if: always() && steps.candidate_parts.outcome == 'success' && steps.candidate_parts.outputs.part_08 == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: reader-resource-candidate-${{ github.run_id }}-${{ github.run_attempt }}-part-08
+          path: pinned-candidate/spatial-prototype/browser-artifact-parts/08/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+      - name: Require both diagnostic contracts without claiming release acceptance
+        if: always()
+        env:
+          CONTROL: ${{ steps.control_run.outcome }}
+          CANDIDATE: ${{ steps.candidate_run.outcome }}
+        run: |
+          test "$CONTROL" = success
+          test "$CANDIDATE" = success
+          printf '%s\n' 'Focused diagnostic only. Original, native zoom, full spatial and combined exact-head release gates remain mandatory.' >> "$GITHUB_STEP_SUMMARY"
+
