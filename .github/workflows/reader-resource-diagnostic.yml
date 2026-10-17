@@ -1,12 +1,12 @@
-name: Pinned reader and resource diagnostic (not release acceptance)
+name: Pinned nine-pair transport diagnostic (not release acceptance)
 on:
   push:
-    branches: [diagnostic/pr15-reader-resource]
+    branches: [diagnostic/pr15-reader-pair-transport]
   workflow_dispatch:
 permissions:
   contents: read
 concurrency:
-  group: reader-resource-diagnostic-${{ github.ref }}
+  group: reader-pair-transport-${{ github.ref }}
   cancel-in-progress: false
 jobs:
   sequential-control-candidate:
@@ -45,8 +45,8 @@ jobs:
       - name: Install and verify portable harness contracts
         run: |
           npm ci --prefix spatial-prototype
-          node --test spatial-prototype/scripts/reader-scroll-settlement.test.mjs spatial-prototype/scripts/reader-resource-diagnostic.test.mjs
-      - name: Prepare identical runtime builds with isolated observer overlay
+          node --test spatial-prototype/scripts/reader-scroll-settlement.test.mjs spatial-prototype/scripts/reader-resource-diagnostic.test.mjs spatial-prototype/scripts/lifecycle-pair-transport.test.mjs spatial-prototype/scripts/lifecycle-value-transport.test.mjs
+      - name: Prepare identical runtime builds and the isolated nine-pair transport
         id: prepare
         run: |
           for variant in control candidate; do
@@ -54,7 +54,10 @@ jobs:
             npm ci --prefix "pinned-$variant/spatial-prototype"
             npm run build --prefix "pinned-$variant/spatial-prototype"
           done
-          cp spatial-prototype/scripts/reader-scroll-settlement.mjs pinned-candidate/spatial-prototype/scripts/reader-scroll-settlement.mjs
+          for variant in control candidate; do
+            cp spatial-prototype/scripts/reader-scroll-settlement.mjs "pinned-$variant/spatial-prototype/scripts/reader-scroll-settlement.mjs"
+          done
+          cp spatial-prototype/scripts/lifecycle-pair-transport.mjs pinned-candidate/spatial-prototype/scripts/lifecycle-pair-transport.mjs
           node --input-type=module <<'NODE'
           import assert from 'node:assert/strict';
           import {readFile,readdir,writeFile} from 'node:fs/promises';
@@ -69,7 +72,7 @@ jobs:
           NODE
           cd pinned-control/spatial-prototype
           npx --no-install playwright install --with-deps chromium
-      - name: Observe frozen negative control; preserve real failed scenario status
+      - name: Observe original pair transport with the proven scroll fix; preserve its real status
         id: control_run
         if: always() && steps.prepare.outcome == 'success'
         working-directory: pinned-control/spatial-prototype
