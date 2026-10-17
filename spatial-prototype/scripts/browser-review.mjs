@@ -34,6 +34,7 @@ import { expectedHistoricalReview } from "./browser-review-mode.mjs";
 import { runSourceCorrectionBrowserCases } from "./source-correction-browser.mjs";
 import { runCaseWorkspaceBrowserCases } from "./case-workspace-browser.mjs";
 import { parseCaseGraphicsReviewMode, runCaseGraphicsBrowserCases } from "./case-graphics-browser.mjs";
+import { traceOptionsForScenario, startResourceCapture, observeResourceNetwork, captureResourceCheckpoint, stopResourceCapture, boundedResourceEvidence, assertResourceBudget } from "./resource-capture-policy.mjs";
 
 if (
   process.env.GITHUB_ACTIONS !== "true" ||
@@ -1353,11 +1354,8 @@ async function scenario(name, options, work) {
     }
     if (options.beforeNavigation)
       await options.beforeNavigation(context, result);
-    await context.tracing.start({
-      screenshots: true,
-      snapshots: true,
-      sources: true,
-    });
+    await startResourceCapture(context, name, output, result);
+    await context.tracing.start(traceOptionsForScenario(name));
     await context.addInitScript(
       ({ unsupported }) => {
         const stats = {
@@ -1403,6 +1401,7 @@ async function scenario(name, options, work) {
       { unsupported: options.unsupported ?? false },
     );
     page = await context.newPage();
+    observeResourceNetwork(page, result);
     page.setDefaultTimeout(12000);
     page.setDefaultNavigationTimeout(45000);
     page.on("console", (message) =>
@@ -1429,6 +1428,8 @@ async function scenario(name, options, work) {
       }),
     );
     page.on("request", (request) => result.requests.push(request.url()));
+    if (result.resourceCapture) result.resourceCapture.budgetStartedAt = new Date().toISOString();
+    const resourceBudgetStart = result.resourceCapture ? performance.now() : null;
     await Promise.race([
       (async () => {
         const response = await page.goto(
@@ -1469,16 +1470,26 @@ async function scenario(name, options, work) {
       })(),
       new Promise((_, reject) => {
         deadline = setTimeout(
-          () =>
-            reject(
-              new Error(
-                `Scenario exceeded its ${options.budgetMs ?? 80000} ms review budget`,
-              ),
-            ),
+          () => {
+            if (result.resourceCapture) result.resourceCapture.deadlineObservation = {
+              at: new Date().toISOString(), elapsedMs: performance.now() - resourceBudgetStart,
+              completedCycles: result.caseResourceCycles?.length ?? 0,
+              completedPairs: result.caseResourceObservationChecks?.filter(row => row.status === "passed").length ?? 0,
+              completedDOMCheckpoints: result.resourceCapture.checkpoints.filter(row => row.status === "passed").length,
+              timingPresent: Boolean(result.caseTiming),
+              limitation: "Synchronous deadline counters. Uncancelled work may later change saved arrays; late work never changes the failed outcome.",
+            };
+            reject(new Error(`Scenario exceeded its ${options.budgetMs ?? 80000} ms review budget`));
+          },
           options.budgetMs ?? 80000,
         );
       }),
     ]);
+    if (result.resourceCapture) {
+      result.resourceCapture.completionObservation = { at: new Date().toISOString(), elapsedMs: performance.now() - resourceBudgetStart };
+      assertResourceBudget(result.resourceCapture.completionObservation.elapsedMs, options.budgetMs);
+      result.resourceCapture.withinBudgetCompletion = { ...result.resourceCapture.completionObservation };
+    }
     result.status = "passed";
   } catch (error) {
     result.status = "failed";
@@ -1486,18 +1497,27 @@ async function scenario(name, options, work) {
     process.exitCode = 1;
   } finally {
     clearTimeout(deadline);
-    if (options.afterScenario) await options.afterScenario();
+    if (options.afterScenario) {
+      if (result.resourceCapture) {
+        try { await boundedResourceEvidence("Terminal native probe preservation", () => options.afterScenario()); }
+        catch (error) { result.status = "failed"; result.resourceNativeCaptureError = String(error); process.exitCode = 1; }
+      } else await options.afterScenario();
+    }
     if (page && !page.isClosed()) {
-      try {
-        await capture(
-          page,
-          result,
-          result.status === "failed" ? "failure" : "final",
-        );
-      } catch (error) {
-        result.captureError = String(error);
+      if (result.resourceCapture) {
+        try { await captureResourceCheckpoint(page, output, result, result.status === "failed" ? "failure" : "final"); }
+        catch (error) { result.status = "failed"; result.resourceCaptureError = String(error); process.exitCode = 1; }
       }
       try {
+        const captureTerminal = () => capture(page, result, result.status === "failed" ? "failure" : "final");
+        if (result.resourceCapture) await boundedResourceEvidence("Existing terminal screenshot", captureTerminal);
+        else await captureTerminal();
+      } catch (error) {
+        result.captureError = String(error);
+        if (result.resourceCapture) { result.status = "failed"; process.exitCode = 1; }
+      }
+      try {
+        const preserveDiagnostics = async () => {
         result.mapState = (await page.locator(".webgl-host").count())
           ? await page
               .locator(".webgl-host")
@@ -1531,17 +1551,30 @@ async function scenario(name, options, work) {
           .locator("body")
           .innerText({ timeout: 2000 });
         await writeFile(join(output, `${name}.html`), await page.content());
+        };
+        if (result.resourceCapture) await boundedResourceEvidence("Existing terminal page diagnostics", preserveDiagnostics);
+        else await preserveDiagnostics();
       } catch (error) {
         result.diagnosticError = String(error);
+        if (result.resourceCapture) { result.status = "failed"; process.exitCode = 1; }
       }
     }
     if (context) {
+      if (result.resourceCapture) {
+        try { await stopResourceCapture(context, output, result); }
+        catch (error) { result.status = "failed"; result.resourceNetworkCaptureError = String(error); process.exitCode = 1; }
+      }
       try {
-        await context.tracing.stop({ path: join(output, `${name}.trace.zip`) });
+        if (result.resourceCapture) await boundedResourceEvidence("Trace stop/export", () => context.tracing.stop({ path: join(output, `${name}.trace.zip`) }));
+        else await context.tracing.stop({ path: join(output, `${name}.trace.zip`) });
       } catch (error) {
         result.traceError = String(error);
+        if (result.resourceCapture) { result.status = "failed"; process.exitCode = 1; }
       }
-      await context.close().catch(() => {});
+      if (result.resourceCapture) {
+        try { await boundedResourceEvidence("Resource context close", () => context.close()); }
+        catch (error) { result.status = "failed"; result.resourceContextCloseError = String(error); process.exitCode = 1; }
+      } else await context.close().catch(() => {});
     }
     await writeFile(
       join(output, `${name}.json`),
@@ -2237,14 +2270,14 @@ try {
       );
       assert.ok(
         destination.focusZoom >= 6,
-        "The retained source-trail destination must exercise close-up thread suppression",
+        "The retained source-trail destination must exercise continuity beyond the former cutoff",
       );
       await until(
         async () =>
-          (await page
+          Number(await page
             .locator(".webgl-host")
-            .getAttribute("data-visible-threads")) === "0",
-        "Long-range threads remain visible at the close-up destination zoom",
+            .getAttribute("data-visible-threads")) > 0,
+        "Original threads disappeared at the close-up source-trail destination",
       );
       await assertCameraControlsClearOfReader(page);
       await assertSemanticDisplay(page, result, preview, trailEdge.id, "areas");

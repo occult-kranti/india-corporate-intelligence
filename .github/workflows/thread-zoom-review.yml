@@ -1,0 +1,158 @@
+name: Native thread zoom preflight
+
+on:
+  pull_request:
+    paths:
+      - "spatial-prototype/**"
+      - ".github/workflows/thread-zoom-review.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: thread-zoom-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  native-thread-zoom:
+    name: Native thread zoom (${{ matrix.mode }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [candidate, baseline-diagnostic]
+    defaults:
+      run:
+        shell: bash
+        working-directory: ${{ matrix.mode == 'candidate' && 'spatial-prototype' || 'frozen-baseline/spatial-prototype' }}
+    env:
+      CI: "true"
+      SPATIAL_BROWSER_REVIEW: github-actions
+      SPATIAL_HEAD_SHA: ${{ matrix.mode == 'candidate' && (github.event.pull_request.head.sha || github.sha) || '85702ec5f553415e009a37e89d7333c96c952c66' }}
+      SPATIAL_HARNESS_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+      NODE_OPTIONS: --max-old-space-size=2048
+    steps:
+      - name: Check out exact harness and candidate head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Check out separately pinned immutable baseline
+        if: matrix.mode == 'baseline-diagnostic'
+        uses: actions/checkout@v4
+        with:
+          ref: 85702ec5f553415e009a37e89d7333c96c952c66
+          path: frozen-baseline
+          persist-credentials: false
+      - name: Copy only new review harness into baseline checkout
+        if: matrix.mode == 'baseline-diagnostic'
+        working-directory: .
+        run: |
+          test "$(git -C frozen-baseline rev-parse HEAD)" = 85702ec5f553415e009a37e89d7333c96c952c66
+          cp spatial-prototype/scripts/thread-zoom-browser.mjs frozen-baseline/spatial-prototype/scripts/
+          cp spatial-prototype/scripts/thread-zoom-browser.test.mjs frozen-baseline/spatial-prototype/scripts/
+          cp spatial-prototype/scripts/thread-zoom-camera-fixture{,.test}.mjs frozen-baseline/spatial-prototype/scripts/
+          cp spatial-prototype/scripts/thread-zoom-screenshot-sampling{,.test}.mjs frozen-baseline/spatial-prototype/scripts/
+          git -C frozen-baseline diff --exit-code -- spatial-prototype/src spatial-prototype/public
+      - name: Use Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: ${{ matrix.mode == 'candidate' && 'spatial-prototype/package-lock.json' || 'frozen-baseline/spatial-prototype/package-lock.json' }}
+      - name: Install isolated prototype dependencies
+        run: npm ci
+      - name: Test the portable harness contract without a browser
+        run: node --test scripts/thread-zoom-browser.test.mjs scripts/thread-zoom-camera-fixture.test.mjs scripts/thread-zoom-screenshot-sampling.test.mjs
+      - name: Build the verified served runtime under its unchanged budgets
+        run: |
+          test "$(git rev-parse HEAD)" = "$SPATIAL_HEAD_SHA"
+          npm run build
+      - name: Install Chromium in GitHub Actions only
+        run: npx --no-install playwright install --with-deps chromium
+      - name: Check native raster, original clicks, and case handoff
+        timeout-minutes: 8
+        env:
+          REVIEW_MODE: ${{ matrix.mode }}
+        run: |
+          mkdir -p thread-zoom-review
+          if [ "$REVIEW_MODE" = baseline-diagnostic ]; then
+            node scripts/thread-zoom-browser.mjs --baseline-diagnostic 2>&1 | tee thread-zoom-review/native-run.log
+          else
+            node scripts/thread-zoom-browser.mjs 2>&1 | tee thread-zoom-review/native-run.log
+          fi
+      - name: Verify frozen baseline runtime remained unchanged
+        if: always() && matrix.mode == 'baseline-diagnostic'
+        run: git diff --exit-code -- src public package.json package-lock.json
+      - name: Publish native review summary
+        if: always()
+        env:
+          REVIEW_MODE: ${{ matrix.mode }}
+        run: |
+          if [ -f "thread-zoom-review/$REVIEW_MODE/summary.md" ]; then
+            cat "thread-zoom-review/$REVIEW_MODE/summary.md" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo 'Native thread zoom review did not complete. No browser pass is claimed.' >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Preserve screenshots and native draw/raster receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-thread-zoom-${{ matrix.mode }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ matrix.mode == 'candidate' && 'spatial-prototype/thread-zoom-review/' || 'frozen-baseline/spatial-prototype/thread-zoom-review/' }}
+          if-no-files-found: warn
+          retention-days: 14
+
+  public-live-diagnostic:
+    name: Public live atlas (diagnostic only)
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    defaults:
+      run:
+        shell: bash
+        working-directory: spatial-prototype
+    env:
+      CI: "true"
+      SPATIAL_BROWSER_REVIEW: github-actions
+      SPATIAL_HARNESS_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - name: Check out the exact review harness
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Use Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: spatial-prototype/package-lock.json
+      - name: Install isolated harness dependencies
+        run: npm ci
+      - name: Install Chromium in GitHub Actions only
+        run: npx --no-install playwright install --with-deps chromium
+      - name: Observe only the verified public atlas at zoom 5.9 and 8
+        timeout-minutes: 3
+        run: |
+          mkdir -p thread-zoom-review
+          node scripts/thread-zoom-browser.mjs --live-diagnostic 2>&1 | tee thread-zoom-review/live-run.log
+      - name: Publish live observation limitations and findings
+        if: always()
+        run: |
+          if [ -f thread-zoom-review/live-diagnostic/summary.md ]; then
+            cat thread-zoom-review/live-diagnostic/summary.md >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo 'Public live diagnostic did not complete. It never substitutes for exact-head candidate acceptance.' >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Preserve public script identities and observations
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-live-thread-zoom-${{ github.run_id }}-${{ github.run_attempt }}
+          path: spatial-prototype/thread-zoom-review/
+          if-no-files-found: warn
+          retention-days: 14
+# Independent diagnostics cannot suppress candidate evidence. These focused jobs
+# never replace/narrow the existing full spatial, release, CI, or deployment gates.

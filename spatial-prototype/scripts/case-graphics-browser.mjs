@@ -5,7 +5,9 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { captureResourceCheckpoint, assertResourceCheckpointCoverage } from './resource-capture-policy.mjs';
 import { compactLifecycleObservation, caseLifecycleObservationInitSource } from './case-lifecycle-observation.mjs';
+import { lifecyclePairTransportInitSource } from './lifecycle-pair-transport.mjs';
 import {
   loadCaseExpectation, caseWorkspace, caseSurface, caseRail, caseSourceDialog,
   openCaseWorkspace, chooseCase, showCaseScene, showCompleteCaseReader,
@@ -83,7 +85,7 @@ export function installCaseGraphicsProbe({ kinds, caseAssetPattern = '/attachSce
     : value && typeof value === 'object' ? (Object.getPrototypeOf(value) === Object.prototype ? Object.fromEntries(Object.entries(value).map(([key, child]) => [key, clone(child)])) : id(value)) : value;
   const keep = (list, value, limit = 1000) => { list.push(value); if (list.length > limit) list.shift(); };
   const caseAsset = new RegExp(caseAssetPattern), clock = () => performance.now();
-  const shared = { fault: null, challenge: null, pixelReads: false, contexts: [], renderers: [], errors: [], events: [], lost: [], restored: [], frameTimes: [], allPasses: 0 };
+  const shared = { fault: null, challenge: null, pixelReads: false, contexts: [], renderers: [], errors: [], events: [], lost: [], restored: [], frameTimes: [], timingProgress: null, allPasses: 0 };
   const observer = new EventTarget();
   observer.addEventListener('observe', event => {
     const renderer = event.detail;
@@ -321,9 +323,31 @@ export function installCaseGraphicsProbe({ kinds, caseAssetPattern = '/attachSce
   window.__caseGraphicsProbe = {
     configure(options) { for (const [key, value] of Object.entries(options)) { if (!['challenge','fault','pixelReads'].includes(key)) throw new Error(`Unknown probe option ${key}`); shared[key] = value; } },
     read() { return { ...shared, sequence, contexts: contexts.map(row => ({ ...shared.contexts.find(info => info.id === row.id), ...row.export() })), renderers: [...shared.renderers], canvasCount: document.querySelectorAll('canvas').length }; },
+    /** Bounded read-only current-canvas pass identity; no GL calls or extra frames. */
+    frameIdentity() {
+      const canvas = document.querySelector('.webgl-host canvas');
+      const row = contexts.find(item => item.canvas === canvas);
+      if (!row) return null;
+      const renderer = shared.renderers.find(item => item.contextId === row.id && item.canvasId === row.canvasId);
+      const pass = type => { const value = row.passes.findLast(item => item.type === type); return value ? {
+        id: value.id, contextId: value.contextId, rendererId: value.rendererId,
+        nativeSucceeded: value.draws.some(draw => draw.nativeSucceeded && (type !== 'composite' || draw.shaderKind === 'composite')),
+        restored: value.entryObserved === true && value.terminalRestoreObserved === true && value.changes.length === 0 && value.logicalChanges.length === 0,
+      } : null; };
+      return { sequence, contextId: row.id, canvasId: row.canvasId, rendererId: renderer?.id ?? null,
+        pendingPass: row.active ? { id: row.active.id, type: row.active.type } : null,
+        poisoned: row.poisoned, scene: pass('scene'), composite: pass('composite') };
+    },
     identities() { return { contextIds: contexts.map(row => row.id), rendererIds: renderers.map(id), canvasIds: contexts.map(row => row.canvasId) }; },
     loseContext() { const row = contexts.find(item => item.canvas.isConnected); if (!row) throw new Error('No live context to lose'); const extension = row.native.getExtension('WEBGL_lose_context'); if (!extension) throw new Error('Required WEBGL_lose_context capability unavailable'); extension.loseContext(); return row.id; },
-    async frames(count, driveCase = false) { if (!Number.isInteger(count) || count < 2 || count > 180) throw new Error('Invalid bounded frame sample'); const times = []; for (let i = 0; i < count; i++) { times.push(await new Promise(resolve => requestAnimationFrame(resolve))); if (driveCase) { const surface = document.querySelector('[data-case-surface]'); if (!surface) throw new Error('Active frame sample lost its case surface'); surface.dispatchEvent(new KeyboardEvent('keydown', { key: 'Home', bubbles: true, cancelable: true })); } } const deltas = times.slice(1).map((value, i) => value - times[i]); keep(shared.frameTimes, deltas, 100); return deltas; },
+    async frames(count, driveCase = false) { if (!Number.isInteger(count) || count < 2 || count > 180) throw new Error('Invalid bounded frame sample'); const times = [];
+      // Additive diagnostics only: actual RAF/input sequence and result stay unchanged.
+      if (driveCase) shared.timingProgress = { requested: count, startedAtEpochMs: Date.now(), performanceTimeOrigin: performance.timeOrigin, completed: 0, complete: false, opportunities: [] };
+      for (let i = 0; i < count; i++) { times.push(await new Promise(resolve => requestAnimationFrame(resolve))); if (driveCase) { const surface = document.querySelector('[data-case-surface]'); if (!surface) throw new Error('Active frame sample lost its case surface'); surface.dispatchEvent(new KeyboardEvent('keydown', { key: 'Home', bubbles: true, cancelable: true }));
+        shared.timingProgress.opportunities.push({ ordinal: i + 1, animationFrameTime: times[i], observedAtEpochMs: Date.now() }); shared.timingProgress.completed = i + 1;
+      } } const deltas = times.slice(1).map((value, i) => value - times[i]); keep(shared.frameTimes, deltas, 100);
+      if (driveCase) { shared.timingProgress.complete = true; shared.timingProgress.completedAtEpochMs = Date.now(); }
+      return deltas; },
   };
 }
 
@@ -338,7 +362,7 @@ export function selectCaseGraphicsFixtures(files) {
 const lifecycleObservationPages = new WeakSet();
 const fullProbe = page => page.evaluate(() => window.__caseGraphicsProbe.read());
 const probe = page => lifecycleObservationPages.has(page)
-  ? page.evaluate(() => window.__caseGraphicsProbe.readLifecycle()) : fullProbe(page);
+  ? page.evaluate(() => window.__caseGraphicsProbe.readLifecycleJSON()).then(JSON.parse) : fullProbe(page);
 const configure = (page, options) => page.evaluate(options => window.__caseGraphicsProbe.configure(options), options);
 const frames = (page, count = 8) => page.evaluate(count => window.__caseGraphicsProbe.frames(count), count);
 const geography = page => page.locator('.webgl-host').evaluate(element => Object.fromEntries(['centerLng','centerLat','zoom','pitch','bearing','selectedEdge'].map(key => [key, element.dataset[key] ?? null])));
@@ -357,8 +381,10 @@ export function assertCapturedGeographicPose(observation, opening, message) {
 }
 const activeLeaseBaselines = new WeakMap();
 const retiredLeaseBaselines = new WeakMap();
-const leaseSnapshot = page => page.evaluate(compact => ({ active: document.querySelector('.webgl-host')?.dataset.geographicWorkspaceActive,
-  workspaceCount: document.querySelectorAll('[data-case-workspace]').length, data: compact ? window.__caseGraphicsProbe.readLifecycle() : window.__caseGraphicsProbe.read() }), lifecycleObservationPages.has(page));
+const leaseSnapshot = page => lifecycleObservationPages.has(page)
+  ? page.evaluate(() => window.__caseGraphicsProbe.readLeaseLifecycleJSON()).then(JSON.parse)
+  : page.evaluate(() => ({ active: document.querySelector('.webgl-host')?.dataset.geographicWorkspaceActive,
+    workspaceCount: document.querySelectorAll('[data-case-workspace]').length, data: window.__caseGraphicsProbe.read() }));
 export function liveGraphicsIdentity(data) {
   const context = data.contexts.at(-1), renderer = data.renderers.find(row => row.contextId === context?.id);
   assert.ok(context && renderer, 'Current observed geographic graphics identity is missing');
@@ -618,7 +644,7 @@ export async function runCaseGraphicsBrowserCases({ root, output, scenario, capt
       beforeNavigation: async (value, result) => {
         context = value; current = result;
         const native = `(${installCaseGraphicsProbe.toString()})(${JSON.stringify({ kinds: RESOURCE_KINDS })});`;
-        await value.addInitScript({ content: native + (name === GRAPHICS_SCENARIOS[7] ? '\n' + caseLifecycleObservationInitSource() : '') });
+        await value.addInitScript({ content: native + (name === GRAPHICS_SCENARIOS[7] ? '\n' + caseLifecycleObservationInitSource() + '\n' + lifecyclePairTransportInitSource() : '') });
       },
       afterScenario: async () => {
         const page = context?.pages().find(page => !page.isClosed());
@@ -855,8 +881,7 @@ export async function runCaseGraphicsBrowserCases({ root, output, scenario, capt
   await run(GRAPHICS_SCENARIOS[7], { reducedMotion: true, budgetMs: 300000 }, async (page, result) => {
     lifecycleObservationPages.add(page);
     async function checkpoint(phase, recovery = null) {
-      const pair = await page.evaluate(() => ({ active: document.querySelector('.webgl-host')?.dataset.geographicWorkspaceActive,
-        workspaceCount: document.querySelectorAll('[data-case-workspace]').length, ...window.__caseGraphicsProbe.readLifecyclePair() }));
+      const pair = JSON.parse(await page.evaluate(() => window.__caseGraphicsProbe.readLifecyclePairJSON()));
       const stem = `${GRAPHICS_SCENARIOS[7]}--${phase}`;
       const entry = { phase, sequence: pair.full.sequence, rawEvidence: `${stem}.native-webgl.json`, compactEvidence: `${stem}.compact-observation.json`, status: 'pending' };
       (result.caseResourceObservationChecks ??= []).push(entry);
@@ -866,15 +891,24 @@ export async function runCaseGraphicsBrowserCases({ root, output, scenario, capt
       const comparison = assertLifecycleObservationParity(pair, { activeBaseline: activeLeaseBaselines.get(page) ?? null,
         retiredBaselines: retiredLeaseBaselines.get(page) ?? [], recovery });
       Object.assign(entry, comparison, { status: 'passed' });
+      await captureResourceCheckpoint(page, output, result, phase, entry);
       return pair.full;
     }
     try {
     async function cycle(number, warmup) {
       const before = await probe(page), start = performance.now();
       await openGraphicsWorkspace(page, until, result); await chooseCase(page, dense, until); await showCaseScene(page, until);
-      await edgeButton(page, dense.edges[0].id).click(); await assertCaseFrame(page, dense, until);
+      const selectionBaseline = await page.evaluate(() => window.__caseGraphicsProbe.frameIdentity());
+      assert.ok(selectionBaseline, 'Selection needs a native current-canvas baseline before input');
+      await edgeButton(page, dense.edges[0].id).click();
+      await assertCaseFrame(page, dense, until, result, `${warmup ? 'warmup' : 'cycle'}-${number}-selection`, null, null,
+        { expectedSelection: dense.edges[0].id, afterNative: selectionBaseline });
       await caseWorkspace(page).getByRole('button', { name: 'Low quality off', exact: true }).click(); await nativeLayout(page, result, `${warmup ? 'warmup' : 'cycle'}-${number}-low`, until);
-      await showCompleteCaseReader(page, until); await showCaseScene(page, until); await assertCaseFrame(page, dense, until);
+      const reentryBaseline = await page.evaluate(() => window.__caseGraphicsProbe.frameIdentity());
+      assert.ok(reentryBaseline, 'Re-entry needs a native current-canvas baseline before input');
+      await showCompleteCaseReader(page, until); await showCaseScene(page, until);
+      await assertCaseFrame(page, dense, until, result, `${warmup ? 'warmup' : 'cycle'}-${number}-reentry`, null, null,
+        { expectedSelection: dense.edges[0].id, afterNative: reentryBaseline });
       if (!warmup && [1, 15, 30].includes(number)) {
         await capture(page, result, `native-lifecycle-cycle-${number}`);
         await checkpoint(`cycle-${number}-before-close`);
@@ -907,6 +941,7 @@ export async function runCaseGraphicsBrowserCases({ root, output, scenario, capt
     await checkpoint('timing-closed', result.caseGeographicRecovery.at(-1));
     assert.equal(result.caseResourceObservationChecks.length, 9);
     assert.ok(result.caseResourceObservationChecks.every(row => row.status === 'passed'));
+    assertResourceCheckpointCoverage(result);
     result.notes.push('Three warm-up cycles are disclosed separately; all thirty measured cycles open/close, select, change quality and detach/reattach the case layer. Every observed native resource kind must return to or below the warmed baseline, case-owned live handles must be zero, and renderer/context identities cannot grow. These are create/delete-handle observations, not GPU-memory residency. Compact transport observations retain the unchanged native oracles; warmed, cycle 1/15/30 and timing/recovery raw checkpoints independently compare full and compact data from the same instant.');
     } finally { lifecycleObservationPages.delete(page); }
   });

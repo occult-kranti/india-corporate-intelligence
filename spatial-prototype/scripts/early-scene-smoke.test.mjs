@@ -50,9 +50,10 @@ test('smoke retains CI-only launch guard and every original default review scena
   const last = '  await runCaseGraphicsBrowserCases(caseReviewContext);';
   const end = main.indexOf(last, start) + last.length;
   assert.ok(start > launch && end > start);
-  // Original execution body: all 35 legacy cases, complete case workspace and
-  // the default complete graphics invocation remain byte-for-byte intact.
-  assert.equal(sha256(main.slice(start, end)), '6ebb436c187ce6f3a6e5a358ddebcdcbc8a911e2758d523433758e2c50b7ef4b');
+  // All original cases and assertions are retained. The sole intentional
+  // contract change is close-up thread continuity replacing the former hide
+  // expectation, as requested by the user. Pin the entire resulting body.
+  assert.equal(sha256(main.slice(start, end)), '0d5c51e6ec41602929676e316db19756407dd007c48d1e86e7511d563955dcda');
   assert.match(main.slice(end), /^\n  \} \/\/ End full review; the CI smoke is an additional gate, never full acceptance\./);
 });
 

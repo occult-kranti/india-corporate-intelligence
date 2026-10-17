@@ -83,7 +83,10 @@ test('scenario46 retains counts/budget/actions and full raw checkpoint/final evi
   assert.match(lifecycle, /await showCompleteCaseReader\(page, until\); await showCaseScene\(page, until\);/);
   for (const phase of ['warmed-baseline','timing-active','timing-closed']) assert.ok(lifecycle.includes(`checkpoint('${phase}'`));
   assert.match(lifecycle, /checkpoint\(`cycle-\$\{number\}-before-close`\)/); assert.match(lifecycle, /checkpoint\(`cycle-\$\{number\}-closed`, result\.caseGeographicRecovery\.at\(-1\)\)/);
-  assert.match(lifecycle, /readLifecyclePair\(\)/); assert.match(lifecycle, /JSON\.stringify\(pair\.full, null, 2\)/);
+  assert.match(lifecycle, /JSON\.parse\(await page\.evaluate\(\(\) => window\.__caseGraphicsProbe\.readLifecyclePairJSON\(\)\)\)/); assert.match(lifecycle, /JSON\.stringify\(pair\.full, null, 2\)/);
+  const pairTransport = await readFile(new URL('./lifecycle-pair-transport.mjs', import.meta.url), 'utf8');
+  assert.equal((pairTransport.match(/probe\.readLifecyclePair\(\)/g) ?? []).length, 1);
+  assert.match(source, /caseLifecycleObservationInitSource\(\) \+ '\\n' \+ lifecyclePairTransportInitSource\(\)/);
   assert.match(lifecycle, /finally \{ lifecycleObservationPages\.delete\(page\); \}/);
   assert.match(source, /name === GRAPHICS_SCENARIOS\[7\] \? '\\n' \+ caseLifecycleObservationInitSource\(\)/);
   const preservation = source.slice(source.indexOf('afterScenario: async'), source.indexOf('} }, async (page, result)'));
