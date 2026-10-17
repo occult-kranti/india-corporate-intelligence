@@ -54,13 +54,17 @@ test('injected observation JSON methods read once and preserve the original raw 
   vm.runInContext('value.extra = undefined', realm);
   assert.throws(() => native.readLifecycleJSON(), /cannot omit or coerce/);
 });
-test('actual scenario actions, oracles, raw checkpoints and native probe remain pinned', async () => {
+test('exact pair transport reverses to pinned actions, oracles, raw checkpoints and native probe', async () => {
   const source = await readFile(new URL('./case-graphics-browser.mjs', import.meta.url), 'utf8');
   const sha = value => createHash('sha256').update(value).digest('hex');
   const native = source.slice(source.indexOf('export function installCaseGraphicsProbe('), source.indexOf('export function selectCaseGraphicsFixtures('));
   const scenario = source.slice(source.indexOf('  await run(GRAPHICS_SCENARIOS[7]'), source.indexOf('  coverage.scenarios'));
   assert.equal(sha(native), 'f8f8407a5616d89b99e40596487819479dd800ee8e9739e9ddae19b18ab1b80e');
-  assert.equal(sha(scenario), '31976f41f5380a8cfe7a368d7dbe2e173dabeb5e946966f074e0ca7d4aa995df');
+  const pairTransport = 'const pair = JSON.parse(await page.evaluate(() => window.__caseGraphicsProbe.readLifecyclePairJSON()));';
+  const originalPair = "const pair = await page.evaluate(() => ({ active: document.querySelector('.webgl-host')?.dataset.geographicWorkspaceActive,\n        workspaceCount: document.querySelectorAll('[data-case-workspace]').length, ...window.__caseGraphicsProbe.readLifecyclePair() }));";
+  assert.equal(scenario.split(pairTransport).length, 2, 'Exactly one checkpoint transport expression may change');
+  assert.equal(sha(scenario), '4e6974e1426b669749a81838de7db0fbd9df2a820c845ce5588e9375c544d4f1');
+  assert.equal(sha(scenario.replace(pairTransport, originalPair)), '31976f41f5380a8cfe7a368d7dbe2e173dabeb5e946966f074e0ca7d4aa995df');
   assert.match(source, /const probe = page => lifecycleObservationPages\.has\(page\)\s*\? page\.evaluate\(\(\) => window\.__caseGraphicsProbe\.readLifecycleJSON\(\)\)\.then\(JSON\.parse\) : fullProbe\(page\)/);
   assert.match(source, /const leaseSnapshot = page => lifecycleObservationPages\.has\(page\)\s*\? page\.evaluate\(\(\) => window\.__caseGraphicsProbe\.readLeaseLifecycleJSON\(\)\)\.then\(JSON\.parse\)/);
 });

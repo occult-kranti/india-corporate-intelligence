@@ -39,7 +39,11 @@ export function beginReaderScrollSettlement(element, { timeoutMs = 5000, stableF
   const onScroll = () => {
     const row = sample('scroll');
     if (inputAt === null || (!seenScroll && row.scrollTop === initialTop)) return;
-    seenScroll = true; lastScrollAt = row.at; scrollEndAt = null; stable = 0;
+    seenScroll = true; lastScrollAt = row.at;
+    // Chromium can deliver the final scroll after scrollend at the identical
+    // fractional offset. That event reports no further motion. Any real offset
+    // change still requires a new native end and two stable frames.
+    if (scrollEndAt === null || row.scrollTop !== lastTop) { scrollEndAt = null; stable = 0; }
   };
   const onScrollEnd = () => {
     const row = sample('scrollend');

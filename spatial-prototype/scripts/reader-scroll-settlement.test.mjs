@@ -62,3 +62,26 @@ test('helper only observes and harness keeps keyboard reveal predicates intact',
   assert.match(source,/sample\.focused && sample\.hit && sample\.action\.top >= sample\.scroll\.top - 0\.5 && sample\.action\.bottom <= sample\.scroll\.bottom \+ 0\.5/);
   assert.ok(source.indexOf('state => state.promise') < source.indexOf('element.scrollTop = element.scrollHeight; element.focus'));
 });
+
+for (const finalTop of [763, 537, 537.25]) {
+  test(`retained Chromium end-before-final-scroll order settles at exact offset ${finalTop}`, async () => {
+    const f = fixture(), o = beginReaderScrollSettlement(f.element); f.input(); f.scroll(finalTop - 1); f.tick();
+    f.element.scrollTop = finalTop; f.emit('scrollend'); f.emit('scroll'); f.tick(); f.tick();
+    const result = await o.promise; assert.equal(result.samples.at(-1).scrollTop, finalTop); assert.equal(result.stableFrames, 2);
+    assert.deepEqual(result.samples.slice(-4, -2).map(row => row.type), ['scrollend', 'scroll']); f.assertClean();
+  });
+}
+test('a fractional motion after scrollend invalidates even when less than one pixel', async () => {
+  const f = fixture(), o = beginReaderScrollSettlement(f.element); f.input(); f.scroll(537.25); f.emit('scrollend'); f.tick();
+  f.scroll(537.5); assert.equal(o.snapshot().scrollEndAt, null); f.tick(5000);
+  await assert.rejects(o.promise, /scrollend and stable frames/); f.assertClean();
+});
+test('same-offset trailing events never create an end when none was observed', async () => {
+  const f = fixture(), o = beginReaderScrollSettlement(f.element); f.input(); f.scroll(537.25); f.scroll(537.25); f.tick(); f.tick(5000);
+  await assert.rejects(o.promise, /scrollend and stable frames/); f.assertClean();
+});
+test('same-offset final scroll followed by genuine later motion needs its own end', async () => {
+  const f = fixture(), o = beginReaderScrollSettlement(f.element); f.input(); f.scroll(763); f.emit('scrollend'); f.scroll(763); f.tick();
+  f.scroll(763.125); f.tick(); assert.equal(o.snapshot().scrollEndAt, null); f.emit('scrollend'); f.scroll(763.125); f.tick(); f.tick();
+  assert.equal((await o.promise).samples.at(-1).scrollTop, 763.125); f.assertClean();
+});

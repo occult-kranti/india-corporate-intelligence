@@ -7,6 +7,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { captureResourceCheckpoint, assertResourceCheckpointCoverage } from './resource-capture-policy.mjs';
 import { compactLifecycleObservation, caseLifecycleObservationInitSource } from './case-lifecycle-observation.mjs';
+import { lifecyclePairTransportInitSource } from './lifecycle-pair-transport.mjs';
 import {
   loadCaseExpectation, caseWorkspace, caseSurface, caseRail, caseSourceDialog,
   openCaseWorkspace, chooseCase, showCaseScene, showCompleteCaseReader,
@@ -643,7 +644,7 @@ export async function runCaseGraphicsBrowserCases({ root, output, scenario, capt
       beforeNavigation: async (value, result) => {
         context = value; current = result;
         const native = `(${installCaseGraphicsProbe.toString()})(${JSON.stringify({ kinds: RESOURCE_KINDS })});`;
-        await value.addInitScript({ content: native + (name === GRAPHICS_SCENARIOS[7] ? '\n' + caseLifecycleObservationInitSource() : '') });
+        await value.addInitScript({ content: native + (name === GRAPHICS_SCENARIOS[7] ? '\n' + caseLifecycleObservationInitSource() + '\n' + lifecyclePairTransportInitSource() : '') });
       },
       afterScenario: async () => {
         const page = context?.pages().find(page => !page.isClosed());
@@ -880,8 +881,7 @@ export async function runCaseGraphicsBrowserCases({ root, output, scenario, capt
   await run(GRAPHICS_SCENARIOS[7], { reducedMotion: true, budgetMs: 300000 }, async (page, result) => {
     lifecycleObservationPages.add(page);
     async function checkpoint(phase, recovery = null) {
-      const pair = await page.evaluate(() => ({ active: document.querySelector('.webgl-host')?.dataset.geographicWorkspaceActive,
-        workspaceCount: document.querySelectorAll('[data-case-workspace]').length, ...window.__caseGraphicsProbe.readLifecyclePair() }));
+      const pair = JSON.parse(await page.evaluate(() => window.__caseGraphicsProbe.readLifecyclePairJSON()));
       const stem = `${GRAPHICS_SCENARIOS[7]}--${phase}`;
       const entry = { phase, sequence: pair.full.sequence, rawEvidence: `${stem}.native-webgl.json`, compactEvidence: `${stem}.compact-observation.json`, status: 'pending' };
       (result.caseResourceObservationChecks ??= []).push(entry);

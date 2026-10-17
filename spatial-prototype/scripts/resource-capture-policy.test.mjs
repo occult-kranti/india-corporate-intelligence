@@ -32,7 +32,7 @@ test('full standalone HAR starts before page/navigation without filtering or bod
   assert.ok(start < main.indexOf('await context.tracing.start(traceOptionsForScenario(name))') && start < main.indexOf('page = await context.newPage()'));
   assert.ok(main.indexOf('observeResourceNetwork(page, result)') < main.indexOf('const response = await page.goto(', start));
 });
-test('original full-review/native assertions and actions remain byte conserved after exact capture and readiness deltas', () => {
+test('original full-review/native assertions and actions remain byte conserved after exact capture, readiness and pair-transport deltas', () => {
   const start = main.indexOf('  await scenario("01-overview-and-source-trail"');
   const last = '  await runCaseGraphicsBrowserCases(caseReviewContext);';
   const end = main.indexOf(last, start) + last.length;
@@ -42,6 +42,11 @@ test('original full-review/native assertions and actions remain byte conserved a
   let conserved = graphics.slice(nativeStart, nativeEnd)
     .replace('      await captureResourceCheckpoint(page, output, result, phase, entry);\n', '')
     .replace('    assertResourceCheckpointCoverage(result);\n', '');
+  // Reverse the exact reviewed lossless transport expression, preserving the original body pin.
+  const pairTransport = 'const pair = JSON.parse(await page.evaluate(() => window.__caseGraphicsProbe.readLifecyclePairJSON()));';
+  const originalPair = "const pair = await page.evaluate(() => ({ active: document.querySelector('.webgl-host')?.dataset.geographicWorkspaceActive,\n        workspaceCount: document.querySelectorAll('[data-case-workspace]').length, ...window.__caseGraphicsProbe.readLifecyclePair() }));";
+  assert.equal(conserved.split(pairTransport).length, 2);
+  conserved = conserved.replace(pairTransport, originalPair);
   // Reverse only the exact reviewed readiness additions; keep the original body hash.
   const selectedReadiness = [
     "      const selectionBaseline = await page.evaluate(() => window.__caseGraphicsProbe.frameIdentity());\n",
@@ -63,7 +68,8 @@ test('original full-review/native assertions and actions remain byte conserved a
     .replace(reentryReadiness, "      await showCompleteCaseReader(page, until); await showCaseScene(page, until); await assertCaseFrame(page, dense, until);\n");
   assert.equal(sha(conserved), 'c4689854c0bde8b5d7160984c53d78d511ddebe41582c74811b5a791c86c7fde');
   assert.match(conserved, /budgetMs: 300000/); assert.match(conserved, /frames\(120, true\)/);
-  assert.match(graphics, /const pair = await page\.evaluate\(\(\) => \(\{ active:[\s\S]*readLifecyclePair\(\)/);
+  assert.equal(graphics.split(pairTransport).length, 2);
+  assert.ok(conserved.includes(originalPair));
   assert.ok(graphics.indexOf('await captureResourceCheckpoint(page, output, result, phase, entry)') > graphics.indexOf('Object.assign(entry, comparison'));
   assert.doesNotMatch(helper, /readLifecyclePair|compactLifecycleObservation|JSON\.parse\(await page\.evaluate/);
 });
