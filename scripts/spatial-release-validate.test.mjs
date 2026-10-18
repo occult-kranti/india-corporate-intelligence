@@ -355,9 +355,9 @@ test('CLI requires one known mode and allows an explicit root without exposing p
   }
  });
 
-test('only the two reviewed source refactors have exact new pins; original corpus pins stay immutable', async () => {
+test('only the two reviewed source refactors and exact root-shell material have new pins; original corpus pins stay immutable', async () => {
   const {REVIEWED_SOURCE_REVISIONS} = await import('./spatial-release-validate.mjs');
-  assert.deepEqual(Object.keys(REVIEWED_SOURCE_REVISIONS).sort(),['package.json','src/data/investigation.ts']);
+  assert.deepEqual(Object.keys(REVIEWED_SOURCE_REVISIONS).sort(),['package.json','src/components/investigation/shell.css','src/data/investigation.ts']);
   assert.equal(BASE_FILES['src/data/investigation.ts'],'4aee0a6730e9d5c094aa37027d0efaa5e51e8e12');
   assert.equal(BASE_FILES['package.json'],'8f1f91cb50c1cd5e8f3b3018cfe2b4d684f58a55');
   for(const [file,revision] of Object.entries(REVIEWED_SOURCE_REVISIONS)){
@@ -368,4 +368,46 @@ test('only the two reviewed source refactors have exact new pins; original corpu
   assert.match(source,/return original\.buildRetainedInvestigationRegistry\(\)/);
   assert.doesNotMatch(source,/return original\.getInvestigationRegistry\(\)/);
   assert.equal(REVIEWED_REGISTRY.snapshotSha256,'048f89ffd008a498212ff2ac71d4413aef09b138a50ab77f336a23fec4722064');
+});
+
+
+test('all three accepted material files agree with the exact native source contract; historical shell pin is retained', async () => {
+  const { REVIEWED_SOURCE_REVISIONS } = await import('./spatial-release-validate.mjs');
+  const native = JSON.parse(await readFile('scripts/spatial-release-felt.sources.json'));
+  assert.equal(native.schema, 'olympus-felt-native-source-contract-v2-root-shell');
+  assert.equal(native.rootShellSealSha256, '17f14e3feabe48b658da654bf7829eeb5cfed57cd45cc02076df82c51b9daeea');
+  const materials = {
+    'shell.css': ['4b6b74760c1be484745336d42c4378bc03c88212', 'ab5feaebaa79b5c92ec2a50d0db278f8e589f0c4364b66acb1f1b3e616d65434', 13450],
+    'workspace.css': ['4193ae1bbe832a479a04135d8cd958ec2628782f', '79a7c2ca6c7f70eda66c78c515586a185d53f4ef71be9cba69e646b9cc5e084e', 30829],
+    'atlas-workspace.css': ['763e1640c3881bed886d56e123bdd65bd8e55d52', '15d6f8d2cc562b9261c9a0afae7e39b4e516621719a7e69e0863a08adb0f8e9a', 17281],
+  };
+  for (const [file, [gitBlob, hash, size]] of Object.entries(materials)) {
+    const path = `src/components/investigation/${file}`, bytes = await readFile(path);
+    assert.deepEqual(native.files.filter(pin => pin.path === path), [{ path, sha256: hash, gitBlob, bytes: size }]);
+    assert.equal(gitBlobSha(bytes), gitBlob); assert.equal(sha256(bytes), hash); assert.equal(bytes.length, size);
+  }
+  const shell = 'src/components/investigation/shell.css';
+  assert.equal(BASE_FILES[shell], 'e638b551c2a20d00c0ad47e4ed91ccdab844500f');
+  assert.equal(REVIEWED_SOURCE_REVISIONS[shell].gitBlob, materials['shell.css'][0]);
+  assert.notEqual(REVIEWED_SOURCE_REVISIONS[shell].gitBlob, BASE_FILES[shell]);
+  assert.equal(Object.keys(BASE_FILES).length, 9);
+  assert.equal(BASE_FILES['src/components/investigation/workspace.css'], undefined);
+  assert.equal(BASE_FILES['src/components/investigation/atlas-workspace.css'], undefined);
+});
+
+test('default production source validation accepts only the exact reviewed current shell and keeps unrelated pins strict', async t => {
+  const root = await temporary(t);
+  for (const path of Object.keys(BASE_FILES)) await put(root, path, await readFile(path));
+  const shell = 'src/components/investigation/shell.css', current = await readFile(join(root, shell));
+  const good = await validatePinnedSources(root);
+  assert.equal(good[shell].originalGitBlob, 'e638b551c2a20d00c0ad47e4ed91ccdab844500f');
+  assert.equal(good[shell].reviewedRevisionGitBlob, '4b6b74760c1be484745336d42c4378bc03c88212');
+  assert.equal(good[shell].currentSha256, 'ab5feaebaa79b5c92ec2a50d0db278f8e589f0c4364b66acb1f1b3e616d65434');
+  for (const wrong of [Buffer.concat([current, Buffer.from('\n')]), await readFile('src/components/investigation/workspace.css')]) {
+    await put(root, shell, wrong); await assert.rejects(validatePinnedSources(root), /Pinned original source changed: src\/components\/investigation\/shell.css/);
+  }
+  await put(root, shell, current);
+  await assert.rejects(validatePinnedSources(root, { ...BASE_FILES }), /Pinned original source changed/);
+  await put(root, 'src/App.tsx', Buffer.concat([await readFile('src/App.tsx'), Buffer.from('\n')]));
+  await assert.rejects(validatePinnedSources(root), /Pinned original source changed: src\/App.tsx/);
 });

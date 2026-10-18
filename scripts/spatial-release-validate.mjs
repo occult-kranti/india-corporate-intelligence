@@ -22,6 +22,7 @@ export const BASE_FILES = Object.freeze({
 });
 // Exact reviewed code revisions; historical base pins and immutable data pins remain intact.
 export const REVIEWED_SOURCE_REVISIONS = Object.freeze({
+  'src/components/investigation/shell.css': Object.freeze({ gitBlob: '4b6b74760c1be484745336d42c4378bc03c88212', reason: 'Exact reviewed root-shell material successor from seal 17f14e3feabe48b658da654bf7829eeb5cfed57cd45cc02076df82c51b9daeea and independent review d67e910708d0c7223aefe65042b8d53f6d62024373649f5e6be7530474aba927; historical original shell pin remains intact.' }),
   'package.json': Object.freeze({ gitBlob: 'f5f4c1e03c865705eb223b14a08a2fe3a76b948c', reason: 'Retains all existing gates, adds exact source-scope regressions and bounds investigation test concurrency.' }),
   'src/data/investigation.ts': Object.freeze({ gitBlob: 'bb8aa02f0c8b82685a7808622ecf14ccab4f4bc9', reason: 'Separates effective national and energy projections from the canonical retained audit builder; no raw snapshot changes.' }),
 });
