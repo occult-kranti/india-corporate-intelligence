@@ -34,8 +34,23 @@ test('CI admission requires both gates and two exact SHA identities', () => {
   for (const key of Object.keys(env)) assert.throws(() => requireCI({ ...env, [key]: '' }), key);
   assert.throws(() => requireCI({ ...env, GITHUB_SHA: 'branch-name' }));
 });
-test('all original combined code is byte-identical after removing only the additive hook', () => {
-  let original = runner.replace("const { runFeltReview } = await import('./spatial-release-felt.browser.mjs');\n", '');
+function stripReviewedAtlasSettlement(text) {
+  const begin = '// BEGIN REVIEWED ATLAS HEADER SETTLEMENT\n', end = '// END REVIEWED ATLAS HEADER SETTLEMENT\n\n';
+  const call = '  // REVIEWED ATLAS HEADER SETTLEMENT CALL\n  if (phase === \'wrapped-navigation-text\') await settleAtlasHeaderClearance(page, result, mode, phase);\n';
+  for (const marker of [begin.trimEnd(), end.trimEnd(), '  // REVIEWED ATLAS HEADER SETTLEMENT CALL', '  if (phase === \'wrapped-navigation-text\') await settleAtlasHeaderClearance(page, result, mode, phase);']) assert.equal(text.split(marker).length - 1, 1, `Exactly one reviewed settlement marker/call required: ${marker}`);
+  const first = text.indexOf(begin), last = text.indexOf(end);
+  assert.ok(first >= 0 && last > first, 'Reviewed settlement block markers must be exact and ordered');
+  const block = text.slice(first, last + end.length);
+  assert.equal(hash(block), 'a4a3ddd42dc1b927d08ee3294b63ca4696947c36c84b79355ff7216eed2eec6c', 'Only the exact reviewed readiness block may be reversed');
+  assert.equal(text.split(call).length - 1, 1, 'Reviewed settlement call must remain exact');
+  const prefix = "async function atlasActivityNavigation(page, result, mode, phase = 'initial') {\n  await page.evaluate(async () => {\n    await document.fonts.ready;\n    await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));\n  });\n";
+  const context = prefix + call + '  const frame = await page.evaluate(() => {\n';
+  assert.equal(text.split(context).length - 1, 1, 'Reviewed wrapped-only settlement must follow the exact fonts/two-frame wait immediately before the final sample');
+  return text.replace(block, '').replace(call, '');
+}
+
+test('historical combined code is recovered exactly after reversing the reviewed settlement and additive felt hook', () => {
+  let original = stripReviewedAtlasSettlement(runner).replace("const { runFeltReview } = await import('./spatial-release-felt.browser.mjs');\n", '');
   original = original.replace('  // Separate additive evidence; the original eight scenarios stay unchanged.\n  report.feltUI = await runFeltReview({ browser, root, dist, output, origin, base });\n', '');
   original = original.replace(" && report.feltUI?.status === 'passed'", '');
   original = original.replace("    `Additive felt UI: ${report.feltUI?.status ?? 'not run'}; see felt-ui/summary.md and felt-ui/artifacts.json.`,\n", '');
@@ -380,4 +395,37 @@ test('null root navigation response is accepted only for a previously bound same
 test('effect-owned dialog and reader focus and shared wrapper selectors use bounded native predicates', () => {
   for (const evidence of ["!document.querySelector('#site-nav-mobile').open && document.activeElement", "document.activeElement === document.querySelector(`${selector} .atlas-reader-heading h2`)", "await reader.waitFor({ state: 'detached' })", 'document.querySelector(`${selector} h1`)?.innerText.replace', "heading: 'Follow a claim. Test every connection.'"]) assert.ok(source.includes(evidence), evidence);
   assert.doesNotMatch(source, /waitForTimeout|setTimeout\(resolve, [1-9]/);
+});
+
+
+test('reviewed settlement reversal rejects missing, duplicate or altered markers, calls and helper bytes', () => {
+  const begin = '// BEGIN REVIEWED ATLAS HEADER SETTLEMENT';
+  const end = '// END REVIEWED ATLAS HEADER SETTLEMENT';
+  const marker = '  // REVIEWED ATLAS HEADER SETTLEMENT CALL';
+  const call = '  if (phase === \'wrapped-navigation-text\') await settleAtlasHeaderClearance(page, result, mode, phase);';
+  for (const token of [begin, end, marker, call]) {
+    for (const replacement of ['', token + '\n' + token, token + ' altered']) assert.throws(() => stripReviewedAtlasSettlement(runner.replace(token, replacement)), /reviewed|Reviewed|Only the exact|Exactly one/);
+  }
+  assert.throws(() => stripReviewedAtlasSettlement(runner.replace('maxSamples: 64', 'maxSamples: 65')), /Only the exact reviewed/);
+  assert.throws(() => stripReviewedAtlasSettlement(runner.replace('started + 1000', 'started + 1001')), /Only the exact reviewed/);
+});
+
+test('reviewed reversal rejects call relocation around the exact font/frame/final-sample context and any broadened phase gate', () => {
+  const call = "  // REVIEWED ATLAS HEADER SETTLEMENT CALL\n  if (phase === 'wrapped-navigation-text') await settleAtlasHeaderClearance(page, result, mode, phase);\n";
+  const stripped = runner.replace(call, '');
+  const anchors = [
+    "async function atlasActivityNavigation(page, result, mode, phase = 'initial') {\n",
+    '    await document.fonts.ready;\n',
+    '    await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));\n',
+    '  // Keep the actual failing boxes in report.json, including an overlap failure.\n',
+  ];
+  for (const anchor of anchors) {
+    assert.equal(stripped.split(anchor).length - 1, 1, anchor);
+    const moved = stripped.replace(anchor, anchor + call);
+    assert.equal(moved.split(call).length - 1, 1);
+    assert.throws(() => stripReviewedAtlasSettlement(moved), /must follow the exact fonts\/two-frame wait/, anchor);
+  }
+  assert.throws(() => stripReviewedAtlasSettlement(runner.replace("if (phase === 'wrapped-navigation-text') await settle", 'await settle')), /Exactly one/);
+  assert.throws(() => stripReviewedAtlasSettlement(runner.replace("phase === 'wrapped-navigation-text'", "phase.startsWith('wrapped-navigation-text')")), /Exactly one/);
+  assert.throws(() => stripReviewedAtlasSettlement(runner.replace("phase === 'wrapped-navigation-text'", "phase === 'initial'")), /Exactly one/);
 });

@@ -257,3 +257,36 @@ test('opened evidence must initially show its full title and meaningful paragrap
   assert.ok(source.indexOf('result.atlasOpenedReadingFrames ??=') < source.indexOf('assertAtlasReadingFrame(frame);'));
   assert.ok(source.indexOf("assertAtlasOpenedReading(page, result, '200-percent-effective-viewport')") < source.indexOf("capture(page, result, 'atlas-200-percent-effective-viewport-opened-evidence')"));
 });
+
+test('settled exact clearance does not excuse overlap, blocked hit tests or unusable reader space', async () => {
+  const readAtlasHeaderClearance = () => {}, nextAtlasHeaderFrame = () => {};
+  const settleAtlasHeaderClearance = await browserHelper('settleAtlasHeaderClearance', { assert, readAtlasHeaderClearance, nextAtlasHeaderFrame });
+  const check = await browserHelper('atlasActivityNavigation', { assert, settleAtlasHeaderClearance });
+  for (const [name, change, message] of [
+    ['reported 17px overlap', f => { f.reading = rect(340, 193, 1310, 870); }, /header must not overlap/],
+    ['blocked reader hit', f => { f.reading.hit = false; }, /reading surface must be hit-testable/],
+    ['zero reader height', f => { f.reading.height = 0; }, /retain usable height/],
+    ['reader under dock', f => { f.reading.bottom = 904; }, /retain usable height/],
+  ]) {
+    const frame = lowerPanelFrame(); frame.reading = rect(340, 222, 1310, 870); change(frame);
+    const sample = {};
+    for (const [key, box] of [['root', rect(0, 0, 1440, 1000)], ['header', frame.header], ['reading', frame.reading], ['status', frame.status]]) {
+      sample[`${key}Present`] = 1;
+      for (const edge of ['top', 'bottom', 'left', 'right']) sample[key + edge[0].toUpperCase() + edge.slice(1)] = box[edge];
+    }
+    Object.assign(sample, { clearanceValid: 1, clearancePx: 222 });
+    let measurements = 0, frameWaits = 0, assertionFrames = 0, fonts = 0;
+    const page = { evaluate: async callback => {
+      if (callback === readAtlasHeaderClearance) { measurements += 1; return { ...sample }; }
+      if (callback === nextAtlasHeaderFrame) { frameWaits += 1; return; }
+      if (callback.toString().includes('document.fonts.ready')) { fonts += 1; return; }
+      assertionFrames += 1; return frame;
+    } };
+    const result = {};
+    await assert.rejects(check(page, result, 'reading', 'wrapped-navigation-text'), message, name);
+    assert.equal(result.atlasHeaderClearanceSettlements[0].measurement.settled, 1, name);
+    assert.equal(measurements, 2); assert.equal(frameWaits, 1); assert.equal(assertionFrames, 1); assert.equal(fonts, 1);
+    assert.equal(result.atlasNavigationLayouts.length, 1);
+    assert.deepEqual(result.atlasNavigationLayouts[0], { mode: 'reading', phase: 'wrapped-navigation-text', ...frame });
+  }
+});

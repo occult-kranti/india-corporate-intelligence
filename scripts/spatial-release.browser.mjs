@@ -282,11 +282,89 @@ async function focused(page, selector) {
   assert.ok(outline.width >= 2 && outline.style !== 'none', `Visible keyboard focus required on ${selector}`);
 }
 
+// BEGIN REVIEWED ATLAS HEADER SETTLEMENT
+// Readiness only: observe the product's exact root-relative clearance property.
+// No overlap, hit-test or usable-height assertion is polled here.
+function readAtlasHeaderClearance() {
+  const values = {};
+  for (const [name, selector] of [['root', '.evidence-app'], ['header', '.masthead'], ['reading', '.reading-surface'], ['status', '.scene-overview']]) {
+    const box = document.querySelector(selector)?.getBoundingClientRect();
+    values[`${name}Present`] = box && ['top', 'bottom', 'left', 'right'].every(key => Number.isFinite(box[key])) ? 1 : 0;
+    for (const key of ['top', 'bottom', 'left', 'right']) values[`${name}${key[0].toUpperCase()}${key.slice(1)}`] = Number.isFinite(box?.[key]) ? box[key] : 0;
+  }
+  const root = document.querySelector('.evidence-app');
+  const css = root ? getComputedStyle(root).getPropertyValue('--atlas-header-clearance').trim() : '';
+  const numeric = /^[+-]?(?:\d+(?:\.\d+)?|\.\d+)px$/.test(css) ? Number(css.slice(0, -2)) : NaN;
+  values.clearanceValid = Number.isFinite(numeric) ? 1 : 0;
+  values.clearancePx = values.clearanceValid ? numeric : 0;
+  return values;
+}
+
+function nextAtlasHeaderFrame() {
+  return new Promise(resolve => requestAnimationFrame(() => resolve()));
+}
+
+async function settleAtlasHeaderClearance(page, result, mode, phase) {
+  const started = performance.now(), expires = started + 1000;
+  const measurement = { limitMs: 1000, maxSamples: 64, elapsedMs: 0, settled: 0, samples: [] };
+  (result.atlasHeaderClearanceSettlements ??= []).push({ mode, phase, measurement });
+  let active = true, timer;
+  const checkTime = () => {
+    const current = performance.now();
+    if (active) measurement.elapsedMs = current - started;
+    assert.ok(active && current < expires, 'Atlas header clearance readiness exceeded 1000 ms');
+  };
+  const numericKeys = ['root', 'header', 'reading', 'status'].flatMap(name => [`${name}Present`, ...['Top', 'Bottom', 'Left', 'Right'].map(edge => name + edge)]).concat(['clearanceValid', 'clearancePx']);
+  const work = async () => {
+    let previous = null;
+    for (let index = 0; index < 64; index += 1) {
+      checkTime();
+      const observed = await page.evaluate(readAtlasHeaderClearance);
+      checkTime(); // A delayed evaluate result may never qualify after the absolute deadline.
+      const sample = { atMs: measurement.elapsedMs };
+      for (const key of numericKeys) {
+        assert.ok(Number.isFinite(observed?.[key]), `Invalid numeric clearance observation: ${key}`);
+        sample[key] = observed[key];
+      }
+      measurement.samples.push(sample); // Includes the actual pre-settlement geometry.
+      const matches = sample.rootPresent === 1 && sample.headerPresent === 1 && sample.clearanceValid === 1
+        && sample.clearancePx === Math.ceil(sample.headerBottom - sample.rootTop) + 12;
+      if (matches && previous && sample.headerBottom === previous.headerBottom && sample.rootTop === previous.rootTop && sample.clearancePx === previous.clearancePx) {
+        checkTime();
+        return;
+      }
+      previous = matches ? sample : null;
+      assert.ok(index + 1 < 64, 'Atlas header clearance readiness exceeded 64 samples');
+      await page.evaluate(nextAtlasHeaderFrame);
+      checkTime();
+    }
+  };
+  try {
+    await Promise.race([
+      work(),
+      new Promise((_, reject) => { timer = setTimeout(() => reject(new Error('Atlas header clearance readiness exceeded 1000 ms')), Math.max(0, expires - performance.now())); }),
+    ]);
+    checkTime();
+    measurement.settled = 1;
+  } finally {
+    active = false;
+    clearTimeout(timer);
+    measurement.elapsedMs = performance.now() - started;
+    if (measurement.settled && measurement.elapsedMs >= 1000) {
+      measurement.settled = 0;
+      throw new Error('Atlas header clearance readiness exceeded 1000 ms');
+    }
+  }
+}
+// END REVIEWED ATLAS HEADER SETTLEMENT
+
 async function atlasActivityNavigation(page, result, mode, phase = 'initial') {
   await page.evaluate(async () => {
     await document.fonts.ready;
     await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
   });
+  // REVIEWED ATLAS HEADER SETTLEMENT CALL
+  if (phase === 'wrapped-navigation-text') await settleAtlasHeaderClearance(page, result, mode, phase);
   const frame = await page.evaluate(() => {
     const sample = node => {
       if (!node) return null;
