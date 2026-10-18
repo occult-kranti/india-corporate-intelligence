@@ -3,7 +3,24 @@ const $=id=>document.getElementById(id);
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=x=>typeof x==='string'?x:JSON.stringify(x);
 const form=$('filters');
-let graph,filtered=[],entities=[],selected,view='globe',rotation=-30,focus,ledger='gaps';
+// Remember only an explicit geographic-mode choice; filters and other views never replace it.
+const MAP_VIEW_KEY='fieldwork:geographic-view:v1';
+function initialMapView(){
+  try{return localStorage.getItem(MAP_VIEW_KEY)==='globe'?'globe':'map';}
+  catch{return 'map';}
+}
+function saveMapView(next){
+  if(!['map','globe'].includes(next))return;
+  try{localStorage.setItem(MAP_VIEW_KEY,next);}catch{/* Storage is optional, including offline files. */}
+}
+function syncViewControls(){
+  document.querySelectorAll('[data-view]').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.view===view)));
+  $('geo-view').hidden=!['globe','map'].includes(view);
+  $('network-view').hidden=view!=='network';
+  $('table-view').hidden=view!=='table';
+}
+let graph,filtered=[],entities=[],selected,view=initialMapView(),rotation=-30,focus,ledger='gaps';
+syncViewControls();
 const colors={ownership:'#176360',control:'#765e40',investment:'#668a68',acquisition:'#256478',contract:'#725c84',donation:'#b0763f',service:'#6e7f85',leadership:'#58768e',founding:'#58768e',endorsement:'#9b7460'};
 const color=e=>colors[e.type]??'#65857c';
 function options(id,values){for(const v of [...new Set(values.filter(Boolean))].sort()){const o=document.createElement('option');o.value=v;o.textContent=human(v);$(id).append(o);}}
@@ -115,7 +132,7 @@ try{
  for(const key of ['type','status'])options(key,graph.edges.map(e=>e[key]));options('sector',graph.entities.flatMap(n=>n.sectors));options('year',graph.edges.map(e=>e.date?.slice(0,4)).filter(Boolean));
  form.oninput=render;form.onchange=render;form.onsubmit=e=>e.preventDefault();form.onreset=()=>setTimeout(render,0);$('empty-reset').onclick=()=>form.reset();
  $('more').onclick=()=>{const open=$('advanced').hidden;$('advanced').hidden=!open;$('more').setAttribute('aria-expanded',String(open));$('more').textContent=open?'Fewer filters −':'Date & status +';};
- document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{view=b.dataset.view;document.querySelectorAll('[data-view]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));$('geo-view').hidden=!['globe','map'].includes(view);$('network-view').hidden=view!=='network';$('table-view').hidden=view!=='table';if(['globe','map'].includes(view))drawGeo();if(view==='network')drawNetwork();});
+ document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{view=b.dataset.view;saveMapView(view);syncViewControls();if(['globe','map'].includes(view))drawGeo();if(view==='network')drawNetwork();});
  $('rotation').oninput=()=>{rotation=+$('rotation').value;$('rotation-value').textContent=rotation+'°';drawGeo();};$('network-focus').onchange=()=>{focus=$('network-focus').value;drawNetwork();};
  document.querySelectorAll('[data-ledger]').forEach(b=>b.onclick=()=>{ledger=b.dataset.ledger;document.querySelectorAll('[data-ledger]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));renderLedger();});
  $('dataset-note').textContent=graph.meta?.scope??'Selected public-record research. Source snapshots do not establish a complete or current network.';

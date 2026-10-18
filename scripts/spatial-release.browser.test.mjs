@@ -201,3 +201,184 @@ test('text visibility samples the rendered lines without altering page styles', 
   hit = false;
   assert.equal(read(node).lines[0].unobscured,false);
 });
+
+function clearanceSample(patch = {}) {
+  const sample = {};
+  for (const name of ['root', 'header', 'reading', 'status']) {
+    sample[`${name}Present`] = 1;
+    for (const edge of ['Top', 'Bottom', 'Left', 'Right']) sample[name + edge] = 0;
+  }
+  return { ...sample, headerBottom: 210, readingTop: 193, clearanceValid: 1, clearancePx: 222, ...patch };
+}
+function clearanceHarness(samples, { frameMs = 16, afterRead = () => {}, pendingRead = false, framePending = false, cleanupTime } = {}) {
+  let time = 0, reads = 0, frames = 0, timer, resolvePending;
+  const readAtlasHeaderClearance = () => {}, nextAtlasHeaderFrame = () => {};
+  const result = {};
+  const page = { evaluate: async callback => {
+    if (callback === readAtlasHeaderClearance) {
+      reads += 1;
+      if (pendingRead) return new Promise(resolve => { resolvePending = resolve; });
+      const sample = typeof samples === 'function' ? samples(reads) : samples[Math.min(reads - 1, samples.length - 1)];
+      afterRead(reads, value => { time = value; }); return sample;
+    }
+    assert.equal(callback, nextAtlasHeaderFrame); frames += 1; time += frameMs;
+    if (framePending) return new Promise(resolve => { resolvePending = resolve; });
+  } };
+  const settle = helper('settleAtlasHeaderClearance', { assert, readAtlasHeaderClearance, nextAtlasHeaderFrame,
+    performance: { now: () => time }, setTimeout: (callback, milliseconds) => { timer = { callback, milliseconds }; return 1; }, clearTimeout: () => { timer = undefined; if (cleanupTime !== undefined) time = cleanupTime; } });
+  return { result, run: () => settle(page, result, 'reading', 'portable'), counts: () => ({ reads, frames }),
+    measurement: () => result.atlasHeaderClearanceSettlements[0].measurement,
+    expire: () => { assert.equal(timer.milliseconds, 1000); time = 1000; timer.callback(); },
+    release: value => resolvePending(value), timerCleared: () => timer === undefined };
+}
+
+test('clearance readiness preserves initial geometry and requires two frame-separated exact stable samples', async () => {
+  const h = clearanceHarness([clearanceSample({ clearancePx: 193 }), clearanceSample(), clearanceSample()]);
+  await h.run();
+  assert.deepEqual(h.counts(), { reads: 3, frames: 2 });
+  const record = h.measurement();
+  assert.equal(record.samples[0].readingTop, 193); assert.equal(record.samples[0].headerBottom, 210); assert.equal(record.samples[0].rootTop, 0);
+  assert.equal(record.samples[0].clearancePx, 193); assert.equal(record.elapsedMs, 32); assert.equal(record.settled, 1);
+  assert.equal(record.samples.length, 3); assert.equal(record.limitMs, 1000); assert.equal(record.maxSamples, 64);
+  for (const row of record.samples) assert.ok(Object.values(row).every(Number.isFinite));
+  assert.equal(h.timerCleared(), true);
+});
+
+test('clearance readiness resets on mismatch or changed raw geometry within the same ceil bucket', async () => {
+  for (const [samples, expectedReads] of [
+    [[clearanceSample(), clearanceSample({ clearancePx: 193 }), clearanceSample(), clearanceSample()], 4],
+    [[clearanceSample({ headerBottom: 210.1, clearancePx: 223 }), clearanceSample({ headerBottom: 210.2, clearancePx: 223 }), clearanceSample({ headerBottom: 210.2, clearancePx: 223 })], 3],
+    [[clearanceSample({ rootTop: 0.1 }), clearanceSample({ rootTop: 0.2 }), clearanceSample({ rootTop: 0.2 })], 3],
+  ]) {
+    const h = clearanceHarness(samples); await h.run(); assert.equal(h.counts().reads, expectedReads);
+  }
+  const fraction = clearanceHarness([clearanceSample({ rootTop: 25.5, headerBottom: 206.25, clearancePx: 193 })]);
+  await fraction.run(); assert.equal(fraction.counts().reads, 2);
+});
+
+test('permanent stale, oversized, missing or invalid clearance fails the absolute deadline without polling acceptance assertions', async () => {
+  for (const patch of [{ clearancePx: 193 }, { clearancePx: 9999 }, { clearanceValid: 0 }, { rootPresent: 0 }, { headerPresent: 0 }]) {
+    const h = clearanceHarness([clearanceSample(patch)], { frameMs: 20 });
+    await assert.rejects(h.run(), /exceeded 1000 ms/);
+    assert.equal(h.measurement().settled, 0); assert.equal(h.measurement().samples.length, 50);
+    assert.equal(h.measurement().elapsedMs, 1000); assert.equal(h.timerCleared(), true);
+  }
+});
+
+test('late matching evaluate results fail before being accepted or appended as timely observations', async () => {
+  const h = clearanceHarness([clearanceSample()], { afterRead: (read, advance) => { if (read === 2) advance(1001); } });
+  await assert.rejects(h.run(), /exceeded 1000 ms/);
+  assert.equal(h.measurement().settled, 0); assert.equal(h.measurement().samples.length, 1);
+  assert.equal(h.measurement().elapsedMs, 1001); assert.deepEqual(h.counts(), { reads: 2, frames: 1 });
+});
+
+test('stalled evaluate and frame promises are bounded and late completion cannot mutate settled records or continue sampling', async () => {
+  for (const options of [{ pendingRead: true }, { framePending: true, frameMs: 0 }]) {
+    const h = clearanceHarness([clearanceSample({ clearancePx: 193 })], options), pending = h.run();
+    await Promise.resolve(); await Promise.resolve();
+    const rejected = assert.rejects(pending, /exceeded 1000 ms/);
+    h.expire(); await rejected;
+    const saved = JSON.stringify(h.measurement()), counts = h.counts();
+    h.release(clearanceSample()); await Promise.resolve(); await Promise.resolve();
+    assert.equal(JSON.stringify(h.measurement()), saved); assert.deepEqual(h.counts(), counts);
+    assert.equal(h.measurement().settled, 0); assert.equal(h.timerCleared(), true);
+  }
+});
+
+test('the 64-sample ceiling counts the first observation and never requests sample 65', async () => {
+  const h = clearanceHarness([clearanceSample({ clearancePx: 193 })], { frameMs: 0 });
+  await assert.rejects(h.run(), /exceeded 64 samples/);
+  assert.deepEqual(h.counts(), { reads: 64, frames: 63 }); assert.equal(h.measurement().samples.length, 64);
+  assert.equal(h.measurement().elapsedMs, 0); assert.equal(h.measurement().settled, 0); assert.equal(h.timerCleared(), true);
+});
+
+test('numeric observation validation rejects nonfinite data without leaking strings or unbounded fields into records', async () => {
+  for (const patch of [{ rootTop: NaN }, { headerBottom: Infinity }, { clearancePx: '222px' }, { rootPresent: undefined }]) {
+    const h = clearanceHarness([clearanceSample(patch)]);
+    await assert.rejects(h.run(), /Invalid numeric clearance observation/);
+    assert.equal(h.measurement().samples.length, 0); assert.equal(h.measurement().settled, 0);
+  }
+  const h = clearanceHarness([clearanceSample({ ignoredText: 'not retained' })]);
+  await h.run(); assert.equal('ignoredText' in h.measurement().samples[0], false);
+});
+
+test('DOM sampler strictly parses pixel clearance and only reads bounded numeric rectangles', () => {
+  let css = '222px', missing = false;
+  const box = { top: 0, bottom: 210, left: 0, right: 455 };
+  const sample = helper('readAtlasHeaderClearance', { document: { querySelector: () => missing ? null : { getBoundingClientRect: () => box } }, getComputedStyle: () => ({ getPropertyValue: () => css }) });
+  assert.equal(sample().clearancePx, 222);
+  for (const invalid of ['', 'auto', '222garbage', '222px trailing', '222%', 'NaNpx', 'Infinitypx', 'calc(222px)', '222.px', '+222.px', '-222.px', '0222.px', '+0222.px', '-0222.px', '.px', '+.px', '222..0px']) {
+    css = invalid; const result = sample(); assert.equal(result.clearanceValid, 0); assert.equal(result.clearancePx, 0);
+    assert.ok(Object.values(result).every(Number.isFinite));
+  }
+  css = ' 193.25px '; assert.equal(sample().clearancePx, 193.25);
+  missing = true; assert.equal(sample().rootPresent, 0); assert.equal(sample().headerPresent, 0); assert.equal(sample().clearanceValid, 0);
+  missing = false; box.bottom = NaN; assert.equal(sample().headerPresent, 0); assert.equal(sample().headerBottom, 0);
+});
+
+test('frame separation uses requestAnimationFrame and settlement cannot poll geometry acceptance or mutate product styles', async () => {
+  let callback, completed = false;
+  const frame = helper('nextAtlasHeaderFrame', { requestAnimationFrame: next => { callback = next; } });
+  const pending = frame().then(() => { completed = true; }); await Promise.resolve(); assert.equal(completed, false);
+  callback(); await pending; assert.equal(completed, true);
+  const begin = source.indexOf('// BEGIN REVIEWED ATLAS HEADER SETTLEMENT'), end = source.indexOf('// END REVIEWED ATLAS HEADER SETTLEMENT');
+  const block = source.slice(begin, end);
+  assert.doesNotMatch(block, /elementFromPoint|style\.setProperty|scrollIntoView|assertAtlas|surface\.hit|surface\.top/);
+  const navigation = source.slice(source.indexOf('async function atlasActivityNavigation'), source.indexOf('async function exerciseAtlasHeaderClearance'));
+  assert.equal(navigation.split('await settleAtlasHeaderClearance(page, result, mode, phase);').length - 1, 1);
+  assert.ok(navigation.indexOf('await settleAtlasHeaderClearance') < navigation.indexOf('const frame = await page.evaluate'));
+  assert.equal(navigation.split('The atlas header must not overlap').length - 1, 1);
+  assert.match(source, /scenario exceeded 150 seconds.*150000/);
+});
+
+
+test('a result reaching the deadline during final timer cleanup is rejected, while the 64th timely stable sample is allowed', async () => {
+  const late = clearanceHarness([clearanceSample()], { cleanupTime: 1000 });
+  await assert.rejects(late.run(), /exceeded 1000 ms/);
+  assert.equal(late.measurement().settled, 0); assert.equal(late.measurement().elapsedMs, 1000); assert.equal(late.timerCleared(), true);
+  const samples = Array.from({ length: 64 }, (_, index) => clearanceSample({ clearancePx: index < 62 ? 193 : 222 }));
+  const bounded = clearanceHarness(samples, { frameMs: 1 }); await bounded.run();
+  assert.deepEqual(bounded.counts(), { reads: 64, frames: 63 }); assert.equal(bounded.measurement().settled, 1); assert.equal(bounded.measurement().elapsedMs, 63);
+});
+
+test('only the exact synthetic wrapped phase invokes settlement and every other current phase preserves the original two evaluations', async () => {
+  const expressions = [...new Set([...source.matchAll(/await atlasActivityNavigation\(page, result, '(?:reading|status)'(?:, ([^\n]+?))?\);/g)].map(match => match[1] ?? '<default>'))].sort();
+  assert.deepEqual(expressions, ["'200-percent-effective-viewport'", "'viewport-restored'", "'wrapped-navigation-text'", '<default>', '`${phase}-legend-expanded`', '`${phase}-status-scrolled`'].sort());
+  const statusPhases = [...source.matchAll(/await exerciseAtlasStatusAction\(page, result, '([^']+)'\);/g)].map(match => match[1]);
+  assert.deepEqual(statusPhases, ['wrapped-header', '200-percent-effective-viewport']);
+  const otherPhases = ['initial', '200-percent-effective-viewport', 'viewport-restored', ...statusPhases.flatMap(phase => [`${phase}-status-scrolled`, `${phase}-legend-expanded`]), undefined, '', 'wrapped-navigation-text-extra', 'wrapped-navigation-text '];
+  const rect = (left, top, right, bottom) => ({ left, top, right, bottom, width: right - left, height: bottom - top, visible: true, hit: true });
+  const frame = { viewport: { width: 1440, height: 1000 }, header: rect(25, 23, 455, 210), link: rect(105, 145, 197, 169), linkHit: true,
+    reading: rect(340, 222, 1310, 870), status: rect(40, 528, 360, 687), intro: null, overlays: [], dock: rect(375, 903, 1065, 961), camera: null, legend: null, buildingToggle: null };
+  for (const mode of ['reading', 'status']) for (const phase of [...otherPhases, 'wrapped-navigation-text']) {
+    const events = [], result = {};
+    const check = helper('atlasActivityNavigation', { assert, settleAtlasHeaderClearance: async (page, actualResult, actualMode, actualPhase) => {
+      assert.equal(actualResult, result); assert.equal(actualMode, mode); assert.equal(actualPhase, 'wrapped-navigation-text'); events.push('settlement');
+    } });
+    await check({ evaluate: async callback => {
+      if (callback.toString().includes('document.fonts.ready')) { events.push('fonts-and-two-frames'); return; }
+      events.push('final-assertion-frame'); return frame;
+    } }, result, mode, phase);
+    assert.deepEqual(events, phase === 'wrapped-navigation-text' ? ['fonts-and-two-frames', 'settlement', 'final-assertion-frame'] : ['fonts-and-two-frames', 'final-assertion-frame']);
+    assert.equal(result.atlasNavigationLayouts.length, 1);
+    assert.equal(result.atlasNavigationLayouts[0].phase, phase === undefined ? 'initial' : phase);
+  }
+});
+
+test('malformed decimal dimensions fail both the real sampler and complete readiness helper even when their numeric prefix would exactly match', async () => {
+  const cases = [['222.px', 222], ['+222.px', 222], ['-222.px', -222], ['0222.px', 222], ['+0222.px', 222], ['-0222.px', -222], ['000.px', 0], ['+000.px', 0], ['-000.px', 0], ['.px', 222], ['+.px', 222], ['222..0px', 222], ['222. px', 222], ['222pxpx', 222]];
+  for (const [css, expected] of cases) {
+    const sample = helper('readAtlasHeaderClearance', {
+      document: { querySelector: selector => ({ getBoundingClientRect: () => selector === '.evidence-app'
+        ? { top: 0, bottom: 1000, left: 0, right: 1440 }
+        : { top: expected - 112, bottom: expected - 12, left: 25, right: 455 } }) },
+      getComputedStyle: () => ({ getPropertyValue: () => css }),
+    });
+    assert.equal(Math.ceil(sample().headerBottom - sample().rootTop) + 12, expected, css);
+    assert.equal(sample().clearanceValid, 0, css);
+    const h = clearanceHarness(() => sample(), { frameMs: 20 });
+    await assert.rejects(h.run(), /exceeded 1000 ms/, css);
+    assert.equal(h.measurement().settled, 0, css); assert.equal(h.measurement().samples.length, 50, css);
+    assert.ok(h.measurement().samples.every(row => row.clearanceValid === 0), css);
+  }
+});
