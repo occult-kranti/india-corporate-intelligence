@@ -22,6 +22,16 @@ export const FILTERS = Object.freeze({
   finance: { status: 'announced', ids: ['GF-US-GAVI-2025', 'GF-E17', 'GF-E18'], count: 54, resetSha256: '7a1469c532ae30962b76c0adc7294f1dfa02a6a683df699da54bce2f8a9b923f' },
   media: { status: 'proposed', ids: ['M-E42'], count: 115, resetSha256: '9c88251ea952f5c6b796621f04980063e0b3bd6201a45b99e941c4c6bbae0a0b' },
 });
+// Appended material coverage. The first 21 scenarios and 36 capture identities remain intact.
+export const ROOT_PLAN = Object.freeze([
+  ...Object.keys(VIEWPORTS).map(width => ({ name: `root-chrome-${width}`,
+    shots: ['shell-navigation-search', 'navigation-dialog-focus', ...(width === 'desktop' ? ['linked-map-and-paper-dock'] : ['linked-map', 'paper-dock'])],
+    observations: ['shell', 'navigation', 'mastheadSearch', 'workspaceSearch', 'sectorNavigation', 'navDialog', 'linkedMap', 'paperDock', 'reducedMotion', 'overflow'] })),
+  ...Object.keys(VIEWPORTS).map(width => ({ name: `root-reading-${width}`, shots: ['expanded-dossier', 'expanded-paper-reader'],
+    observations: ['dossier', 'paperReader', 'reducedMotion', 'overflow'] })),
+  ...Object.keys(VIEWPORTS).map(width => ({ name: `root-independent-${width}`, shots: ['investigations', 'leads', 'game-theory', 'research-program'],
+    observations: ['investigations', 'leads', 'game-theory', 'research-program', 'reducedMotion', 'overflow'] })),
+]);
 const mainShots = ['shell', 'flat-map', 'source-panel', 'globe-reload'];
 export const PLAN = Object.freeze([
   ...PAGES.flatMap(page => Object.keys(VIEWPORTS).map(width => ({ name: `${page.id}-${width}`, shots: mainShots }))),
@@ -30,6 +40,7 @@ export const PLAN = Object.freeze([
   ...PAGES.map(page => ({ name: `${page.id}-offline`, shots: ['flat-map'] })),
   ...PAGES.map(page => ({ name: `${page.id}-load-error`, shots: ['expected-error'] })),
   ...Object.keys(VIEWPORTS).map(width => ({ name: `root-${width}`, shots: ['shell', 'graph-surfaces', 'graph-hover-focus'] })),
+  ...ROOT_PLAN,
 ]);
 export const LIMITS = Object.freeze({ scenarioMs: 90000, suiteMs: 540000, screenshotBytes: 5 * 1024 * 1024, artifactBytes: 48 * 1024 * 1024 });
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
@@ -60,7 +71,24 @@ export const REQUIRED_SOURCE_PATHS = Object.freeze([
   "src/components/investigation/AtlasNetwork.tsx",
   "src/components/investigation/atlas-network.css",
   "src/components/investigation/workspace.css",
-  "src/components/investigation/atlas-workspace.css"
+  "src/components/investigation/atlas-workspace.css",
+  "src/App.tsx",
+  "src/components/investigation/AtlasControls.tsx",
+  "src/components/investigation/LinkedEvidenceMap.tsx",
+  "src/components/investigation/InvestigationMap.tsx",
+  "src/components/investigation/AtlasCaseFeed.tsx",
+  "src/components/investigation/AtlasEvidencePopover.tsx",
+  "src/components/investigation/map.css",
+  "src/components/investigation/linked-evidence-map.css",
+  "src/pages/InvestigationDossier.tsx",
+  "src/pages/investigation-dossier.css",
+  "src/pages/Investigations.tsx",
+  "src/pages/Leads.tsx",
+  "src/pages/GameTheory.tsx",
+  "src/pages/ResearchProgram.tsx",
+  "src/investigations.css",
+  "src/game-theory.css",
+  "src/research-program.css"
 ]);
 export const REQUIRED_GLOBAL_OUTPUTS = Object.freeze([
   "global-workbench/fieldwork-offline.html",
@@ -84,11 +112,14 @@ export const REQUIRED_GLOBAL_OUTPUTS = Object.freeze([
   "global-workbench/src/style.css"
 ]);
 export function validateSourceContract(contract) {
-  assert.equal(contract.schema, 'olympus-felt-native-source-contract-v1');
-  assert.equal(contract.baseCommit, 'dcf0ba6ea10f6e49734fb14be8b6aef5103b020d');
-  assert.equal(contract.baseTree, '8cbd1bff3a8475b8d01dd9169dc7923edcff2945');
-  assert.equal(contract.compositionTree, 'ba7af2ba409972cd18c9771cdab8623737b86c05');
-  assert.equal(contract.compositionManifestSha256, '6871565d4ea4cb6cf99fb438e17e43229ce90bd79627bd85fcae9a72d429b1b1');
+  assert.equal(contract.schema, "olympus-felt-native-source-contract-v2-root-shell");
+  assert.equal(contract.baseCommit, "8b640853fa374d5f036a0c616312bf6bc97e03e6");
+  assert.equal(contract.baseTree, "33504ec391ab3448be326ce27480c2a287dfb896");
+  assert.equal(contract.productCompositionTree, "6189f2954d7172b6f2059eb2fde4a6437179db5d");
+  assert.equal(contract.priorCompositionTree, "ba7af2ba409972cd18c9771cdab8623737b86c05");
+  assert.equal(contract.priorCompositionManifestSha256, "6871565d4ea4cb6cf99fb438e17e43229ce90bd79627bd85fcae9a72d429b1b1");
+  assert.equal(contract.rootShellSealSha256, "17f14e3feabe48b658da654bf7829eeb5cfed57cd45cc02076df82c51b9daeea");
+  assert.equal(contract.rootShellReviewSha256, "d67e910708d0c7223aefe65042b8d53f6d62024373649f5e6be7530474aba927");
   assert.deepEqual(contract.files.map(pin => pin.path).sort(), [...REQUIRED_SOURCE_PATHS].sort(), 'Missing, duplicate or extra source binding');
   assert.deepEqual(contract.globalBuildFiles.map(pin => pin.path).sort(), [...REQUIRED_GLOBAL_OUTPUTS].sort(), 'Missing, duplicate or extra global build binding');
   for (const pin of contract.globalBuildFiles) { safeRelative(pin.path); assert.match(pin.sha256, /^[a-f0-9]{64}$/); }
@@ -138,6 +169,42 @@ export function validatePlan(results) {
   for (const [index, result] of results.entries()) {
     assert.equal(result.status, 'passed', result.name);
     assert.deepEqual(result.screenshots.map(item => item.name), PLAN[index].shots, `Closed screenshot inventory: ${result.name}`);
+    if (PLAN[index].observations) {
+      validateRootObservations(result);
+      assert.ok(result.screenshots.every(item => typeof item.caption === 'string' && item.caption.length > 20), 'New root captures require surface/state captions');
+    }
+  }
+}
+
+export function validateRootObservations(result) {
+  const spec = ROOT_PLAN.find(item => item.name === result.name);
+  assert.ok(spec, 'Exact appended root case identity required');
+  assert.deepEqual(Object.keys(result.rootObservations ?? {}).sort(), [...spec.observations].sort(), 'Closed root surface coverage');
+  for (const [key, value] of Object.entries(result.rootObservations)) assert.ok(value && typeof value === 'object' && Object.keys(value).length, `Missing root observation: ${key}`);
+}
+export function requireRootMaterial(actual, expected) {
+  assert.equal(actual.background, expected, 'Actual emitted root material winner');
+  assert.equal(actual.backgroundImage, 'none', 'Sampled root surface must be opaque, untextured CSS');
+}
+export function requireSameDocumentRootNavigation(before, after, origin, base, expectedHash, verified) {
+  const previous = new URL(before), current = new URL(after);
+  assert.equal(previous.origin, origin); assert.equal(current.origin, origin);
+  assert.equal(previous.pathname, base); assert.equal(current.pathname, base);
+  assert.equal(previous.search, current.search); assert.equal(current.search, '');
+  assert.notEqual(previous.hash, current.hash); assert.equal(current.hash, expectedHash);
+  assert.equal(verified, true, 'Same-document root navigation requires prior exact HTML response binding');
+}
+export function requireRootOverflow(frame) {
+  assert.ok(frame.document <= frame.width + 1, 'No document-level horizontal overflow');
+  assert.ok(frame.main <= frame.mainClient + 1, 'No main-shell horizontal overflow');
+}
+export function requireReducedMotion(value) {
+  assert.equal(value.matches, true, 'Native reduced-motion media query');
+  assert.ok(value.samples.length > 0);
+  for (const item of value.samples) {
+    assert.equal(item.animationName, 'none');
+    assert.ok(item.transitionDuration.split(',').every(value => parseFloat(value) === 0));
+    assert.equal(item.scrollBehavior, 'auto');
   }
 }
 
@@ -306,7 +373,7 @@ async function executeFeltReview({ browser, root, dist, output, origin, base, de
   // Exclusive directory creation prevents stale evidence from an earlier run.
   alive(); await mkdir(folder);
   alive();
-  const report = { schema: 'olympus-felt-native-review-v1', status: 'running', startedAt: new Date(started).toISOString(),
+  const report = { schema: 'olympus-felt-native-review-v2-root-shell', status: 'running', startedAt: new Date(started).toISOString(),
     commit: process.env.GITHUB_SHA, headCommit: process.env.SPATIAL_HEAD_SHA, runId: process.env.GITHUB_RUN_ID ?? null,
     runAttempt: process.env.GITHUB_RUN_ATTEMPT ?? null, basePath: base, browserVersion: browser.version(), nodeVersion: process.version,
     scope: 'Actual GitHub CI Chromium screenshots only after execution. Viewport, native keyboard and sampled opaque CSS observations; not full accessibility, screen-reader, physical-device or browser-UI zoom qualification.',
@@ -351,7 +418,7 @@ async function executeFeltReview({ browser, root, dist, output, origin, base, de
     while (result.pending.size) { alive(); await Promise.all([...result.pending]); }
     assert.deepEqual(result.bindingErrors, [], 'Browser response bytes must equal reviewed built bytes');
   };
-  const shot = async (page, result, name) => {
+  const shot = async (page, result, name, caption) => {
     const spec = PLAN.find(item => item.name === result.name);
     assert.ok(spec.shots.includes(name) && !result.screenshots.some(item => item.name === name), `Unplanned or duplicate screenshot: ${name}`);
     await drain(result);
@@ -361,7 +428,7 @@ async function executeFeltReview({ browser, root, dist, output, origin, base, de
     assert.ok(bytes.length > 100 && bytes.length <= LIMITS.screenshotBytes, 'Screenshot byte budget');
     assert.deepEqual([...bytes.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10], 'Actual PNG required');
     const pin = await write(file, bytes, result.signal);
-    result.screenshots.push({ name, ...pin });
+    result.screenshots.push({ name, ...pin, ...(caption ? { caption } : {}) });
   };
   const colors = async (page, result, selectors, label) => {
     const observations = [];
@@ -406,6 +473,13 @@ async function executeFeltReview({ browser, root, dist, output, origin, base, de
     assert.equal(response.status(), 200);
     await drain(result);
   };
+  const goRootRoute = async (page, result, route) => {
+    await drain(result); const before = page.url(), expectedHash = `#/${route}`;
+    const response = await page.goto(`${origin}${base}${expectedHash}`, { waitUntil: 'networkidle' });
+    if (response) assert.equal(response.status(), 200);
+    else requireSameDocumentRootNavigation(before, page.url(), origin, base, expectedHash, result.verifiedPaths.has(base));
+    assert.equal(new URL(page.url()).hash, expectedHash); await drain(result);
+  };
   const reload = async (page, result, spec) => {
     await drain(result); await page.reload({ waitUntil: 'networkidle' }); await drain(result); await ready(page, spec);
   };
@@ -423,6 +497,44 @@ async function executeFeltReview({ browser, root, dist, output, origin, base, de
     const state = await locator.evaluate(node => { const style = getComputedStyle(node); return { visible: node.matches(':focus-visible'), outline: style.outlineStyle, width: parseFloat(style.outlineWidth) }; });
     assert.ok(state.visible && state.outline !== 'none' && state.width >= 2, 'Native keyboard focus must have a visible outline');
   };
+  // Read only live computed styles and native input state; never restyle product DOM.
+  const observe = (result, key, value) => {
+    const spec = ROOT_PLAN.find(item => item.name === result.name);
+    assert.ok(spec?.observations.includes(key), `Unplanned root observation: ${key}`);
+    result.rootObservations ??= {}; assert.ok(!(key in result.rootObservations), `Duplicate root observation: ${key}`);
+    result.rootObservations[key] = value;
+  };
+  const rootMaterial = async (locator, expected) => {
+    await locator.waitFor({ state: 'visible' });
+    const actual = await locator.evaluate(node => { const css = getComputedStyle(node); return { background: css.backgroundColor, backgroundImage: css.backgroundImage, foreground: css.color }; });
+    requireRootMaterial(actual, expected); return actual;
+  };
+  const nativeFocus = async (page, locator) => {
+    await locator.scrollIntoViewIfNeeded(); await locator.focus();
+    await page.keyboard.press('Tab'); await page.keyboard.press('Shift+Tab'); await focusVisible(page, locator);
+  };
+  const rootFocus = async locator => {
+    const sample = await locator.evaluate(node => { const css = getComputedStyle(node); let background; for (let parent = node; parent; parent = parent.parentElement) { const color = getComputedStyle(parent).backgroundColor; if (color !== 'rgba(0, 0, 0, 0)' && color !== 'transparent') { background = color; break; } } return { color: css.outlineColor, width: css.outlineWidth, style: css.outlineStyle, background, focused: node === document.activeElement, focusVisible: node.matches(':focus-visible') }; });
+    assert.ok(sample.focused && sample.focusVisible && sample.style !== 'none' && parseFloat(sample.width) >= 2);
+    sample.ratio = contrast(sample.color, sample.background); assert.ok(sample.ratio >= 3, 'Sampled root focus contrast against its computed material'); return sample;
+  };
+  const rootOverflow = async page => {
+    const frame = await page.evaluate(() => { const main = document.querySelector('#main-content'); return { width: innerWidth, document: document.documentElement.scrollWidth, main: main.scrollWidth, mainClient: main.clientWidth }; });
+    requireRootOverflow(frame); return frame;
+  };
+  const rootMotion = async (page, selectors) => {
+    const value = await page.evaluate(selectors => ({ matches: matchMedia('(prefers-reduced-motion: reduce)').matches, samples: selectors.map(selector => { const node = document.querySelector(selector); if (!node) throw new Error(`Missing motion sample: ${selector}`); const css = getComputedStyle(node); return { selector, animationName: css.animationName, transitionDuration: css.transitionDuration, scrollBehavior: css.scrollBehavior }; }) }), selectors);
+    requireReducedMotion(value); return value;
+  };
+  const finishRoot = async (page, result) => {
+    await drain(result); requireVerifiedPath(result, base);
+    assert.ok([...result.verifiedPaths].some(path => /\/assets\/.+\.css$/.test(path)), 'Root computed CSS must have browser/build byte binding');
+    assert.ok([...result.verifiedPaths].some(path => /\/assets\/.+\.js$/.test(path)), 'Root markup must have browser/build byte binding');
+    observe(result, 'reducedMotion', await rootMotion(page, ['.site-masthead .masthead-search', '#main-content']));
+    observe(result, 'overflow', await rootOverflow(page)); validateRootObservations(result);
+    result.rootScope = 'Partial root source/material coverage. Native CI pixels exist only after execution; no all-root route/interior, full accessibility, physical-device or ordinary-motion qualification.';
+  };
+
   const selectRecord = async (page, result, spec) => {
     const record = page.locator('#records .record').nth(1);
     assert.ok(await page.locator('#records .record').count() > 1);
@@ -676,9 +788,9 @@ async function executeFeltReview({ browser, root, dist, output, origin, base, de
       const tokens = await page.evaluate(() => Object.fromEntries(['--color-bg', '--color-bg-elevated', '--color-bg-card', '--color-bg-card-hover'].map(key => [key, getComputedStyle(document.documentElement).getPropertyValue(key).trim()])));
       assert.deepEqual(tokens, { '--color-bg': '#0a241c', '--color-bg-elevated': '#0f3023', '--color-bg-card': '#163e2c', '--color-bg-card-hover': '#1a4631' }); result.rootTokens = tokens;
       await background(page, 'html', 'rgb(10, 36, 28)');
-      result.preservedRootShell = await page.locator('.site-shell').evaluate(node => getComputedStyle(node).backgroundColor);
-      assert.equal(result.preservedRootShell, 'rgb(7, 28, 36)', 'The existing atlas-shell override is not part of the four-token change');
-      await page.locator(graph).scrollIntoViewIfNeeded(); await shot(page, result, 'shell');
+      result.rootShellMaterial = await page.locator('.site-shell').evaluate(node => getComputedStyle(node).backgroundColor);
+      assert.equal(result.rootShellMaterial, 'rgb(10, 36, 28)', 'Accepted post-PR19 root-shell material must win');
+      await page.locator(graph).scrollIntoViewIfNeeded(); await shot(page, result, 'shell', 'Energy linked AtlasNetwork graph context after scrolling; this retained filename does not depict the full masthead or navigation shell.');
       await background(page, graph, 'rgb(15, 48, 35)');
       await colors(page, result, [`${graph} .iw-graph-heading h2`, `${graph} .iw-graph-count`], 'linked-graph-elevated');
       await page.mouse.move(0, 0); await background(page, `${graph} .iw-graph-tools`, 'rgb(22, 62, 44)');
@@ -700,7 +812,160 @@ async function executeFeltReview({ browser, root, dist, output, origin, base, de
       requireVerifiedPath(result, base);
       assert.ok([...result.verifiedPaths].some(path => /\/assets\/.+\.css$/.test(path)), 'Root computed CSS must have browser/build byte binding');
       const frame = await page.evaluate(() => ({ width: innerWidth, document: document.documentElement.scrollWidth })); assert.ok(frame.document <= frame.width + 1);
-      result.rootScope = 'Partial root-surface coverage: default Energy linked AtlasNetwork graph consumes elevated/card/hover tokens; HTML base token verified. Existing ocean shell and transparent Connections graph remain unchanged. No all-root-surface, whole-module-graph or full accessibility qualification.';
+      result.rootScope = 'Partial root-surface coverage: default Energy linked AtlasNetwork graph consumes elevated/card/hover tokens; HTML base token verified. Accepted three-CSS root shell is green; the specific Connections graph remains transparent. Appended cases sample selected chrome, reading surfaces and four independent wrappers only. No all-root-surface, whole-module-graph or full accessibility qualification.';
+    }, { root: true });
+
+    // Additional root-shell material evidence; every earlier scenario is retained above.
+    for (const [width, viewport] of Object.entries(VIEWPORTS)) await run(`root-chrome-${width}`, viewport, async (page, result) => {
+      await go(page, result, '#/');
+      await page.locator('[data-investigation-workspace][data-workspace-route="/"].iw-surface-map.atlas-home').waitFor();
+      const shell = {};
+      for (const selector of ['.site-shell.investigation-shell', '.site-masthead', '.iw-command-header', '.iw-global-search > div']) shell[selector] = await rootMaterial(page.locator(selector), 'rgb(10, 36, 28)');
+      shell['.iw-control-bar'] = await rootMaterial(page.locator('.iw-control-bar'), 'rgb(15, 48, 35)');
+      observe(result, 'shell', shell);
+      const desktop = width === 'desktop';
+      assert.equal(await page.locator('.iw-navigation-rail').isVisible(), desktop);
+      assert.equal(await page.locator('.atlas-mobile-sectors').isVisible(), !desktop);
+      assert.equal(await page.locator('.atlas-home > .atlas-sector-strip').isVisible(), desktop);
+      const navigation = desktop ? '.iw-navigation-rail' : '.atlas-mobile-sectors';
+      observe(result, 'navigation', { selector: navigation, desktopRailVisible: desktop, mobileNavigationVisible: !desktop, material: await rootMaterial(page.locator(navigation), 'rgb(15, 48, 35)') });
+      const search = page.locator('.site-masthead .masthead-search');
+      await page.mouse.move(0, 0);
+      const searchRest = await rootMaterial(search, 'rgb(22, 62, 44)');
+      await search.hover();
+      const searchHover = await rootMaterial(search, 'rgb(26, 70, 49)');
+      await nativeFocus(page, search); const searchFocus = await rootFocus(search);
+      observe(result, 'mastheadSearch', { rest: searchRest, hover: searchHover, focus: searchFocus,
+        accessibleMetadata: { ariaLabel: await search.getAttribute('aria-label'), ariaLabelledby: await search.getAttribute('aria-labelledby'), textContent: await search.textContent(), textSpanVisible: await search.locator('span').isVisible(), svgAriaHidden: await search.locator('svg').getAttribute('aria-hidden') },
+        accessibleNameLimitation: desktop ? null : 'Pre-existing 390px search link hides its text span and lacks an explicit aria-label. Current DOM metadata is retained; this sample does not determine the browser accessibility-tree name or establish an accessible-name pass.' });
+      await page.mouse.move(0, 0);
+      const query = page.locator('#iw-global-query');
+      await query.fill('atlas'); await nativeFocus(page, query);
+      await colors(page, result, ['#iw-global-query'], 'workspace-search-text');
+      observe(result, 'workspaceSearch', { value: await query.inputValue(), focus: await rootFocus(query), container: await rootMaterial(page.locator('.iw-global-search > div'), 'rgb(10, 36, 28)'), submitted: false });
+      const sectorSelector = desktop ? '.atlas-sector-strip nav' : '.atlas-mobile-sectors';
+      const sector = page.locator(sectorSelector).getByRole('link', { name: 'Energy', exact: true });
+      await sector.hover();
+      const sectorMaterial = await rootMaterial(sector, desktop ? 'rgb(18, 55, 37)' : 'rgb(26, 70, 49)');
+      const sectorSample = await sector.evaluate(readColor);
+      const sectorRatio = contrast(sectorSample.foreground, sectorSample.background); assert.ok(sectorRatio >= 4.5);
+      if (desktop) assert.equal(await sector.locator(':scope > span').count(), 0, 'Actual home sector link has label and SVG, no numeric count consumer');
+      observe(result, 'sectorNavigation', { selector: sectorSelector, text: await sector.innerText(), href: await sector.getAttribute('href'), hover: sectorMaterial, contrast: { ...sectorSample, ratio: sectorRatio },
+        countScope: 'No sector count is rendered by AtlasSectorStrip. The paper dock record count is observed separately.' });
+      await shot(page, result, 'shell-navigation-search', `${width}: actual home masthead and ${desktop ? 'rail/sector strip' : 'mobile sector navigation'} with Energy hovered; workspace search has native focus and unsent text. No sector count exists.`);
+      await query.fill('');
+      const openerSelector = desktop ? '.iw-rail-more[aria-label="Open all lenses and registers"]' : '.site-masthead button[aria-label="Open navigation"]';
+      const opener = page.locator(openerSelector);
+      await nativeFocus(page, opener); await page.keyboard.press('Enter');
+      const dialog = page.locator('#site-nav-mobile'); await dialog.waitFor();
+      assert.equal(await dialog.evaluate(node => node.open), true); assert.equal(await opener.getAttribute('aria-expanded'), 'true');
+      await page.waitForFunction(() => document.activeElement === document.querySelector('#site-nav-mobile button[aria-label="Close navigation"]'));
+      await focusVisible(page, dialog.locator('button[aria-label="Close navigation"]'));
+      await page.keyboard.press('Tab'); const navSearch = dialog.locator('.nav-search'); await focusVisible(page, navSearch);
+      await navSearch.fill('energy');
+      assert.equal(await dialog.locator('.nav-group').getByRole('link', { name: 'Energy power map', exact: true }).count(), 1);
+      const backdrop = await dialog.evaluate(node => getComputedStyle(node, '::backdrop').backgroundColor);
+      const channels = backdrop.match(/[\d.]+/g)?.map(Number); assert.equal(channels?.length, 4); assert.deepEqual(channels.slice(0, 3), [0, 23, 15]); assert.ok(Math.abs(channels[3] - 184 / 255) < 0.005);
+      await colors(page, result, ['#mobile-nav-title', '#site-nav-mobile .mobile-nav-heading p', '#site-nav-mobile .nav-search'], 'navigation-dialog');
+      const navEvidence = { material: await rootMaterial(dialog, 'rgb(15, 48, 35)'), search: await rootMaterial(navSearch, 'rgb(10, 36, 28)'), focus: await rootFocus(navSearch), backdrop,
+        reducedMotion: await rootMotion(page, ['#site-nav-mobile', '#site-nav-mobile .nav-search']) };
+      await shot(page, result, 'navigation-dialog-focus', `${width}: native navigation dialog opened through its visible control, filtered to Energy, with keyboard focus on the actual search input.`);
+      await page.keyboard.press('Escape');
+      await page.waitForFunction(selector => !document.querySelector('#site-nav-mobile').open && document.activeElement === document.querySelector(selector), openerSelector);
+      assert.equal(await dialog.evaluate(node => node.open), false);
+      assert.equal(await opener.getAttribute('aria-expanded'), 'false'); assert.equal(await opener.evaluate(node => node === document.activeElement), true);
+      observe(result, 'navDialog', { ...navEvidence, escapeClosed: true, focusReturnedToOpener: true });
+      const mapRoot = '.iw-surface-map .iw-linked-canvases';
+      const map = page.locator(`${mapRoot} .iw-map[data-map-dimension="2d"]`); await map.waitFor();
+      const paths = await map.locator('.iw-map-state[data-state-code]').evaluateAll(nodes => nodes.map(node => ({ code: node.getAttribute('data-state-code'), path: node.getAttribute('d') })));
+      assert.equal(paths.length, 36); assert.equal(new Set(paths.map(item => item.code)).size, 36); assert.ok(paths.every(item => item.path?.length > 20));
+      const materials = {};
+      for (const [selector, expected] of [['.iw-canvas-area', 'rgb(10, 36, 28)'], [mapRoot, 'rgb(10, 36, 28)'], [`${mapRoot} .iw-map-panel`, 'rgb(15, 48, 35)'], [`${mapRoot} .iw-map-readout`, 'rgb(10, 36, 28)']]) materials[selector] = await rootMaterial(page.locator(selector), expected);
+      await colors(page, result, [`${mapRoot} .iw-map-heading h2`, `${mapRoot} .iw-map-readout strong`, `${mapRoot} .iw-map-readout span`], 'linked-map-materials');
+      observe(result, 'linkedMap', { dimension: await map.getAttribute('data-map-dimension'), stateCount: paths.length, geometrySha256: hash(JSON.stringify(paths)), materials });
+      const dock = '.atlas-evidence-dock';
+      const dockMaterial = await rootMaterial(page.locator(dock), 'rgb(232, 228, 216)');
+      const feedMaterial = await rootMaterial(page.locator(`${dock} > .atlas-case-feed`), 'rgb(232, 228, 216)');
+      assert.equal(dockMaterial.foreground, 'rgb(24, 44, 50)'); assert.equal(feedMaterial.foreground, 'rgb(24, 44, 50)');
+      const count = await page.locator(`${dock} .atlas-record-count`).innerText(); assert.match(count, /^[\d,]+ records$/); assert.ok(Number(count.replace(/[^\d]/g, '')) > 0);
+      assert.ok(await page.locator(`${dock} .atlas-case-list > li[data-case-id]`).count() > 0);
+      await colors(page, result, [`${dock} h2`, `${dock} .atlas-record-count`, `${dock} .atlas-feed-method`, `${dock} .atlas-case-list > li:first-child p`], 'paper-dock-and-real-record-count');
+      observe(result, 'paperDock', { material: dockMaterial, feedMaterial, actualRecordCountText: count, firstRecordId: await page.locator(`${dock} .atlas-case-list > li[data-case-id]`).first().getAttribute('data-case-id'), countScope: 'Real AtlasCaseFeed record count, not a sector count or modal reader.' });
+      await page.locator(`${mapRoot} .iw-map-heading`).scrollIntoViewIfNeeded();
+      await shot(page, result, desktop ? 'linked-map-and-paper-dock' : 'linked-map', `${width}: actual default 2D linked map with 36 state paths${desktop ? ' beside the upper paper evidence dock' : ''}; map and dock material winners are separately recorded.`);
+      if (!desktop) { await page.locator(`${dock} > .atlas-case-feed > header`).scrollIntoViewIfNeeded(); await shot(page, result, 'paper-dock', '390px: actual stacked paper evidence dock and its real record count; this is not the floating paper reader.'); }
+      await finishRoot(page, result);
+    }, { root: true });
+
+    for (const [width, viewport] of Object.entries(VIEWPORTS)) await run(`root-reading-${width}`, viewport, async (page, result) => {
+      await go(page, result, '#/health'); await page.locator('[data-workspace-route="/health"].iw-surface-map').waitFor();
+      const dossierButton = page.locator('.iw-surfaces').getByRole('button', { name: 'Dossier', exact: true });
+      await nativeFocus(page, dossierButton); await page.keyboard.press('Enter');
+      await page.locator('[data-workspace-route="/health"].iw-surface-dossier').waitFor();
+      assert.equal(new URLSearchParams(new URL(page.url()).hash.split('?')[1]).get('iw_view'), 'dossier');
+      assert.equal(await page.locator('#investigation-dossier-heading').innerText(), 'Hospitals, insurance & public health');
+      const dossierMaterial = await rootMaterial(page.locator('.iw-dossier-content'), 'rgb(10, 36, 28)');
+      const noteMaterial = await rootMaterial(page.locator('.iw-dossier-note'), 'rgb(22, 62, 44)');
+      const first = '.investigation-dossier-records > article[data-domain-record]:first-child';
+      const details = page.locator(`${first} > details`), summary = details.locator(':scope > summary');
+      assert.equal(await details.evaluate(node => node.open), false); assert.equal(await summary.innerText(), 'Response, interpretation and sources');
+      await nativeFocus(page, summary);
+      for (const [key, open] of [['Enter', true], ['Space', false], ['Enter', true]]) { await page.keyboard.press(key); assert.equal(await details.evaluate(node => node.open), open); }
+      const paper = await rootMaterial(details, 'rgb(232, 228, 216)'); assert.equal(paper.foreground, 'rgb(24, 44, 50)');
+      const summaryMaterial = await rootMaterial(summary, 'rgb(216, 221, 208)'); assert.equal(summaryMaterial.foreground, 'rgb(32, 58, 63)');
+      assert.equal(await details.locator('h4').first().innerText(), 'Recorded response or procedural context');
+      assert.ok(await details.locator('.investigation-dossier-citations a[href]').count() > 0);
+      await colors(page, result, ['.iw-dossier-note span', '#investigation-dossier-heading', `${first} > details > summary`, `${first} > details > div > h4:first-child`, `${first} > details > div > p:first-of-type`], 'expanded-health-dossier');
+      await summary.scrollIntoViewIfNeeded();
+      observe(result, 'dossier', { route: '/health', recordId: await page.locator(first).getAttribute('data-domain-record'), material: dossierMaterial, noteMaterial, paper, summaryMaterial, nativeToggleStates: [true, false, true], externalSourcesRetained: true });
+      await shot(page, result, 'expanded-dossier', `${width}: Health complete dossier with its first actual Response, interpretation and sources disclosure opened by native keyboard; surrounding green shell and preserved paper evidence are distinct.`);
+      const mapButton = page.locator('.iw-surfaces').getByRole('button', { name: 'Map', exact: true }); await nativeFocus(page, mapButton); await page.keyboard.press('Enter');
+      const network = '[data-workspace-route="/health"].iw-surface-map .atlas-linked-network .atlas-network';
+      const node = page.locator(`${network} .iw-graph-node[data-entity-id]`).first(); await node.waitFor();
+      const identity = await node.getAttribute('data-entity-id'); assert.ok(identity); await node.scrollIntoViewIfNeeded(); await node.focus(); await page.keyboard.press('Enter');
+      const reader = page.locator(`${network} .atlas-evidence-popover[role="dialog"]`); await reader.waitFor(); assert.equal(await reader.getAttribute('data-selection-id'), identity);
+      await page.waitForFunction(selector => document.activeElement === document.querySelector(`${selector} .atlas-reader-heading h2`), network);
+      assert.equal(await reader.locator('.atlas-reader-heading h2').evaluate(node => node === document.activeElement), true);
+      const paperReader = await rootMaterial(reader, 'rgb(232, 228, 216)'); assert.equal(paperReader.foreground, 'rgb(24, 44, 50)');
+      const expand = reader.locator('.atlas-reader-toolbar button[aria-expanded]'); assert.equal(await expand.getAttribute('aria-expanded'), 'false');
+      await nativeFocus(page, expand); await page.keyboard.press('Enter');
+      await page.locator(`${network} .atlas-evidence-popover.is-expanded`).waitFor();
+      assert.equal(await expand.getAttribute('aria-expanded'), 'true'); assert.ok((await reader.getAttribute('class')).split(' ').includes('is-expanded'));
+      await colors(page, result, [`${network} .atlas-reader-heading h2`, `${network} .atlas-reader-summary`], 'expanded-paper-reader');
+      const readerMotion = await rootMotion(page, [`${network} .atlas-evidence-popover`]);
+      await reader.locator('.atlas-reader-heading h2').scrollIntoViewIfNeeded();
+      await shot(page, result, 'expanded-paper-reader', `${width}: real Health linked-network entity ${identity}, selected by Enter, in its expanded floating paper reader. This is separate from the dock and dossier disclosure.`);
+      const box = await reader.boundingBox(); assert.ok(box && box.x >= -1 && box.x + box.width <= viewport.width + 1 && box.y >= -1 && box.y + box.height <= viewport.height + 1, 'Expanded paper reader remains inside the CSS viewport');
+      await page.keyboard.press('Escape'); await reader.waitFor({ state: 'detached' }); assert.equal(await reader.count(), 0);
+      await page.waitForFunction(({ identity, network }) => document.activeElement?.getAttribute('data-entity-id') === identity || document.activeElement?.matches(`${network} .atlas-entity-search input`), { identity, network });
+      const returned = await page.evaluate(() => ({ graph: document.activeElement?.getAttribute('data-entity-id'), search: document.activeElement?.matches('.atlas-entity-search input') }));
+      assert.ok(returned.graph === identity || returned.search, 'Reader closes to retained graph opener or documented search fallback');
+      observe(result, 'paperReader', { entityId: identity, material: paperReader, expanded: true, viewportBox: box, reducedMotion: readerMotion, escapeClosed: true, returnedFocus: returned });
+      await finishRoot(page, result);
+    }, { root: true });
+
+    for (const [width, viewport] of Object.entries(VIEWPORTS)) await run(`root-independent-${width}`, viewport, async (page, result) => {
+      const routes = [
+        { id: 'investigations', selector: '.inv-page', heading: 'The investigation network.' },
+        { id: 'leads', selector: '.inv-page', heading: 'Unresolved leads.' },
+        { id: 'game-theory', selector: '.gt-page', heading: 'Test the incentives. Then test the story.' },
+        { id: 'research-program', selector: '.rp-desk[aria-label="Academic investigation research program"]', heading: 'Follow a claim. Test every connection.' },
+      ];
+      for (const route of routes) {
+        await goRootRoute(page, result, route.id); const content = page.locator(route.selector); await content.waitFor();
+        await page.waitForFunction(({ selector, heading }) => document.querySelector(`${selector} h1`)?.innerText.replace(/\s+/g, ' ').trim() === heading, route);
+        assert.equal(await page.locator('[data-investigation-workspace]').count(), 0);
+        const wrapper = page.locator('.iw-shell-content > .min-h-full'); assert.equal(await wrapper.count(), 1);
+        const material = await rootMaterial(wrapper, 'rgb(10, 36, 28)');
+        const heading = content.locator('h1').first(); assert.ok(await heading.isVisible());
+        const text = (await heading.innerText()).replace(/\s+/g, ' ').trim(); if (route.heading) assert.equal(text, route.heading); else assert.ok(text.length > 0);
+        const interior = route.id === 'research-program' ? await rootMaterial(content, 'rgb(16, 32, 32)') : null;
+        const overflow = await rootOverflow(page); await heading.scrollIntoViewIfNeeded();
+        observe(result, route.id, { route: `/${route.id}`, wrapper: material, heading: text, overflow, retainedInterior: interior,
+          scope: route.id === 'research-program' ? 'Only the independent wrapper changed. The unchanged #102020 research desk can cover its green wrapper, especially at 390px.' : 'Independent wrapper coverage only; route interiors and internal graphs are not exhaustively qualified.' });
+        await shot(page, result, route.id, `${width}: /${route.id} real independent-route wrapper and heading${interior ? '; unchanged #102020 research-desk interior can obscure its green wrapper' : ''}. Partial wrapper coverage, not an all-interior recolor claim.`);
+      }
+      await finishRoot(page, result);
     }, { root: true });
 
     validatePlan(report.scenarios);

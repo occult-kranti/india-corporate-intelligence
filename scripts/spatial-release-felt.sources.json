@@ -1,9 +1,7 @@
 {
-  "schema": "olympus-felt-native-source-contract-v1",
-  "baseCommit": "dcf0ba6ea10f6e49734fb14be8b6aef5103b020d",
-  "baseTree": "8cbd1bff3a8475b8d01dd9169dc7923edcff2945",
-  "compositionTree": "ba7af2ba409972cd18c9771cdab8623737b86c05",
-  "compositionManifestSha256": "6871565d4ea4cb6cf99fb438e17e43229ce90bd79627bd85fcae9a72d429b1b1",
+  "schema": "olympus-felt-native-source-contract-v2-root-shell",
+  "baseCommit": "8b640853fa374d5f036a0c616312bf6bc97e03e6",
+  "baseTree": "33504ec391ab3448be326ce27480c2a287dfb896",
   "files": [
     {
       "path": "docs/research/2026-10-17-satellite-university-bitcoin-update.md",
@@ -121,9 +119,9 @@
     },
     {
       "path": "src/components/investigation/shell.css",
-      "sha256": "7cee75429c5d0d30e261d81275e473f59dccafb5e542b77d59d219cb74177b9b",
-      "gitBlob": "e638b551c2a20d00c0ad47e4ed91ccdab844500f",
-      "bytes": 13250
+      "sha256": "ab5feaebaa79b5c92ec2a50d0db278f8e589f0c4364b66acb1f1b3e616d65434",
+      "gitBlob": "4b6b74760c1be484745336d42c4378bc03c88212",
+      "bytes": 13450
     },
     {
       "path": "src/components/investigation/AtlasNetwork.tsx",
@@ -140,14 +138,116 @@
     {
       "path": "src/components/investigation/workspace.css",
       "bytes": 30829,
-      "sha256": "ba4724e3390c2f89af899b1ac8ea670ceb2e7958fb55b78ca4ffdfe057a50235",
-      "gitBlob": "c6868811df862900fb1155a892d32d66bd74b0ff"
+      "sha256": "79a7c2ca6c7f70eda66c78c515586a185d53f4ef71be9cba69e646b9cc5e084e",
+      "gitBlob": "4193ae1bbe832a479a04135d8cd958ec2628782f"
     },
     {
       "path": "src/components/investigation/atlas-workspace.css",
-      "bytes": 17379,
-      "sha256": "0c2055beb06439a455bf3df6cdf0e96698f32e95506be9baa37e4feb5ce68fd1",
-      "gitBlob": "f5e2334bf7ee34fd3cb03404ed507a287373d09b"
+      "bytes": 17281,
+      "sha256": "15d6f8d2cc562b9261c9a0afae7e39b4e516621719a7e69e0863a08adb0f8e9a",
+      "gitBlob": "763e1640c3881bed886d56e123bdd65bd8e55d52"
+    },
+    {
+      "path": "src/App.tsx",
+      "sha256": "ea0cbd7596659b6dab8187d1008babe8448ff5f675e87fa6ff3f73dde188ad5c",
+      "gitBlob": "a7313dc0ba578f80b5a997d05a833e50f396727f",
+      "bytes": 9434
+    },
+    {
+      "path": "src/components/investigation/AtlasControls.tsx",
+      "sha256": "38070536539e7cf1e9fd415c7958f287c53b7ad448f4246bb3e7c7fd4a78d434",
+      "gitBlob": "97567048417eb5c51671d677b1d8ba167438c653",
+      "bytes": 5759
+    },
+    {
+      "path": "src/components/investigation/LinkedEvidenceMap.tsx",
+      "sha256": "a24dbaa683bed6d4c5c3378e10d549701395fa235dd1a19c633659a7a9eca263",
+      "gitBlob": "88ef25f711e679b1a55c5924dc0d8c30cb4627f8",
+      "bytes": 7197
+    },
+    {
+      "path": "src/components/investigation/InvestigationMap.tsx",
+      "sha256": "cfe716d9e1f4e6a438ae8387d7588850a141a46a1737ab478e725333930f01ec",
+      "gitBlob": "550f4b3061762e56883f48075f8d2addfd761d6e",
+      "bytes": 17046
+    },
+    {
+      "path": "src/components/investigation/AtlasCaseFeed.tsx",
+      "sha256": "2fdbd08084c322a7eaccc15e87adcd36535750100ce9e690fa9510668671fe1a",
+      "gitBlob": "29818cc3ac5f7afe39f5cb0b1ca98766deae80d3",
+      "bytes": 6842
+    },
+    {
+      "path": "src/components/investigation/AtlasEvidencePopover.tsx",
+      "sha256": "143f59a6bfa86b61114bb9cb695a97fae8f765bb9a2700b017db1bc4b68ef032",
+      "gitBlob": "72530afd72b63a1c5f19b4bccffc9b478f5f5e1e",
+      "bytes": 15189
+    },
+    {
+      "path": "src/components/investigation/map.css",
+      "sha256": "e44b22f6d6616d93c5ecf36dca3bb52e6246ce870e13724d3bec5bd5d524b083",
+      "gitBlob": "6a9c6d9ef150ef1d53127cb2fdb914cde3aecd14",
+      "bytes": 3676
+    },
+    {
+      "path": "src/components/investigation/linked-evidence-map.css",
+      "sha256": "dd9c82499104591989491eab8fd7f0bf4f554ca85c8ff4edc2ff87e2b11717a5",
+      "gitBlob": "f7a2fe430b95726bba10a5bba8a7fa2fac525671",
+      "bytes": 2583
+    },
+    {
+      "path": "src/pages/InvestigationDossier.tsx",
+      "sha256": "a9f154cbe71dc837f0f1f8def34d64893cc5cd714fc4be4473cb4a16a3a2cb37",
+      "gitBlob": "73f509f116fcf56e7c2a0360e8cda043461d2884",
+      "bytes": 10724
+    },
+    {
+      "path": "src/pages/investigation-dossier.css",
+      "sha256": "52b634124c4a7ab4961482b12066079bce745de4d3e520854f5150942bd54dc1",
+      "gitBlob": "fd1cdbf419f56215252841a09c4e78825b9d787f",
+      "bytes": 5716
+    },
+    {
+      "path": "src/pages/Investigations.tsx",
+      "sha256": "e9d792d01c8bc9b928d03b7d54b6f997a3d5e6e4c7e604e31b1f50898533d617",
+      "gitBlob": "aa3b10bf4d856ae2d48125178b2c8c992aa4f932",
+      "bytes": 5918
+    },
+    {
+      "path": "src/pages/Leads.tsx",
+      "sha256": "56042334d40432bd67d349ad8bf040f6cef2e9a4cb95ea6b6c89f23216900f75",
+      "gitBlob": "7c4a52187051946a4a953cdd8a16105b6b0a7587",
+      "bytes": 6861
+    },
+    {
+      "path": "src/pages/GameTheory.tsx",
+      "sha256": "7cd827b69e729796dcc1366cf9becc5615147a2b0bc324cf20805acdbb422e28",
+      "gitBlob": "c7999d5906d6ebc45153f5651494619488a63632",
+      "bytes": 27026
+    },
+    {
+      "path": "src/pages/ResearchProgram.tsx",
+      "sha256": "377f15ac52f0d05fc82df8f750096814c9fe1dd90ee7249bb45448806bf6e9f4",
+      "gitBlob": "4f6d9960f2b8c957d73fd02d4475e823fec8a973",
+      "bytes": 22128
+    },
+    {
+      "path": "src/investigations.css",
+      "sha256": "1ff6445f0e514e05ce2ef7146ebdb8fc69dcfdbe0b7f2305d10111fa96c68ee2",
+      "gitBlob": "fcda12aa42303020a9b7ca1382e274e7320e480f",
+      "bytes": 22783
+    },
+    {
+      "path": "src/game-theory.css",
+      "sha256": "6cf364b5b7b6dc8548ad02e6c0ec35a0fe4ee63cab1d478e2660a5af30e21455",
+      "gitBlob": "fa54d7457b62e57340d8d798db676c60574fab07",
+      "bytes": 10520
+    },
+    {
+      "path": "src/research-program.css",
+      "sha256": "ff55d1a49e3a80880086a941b2a4a582ee515c282fb5369241b40beed869b6c2",
+      "gitBlob": "060aa202c987b3011eda6d38dc01b973868e098f",
+      "bytes": 11780
     }
   ],
   "globalBuildProofSha256": "2fa5461cb300ddaa93cd142bd0b71905bfd367c05b212aa173d27d05a4a0ae0c",
@@ -228,5 +328,10 @@
       "path": "global-workbench/src/style.css",
       "sha256": "722d0aed343bb96e61c146dd209e2d13538b9caef6363d7f8d52bc5c5645bfad"
     }
-  ]
+  ],
+  "rootShellSealSha256": "17f14e3feabe48b658da654bf7829eeb5cfed57cd45cc02076df82c51b9daeea",
+  "rootShellReviewSha256": "d67e910708d0c7223aefe65042b8d53f6d62024373649f5e6be7530474aba927",
+  "priorCompositionTree": "ba7af2ba409972cd18c9771cdab8623737b86c05",
+  "priorCompositionManifestSha256": "6871565d4ea4cb6cf99fb438e17e43229ce90bd79627bd85fcae9a72d429b1b1",
+  "productCompositionTree": "6189f2954d7172b6f2059eb2fde4a6437179db5d"
 }

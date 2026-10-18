@@ -7,7 +7,7 @@ import { execFile } from 'node:child_process';
 import { readFile } from 'node:fs/promises';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
-import { STORAGE_KEY, PAGES, VIEWPORTS, PLAN, LIMITS, FILTERS, until, boundedLifecycle, verifyBoundResponse, requireVerifiedPath, requirePreference, requireOfflineRequests, requireAdvancedState, requireFilteredRecords, requireResetRecords, artifactInventory, artifactLedger, verifyClosedArtifacts, REQUIRED_SOURCE_PATHS, REQUIRED_GLOBAL_OUTPUTS, requireCI, rgb, contrast, safeRelative, validateSourceContract, validateResponseResults, validatePlan } from './spatial-release-felt.browser.mjs';
+import { STORAGE_KEY, PAGES, VIEWPORTS, PLAN, ROOT_PLAN, LIMITS, validateRootObservations, requireSameDocumentRootNavigation, requireRootMaterial, requireRootOverflow, requireReducedMotion, FILTERS, until, boundedLifecycle, verifyBoundResponse, requireVerifiedPath, requirePreference, requireOfflineRequests, requireAdvancedState, requireFilteredRecords, requireResetRecords, artifactInventory, artifactLedger, verifyClosedArtifacts, REQUIRED_SOURCE_PATHS, REQUIRED_GLOBAL_OUTPUTS, requireCI, rgb, contrast, safeRelative, validateSourceContract, validateResponseResults, validatePlan } from './spatial-release-felt.browser.mjs';
 const exec = promisify(execFile);
 const script = fileURLToPath(new URL('./spatial-release-felt.browser.mjs', import.meta.url));
 const source = await readFile(script, 'utf8');
@@ -15,7 +15,7 @@ const contract = JSON.parse(await readFile(new URL('./spatial-release-felt.sourc
 const runner = await readFile(new URL('./spatial-release.browser.mjs', import.meta.url), 'utf8');
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 const clone = value => JSON.parse(JSON.stringify(value));
-const passingResults = () => PLAN.map(spec => ({ name: spec.name, status: 'passed', screenshots: spec.shots.map(name => ({ name })) }));
+const passingResults = () => PLAN.map(spec => ({ name: spec.name, status: 'passed', screenshots: spec.shots.map(name => ({ name, caption: 'Portable contract fixture only; never native evidence.' })), ...(spec.observations ? { rootObservations: Object.fromEntries(spec.observations.map(key => [key, { portableFixture: true }])) } : {}) }));
 const responseResult = () => ({ bindingErrors: [], pageErrors: [], failedRequests: [], unexpectedExternal: [], responses: [], expectedFailureHits: 0 });
 
 test('module and integrated runner parse without a browser or DOM', async () => {
@@ -68,7 +68,7 @@ test('missing, duplicate, extra or malformed source pins fail closed', () => {
     bad => bad.files.push(bad.files[0]), bad => bad.files.push({ ...bad.files[0], path: 'extra.js' }),
     bad => { bad.files[0].sha256 = 'invalid'; }, bad => { bad.files[0].gitBlob = ''; },
     bad => { bad.files[0].bytes = 0; }, bad => { bad.baseCommit = '0'.repeat(40); },
-    bad => { bad.compositionManifestSha256 = '0'.repeat(64); },
+    ...['baseTree', 'productCompositionTree', 'priorCompositionTree', 'priorCompositionManifestSha256', 'rootShellSealSha256', 'rootShellReviewSha256'].map(key => bad => { bad[key] = '0'.repeat(64); }),
   ]) { const bad = clone(contract); mutate(bad); assert.throws(() => validateSourceContract(bad)); }
 });
 test('missing or duplicate built-output pins fail including each unchanged offline export', () => {
@@ -79,7 +79,9 @@ test('missing or duplicate built-output pins fail including each unchanged offli
 test('scenario and screenshot inventories cover all three pages at two explicit viewports', () => {
   assert.equal(STORAGE_KEY, 'fieldwork:geographic-view:v1');
   assert.deepEqual(Object.keys(VIEWPORTS), ['desktop', 'narrow']); assert.deepEqual(VIEWPORTS.narrow, { width: 390, height: 844 });
-  assert.equal(PLAN.length, 21); assert.equal(PLAN.reduce((n, item) => n + item.shots.length, 0), 36);
+  assert.equal(PLAN.length, 27); assert.equal(PLAN.reduce((n, item) => n + item.shots.length, 0), 55);
+  assert.equal(hash(JSON.stringify(PLAN.slice(0, 21))), '7a016cf744f96564fa074bc3dfb475949d77539d7d8b08181050ceea2bebbc93', 'Original 21 identities and 36 capture names are immutable');
+  assert.equal(ROOT_PLAN.length, 6); assert.equal(ROOT_PLAN.reduce((n, item) => n + item.shots.length, 0), 19);
   for (const page of PAGES) for (const kind of ['desktop', 'narrow', 'storage-invalid', 'storage-denied', 'offline', 'load-error']) assert.ok(PLAN.some(item => item.name === `${page.id}-${kind}`));
   validatePlan(passingResults());
 });
@@ -126,9 +128,11 @@ test('keyboard, selection, source activation, empty/reset, geometry and focus ob
   for (const evidence of ["page.keyboard.press('Tab')", "page.keyboard.press('Enter')", "page.keyboard.press('Space')", 'Native map marker', 'Native table selection', '#network-focus', '#empty-reset', '#more', ':focus-visible', "page.context().waitForEvent('page')", 'opener === null', "contentType: 'text/html'", 'sourceFixtureHits, 1', 'No external network dependencies']) assert.ok(source.includes(evidence), evidence);
   assert.doesNotMatch(source, /dispatchEvent\(|\.click\(\{\s*force|\.addStyleTag\(|\.setContent\(/);
 });
-test('actual root token consumers and preserved shell override are explicitly measured', () => {
-  for (const evidence of ["'#/energy'", '.atlas-linked-network .atlas-network .iw-graph', '.iw-surface-connections .iw-graph-panel .iw-graph', 'Zoom in relationship graph', 'rootTokens', 'preservedRootShell', 'rootFocus', 'focus.ratio >= 3', 'rgb(7, 28, 36)']) assert.ok(source.includes(evidence), evidence);
-  assert.doesNotMatch(source, /background\(page, '\.site-shell', 'rgb\(10, 36, 28\)'/);
+test('actual root token consumers and accepted green shell override are explicitly measured', () => {
+  for (const evidence of ["'#/energy'", '.atlas-linked-network .atlas-network .iw-graph', '.iw-surface-connections .iw-graph-panel .iw-graph', 'Zoom in relationship graph', 'rootTokens', 'rootShellMaterial', 'rootFocus', 'focus.ratio >= 3', "rootShellMaterial, 'rgb(10, 36, 28)'"]) assert.ok(source.includes(evidence), evidence);
+  assert.doesNotMatch(source, /preservedRootShell|rgb\(7, 28, 36\)/);
+  requireRootMaterial({ background: 'rgb(10, 36, 28)', backgroundImage: 'none' }, 'rgb(10, 36, 28)');
+  assert.throws(() => requireRootMaterial({ background: 'rgb(7, 28, 36)', backgroundImage: 'none' }, 'rgb(10, 36, 28)'));
 });
 test('closed artifact bytes, runtime identity and finally cleanup are additive and bounded', () => {
   assert.equal(LIMITS.suiteMs, 540000); assert.equal(LIMITS.scenarioMs, 90000); assert.equal(LIMITS.artifactBytes, 48 * 1024 * 1024);
@@ -319,4 +323,61 @@ test('expired setup does not create resources and late rejected work is observed
   const late = delay(60).then(() => { throw new Error('late inert work rejection'); });
   await assert.rejects(boundedLifecycle({ deadline: performance.now() + 25, cleanupReserveMs: 5, label: 'late rejection', setup: async () => {}, work: () => late, drain: async () => {}, cleanup: async () => {}, validate: async () => {}, }), /absolute deadline exceeded/);
   await assert.rejects(late, /late inert work rejection/);
+});
+
+
+test('every appended root surface observation and caption is mandatory and closed', () => {
+  for (const spec of ROOT_PLAN) {
+    const good = passingResults().find(result => result.name === spec.name); validateRootObservations(good);
+    for (const key of spec.observations) {
+      const bad = clone(good); delete bad.rootObservations[key]; assert.throws(() => validateRootObservations(bad), key);
+      const empty = clone(good); empty.rootObservations[key] = {}; assert.throws(() => validateRootObservations(empty), key);
+    }
+    const extra = clone(good); extra.rootObservations.invented = {}; assert.throws(() => validateRootObservations(extra));
+    const results = passingResults(); results.find(result => result.name === spec.name).screenshots[0].caption = ''; assert.throws(() => validatePlan(results));
+  }
+  assert.throws(() => validateRootObservations({ name: 'root-unplanned', rootObservations: {} }));
+});
+test('computed material checks reject old blue, transparency and invented gradients', () => {
+  const actual = { background: 'rgb(15, 48, 35)', backgroundImage: 'none' }; requireRootMaterial(actual, actual.background);
+  for (const background of ['rgb(16, 42, 52)', 'rgba(0, 0, 0, 0)']) assert.throws(() => requireRootMaterial({ ...actual, background }, actual.background));
+  assert.throws(() => requireRootMaterial({ ...actual, backgroundImage: 'linear-gradient(red,blue)' }, actual.background));
+});
+test('sampled overflow and native reduced-motion controls fail closed', () => {
+  const frame = { width: 390, document: 390, main: 390, mainClient: 390 }; requireRootOverflow(frame);
+  assert.throws(() => requireRootOverflow({ ...frame, document: 392 })); assert.throws(() => requireRootOverflow({ ...frame, main: 392 }));
+  const motion = { matches: true, samples: [{ animationName: 'none', transitionDuration: '0s, 0s', scrollBehavior: 'auto' }] }; requireReducedMotion(motion);
+  assert.throws(() => requireReducedMotion({ ...motion, matches: false })); assert.throws(() => requireReducedMotion({ ...motion, samples: [] }));
+  for (const patch of [{ animationName: 'atlas-library-open' }, { transitionDuration: '0.16s' }, { scrollBehavior: 'smooth' }]) assert.throws(() => requireReducedMotion({ ...motion, samples: [{ ...motion.samples[0], ...patch }] }));
+});
+test('new root selectors follow actual home sector ancestry, visible mobile navigation and separate real record count', () => {
+  for (const path of ['AtlasControls.tsx', 'AtlasCaseFeed.tsx', 'LinkedEvidenceMap.tsx', 'InvestigationMap.tsx', 'AtlasEvidencePopover.tsx']) assert.ok(REQUIRED_SOURCE_PATHS.includes(`src/components/investigation/${path}`));
+  for (const evidence of ['iw-surface-map.atlas-home', '.atlas-home > .atlas-sector-strip', '.atlas-mobile-sectors', "name: 'Energy', exact: true", "sector.locator(':scope > span').count(), 0", 'actualRecordCountText', 'No sector count is rendered by AtlasSectorStrip', 'Pre-existing 390px search link', 'focusReturnedToOpener', 'Energy power map']) assert.ok(source.includes(evidence), evidence);
+  assert.doesNotMatch(source, /sector-count|sectorCount|AtlasSectorStrip\.tsx/);
+});
+test('reading coverage opens real Health details and retained linked-network paper reader with native input', () => {
+  assert.ok(REQUIRED_SOURCE_PATHS.includes('src/pages/InvestigationDossier.tsx'));
+  for (const evidence of ["'#/health'", 'Response, interpretation and sources', "[['Enter', true], ['Space', false], ['Enter', true]]", 'data-domain-record', '.iw-graph-node[data-entity-id]', 'data-selection-id', '.atlas-reader-toolbar button[aria-expanded]', "'is-expanded'", 'Reader closes to retained graph opener', 'externalSourcesRetained']) assert.ok(source.includes(evidence), evidence);
+  assert.doesNotMatch(source, /dispatchEvent\(|\.click\(\{\s*force|\.addStyleTag\(|\.setContent\(|\.evaluate\([^\n]*(?:innerHTML\s*=|\.open\s*=|setAttribute\()/);
+});
+test('four real independent wrappers remain explicit and the research desk interior is not relabeled green', () => {
+  for (const id of ['investigations', 'leads', 'game-theory', 'research-program']) for (const width of Object.keys(VIEWPORTS)) assert.ok(ROOT_PLAN.find(item => item.name === `root-independent-${width}`).shots.includes(id));
+  for (const path of ['src/App.tsx', 'src/pages/Investigations.tsx', 'src/pages/Leads.tsx', 'src/pages/GameTheory.tsx', 'src/pages/ResearchProgram.tsx', 'src/research-program.css']) assert.ok(REQUIRED_SOURCE_PATHS.includes(path));
+  for (const evidence of ['.iw-shell-content > .min-h-full', 'Academic investigation research program', "'rgb(16, 32, 32)'", 'Only the independent wrapper changed', 'Partial root source/material coverage', 'this retained filename does not depict the full masthead']) assert.ok(source.includes(evidence), evidence);
+});
+
+test('null root navigation response is accepted only for a previously bound same-document hash transition', () => {
+  const origin = 'http://127.0.0.1:1777', base = '/india-corporate-intelligence/';
+  const args = [`${origin}${base}#/investigations`, `${origin}${base}#/leads`, origin, base, '#/leads', true];
+  requireSameDocumentRootNavigation(...args);
+  for (const [index, value] of [[0, 'about:blank'], [1, 'https://other.example/#/leads'], [1, `${origin}/wrong/#/leads`], [1, `${origin}${base}?changed=1#/leads`], [1, args[0]], [4, '#/game-theory'], [5, false]]) {
+    const bad = [...args]; bad[index] = value; assert.throws(() => requireSameDocumentRootNavigation(...bad));
+  }
+  assert.match(source, /else requireSameDocumentRootNavigation/);
+  assert.match(source, /await goRootRoute\(page, result, route.id\)/);
+});
+
+test('effect-owned dialog and reader focus and shared wrapper selectors use bounded native predicates', () => {
+  for (const evidence of ["!document.querySelector('#site-nav-mobile').open && document.activeElement", "document.activeElement === document.querySelector(`${selector} .atlas-reader-heading h2`)", "await reader.waitFor({ state: 'detached' })", 'document.querySelector(`${selector} h1`)?.innerText.replace', "heading: 'Follow a claim. Test every connection.'"]) assert.ok(source.includes(evidence), evidence);
+  assert.doesNotMatch(source, /waitForTimeout|setTimeout\(resolve, [1-9]/);
 });
